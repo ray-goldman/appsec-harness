@@ -10,7 +10,7 @@
 
 **Spec:** The user's request to start with Java helper calls and sanitizer handling, rerun all benchmarks and complete two review passes before a PR; the design decisions below make that request concrete.
 
-**Status:** User approved implementation. Helper tests and implementation are in progress; both review passes and final measurements follow.
+**Status:** Implementation, both independent review passes and all four final measurements are complete. Publication is in progress.
 
 **Starting point:** merged `main` at `4fae4d9ae0113b86779320dd4c7d6896c0cefc64`. Planning branch: `codex/java-helper-sanitizer-precision`.
 
@@ -113,10 +113,10 @@ For `printf`, distinguish an optional Locale argument, the format string and sub
 
 **Files:** create `test/java-helper-precision.test.js`, `test/java-sanitizer-precision.test.js`; update `package.json`; later add paired `corpus/java-helper-precision/` and `corpus/java-sanitizer-precision/`.
 
-- [ ] Save a reproducible case inventory from the existing full reports: case ID, CWE, finding locations, likely cause and inspected evidence. Keep category markers separate from verified causes.
-- [ ] Add safe/unsafe pairs with neutral names and different constants from the benchmarks: constant-return helper versus request-return helper; private sink with only constant callers versus one unsafe caller; escaped alias versus mixed raw output.
-- [ ] Run the focused tests and record the expected failures before implementation. Existing unsafe tests must already assert retained findings.
-- [ ] Add non-benchmark controls for every failure mode in Review Focus below. Do not tune benchmark labels.
+- [x] Save a reproducible case inventory from the existing full reports: case ID, CWE, finding locations, likely cause and inspected evidence. Keep category markers separate from verified causes.
+- [x] Add safe/unsafe pairs with neutral names and different constants from the benchmarks: constant-return helper versus request-return helper; private sink with only constant callers versus one unsafe caller; escaped alias versus mixed raw output.
+- [x] Run the focused tests and record the expected failures before implementation. Existing unsafe tests must already assert retained findings.
+- [x] Add non-benchmark controls for every failure mode in Review Focus below. Do not tune benchmark labels.
 
 ### 2. Add same-class helper summaries
 
@@ -128,12 +128,12 @@ For `printf`, distinguish an optional Locale argument, the format string and sub
 - `summarizeJavaCall({ index, callerId, callOffset, argumentFacts, budget }) -> ValueFact`
 - `privateParameterFact({ index, methodId, parameterIndex, budget }) -> ValueFact`
 
-- [ ] Extract method/class ownership and offsets with bounded structural parsing; return unsupported status instead of guessing.
-- [ ] Implement literal/parameter/concatenation returns, all-return joins and safe argument substitution.
-- [ ] Connect return summaries to the existing scope/constant proof; cover nested helper chains within the explicit budget.
-- [ ] Add private-parameter proof only after complete caller resolution. Prove safe and unsafe callers independently; retain a helper finding if any caller is unknown.
-- [ ] Verify overloads, same names in different classes, recursion, unknown calls, mutable parameters, later writes and Unicode escapes retain warnings.
-- [ ] Run focused tests, `npm test` and selftest. Commit this independently testable unit.
+- [x] Extract method/class ownership and offsets with bounded structural parsing; return unsupported status instead of guessing.
+- [x] Implement literal/parameter/concatenation returns, all-return joins and safe argument substitution.
+- [x] Connect return summaries to the existing scope/constant proof; cover nested helper chains within the explicit budget.
+- [x] Add private-parameter proof only after complete caller resolution. Prove safe and unsafe callers independently; retain a helper finding if any caller is unknown.
+- [x] Verify overloads, same names in different classes, recursion, unknown calls, mutable parameters, later writes and Unicode escapes retain warnings.
+- [x] Run focused tests, `npm test` and selftest. Commit this independently testable unit.
 
 ### 3. Resolve narrowly supported static helpers across files
 
@@ -144,12 +144,12 @@ For `printf`, distinguish an optional Locale argument, the format string and sub
 - `buildJavaProjectIndex(files, limits) -> JavaProjectIndex`
 - `resolveJavaStaticCall({ project, callerFile, owner, name, argumentTypes }) -> MethodTarget | null`
 
-- [ ] Build the bounded index from the same accepted source set used by `scan`; preserve raw text for unsupported-syntax checks.
-- [ ] Resolve fully qualified and explicitly imported static calls to unique source methods. Never treat a missing definition as safe.
-- [ ] Prove the generic shape “literal prefix plus parameter on every return,” including unknown guards selecting between safe alternatives. Add a renamed two-file fixture rather than special-casing `Utils.getOSCommandString`.
-- [ ] Test duplicate qualified classes, missing files, truncation, import ambiguity, unsafe second return, cycles and cross-file cache contamination.
-- [ ] Test that a public sink helper remains a finding even when its one observed caller is safe.
-- [ ] Run focused tests, full tests and selftest; commit.
+- [x] Build the bounded index from the same accepted source set used by `scan`; preserve raw text for unsupported-syntax checks.
+- [x] Resolve fully qualified and explicitly imported static calls to unique source methods. Never treat a missing definition as safe.
+- [x] Prove the generic shape “literal prefix plus parameter on every return,” including unknown guards selecting between safe alternatives. Add a renamed two-file fixture rather than special-casing `Utils.getOSCommandString`.
+- [x] Test duplicate qualified classes, missing files, truncation, import ambiguity, unsafe second return, cycles and cross-file cache contamination.
+- [x] Test that a public sink helper remains a finding even when its one observed caller is safe.
+- [x] Run focused tests, full tests and selftest; commit.
 
 ### 4. Track sanitizer results to the correct sink
 
@@ -162,25 +162,25 @@ For `printf`, distinguish an optional Locale argument, the format string and sub
 - `proveJavaOutput({ expression, valueFacts, outputContext, callKind }) -> boolean`
 - `analyzeTaint(codeLines, lang, options = {})`: add `options.genericSanitizers`; default preserves existing non-Java behavior.
 
-- [ ] Add exact supported encoder models with API references and shadowing checks. Preserve attacker dependencies in encoded facts.
-- [ ] Track encoded aliases, helper returns, reassignment and branch joins. Apply the existing constant proof to supported output expressions.
-- [ ] Replace Java XSS whole-window exclusions and generic wrapper shortcuts with proof of the actual argument and context. Ensure earlier generic taint handling cannot erase unsafe Java XSS candidates before this step.
-- [ ] Cover plain output, literal HTML text fragments and supported `printf` overloads. Retain ambiguous contexts and mutable vararg arrays.
-- [ ] Assert warnings for wrong-context encoding, encoded format plus raw substitution, encode-then-decode, fake sanitizer names and two sinks on one line where only one is safe.
-- [ ] Inspect any newly exposed findings caused by removing old shortcuts; document real detection gains and benchmark disagreements separately.
-- [ ] Add paired corpus cases; run focused tests, full tests and selftest; commit.
+- [x] Add exact supported encoder models with API references and shadowing checks. Preserve attacker dependencies in encoded facts.
+- [x] Track encoded aliases, helper returns, reassignment and branch joins. Apply the existing constant proof to supported output expressions.
+- [x] Replace Java XSS whole-window exclusions and generic wrapper shortcuts with proof of the actual argument and context. Ensure earlier generic taint handling cannot erase unsafe Java XSS candidates before this step.
+- [x] Cover plain output, literal HTML text fragments and supported `printf` overloads. Retain ambiguous contexts and mutable vararg arrays.
+- [x] Assert warnings for wrong-context encoding, encoded format plus raw substitution, encode-then-decode, fake sanitizer names and two sinks on one line where only one is safe.
+- [x] Inspect any newly exposed findings caused by removing old shortcuts; document real detection gains and benchmark disagreements separately.
+- [x] Add paired corpus cases; run focused tests, full tests and selftest; commit.
 
 ### 5. Two independent review-and-improve passes
 
-- [ ] **Pass 1:** a fresh reviewer examines call resolution, all callers/returns, mutable state, Java semantics, and actual sanitizer-to-sink flow. Reproduce every finding, fix with a regression, then have the reviewer verify the fixes.
-- [ ] **Pass 2:** a different fresh reviewer examines the whole change for unknown-path suppression, shared-state contamination, unsafe encodings, adversarial source, resource limits and benchmark overfitting. Fix findings and obtain independent verification.
-- [ ] Neither reviewer may accept a safe result based on a helper's name, a “good” label, or the presence of any sanitizer elsewhere in the window.
-- [ ] Record findings, fixes, commands and remaining limitations. No unresolved issue that can hide a real finding may reach the PR.
+- [x] **Pass 1:** a fresh reviewer examines call resolution, all callers/returns, mutable state, Java semantics, and actual sanitizer-to-sink flow. Reproduce every finding, fix with a regression, then have the reviewer verify the fixes.
+- [x] **Pass 2:** a different fresh reviewer examines the whole change for unknown-path suppression, shared-state contamination, unsafe encodings, adversarial source, resource limits and benchmark overfitting. Fix findings and obtain independent verification.
+- [x] Neither reviewer may accept a safe result based on a helper's name, a “good” label, or the presence of any sanitizer elsewhere in the window.
+- [x] Record findings, fixes, commands and remaining limitations. No unresolved issue that can hide a real finding may reach the PR.
 
 ### 6. Freeze, measure, compare and publish
 
-- [ ] Freeze scanner sources after review fixes. Run `npm test` and `node bin/appsec.js selftest`.
-- [ ] Run all four benchmarks, writing **new** `helper-sanitizer-*` output directories:
+- [x] Freeze scanner sources after review fixes. Run `npm test` and `node bin/appsec.js selftest`.
+- [x] Run all four benchmarks, writing **new** `helper-sanitizer-*` output directories:
 
 ```sh
 node bin/appsec.js benchmark owasp-java appsec-out/benchmarks/owasp-java --out appsec-reports/benchmarks/helper-sanitizer-owasp
@@ -189,12 +189,12 @@ node bin/appsec.js benchmark sard appsec-out/benchmarks/sard-115 --out appsec-re
 node bin/appsec.js benchmark cve-fixes appsec-out/cve-downloaded --out appsec-reports/benchmarks/helper-sanitizer-cve
 ```
 
-- [ ] Compare every case to `scope-branches-*`, including both CVE revisions and both CVE policies. Verify identical input, label, annotation and policy hashes and one final scanner hash.
-- [ ] Report TP/FP/TN/FN, per-CWE changes, corrected FP IDs, lost TP IDs, new FP IDs and scan duration. Aggregate improvements cannot conceal individual regressions.
-- [ ] Acceptance: fewer FP overall in the targeted suites, **zero lost previously detected TP cases**, passing regression pairs and no unexplained new FP. Target zero new FP; if fixing an unsafe old shortcut exposes a disputed safe label, retain the warning and document the case explicitly rather than changing labels or silently excluding it.
-- [ ] Preserve SARD's undefined FPR and distinguish the historical CVE 0/8 policy from the localized 1/8 policy. Do not forecast improvements to these corpora.
-- [ ] If source changes after measurement, rerun affected review checks and all four final measurements on the final source hash.
-- [ ] Write `docs/JAVA-HELPERS-SANITIZERS.md`, new aggregate JSON and a case-transition comparison. State that the suites are development data and provide remaining gaps.
+- [x] Compare every case to `scope-branches-*`, including both CVE revisions and both CVE policies. Verify identical input, label, annotation and policy hashes and one final scanner hash.
+- [x] Report TP/FP/TN/FN, per-CWE changes, corrected FP IDs, lost TP IDs, new FP IDs and scan duration. Aggregate improvements cannot conceal individual regressions.
+- [x] Acceptance: fewer FP overall in the targeted suites, **zero lost previously detected TP cases**, passing regression pairs and no unexplained new FP. Target zero new FP; if fixing an unsafe old shortcut exposes a disputed safe label, retain the warning and document the case explicitly rather than changing labels or silently excluding it.
+- [x] Preserve SARD's undefined FPR and distinguish the historical CVE 0/8 policy from the localized 1/8 policy. Do not forecast improvements to these corpora.
+- [x] If source changes after measurement, rerun affected review checks and all four final measurements on the final source hash.
+- [x] Write `docs/JAVA-HELPERS-SANITIZERS.md`, new aggregate JSON and a case-transition comparison. State that the suites are development data and provide remaining gaps.
 - [ ] Check the complete diff and historical-report preservation, commit, push the new branch and open a PR against `main`. Attach it to this chat. Do not merge automatically.
 
 ## Review focus
@@ -235,3 +235,10 @@ The plan covers the requested helper-first order, sanitizer handling, safe/unsaf
 - Ruling: the existing `a05-java-injection-pack/fixed/Pack.java` helper did not establish its caller's HTML context. Its fixed variant now resets the response buffer and selects HTML before writing. The original ambiguous form remains a unit-test warning control. No external benchmark source or label was changed.
 - Review pass 1 reproduced unsafe private caller closure through reflection, conditional output, mixed receivers, structural markup hidden by summaries, integer writer semantics and missing `println` newlines. Each has a regression. HTML encoding also no longer clears input provenance for Java SQL/command/redirect/path checks. Other pre-existing non-HTML validation heuristics remain outside this replacement.
 - Early OWASP runs are exploratory only; final measurements will follow both review passes and use one frozen source hash. The first full regression check after the main review fixes passed 143 tests and all 149 corpus pairs.
+- Pass 1 complete: the independent reviewer verified all 13 adversarial probes retain warnings and all 33 focused tests pass. Full tests passed 146/146 before the last interface-field fallback; the interface variant was then checked red→green. No unresolved finding remained from that pass.
+- Ruling: loops in a response method currently disable output-context inference, because reconstructing only preceding syntactic writes misses context from an earlier iteration. Structural markup cannot pass through a generic HTML-text summary. These conservative fallbacks are deliberate limits.
+- Pass 2 reproduced inherited overload selection, comma-declared receiver shadowing, browser comment/raw-text state errors and skipped-directory completeness errors. Regression tests failed before the corresponding fixes. Exact scalar argument types are required; comments and raw-text contexts remain unknown; skipped source-bearing directories disable negative ownership evidence. Full tests after fixes: 150/150. Independent verification pending.
+- Pass 2 complete: all nine independent probes retain findings and all 37 focused tests pass. A final malformed-attribute probe led to accepting only attribute-free tags. No unresolved blocker remained. Final verification: 150/150 tests and 149/149 corpus pairs.
+- Production frozen at commit `4e28140`, source SHA-256 `ca20b08f296449f8a58e99b24768975c497ca8babcbd2b3a177368e3e8afc671`. All four final measurements started on this source.
+- All four final runs completed. Comparison verified unchanged input/label/annotation hashes, policies and case counts, with one final source hash. Juliet FP 1,226→1,172; OWASP FP 301→291. No lost TP cases. OWASP has 11 corrections and one new FP, `BenchmarkTest00718`: an actually safe formatting array whose mutable contents the current proof does not model. This is an explained model limitation, not a label dispute. SARD and both CVE policies are unchanged.
+- New aggregates and `docs/JAVA-HELPERS-SANITIZERS.md` record the outcomes, per-CWE transitions, review fixes and runtime increase. The baseline FP inventory is saved locally at `appsec-out/helper-sanitizer-case-inventory.json`; uninspected entries are explicitly marked, not assigned a speculative cause.
