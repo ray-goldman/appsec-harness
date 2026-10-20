@@ -1,0 +1,7 @@
+{
+  "id": "java-branch-precision",
+  "owasp": "A05",
+  "cwe": [89],
+  "description": "Invariant local Java arithmetic, ternaries and simple switches select constant SQL values; unsafe selected branches and SQL assembly remain findings.",
+  "expect": ["JAVA-SQLI-001", "JAVA-SQLI-002"]
+}

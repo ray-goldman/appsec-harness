@@ -70,7 +70,7 @@ function applyCodeRules(file, lang, raw, codeLines, taint) {
   const code = codeLines.join('\n');
   const maskedLines = maskStrings(code, lang).split('\n'); // file-level: knows about multi-line strings/docstrings
   const windows = new Array(codeLines.length);
-  const constantJavaSink = lang === 'java' ? constantSinkFilter(code, callArgs) : null;
+  const constantJavaSink = lang === 'java' ? constantSinkFilter(code, callArgs, raw) : null;
   const win = (i) => (windows[i] === undefined ? (windows[i] = windowAt(codeLines, i)) : windows[i]);
   for (const rule of CODE_RULES) {
     if (!rule.languages.includes(lang)) continue;
@@ -131,7 +131,9 @@ function applyCodeRules(file, lang, raw, codeLines, taint) {
       }
       if (hit) {
         if (constantJavaSink && ['JAVA-SQLI-001', 'JAVA-SQLI-002', 'JAVA-CMDI-001', 'JAVA-REDIRECT-001'].includes(rule.id)
-          && constantJavaSink(i, W, rule.taintSink || BY_ID.get('JAVA-SQLI-001').taintSink, rule.taintArg === 'all')) continue;
+          && (rule.id === 'JAVA-SQLI-002'
+            ? constantJavaSink.sqlAssembly(i, W, rule.pattern, BY_ID.get('JAVA-SQLI-001').taintSink)
+            : constantJavaSink(i, W, rule.taintSink, rule.taintArg === 'all'))) continue;
         let severity;
         if (hit.taint && rule.severityIfTainted) severity = rule.severityIfTainted;
         if (rule.escalate && rule.escalate.re.test(W)) severity = rule.escalate.severity;

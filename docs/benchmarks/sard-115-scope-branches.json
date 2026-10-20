@@ -1,0 +1,304 @@
+{
+  "schema": "appsec-harness/benchmark@1",
+  "measuredAt": "2026-10-20T12:53:49.275Z",
+  "tool": {
+    "name": "appsec-harness",
+    "version": "1.0.0",
+    "sourceSha256": "3f3f4563f3b22e75e0951233d2548eeb61a703e326086e336dc4e03a5d0af60f"
+  },
+  "runtime": {
+    "node": "v24.16.0",
+    "platform": "win32",
+    "arch": "x64"
+  },
+  "dataset": {
+    "name": "NIST SARD",
+    "source": "https://samate.nist.gov/SARD/",
+    "version": null,
+    "revision": null,
+    "revisionSource": "user-supplied, not verified",
+    "inputSha256": "a2a2ce017a0ae7425b3011b275bb70d9cbbeffe258f03bba2b74f975455e07ec",
+    "expectedSha256": "90e8eb621e21437f6253b696418c5c652702ff86620d35cc0ce06646c6a81113",
+    "states": {
+      "bad": 20,
+      "good": 0,
+      "mixed": 0
+    },
+    "artifacts": [
+      {
+        "manifest": "501058-v1.0.0/manifest.sarif",
+        "runIndex": 0,
+        "file": "501058-v1.0.0/src/sample.php",
+        "hashes": {
+          "sha-256": "8e26da02b1ab37a48f3d302a778ce96562d244a2eab7cbed30b656edd9d2b6de"
+        },
+        "sha256": "8e26da02b1ab37a48f3d302a778ce96562d244a2eab7cbed30b656edd9d2b6de",
+        "lines": 37
+      },
+      {
+        "manifest": "501059-v1.0.0/manifest.sarif",
+        "runIndex": 0,
+        "file": "501059-v1.0.0/src/sample.php",
+        "hashes": {
+          "sha-256": "3c4d795773a8702ff39cc5987da9cdf976e7cc4aef4632e0ddf1491d48cea41d"
+        },
+        "sha256": "3c4d795773a8702ff39cc5987da9cdf976e7cc4aef4632e0ddf1491d48cea41d",
+        "lines": 45
+      },
+      {
+        "manifest": "501060-v1.0.0/manifest.sarif",
+        "runIndex": 0,
+        "file": "501060-v1.0.0/src/sample.php",
+        "hashes": {
+          "sha-256": "80947b7b4a873c3f83a16638800d73e6ba1ec2c284c477bb7d09f01d11070a9b"
+        },
+        "sha256": "80947b7b4a873c3f83a16638800d73e6ba1ec2c284c477bb7d09f01d11070a9b",
+        "lines": 36
+      },
+      {
+        "manifest": "501061-v1.0.0/manifest.sarif",
+        "runIndex": 0,
+        "file": "501061-v1.0.0/src/sample.php",
+        "hashes": {
+          "sha-256": "f4ec3a0fae401ab6507315c84a82e068473d790ec22c7324efd4ba745ec39fe4"
+        },
+        "sha256": "f4ec3a0fae401ab6507315c84a82e068473d790ec22c7324efd4ba745ec39fe4",
+        "lines": 33
+      },
+      {
+        "manifest": "501062-v1.0.0/manifest.sarif",
+        "runIndex": 0,
+        "file": "501062-v1.0.0/src/sample.php",
+        "hashes": {
+          "sha-256": "d2fa2781e1cd0c51a4a200449315f98737760c55df24b9c212761d252814551b"
+        },
+        "sha256": "d2fa2781e1cd0c51a4a200449315f98737760c55df24b9c212761d252814551b",
+        "lines": 80
+      },
+      {
+        "manifest": "501063-v1.0.0/manifest.sarif",
+        "runIndex": 0,
+        "file": "501063-v1.0.0/src/sample.php",
+        "hashes": {
+          "sha-256": "ac6c40cf4b86f1c51225eb8aabb773a5ec3be43ce2e1b192e08f233ab2e06ebc"
+        },
+        "sha256": "ac6c40cf4b86f1c51225eb8aabb773a5ec3be43ce2e1b192e08f233ab2e06ebc",
+        "lines": 36
+      },
+      {
+        "manifest": "501064-v1.0.0/manifest.sarif",
+        "runIndex": 0,
+        "file": "501064-v1.0.0/src/sample.php",
+        "hashes": {
+          "sha-256": "90f9dbce8ae090a8a793b8063988e04dfbc0947e4cf73cd967db5c22a803c89d"
+        },
+        "sha256": "90f9dbce8ae090a8a793b8063988e04dfbc0947e4cf73cd967db5c22a803c89d",
+        "lines": 38
+      },
+      {
+        "manifest": "501065-v1.0.0/manifest.sarif",
+        "runIndex": 0,
+        "file": "501065-v1.0.0/src/sample.php",
+        "hashes": {
+          "sha-256": "130a32a2300bd7b8426a2328e864a1bd42154af51cc4cd99bf1278396e1b4b43"
+        },
+        "sha256": "130a32a2300bd7b8426a2328e864a1bd42154af51cc4cd99bf1278396e1b4b43",
+        "lines": 57
+      },
+      {
+        "manifest": "501066-v1.0.0/manifest.sarif",
+        "runIndex": 0,
+        "file": "501066-v1.0.0/src/sample.php",
+        "hashes": {
+          "sha-256": "21d853be89cb8c8710df41c59c101f8cbe73c986af80a5b4117f08cd46161964"
+        },
+        "sha256": "21d853be89cb8c8710df41c59c101f8cbe73c986af80a5b4117f08cd46161964",
+        "lines": 37
+      },
+      {
+        "manifest": "501067-v1.0.0/manifest.sarif",
+        "runIndex": 0,
+        "file": "501067-v1.0.0/src/sample.php",
+        "hashes": {
+          "sha-256": "b7fffaad857fbbff3cadd1838825c391d441f05b6b8ebb6bb4d66f22547c0aae"
+        },
+        "sha256": "b7fffaad857fbbff3cadd1838825c391d441f05b6b8ebb6bb4d66f22547c0aae",
+        "lines": 32
+      },
+      {
+        "manifest": "501068-v1.0.0/manifest.sarif",
+        "runIndex": 0,
+        "file": "501068-v1.0.0/src/sample.php",
+        "hashes": {
+          "sha-256": "02931c200c19faebb3c8f317314d7cf72d99bc1fb7b05906532008e612c34eec"
+        },
+        "sha256": "02931c200c19faebb3c8f317314d7cf72d99bc1fb7b05906532008e612c34eec",
+        "lines": 39
+      },
+      {
+        "manifest": "501069-v1.0.0/manifest.sarif",
+        "runIndex": 0,
+        "file": "501069-v1.0.0/src/sample.php",
+        "hashes": {
+          "sha-256": "b26e1e131d7026215fcacf6735c565f08c88510dfc1a786183c6dc0956f71e89"
+        },
+        "sha256": "b26e1e131d7026215fcacf6735c565f08c88510dfc1a786183c6dc0956f71e89",
+        "lines": 36
+      },
+      {
+        "manifest": "501070-v1.0.0/manifest.sarif",
+        "runIndex": 0,
+        "file": "501070-v1.0.0/src/sample.php",
+        "hashes": {
+          "sha-256": "e312f955528be2e937e493d360d2dbfdb4287da9e64ba5813b40008afc4ceb80"
+        },
+        "sha256": "e312f955528be2e937e493d360d2dbfdb4287da9e64ba5813b40008afc4ceb80",
+        "lines": 60
+      },
+      {
+        "manifest": "501071-v1.0.0/manifest.sarif",
+        "runIndex": 0,
+        "file": "501071-v1.0.0/src/sample.php",
+        "hashes": {
+          "sha-256": "fddc678b56bee30d4ef3766f894af36efa9fde12640c240d2c8a2036af73b9e3"
+        },
+        "sha256": "fddc678b56bee30d4ef3766f894af36efa9fde12640c240d2c8a2036af73b9e3",
+        "lines": 62
+      },
+      {
+        "manifest": "501072-v1.0.0/manifest.sarif",
+        "runIndex": 0,
+        "file": "501072-v1.0.0/src/sample.php",
+        "hashes": {
+          "sha-256": "56e5f7b0dbb92e8d847f648d2ad7218ed0dab76e6b9835e5016242db00b1a1ea"
+        },
+        "sha256": "56e5f7b0dbb92e8d847f648d2ad7218ed0dab76e6b9835e5016242db00b1a1ea",
+        "lines": 40
+      },
+      {
+        "manifest": "501073-v1.0.0/manifest.sarif",
+        "runIndex": 0,
+        "file": "501073-v1.0.0/src/sample.php",
+        "hashes": {
+          "sha-256": "59c92a69565dc15520842f6ae47d754ef9d2c61c698ec481cef326b3835d20a4"
+        },
+        "sha256": "59c92a69565dc15520842f6ae47d754ef9d2c61c698ec481cef326b3835d20a4",
+        "lines": 63
+      },
+      {
+        "manifest": "501074-v1.0.0/manifest.sarif",
+        "runIndex": 0,
+        "file": "501074-v1.0.0/src/sample.php",
+        "hashes": {
+          "sha-256": "55346d4a5eb8041f491070e8bd51918242a78de5d3dae632d8e755c1d0b8ae13"
+        },
+        "sha256": "55346d4a5eb8041f491070e8bd51918242a78de5d3dae632d8e755c1d0b8ae13",
+        "lines": 46
+      },
+      {
+        "manifest": "501075-v1.0.0/manifest.sarif",
+        "runIndex": 0,
+        "file": "501075-v1.0.0/src/sample.php",
+        "hashes": {
+          "sha-256": "2d756d93663b58ab68c4118bfb9ab10b036fd4c9a1f3cdb2917675b570e1275b"
+        },
+        "sha256": "2d756d93663b58ab68c4118bfb9ab10b036fd4c9a1f3cdb2917675b570e1275b",
+        "lines": 33
+      },
+      {
+        "manifest": "501076-v1.0.0/manifest.sarif",
+        "runIndex": 0,
+        "file": "501076-v1.0.0/src/sample.php",
+        "hashes": {
+          "sha-256": "acbd5b3fb82f6ee4ae292525a329d68121303cd46b85856b624906b6da809695"
+        },
+        "sha256": "acbd5b3fb82f6ee4ae292525a329d68121303cd46b85856b624906b6da809695",
+        "lines": 56
+      },
+      {
+        "manifest": "501077-v1.0.0/manifest.sarif",
+        "runIndex": 0,
+        "file": "501077-v1.0.0/src/sample.php",
+        "hashes": {
+          "sha-256": "ef4465ed8ab922912a877fc32bdd81fc521dbab9026131fe36332eeb26379d74"
+        },
+        "sha256": "ef4465ed8ab922912a877fc32bdd81fc521dbab9026131fe36332eeb26379d74",
+        "lines": 43
+      }
+    ],
+    "manifestCount": 20
+  },
+  "policy": {
+    "id": "sard-sarif-location-cwe@1",
+    "unit": "one explicit SARIF result location × CWE × polarity",
+    "match": "open finding with exact source path and CWE and start line at the labeled line, or within an explicitly supplied inclusive upstream line range",
+    "limitations": [
+      "A bad/good run state labels its explicit result locations; mixed runs require an explicit result kind fail/pass or properties.state bad/good. Missing or conflicting metadata is rejected.",
+      "No safe locations are inferred from absent results. Datasets with only bad labels have no negative denominator and FPR is n/a.",
+      "Exact labeled locations can miss a valid detection reported at a nearby source or sink; no line tolerance, CWE aliases, or file-level fallback is applied.",
+      "Artifacts are checked against supplied byte length and SHA-256; declared hashes and computed hashes are retained in JSON. Other hash algorithms are preserved but not verified.",
+      "URI base IDs, remote/absolute URIs, parent traversal, symbolic links, ambiguous artifacts, duplicate labels, and missing labeled files are rejected."
+    ],
+    "excludesUnsupportedCwes": false,
+    "cweAliases": false,
+    "duplicateDetections": "one prediction per labeled unit"
+  },
+  "scan": {
+    "options": {
+      "includeTests": true,
+      "minConfidence": "low",
+      "minSeverity": "info",
+      "trustSuppressions": false,
+      "osv": false
+    },
+    "stats": {
+      "files": 101,
+      "languages": {
+        "dockerfile": 20,
+        "markdown": 20,
+        "php": 20,
+        "json": 1
+      },
+      "skipped": {
+        "large": 0,
+        "binary": 0,
+        "vendoredDirs": 0,
+        "symlinks": 0
+      },
+      "truncated": false,
+      "dependencies": 0,
+      "routes": 20
+    },
+    "warnings": [],
+    "durationMs": 212
+  },
+  "totals": {
+    "cases": 20,
+    "tp": 10,
+    "fp": 0,
+    "tn": 0,
+    "fn": 10,
+    "truePositiveRate": 0.5,
+    "falsePositiveRate": null,
+    "precision": 1
+  },
+  "byCwe": [
+    {
+      "cwe": 79,
+      "cases": 20,
+      "tp": 10,
+      "fp": 0,
+      "tn": 0,
+      "fn": 10,
+      "truePositiveRate": 0.5,
+      "falsePositiveRate": null,
+      "precision": 1
+    }
+  ],
+  "unscoredFindings": {
+    "notOpen": 0,
+    "unlabeledFile": 40,
+    "wrongCwe": 1,
+    "outsideRegions": 0
+  }
+}
