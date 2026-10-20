@@ -143,6 +143,12 @@ removes one numeric SQL false positive, taking supplied-label FPs **14 → 13**
 while retaining all 81 detected vulnerable labels. It uses an optional vendored
 parser and a bounded capability proof; unsupported syntax retains warnings.
 
+The [JavaScript hostname/config pass](docs/JAVASCRIPT-GUARDS-CONFIG.md) adds
+proofs for primitive-string hostname guards and closed literal config exports.
+The supplied examples still lack the required type/ownership evidence, so
+their measured counts remain unchanged. Two new paired regression cases
+cover the supported forms.
+
 General taint tracking remains intra-file; Java's bounded helper proofs do not provide a whole-program call graph. Other cross-file flows may appear as lower-confidence pattern findings or in the attack-surface map for a reviewer to follow. This is a fast static first pass, not a replacement for whole-program tools such as CodeQL or Semgrep Pro, or for dynamic application testing.
 
 See [the prioritized roadmap](docs/ROADMAP.md) for independent datasets, parsing, supply-chain data, triage evaluation, and PR integration.

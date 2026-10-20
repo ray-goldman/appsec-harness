@@ -197,6 +197,7 @@ function analyze(project) {
     if (node.type === 'MethodDefinition' && (node.kind === 'get' || node.kind === 'set' || node.computed)) return false;
     if (node.type === 'MemberExpression' && ['constructor', '__proto__', 'prototype', 'call', 'apply', 'bind'].includes(property(node))) return false;
     if (node.type === 'UpdateExpression' || (node.type === 'UnaryExpression' && node.operator === 'delete')) return false;
+    if (node.type === 'AssignmentExpression' && !['Identifier', 'MemberExpression'].includes(node.left.type)) return false;
     if (node.type === 'AssignmentExpression' && node.left.type === 'MemberExpression') {
       const exported = property(node.left) === 'exports' && node.left.object.type === 'Identifier' && node.left.object.name === 'module';
       const field = !node.left.computed && node.left.object.type === 'ThisExpression';

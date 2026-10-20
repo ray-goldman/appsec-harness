@@ -7,7 +7,7 @@
   "repository": { "type": "git", "url": "https://github.com/ray-goldman/kayfabe.git" },
   "engines": { "node": ">=20" },
   "scripts": {
-    "test": "node --test test/unit.test.js test/benchmark.test.js test/java-precision.test.js test/java-branch-adversarial.test.js test/java-helper-precision.test.js test/java-sanitizer-precision.test.js test/php-precision.test.js test/cve-localization.test.js test/precision-report.test.js test/supplied-apps.test.js test/script-helper-precision.test.js test/javascript-ownership.test.js",
+    "test": "node --test test/unit.test.js test/benchmark.test.js test/java-precision.test.js test/java-branch-adversarial.test.js test/java-helper-precision.test.js test/java-sanitizer-precision.test.js test/php-precision.test.js test/cve-localization.test.js test/precision-report.test.js test/supplied-apps.test.js test/script-helper-precision.test.js test/javascript-ownership.test.js test/javascript-command-proofs.test.js",
     "selftest": "node bin/kayfabe.js selftest",
     "rules": "node bin/kayfabe.js rules"
   },

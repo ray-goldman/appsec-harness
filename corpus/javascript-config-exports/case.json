@@ -1,0 +1,1 @@
+{"id":"javascript-config-exports","owasp":"A05","cwe":[78],"description":"Closed local literal command configuration is constant; concatenated request input remains flagged.","expect":["JS-CMDI-001"]}
