@@ -159,6 +159,11 @@ normalize/check/read sequence, reducing supplied-label FPs **12 → 11** with
 all 81 detected vulnerable labels retained. Go supports a narrower basename
 plus `IsLocal` guard; its supplied unguarded case remains flagged.
 
+The [Go scope pass](docs/GO-SCOPES.md) isolates supported literal locals from
+unrelated function bindings and traces the basename warning to its own source.
+Supplied FPs remain **11**: the diagnostic shows why generic basename sanitization
+would drop the warning without establishing containment.
+
 General taint tracking remains intra-file; Java's bounded helper proofs do not provide a whole-program call graph. Other cross-file flows may appear as lower-confidence pattern findings or in the attack-surface map for a reviewer to follow. This is a fast static first pass, not a replacement for whole-program tools such as CodeQL or Semgrep Pro, or for dynamic application testing.
 
 See [the prioritized roadmap](docs/ROADMAP.md) for independent datasets, parsing, supply-chain data, triage evaluation, and PR integration.

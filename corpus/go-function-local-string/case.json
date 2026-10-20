@@ -1,0 +1,1 @@
+{"id":"go-function-local-string","owasp":"A01","cwe":[22],"description":"A literal local path does not inherit an unrelated function's request binding.","expect":["GO-PATH-001"]}

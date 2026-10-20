@@ -1,0 +1,3950 @@
+{
+  "schema": "appsec-harness/supplied-apps@1",
+  "measuredAt": "2026-10-20T23:21:46.940Z",
+  "sourceSha256": "7db335b475b01da832a96429ffd2a80b8184268465188e4d13e62c8d7ee4b401",
+  "evaluatorSha256": "1670468b1459bc91f20eb5b12d104537ed16328017512df619fa5c0cac07a9f8",
+  "inputSha256": "4828e75960d397b6f286519bebd01c684a1042e0a4c385258a2518f491991a2c",
+  "policy": {
+    "labels": "User-supplied, unadjudicated; not independent accuracy evidence",
+    "matching": "Exact file+CWE; finding at first line after marker or next two lines; nearest marker; one label per finding",
+    "manifestLabels": "Unscored: package/CVE identity requires a separate adapter",
+    "unmatched": "Unmatched findings are not assumed to be false positives"
+  },
+  "totals": {
+    "cases": 227,
+    "tp": 81,
+    "fp": 11,
+    "tn": 79,
+    "fn": 56
+  },
+  "apps": [
+    {
+      "app": "deps-lab",
+      "findings": 23,
+      "totals": {
+        "cases": 0,
+        "tp": 0,
+        "fp": 0,
+        "tn": 0,
+        "fn": 0
+      },
+      "cases": [],
+      "unmatched": [
+        {
+          "file": "composer.lock",
+          "line": 6,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            94
+          ]
+        },
+        {
+          "file": "package-lock.json",
+          "line": 14,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            1321
+          ]
+        },
+        {
+          "file": "package-lock.json",
+          "line": 19,
+          "ruleId": "SUPPLY-MAL-001",
+          "cwe": [
+            506
+          ]
+        },
+        {
+          "file": "package-lock.json",
+          "line": 20,
+          "ruleId": "SUPPLY-MAL-001",
+          "cwe": [
+            506
+          ]
+        },
+        {
+          "file": "package-lock.json",
+          "line": 21,
+          "ruleId": "SUPPLY-MAL-001",
+          "cwe": [
+            506
+          ]
+        },
+        {
+          "file": "package-lock.json",
+          "line": 22,
+          "ruleId": "SUPPLY-MAL-001",
+          "cwe": [
+            506
+          ]
+        },
+        {
+          "file": "pom.xml",
+          "line": 7,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            917,
+            502
+          ]
+        },
+        {
+          "file": "pom.xml",
+          "line": 9,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            94
+          ]
+        },
+        {
+          "file": "pom.xml",
+          "line": 11,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            22,
+            434
+          ]
+        },
+        {
+          "file": "pom.xml",
+          "line": 13,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            502
+          ]
+        },
+        {
+          "file": "requirements.txt",
+          "line": 3,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            502
+          ]
+        },
+        {
+          "file": "go.mod",
+          "line": 7,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            400
+          ]
+        },
+        {
+          "file": "go.mod",
+          "line": 8,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            287,
+            1104
+          ]
+        },
+        {
+          "file": "package-lock.json",
+          "line": 13,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            94,
+            1321
+          ]
+        },
+        {
+          "file": "package-lock.json",
+          "line": 16,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            476
+          ]
+        },
+        {
+          "file": "pom.xml",
+          "line": 8,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            502,
+            400
+          ]
+        },
+        {
+          "file": "pom.xml",
+          "line": 10,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            502
+          ]
+        },
+        {
+          "file": "requirements.txt",
+          "line": 1,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            1104
+          ]
+        },
+        {
+          "file": "requirements.txt",
+          "line": 2,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            94
+          ]
+        },
+        {
+          "file": "requirements.txt",
+          "line": 7,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            693,
+            94
+          ]
+        },
+        {
+          "file": "requirements.txt",
+          "line": 4,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            295
+          ]
+        },
+        {
+          "file": "requirements.txt",
+          "line": 4,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            200
+          ]
+        },
+        {
+          "file": "requirements.txt",
+          "line": 5,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            200
+          ]
+        }
+      ],
+      "unscoredManifestLabels": 34
+    },
+    {
+      "app": "dotnet-hr",
+      "findings": 3,
+      "totals": {
+        "cases": 21,
+        "tp": 3,
+        "fp": 0,
+        "tn": 7,
+        "fn": 11
+      },
+      "cases": [
+        {
+          "id": "Controllers/EmployeesController.cs:29:missing-authorize-sensitive-endpoint",
+          "file": "Controllers/EmployeesController.cs",
+          "line": 30,
+          "vulnerable": true,
+          "cwe": 862,
+          "label": "missing-authorize-sensitive-endpoint",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "Controllers/EmployeesController.cs:37:authorize-attribute",
+          "file": "Controllers/EmployeesController.cs",
+          "line": 38,
+          "vulnerable": false,
+          "cwe": 862,
+          "label": "authorize-attribute",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "Controllers/EmployeesController.cs:44:path-traversal-path-combine",
+          "file": "Controllers/EmployeesController.cs",
+          "line": 45,
+          "vulnerable": true,
+          "cwe": 22,
+          "label": "path-traversal-path-combine",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "Controllers/EmployeesController.cs:53:getfilename-startswith",
+          "file": "Controllers/EmployeesController.cs",
+          "line": 54,
+          "vulnerable": false,
+          "cwe": 22,
+          "label": "getfilename-startswith",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "Controllers/EmployeesController.cs:60:binaryformatter",
+          "file": "Controllers/EmployeesController.cs",
+          "line": 61,
+          "vulnerable": true,
+          "cwe": 502,
+          "label": "binaryformatter",
+          "matches": [
+            {
+              "line": 61,
+              "ruleId": "CS-DESER-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "Controllers/EmployeesController.cs:69:xmldocument-xxe-default",
+          "file": "Controllers/EmployeesController.cs",
+          "line": 70,
+          "vulnerable": true,
+          "cwe": 611,
+          "label": "xmldocument-xxe-default",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "Controllers/EmployeesController.cs:78:xmlresolver-null",
+          "file": "Controllers/EmployeesController.cs",
+          "line": 79,
+          "vulnerable": false,
+          "cwe": 611,
+          "label": "xmlresolver-null",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "Controllers/EmployeesController.cs:86:process-start-shell",
+          "file": "Controllers/EmployeesController.cs",
+          "line": 87,
+          "vulnerable": true,
+          "cwe": 78,
+          "label": "process-start-shell",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "Controllers/EmployeesController.cs:94:open-redirect",
+          "file": "Controllers/EmployeesController.cs",
+          "line": 95,
+          "vulnerable": true,
+          "cwe": 601,
+          "label": "open-redirect",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "Controllers/EmployeesController.cs:101:localredirect",
+          "file": "Controllers/EmployeesController.cs",
+          "line": 102,
+          "vulnerable": false,
+          "cwe": 601,
+          "label": "localredirect",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "Services/EmployeeRepository.cs:10:hardcoded-connection-string",
+          "file": "Services/EmployeeRepository.cs",
+          "line": 11,
+          "vulnerable": true,
+          "cwe": 798,
+          "label": "hardcoded-connection-string",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "Services/EmployeeRepository.cs:16:sqlcommand-concat-cross-file",
+          "file": "Services/EmployeeRepository.cs",
+          "line": 17,
+          "vulnerable": true,
+          "cwe": 89,
+          "label": "sqlcommand-concat-cross-file",
+          "matches": [
+            {
+              "line": 17,
+              "ruleId": "CS-SQLI-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "Services/EmployeeRepository.cs:25:sqlcommand-parameterized",
+          "file": "Services/EmployeeRepository.cs",
+          "line": 26,
+          "vulnerable": false,
+          "cwe": 89,
+          "label": "sqlcommand-parameterized",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "Services/EmployeeRepository.cs:34:md5-create",
+          "file": "Services/EmployeeRepository.cs",
+          "line": 35,
+          "vulnerable": true,
+          "cwe": 327,
+          "label": "md5-create",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "Services/EmployeeRepository.cs:40:pbkdf2",
+          "file": "Services/EmployeeRepository.cs",
+          "line": 41,
+          "vulnerable": false,
+          "cwe": 327,
+          "label": "pbkdf2",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "Services/EmployeeRepository.cs:46:system-random-otp",
+          "file": "Services/EmployeeRepository.cs",
+          "line": 47,
+          "vulnerable": true,
+          "cwe": 338,
+          "label": "system-random-otp",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "Services/EmployeeRepository.cs:52:randomnumbergenerator",
+          "file": "Services/EmployeeRepository.cs",
+          "line": 53,
+          "vulnerable": false,
+          "cwe": 338,
+          "label": "randomnumbergenerator",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "Startup.cs:14:jwt-validation-disabled",
+          "file": "Startup.cs",
+          "line": 15,
+          "vulnerable": true,
+          "cwe": 347,
+          "label": "jwt-validation-disabled",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "Startup.cs:20:tls-callback-always-true",
+          "file": "Startup.cs",
+          "line": 21,
+          "vulnerable": true,
+          "cwe": 295,
+          "label": "tls-callback-always-true",
+          "matches": [
+            {
+              "line": 21,
+              "ruleId": "CS-TLS-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "Startup.cs:26:cors-any-origin-credentials",
+          "file": "Startup.cs",
+          "line": 27,
+          "vulnerable": true,
+          "cwe": 942,
+          "label": "cors-any-origin-credentials",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "Startup.cs:33:developer-exception-page-in-prod",
+          "file": "Startup.cs",
+          "line": 34,
+          "vulnerable": true,
+          "cwe": 209,
+          "label": "developer-exception-page-in-prod",
+          "matches": [],
+          "outcome": "fn"
+        }
+      ],
+      "unmatched": [],
+      "unscoredManifestLabels": 3
+    },
+    {
+      "app": "go-api",
+      "findings": 22,
+      "totals": {
+        "cases": 15,
+        "tp": 8,
+        "fp": 3,
+        "tn": 3,
+        "fn": 1
+      },
+      "cases": [
+        {
+          "id": "main.go:29:sqli-sprintf",
+          "file": "main.go",
+          "line": 30,
+          "vulnerable": true,
+          "cwe": 89,
+          "label": "sqli-sprintf",
+          "matches": [
+            {
+              "line": 30,
+              "ruleId": "GO-SQLI-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "main.go:36:sqli-placeholder",
+          "file": "main.go",
+          "line": 37,
+          "vulnerable": false,
+          "cwe": 89,
+          "label": "sqli-placeholder",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "main.go:43:exec-sh-c",
+          "file": "main.go",
+          "line": 44,
+          "vulnerable": true,
+          "cwe": 78,
+          "label": "exec-sh-c",
+          "matches": [
+            {
+              "line": 44,
+              "ruleId": "GO-CMDI-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "main.go:56:exec-argv-validated",
+          "file": "main.go",
+          "line": 57,
+          "vulnerable": false,
+          "cwe": 78,
+          "label": "exec-argv-validated",
+          "matches": [
+            {
+              "line": 57,
+              "ruleId": "GO-CMDI-001"
+            }
+          ],
+          "outcome": "fp"
+        },
+        {
+          "id": "main.go:63:path-traversal-join",
+          "file": "main.go",
+          "line": 64,
+          "vulnerable": true,
+          "cwe": 22,
+          "label": "path-traversal-join",
+          "matches": [
+            {
+              "line": 64,
+              "ruleId": "GO-PATH-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "main.go:70:filepath-base",
+          "file": "main.go",
+          "line": 71,
+          "vulnerable": false,
+          "cwe": 22,
+          "label": "filepath-base",
+          "matches": [
+            {
+              "line": 71,
+              "ruleId": "GO-PATH-001"
+            }
+          ],
+          "outcome": "fp"
+        },
+        {
+          "id": "main.go:77:ssrf-http-get",
+          "file": "main.go",
+          "line": 78,
+          "vulnerable": true,
+          "cwe": 918,
+          "label": "ssrf-http-get",
+          "matches": [
+            {
+              "line": 78,
+              "ruleId": "GO-SSRF-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "main.go:88:ssrf-host-pinned",
+          "file": "main.go",
+          "line": 89,
+          "vulnerable": false,
+          "cwe": 918,
+          "label": "ssrf-host-pinned",
+          "matches": [
+            {
+              "line": 89,
+              "ruleId": "GO-SSRF-001"
+            }
+          ],
+          "outcome": "fp"
+        },
+        {
+          "id": "main.go:94:template-html-bypass",
+          "file": "main.go",
+          "line": 95,
+          "vulnerable": true,
+          "cwe": 79,
+          "label": "template-html-bypass",
+          "matches": [
+            {
+              "line": 96,
+              "ruleId": "GO-XSS-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "main.go:101:template-autoescape",
+          "file": "main.go",
+          "line": 102,
+          "vulnerable": false,
+          "cwe": 79,
+          "label": "template-autoescape",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "main.go:106:open-redirect",
+          "file": "main.go",
+          "line": 107,
+          "vulnerable": true,
+          "cwe": 601,
+          "label": "open-redirect",
+          "matches": [
+            {
+              "line": 107,
+              "ruleId": "GO-REDIRECT-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "main.go:111:insecure-skip-verify",
+          "file": "main.go",
+          "line": 112,
+          "vulnerable": true,
+          "cwe": 295,
+          "label": "insecure-skip-verify",
+          "matches": [
+            {
+              "line": 112,
+              "ruleId": "GO-TLS-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "main.go:116:math-rand-token",
+          "file": "main.go",
+          "line": 117,
+          "vulnerable": true,
+          "cwe": 338,
+          "label": "math-rand-token",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "main.go:123:crypto-rand-token",
+          "file": "main.go",
+          "line": 124,
+          "vulnerable": false,
+          "cwe": 338,
+          "label": "crypto-rand-token",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "main.go:128:md5-password",
+          "file": "main.go",
+          "line": 129,
+          "vulnerable": true,
+          "cwe": 327,
+          "label": "md5-password",
+          "matches": [
+            {
+              "line": 129,
+              "ruleId": "GO-CRYPTO-001"
+            }
+          ],
+          "outcome": "tp"
+        }
+      ],
+      "unmatched": [
+        {
+          "file": "main.go",
+          "line": 136,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "main.go",
+          "line": 137,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "main.go",
+          "line": 138,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "main.go",
+          "line": 139,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "main.go",
+          "line": 140,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "main.go",
+          "line": 141,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "main.go",
+          "line": 142,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "main.go",
+          "line": 143,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "main.go",
+          "line": 144,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "main.go",
+          "line": 145,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "main.go",
+          "line": 146,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        }
+      ],
+      "unscoredManifestLabels": 0
+    },
+    {
+      "app": "infra-mixed",
+      "findings": 16,
+      "totals": {
+        "cases": 18,
+        "tp": 9,
+        "fp": 0,
+        "tn": 5,
+        "fn": 4
+      },
+      "cases": [
+        {
+          "id": ".github/workflows/ci.yml:12:pwn-request-checkout-pr-head",
+          "file": ".github/workflows/ci.yml",
+          "line": 13,
+          "vulnerable": true,
+          "cwe": 829,
+          "label": "pwn-request-checkout-pr-head",
+          "matches": [
+            {
+              "line": 15,
+              "ruleId": "GHA-PRT-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": ".github/workflows/ci.yml:16:gha-script-injection-title",
+          "file": ".github/workflows/ci.yml",
+          "line": 17,
+          "vulnerable": true,
+          "cwe": 94,
+          "label": "gha-script-injection-title",
+          "matches": [
+            {
+              "line": 17,
+              "ruleId": "GHA-INJ-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": ".github/workflows/ci.yml:18:unpinned-third-party-action",
+          "file": ".github/workflows/ci.yml",
+          "line": 19,
+          "vulnerable": true,
+          "cwe": 829,
+          "label": "unpinned-third-party-action",
+          "matches": [
+            {
+              "line": 19,
+              "ruleId": "GHA-PIN-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": ".github/workflows/ci.yml:26:gha-env-indirection",
+          "file": ".github/workflows/ci.yml",
+          "line": 27,
+          "vulnerable": false,
+          "cwe": 94,
+          "label": "gha-env-indirection",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "Dockerfile:1:docker-latest-root-no-user",
+          "file": "Dockerfile",
+          "line": 2,
+          "vulnerable": true,
+          "cwe": 1188,
+          "label": "docker-latest-root-no-user",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "Dockerfile:3:docker-env-secret",
+          "file": "Dockerfile",
+          "line": 4,
+          "vulnerable": true,
+          "cwe": 798,
+          "label": "docker-env-secret",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "Dockerfile:5:curl-pipe-shell",
+          "file": "Dockerfile",
+          "line": 6,
+          "vulnerable": true,
+          "cwe": 494,
+          "label": "curl-pipe-shell",
+          "matches": [
+            {
+              "line": 6,
+              "ruleId": "DOCKER-CURLPIPE-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "Dockerfile.safe:6:docker-nonroot",
+          "file": "Dockerfile.safe",
+          "line": 7,
+          "vulnerable": false,
+          "cwe": 250,
+          "label": "docker-nonroot",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "k8s/deployment-safe.yaml:17:k8s-hardened",
+          "file": "k8s/deployment-safe.yaml",
+          "line": 18,
+          "vulnerable": false,
+          "cwe": 250,
+          "label": "k8s-hardened",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "k8s/deployment.yaml:18:k8s-privileged",
+          "file": "k8s/deployment.yaml",
+          "line": 19,
+          "vulnerable": true,
+          "cwe": 250,
+          "label": "k8s-privileged",
+          "matches": [
+            {
+              "line": 19,
+              "ruleId": "CONTAINER-PRIV-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "k8s/deployment.yaml:20:k8s-run-as-root",
+          "file": "k8s/deployment.yaml",
+          "line": 21,
+          "vulnerable": true,
+          "cwe": 250,
+          "label": "k8s-run-as-root",
+          "matches": [
+            {
+              "line": 21,
+              "ruleId": "CONTAINER-PRIV-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "main.tf:5:s3-public-acl",
+          "file": "main.tf",
+          "line": 6,
+          "vulnerable": true,
+          "cwe": 732,
+          "label": "s3-public-acl",
+          "matches": [
+            {
+              "line": 8,
+              "ruleId": "TF-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "main.tf:17:sg-ssh-open-world",
+          "file": "main.tf",
+          "line": 18,
+          "vulnerable": true,
+          "cwe": 284,
+          "label": "sg-ssh-open-world",
+          "matches": [
+            {
+              "line": 18,
+              "ruleId": "TF-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "main.tf:26:imdsv1-allowed",
+          "file": "main.tf",
+          "line": 27,
+          "vulnerable": true,
+          "cwe": 918,
+          "label": "imdsv1-allowed",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "main.tf:33:s3-block-public",
+          "file": "main.tf",
+          "line": 34,
+          "vulnerable": false,
+          "cwe": 732,
+          "label": "s3-block-public",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "nginx.conf:5:nginx-alias-traversal",
+          "file": "nginx.conf",
+          "line": 6,
+          "vulnerable": true,
+          "cwe": 22,
+          "label": "nginx-alias-traversal",
+          "matches": [
+            {
+              "line": 7,
+              "ruleId": "NGINX-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "nginx.conf:10:nginx-alias-slash-match",
+          "file": "nginx.conf",
+          "line": 11,
+          "vulnerable": false,
+          "cwe": 22,
+          "label": "nginx-alias-slash-match",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "nginx.conf:15:nginx-autoindex-on",
+          "file": "nginx.conf",
+          "line": 16,
+          "vulnerable": true,
+          "cwe": 16,
+          "label": "nginx-autoindex-on",
+          "matches": [],
+          "outcome": "fn"
+        }
+      ],
+      "unmatched": [
+        {
+          "file": "k8s/deployment.yaml",
+          "line": 13,
+          "ruleId": "CONTAINER-PRIV-001",
+          "cwe": [
+            250,
+            269
+          ]
+        },
+        {
+          "file": "Dockerfile",
+          "line": 4,
+          "ruleId": "DOCKER-SECRET-001",
+          "cwe": [
+            526,
+            260
+          ]
+        },
+        {
+          "file": "main.tf",
+          "line": 27,
+          "ruleId": "TF-001",
+          "cwe": [
+            732,
+            311,
+            284
+          ]
+        },
+        {
+          "file": "Dockerfile",
+          "line": 2,
+          "ruleId": "DOCKER-ROOT-001",
+          "cwe": [
+            250,
+            269
+          ]
+        },
+        {
+          "file": "nginx.conf",
+          "line": 17,
+          "ruleId": "NGINX-002",
+          "cwe": [
+            548,
+            200,
+            326
+          ]
+        },
+        {
+          "file": "Dockerfile.safe",
+          "line": 1,
+          "ruleId": "DOCKER-EOL-001",
+          "cwe": [
+            1104
+          ]
+        },
+        {
+          "file": "Dockerfile",
+          "line": 2,
+          "ruleId": "DOCKER-TAG-001",
+          "cwe": [
+            1357,
+            829
+          ]
+        }
+      ],
+      "unscoredManifestLabels": 0
+    },
+    {
+      "app": "java-bank",
+      "findings": 10,
+      "totals": {
+        "cases": 14,
+        "tp": 7,
+        "fp": 0,
+        "tn": 5,
+        "fn": 2
+      },
+      "cases": [
+        {
+          "id": "src/main/java/bank/AccountRepository.java:14:sqli-jdbc-concat-cross-file",
+          "file": "src/main/java/bank/AccountRepository.java",
+          "line": 15,
+          "vulnerable": true,
+          "cwe": 89,
+          "label": "sqli-jdbc-concat-cross-file",
+          "matches": [
+            {
+              "line": 15,
+              "ruleId": "JAVA-SQLI-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/main/java/bank/AccountRepository.java:19:sqli-jdbc-parameterized",
+          "file": "src/main/java/bank/AccountRepository.java",
+          "line": 20,
+          "vulnerable": false,
+          "cwe": 89,
+          "label": "sqli-jdbc-parameterized",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/main/java/bank/UtilController.java:21:path-traversal-paths-get",
+          "file": "src/main/java/bank/UtilController.java",
+          "line": 22,
+          "vulnerable": true,
+          "cwe": 22,
+          "label": "path-traversal-paths-get",
+          "matches": [
+            {
+              "line": 22,
+              "ruleId": "JAVA-PATH-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/main/java/bank/UtilController.java:29:normalize-startswith",
+          "file": "src/main/java/bank/UtilController.java",
+          "line": 30,
+          "vulnerable": false,
+          "cwe": 22,
+          "label": "normalize-startswith",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/main/java/bank/UtilController.java:35:java-deserialization",
+          "file": "src/main/java/bank/UtilController.java",
+          "line": 36,
+          "vulnerable": true,
+          "cwe": 502,
+          "label": "java-deserialization",
+          "matches": [
+            {
+              "line": 36,
+              "ruleId": "JAVA-DESER-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/main/java/bank/UtilController.java:42:xxe-documentbuilder-default",
+          "file": "src/main/java/bank/UtilController.java",
+          "line": 43,
+          "vulnerable": true,
+          "cwe": 611,
+          "label": "xxe-documentbuilder-default",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "src/main/java/bank/UtilController.java:50:xxe-doctype-disallowed",
+          "file": "src/main/java/bank/UtilController.java",
+          "line": 51,
+          "vulnerable": false,
+          "cwe": 611,
+          "label": "xxe-doctype-disallowed",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/main/java/bank/UtilController.java:56:spel-injection",
+          "file": "src/main/java/bank/UtilController.java",
+          "line": 57,
+          "vulnerable": true,
+          "cwe": 917,
+          "label": "spel-injection",
+          "matches": [
+            {
+              "line": 57,
+              "ruleId": "JAVA-EL-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/main/java/bank/UtilController.java:62:log4shell-jndi-lookup-in-log",
+          "file": "src/main/java/bank/UtilController.java",
+          "line": 63,
+          "vulnerable": true,
+          "cwe": 917,
+          "label": "log4shell-jndi-lookup-in-log",
+          "matches": [
+            {
+              "line": 63,
+              "ruleId": "JAVA-LOG4SHELL-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/main/java/bank/UtilController.java:67:md5-digest",
+          "file": "src/main/java/bank/UtilController.java",
+          "line": 68,
+          "vulnerable": true,
+          "cwe": 327,
+          "label": "md5-digest",
+          "matches": [
+            {
+              "line": 68,
+              "ruleId": "JAVA-CRYPTO-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/main/java/bank/UtilController.java:72:sha256-digest",
+          "file": "src/main/java/bank/UtilController.java",
+          "line": 73,
+          "vulnerable": false,
+          "cwe": 327,
+          "label": "sha256-digest",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/main/java/bank/UtilController.java:77:java-util-random-otp",
+          "file": "src/main/java/bank/UtilController.java",
+          "line": 78,
+          "vulnerable": true,
+          "cwe": 330,
+          "label": "java-util-random-otp",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "src/main/java/bank/UtilController.java:82:securerandom-otp",
+          "file": "src/main/java/bank/UtilController.java",
+          "line": 83,
+          "vulnerable": false,
+          "cwe": 330,
+          "label": "securerandom-otp",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/main/java/bank/UtilController.java:88:runtime-exec",
+          "file": "src/main/java/bank/UtilController.java",
+          "line": 89,
+          "vulnerable": true,
+          "cwe": 78,
+          "label": "runtime-exec",
+          "matches": [
+            {
+              "line": 89,
+              "ruleId": "JAVA-CMDI-001"
+            }
+          ],
+          "outcome": "tp"
+        }
+      ],
+      "unmatched": [
+        {
+          "file": "pom.xml",
+          "line": 9,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            917,
+            502
+          ]
+        },
+        {
+          "file": "pom.xml",
+          "line": 14,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            94
+          ]
+        },
+        {
+          "file": "src/main/java/bank/UtilController.java",
+          "line": 60,
+          "ruleId": "PROJ-RATELIMIT-001",
+          "cwe": [
+            307
+          ]
+        }
+      ],
+      "unscoredManifestLabels": 2
+    },
+    {
+      "app": "node-design-lab",
+      "findings": 18,
+      "totals": {
+        "cases": 18,
+        "tp": 3,
+        "fp": 0,
+        "tn": 5,
+        "fn": 10
+      },
+      "cases": [
+        {
+          "id": "src/payments.js:10:client-side-limit-only",
+          "file": "src/payments.js",
+          "line": 11,
+          "vulnerable": true,
+          "cwe": 602,
+          "label": "client-side-limit-only",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "src/payments.js:19:server-side-limit",
+          "file": "src/payments.js",
+          "line": 20,
+          "vulnerable": false,
+          "cwe": 602,
+          "label": "server-side-limit",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/payments.js:28:check-then-act-race",
+          "file": "src/payments.js",
+          "line": 29,
+          "vulnerable": true,
+          "cwe": 362,
+          "label": "check-then-act-race",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "src/payments.js:36:atomic-conditional-update",
+          "file": "src/payments.js",
+          "line": 37,
+          "vulnerable": false,
+          "cwe": 362,
+          "label": "atomic-conditional-update",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/payments.js:42:workflow-step-skippable",
+          "file": "src/payments.js",
+          "line": 43,
+          "vulnerable": true,
+          "cwe": 841,
+          "label": "workflow-step-skippable",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "src/payments.js:49:trust-client-header-for-auth",
+          "file": "src/payments.js",
+          "line": 50,
+          "vulnerable": true,
+          "cwe": 807,
+          "label": "trust-client-header-for-auth",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "src/payments.js:55:role-from-request-body",
+          "file": "src/payments.js",
+          "line": 56,
+          "vulnerable": true,
+          "cwe": 269,
+          "label": "role-from-request-body",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "src/payments.js:61:security-question-only-reset",
+          "file": "src/payments.js",
+          "line": 62,
+          "vulnerable": true,
+          "cwe": 640,
+          "label": "security-question-only-reset",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "src/payments.js:75:logs-plaintext-password",
+          "file": "src/payments.js",
+          "line": 76,
+          "vulnerable": true,
+          "cwe": 532,
+          "label": "logs-plaintext-password",
+          "matches": [
+            {
+              "line": 76,
+              "ruleId": "JS-LOG-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/payments.js:85:logs-no-secret",
+          "file": "src/payments.js",
+          "line": 86,
+          "vulnerable": false,
+          "cwe": 532,
+          "label": "logs-no-secret",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/payments.js:93:log-injection-crlf",
+          "file": "src/payments.js",
+          "line": 94,
+          "vulnerable": true,
+          "cwe": 117,
+          "label": "log-injection-crlf",
+          "matches": [
+            {
+              "line": 94,
+              "ruleId": "JS-LOG-002"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/payments.js:99:privilege-change-not-logged",
+          "file": "src/payments.js",
+          "line": 100,
+          "vulnerable": true,
+          "cwe": 778,
+          "label": "privilege-change-not-logged",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "src/payments.js:110:fail-open-authorization",
+          "file": "src/payments.js",
+          "line": 111,
+          "vulnerable": true,
+          "cwe": 636,
+          "label": "fail-open-authorization",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "src/payments.js:120:fail-closed",
+          "file": "src/payments.js",
+          "line": 121,
+          "vulnerable": false,
+          "cwe": 636,
+          "label": "fail-closed",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/payments.js:130:resource-not-released-on-error",
+          "file": "src/payments.js",
+          "line": 131,
+          "vulnerable": true,
+          "cwe": 460,
+          "label": "resource-not-released-on-error",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "src/payments.js:141:stack-trace-to-client",
+          "file": "src/payments.js",
+          "line": 142,
+          "vulnerable": true,
+          "cwe": 209,
+          "label": "stack-trace-to-client",
+          "matches": [
+            {
+              "line": 142,
+              "ruleId": "JS-ERR-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/payments.js:151:generic-error",
+          "file": "src/payments.js",
+          "line": 152,
+          "vulnerable": false,
+          "cwe": 209,
+          "label": "generic-error",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/payments.js:160:empty-catch-swallowed",
+          "file": "src/payments.js",
+          "line": 161,
+          "vulnerable": true,
+          "cwe": 390,
+          "label": "empty-catch-swallowed",
+          "matches": [],
+          "outcome": "fn"
+        }
+      ],
+      "unmatched": [
+        {
+          "file": "src/payments.js",
+          "line": 48,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "src/payments.js",
+          "line": 98,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "src/payments.js",
+          "line": 9,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "src/payments.js",
+          "line": 16,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "src/payments.js",
+          "line": 24,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "src/payments.js",
+          "line": 35,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "src/payments.js",
+          "line": 41,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "src/payments.js",
+          "line": 54,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "src/payments.js",
+          "line": 60,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "src/payments.js",
+          "line": 82,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "src/payments.js",
+          "line": 125,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "src/payments.js",
+          "line": 156,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "src/payments.js",
+          "line": 72,
+          "ruleId": "PROJ-RATELIMIT-001",
+          "cwe": [
+            307
+          ]
+        },
+        {
+          "file": "src/payments.js",
+          "line": 76,
+          "ruleId": "JS-LOG-002",
+          "cwe": [
+            117
+          ]
+        },
+        {
+          "file": "src/payments.js",
+          "line": 86,
+          "ruleId": "JS-LOG-002",
+          "cwe": [
+            117
+          ]
+        }
+      ],
+      "unscoredManifestLabels": 0
+    },
+    {
+      "app": "node-shop",
+      "findings": 32,
+      "totals": {
+        "cases": 26,
+        "tp": 14,
+        "fp": 2,
+        "tn": 10,
+        "fn": 0
+      },
+      "cases": [
+        {
+          "id": "src/repo/productRepo.js:5:sqli-cross-file",
+          "file": "src/repo/productRepo.js",
+          "line": 6,
+          "vulnerable": true,
+          "cwe": 89,
+          "label": "sqli-cross-file",
+          "matches": [
+            {
+              "line": 6,
+              "ruleId": "JS-SQLI-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/repo/productRepo.js:11:sqli-parameterized",
+          "file": "src/repo/productRepo.js",
+          "line": 12,
+          "vulnerable": false,
+          "cwe": 89,
+          "label": "sqli-parameterized",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/routes/auth.js:7:hardcoded-jwt-secret",
+          "file": "src/routes/auth.js",
+          "line": 8,
+          "vulnerable": true,
+          "cwe": 798,
+          "label": "hardcoded-jwt-secret",
+          "matches": [
+            {
+              "line": 8,
+              "ruleId": "SECRET-GENERIC-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/routes/auth.js:11:mass-assignment",
+          "file": "src/routes/auth.js",
+          "line": 12,
+          "vulnerable": true,
+          "cwe": 915,
+          "label": "mass-assignment",
+          "matches": [
+            {
+              "line": 12,
+              "ruleId": "JS-MASS-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/routes/auth.js:18:field-allowlist",
+          "file": "src/routes/auth.js",
+          "line": 19,
+          "vulnerable": false,
+          "cwe": 915,
+          "label": "field-allowlist",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/routes/auth.js:24:md5-password",
+          "file": "src/routes/auth.js",
+          "line": 25,
+          "vulnerable": true,
+          "cwe": 327,
+          "label": "md5-password",
+          "matches": [
+            {
+              "line": 25,
+              "ruleId": "JS-CRYPTO-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/routes/auth.js:29:bcrypt-password",
+          "file": "src/routes/auth.js",
+          "line": 30,
+          "vulnerable": false,
+          "cwe": 327,
+          "label": "bcrypt-password",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/routes/auth.js:34:weak-prng-token",
+          "file": "src/routes/auth.js",
+          "line": 35,
+          "vulnerable": true,
+          "cwe": 338,
+          "label": "weak-prng-token",
+          "matches": [
+            {
+              "line": 35,
+              "ruleId": "JS-CRYPTO-003"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/routes/auth.js:39:csprng-token",
+          "file": "src/routes/auth.js",
+          "line": 40,
+          "vulnerable": false,
+          "cwe": 338,
+          "label": "csprng-token",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/routes/auth.js:44:jwt-decode-no-verify",
+          "file": "src/routes/auth.js",
+          "line": 45,
+          "vulnerable": true,
+          "cwe": 347,
+          "label": "jwt-decode-no-verify",
+          "matches": [
+            {
+              "line": 45,
+              "ruleId": "JS-JWT-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/routes/auth.js:50:jwt-verified",
+          "file": "src/routes/auth.js",
+          "line": 51,
+          "vulnerable": false,
+          "cwe": 347,
+          "label": "jwt-verified",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/routes/files.js:7:path-traversal",
+          "file": "src/routes/files.js",
+          "line": 8,
+          "vulnerable": true,
+          "cwe": 22,
+          "label": "path-traversal",
+          "matches": [
+            {
+              "line": 8,
+              "ruleId": "JS-PATH-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/routes/files.js:14:path-confined",
+          "file": "src/routes/files.js",
+          "line": 15,
+          "vulnerable": false,
+          "cwe": 22,
+          "label": "path-confined",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/routes/files.js:19:ssrf",
+          "file": "src/routes/files.js",
+          "line": 20,
+          "vulnerable": true,
+          "cwe": 918,
+          "label": "ssrf",
+          "matches": [
+            {
+              "line": 20,
+              "ruleId": "JS-SSRF-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/routes/files.js:28:ssrf-allowlist",
+          "file": "src/routes/files.js",
+          "line": 29,
+          "vulnerable": false,
+          "cwe": 918,
+          "label": "ssrf-allowlist",
+          "matches": [
+            {
+              "line": 29,
+              "ruleId": "JS-SSRF-001"
+            }
+          ],
+          "outcome": "fp"
+        },
+        {
+          "id": "src/routes/orders.js:9:idor-order-read",
+          "file": "src/routes/orders.js",
+          "line": 10,
+          "vulnerable": true,
+          "cwe": 639,
+          "label": "idor-order-read",
+          "matches": [
+            {
+              "line": 10,
+              "ruleId": "JS-IDOR-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/routes/orders.js:15:owner-scoped",
+          "file": "src/routes/orders.js",
+          "line": 16,
+          "vulnerable": false,
+          "cwe": 639,
+          "label": "owner-scoped",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/routes/products.js:17:reflected-xss",
+          "file": "src/routes/products.js",
+          "line": 18,
+          "vulnerable": true,
+          "cwe": 79,
+          "label": "reflected-xss",
+          "matches": [
+            {
+              "line": 18,
+              "ruleId": "JS-XSS-003"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/routes/products.js:23:xss-escaped",
+          "file": "src/routes/products.js",
+          "line": 24,
+          "vulnerable": false,
+          "cwe": 79,
+          "label": "xss-escaped",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/routes/redirect.js:4:open-redirect",
+          "file": "src/routes/redirect.js",
+          "line": 5,
+          "vulnerable": true,
+          "cwe": 601,
+          "label": "open-redirect",
+          "matches": [
+            {
+              "line": 5,
+              "ruleId": "JS-REDIRECT-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/routes/redirect.js:11:relative-only-redirect",
+          "file": "src/routes/redirect.js",
+          "line": 12,
+          "vulnerable": false,
+          "cwe": 601,
+          "label": "relative-only-redirect",
+          "matches": [
+            {
+              "line": 12,
+              "ruleId": "JS-REDIRECT-001"
+            }
+          ],
+          "outcome": "fp"
+        },
+        {
+          "id": "src/routes/tools.js:6:os-command-injection",
+          "file": "src/routes/tools.js",
+          "line": 7,
+          "vulnerable": true,
+          "cwe": 78,
+          "label": "os-command-injection",
+          "matches": [
+            {
+              "line": 7,
+              "ruleId": "JS-CMDI-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/routes/tools.js:13:execfile-validated",
+          "file": "src/routes/tools.js",
+          "line": 14,
+          "vulnerable": false,
+          "cwe": 78,
+          "label": "execfile-validated",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/routes/tools.js:18:eval-injection",
+          "file": "src/routes/tools.js",
+          "line": 19,
+          "vulnerable": true,
+          "cwe": 95,
+          "label": "eval-injection",
+          "matches": [
+            {
+              "line": 19,
+              "ruleId": "JS-CODE-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/routes/tools.js:23:numeric-parse",
+          "file": "src/routes/tools.js",
+          "line": 24,
+          "vulnerable": false,
+          "cwe": 95,
+          "label": "numeric-parse",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/routes/tools.js:29:prototype-pollution-merge",
+          "file": "src/routes/tools.js",
+          "line": 30,
+          "vulnerable": true,
+          "cwe": 1321,
+          "label": "prototype-pollution-merge",
+          "matches": [
+            {
+              "line": 30,
+              "ruleId": "JS-PROTO-001"
+            }
+          ],
+          "outcome": "tp"
+        }
+      ],
+      "unmatched": [
+        {
+          "file": "src/routes/tools.js",
+          "line": 27,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "package.json",
+          "line": 7,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            94,
+            1321
+          ]
+        },
+        {
+          "file": "package.json",
+          "line": 8,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            918
+          ]
+        },
+        {
+          "file": "package.json",
+          "line": 9,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            347,
+            287
+          ]
+        },
+        {
+          "file": "src/routes/auth.js",
+          "line": 16,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "src/routes/auth.js",
+          "line": 23,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "src/routes/auth.js",
+          "line": 28,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "src/routes/auth.js",
+          "line": 33,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "src/routes/auth.js",
+          "line": 38,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "src/routes/tools.js",
+          "line": 17,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "src/routes/tools.js",
+          "line": 22,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "package.json",
+          "line": 6,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            79,
+            601
+          ]
+        },
+        {
+          "file": "package.json",
+          "line": 8,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            352
+          ]
+        },
+        {
+          "file": "src/routes/auth.js",
+          "line": 33,
+          "ruleId": "PROJ-RATELIMIT-001",
+          "cwe": [
+            307
+          ]
+        },
+        {
+          "file": "src/app.js",
+          "line": 2,
+          "ruleId": "PROJ-HEADERS-001",
+          "cwe": [
+            693,
+            1021
+          ]
+        },
+        {
+          "file": "package.json",
+          "line": 1,
+          "ruleId": "SUPPLY-LOCK-001",
+          "cwe": [
+            1357
+          ]
+        }
+      ],
+      "unscoredManifestLabels": 3
+    },
+    {
+      "app": "php-blog",
+      "findings": 7,
+      "totals": {
+        "cases": 18,
+        "tp": 6,
+        "fp": 0,
+        "tn": 9,
+        "fn": 3
+      },
+      "cases": [
+        {
+          "id": "auth.php:3:md5-password",
+          "file": "auth.php",
+          "line": 4,
+          "vulnerable": true,
+          "cwe": 328,
+          "label": "md5-password",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "auth.php:8:password-hash",
+          "file": "auth.php",
+          "line": 9,
+          "vulnerable": false,
+          "cwe": 328,
+          "label": "password-hash",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "auth.php:13:loose-compare-type-juggling",
+          "file": "auth.php",
+          "line": 14,
+          "vulnerable": true,
+          "cwe": 697,
+          "label": "loose-compare-type-juggling",
+          "matches": [
+            {
+              "line": 14,
+              "ruleId": "PHP-AUTH-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "auth.php:18:hash-equals",
+          "file": "auth.php",
+          "line": 19,
+          "vulnerable": false,
+          "cwe": 697,
+          "label": "hash-equals",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "auth.php:23:weak-prng-token",
+          "file": "auth.php",
+          "line": 24,
+          "vulnerable": true,
+          "cwe": 338,
+          "label": "weak-prng-token",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "auth.php:28:random-bytes-token",
+          "file": "auth.php",
+          "line": 29,
+          "vulnerable": false,
+          "cwe": 338,
+          "label": "random-bytes-token",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "index.php:6:lfi-include",
+          "file": "index.php",
+          "line": 7,
+          "vulnerable": true,
+          "cwe": 98,
+          "label": "lfi-include",
+          "matches": [
+            {
+              "line": 7,
+              "ruleId": "PHP-LFI-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "index.php:11:include-allowlist",
+          "file": "index.php",
+          "line": 12,
+          "vulnerable": false,
+          "cwe": 98,
+          "label": "include-allowlist",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "index.php:15:reflected-xss-echo",
+          "file": "index.php",
+          "line": 16,
+          "vulnerable": true,
+          "cwe": 79,
+          "label": "reflected-xss-echo",
+          "matches": [
+            {
+              "line": 16,
+              "ruleId": "PHP-XSS-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "index.php:18:htmlspecialchars",
+          "file": "index.php",
+          "line": 19,
+          "vulnerable": false,
+          "cwe": 79,
+          "label": "htmlspecialchars",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "index.php:25:unserialize-cookie",
+          "file": "index.php",
+          "line": 26,
+          "vulnerable": true,
+          "cwe": 502,
+          "label": "unserialize-cookie",
+          "matches": [
+            {
+              "line": 26,
+              "ruleId": "PHP-DESER-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "index.php:28:json-decode-cookie",
+          "file": "index.php",
+          "line": 29,
+          "vulnerable": false,
+          "cwe": 502,
+          "label": "json-decode-cookie",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "index.php:32:system-injection",
+          "file": "index.php",
+          "line": 33,
+          "vulnerable": true,
+          "cwe": 78,
+          "label": "system-injection",
+          "matches": [
+            {
+              "line": 33,
+              "ruleId": "PHP-CMDI-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "index.php:37:escapeshellarg",
+          "file": "index.php",
+          "line": 38,
+          "vulnerable": false,
+          "cwe": 78,
+          "label": "escapeshellarg",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "lib/db.php:6:sqli-mysqli-concat-cross-file",
+          "file": "lib/db.php",
+          "line": 7,
+          "vulnerable": true,
+          "cwe": 89,
+          "label": "sqli-mysqli-concat-cross-file",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "lib/db.php:14:sqli-prepared",
+          "file": "lib/db.php",
+          "line": 15,
+          "vulnerable": false,
+          "cwe": 89,
+          "label": "sqli-prepared",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "upload.php:3:unrestricted-upload-original-name",
+          "file": "upload.php",
+          "line": 4,
+          "vulnerable": true,
+          "cwe": 434,
+          "label": "unrestricted-upload-original-name",
+          "matches": [
+            {
+              "line": 4,
+              "ruleId": "PHP-UPLOAD-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "upload.php:10:ext-allowlist-random-name",
+          "file": "upload.php",
+          "line": 11,
+          "vulnerable": false,
+          "cwe": 434,
+          "label": "ext-allowlist-random-name",
+          "matches": [],
+          "outcome": "tn"
+        }
+      ],
+      "unmatched": [
+        {
+          "file": "upload.php",
+          "line": 1,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        }
+      ],
+      "unscoredManifestLabels": 0
+    },
+    {
+      "app": "py-design-lab",
+      "findings": 11,
+      "totals": {
+        "cases": 14,
+        "tp": 2,
+        "fp": 0,
+        "tn": 4,
+        "fn": 8
+      },
+      "cases": [
+        {
+          "id": "shop.py:14:client-side-limit-only",
+          "file": "shop.py",
+          "line": 15,
+          "vulnerable": true,
+          "cwe": 602,
+          "label": "client-side-limit-only",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "shop.py:23:server-side-limit",
+          "file": "shop.py",
+          "line": 24,
+          "vulnerable": false,
+          "cwe": 602,
+          "label": "server-side-limit",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "shop.py:29:price-from-hidden-form-field",
+          "file": "shop.py",
+          "line": 30,
+          "vulnerable": true,
+          "cwe": 472,
+          "label": "price-from-hidden-form-field",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "shop.py:36:price-from-catalog",
+          "file": "shop.py",
+          "line": 37,
+          "vulnerable": false,
+          "cwe": 472,
+          "label": "price-from-catalog",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "shop.py:47:check-then-act-race",
+          "file": "shop.py",
+          "line": 48,
+          "vulnerable": true,
+          "cwe": 362,
+          "label": "check-then-act-race",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "shop.py:54:trust-boundary-session-from-body",
+          "file": "shop.py",
+          "line": 55,
+          "vulnerable": true,
+          "cwe": 501,
+          "label": "trust-boundary-session-from-body",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "shop.py:63:logs-plaintext-password",
+          "file": "shop.py",
+          "line": 64,
+          "vulnerable": true,
+          "cwe": 532,
+          "label": "logs-plaintext-password",
+          "matches": [
+            {
+              "line": 64,
+              "ruleId": "PY-LOG-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "shop.py:71:log-injection",
+          "file": "shop.py",
+          "line": 72,
+          "vulnerable": true,
+          "cwe": 117,
+          "label": "log-injection",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "shop.py:80:fail-open-authorization",
+          "file": "shop.py",
+          "line": 81,
+          "vulnerable": true,
+          "cwe": 636,
+          "label": "fail-open-authorization",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "shop.py:89:fail-closed",
+          "file": "shop.py",
+          "line": 90,
+          "vulnerable": false,
+          "cwe": 636,
+          "label": "fail-closed",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "shop.py:98:traceback-to-client",
+          "file": "shop.py",
+          "line": 99,
+          "vulnerable": true,
+          "cwe": 209,
+          "label": "traceback-to-client",
+          "matches": [
+            {
+              "line": 99,
+              "ruleId": "PY-ERR-002"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "shop.py:108:generic-error",
+          "file": "shop.py",
+          "line": 109,
+          "vulnerable": false,
+          "cwe": 209,
+          "label": "generic-error",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "shop.py:116:bare-except-pass",
+          "file": "shop.py",
+          "line": 117,
+          "vulnerable": true,
+          "cwe": 390,
+          "label": "bare-except-pass",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "shop.py:123:bare-except-hides-everything",
+          "file": "shop.py",
+          "line": 124,
+          "vulnerable": true,
+          "cwe": 396,
+          "label": "bare-except-hides-everything",
+          "matches": [],
+          "outcome": "fn"
+        }
+      ],
+      "unmatched": [
+        {
+          "file": "shop.py",
+          "line": 93,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "shop.py",
+          "line": 12,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "shop.py",
+          "line": 18,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "shop.py",
+          "line": 27,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "shop.py",
+          "line": 34,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "shop.py",
+          "line": 41,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "shop.py",
+          "line": 52,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "shop.py",
+          "line": 59,
+          "ruleId": "PROJ-RATELIMIT-001",
+          "cwe": [
+            307
+          ]
+        },
+        {
+          "file": "shop.py",
+          "line": 115,
+          "ruleId": "PY-ERR-001",
+          "cwe": [
+            390,
+            396
+          ]
+        }
+      ],
+      "unscoredManifestLabels": 0
+    },
+    {
+      "app": "py-notes",
+      "findings": 24,
+      "totals": {
+        "cases": 20,
+        "tp": 11,
+        "fp": 1,
+        "tn": 8,
+        "fn": 0
+      },
+      "cases": [
+        {
+          "id": "app.py:29:pickle-loads",
+          "file": "app.py",
+          "line": 30,
+          "vulnerable": true,
+          "cwe": 502,
+          "label": "pickle-loads",
+          "matches": [
+            {
+              "line": 30,
+              "ruleId": "PY-DESER-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "app.py:35:json-loads",
+          "file": "app.py",
+          "line": 36,
+          "vulnerable": false,
+          "cwe": 502,
+          "label": "json-loads",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "app.py:42:yaml-load-unsafe",
+          "file": "app.py",
+          "line": 43,
+          "vulnerable": true,
+          "cwe": 502,
+          "label": "yaml-load-unsafe",
+          "matches": [
+            {
+              "line": 43,
+              "ruleId": "PY-DESER-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "app.py:48:yaml-safe-load",
+          "file": "app.py",
+          "line": 49,
+          "vulnerable": false,
+          "cwe": 502,
+          "label": "yaml-safe-load",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "app.py:54:ssti-render-template-string",
+          "file": "app.py",
+          "line": 55,
+          "vulnerable": true,
+          "cwe": 1336,
+          "label": "ssti-render-template-string",
+          "matches": [
+            {
+              "line": 55,
+              "ruleId": "PY-SSTI-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "app.py:60:ssti-static-template",
+          "file": "app.py",
+          "line": 61,
+          "vulnerable": false,
+          "cwe": 1336,
+          "label": "ssti-static-template",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "app.py:67:shell-true-injection",
+          "file": "app.py",
+          "line": 68,
+          "vulnerable": true,
+          "cwe": 78,
+          "label": "shell-true-injection",
+          "matches": [
+            {
+              "line": 68,
+              "ruleId": "PY-CMDI-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "app.py:75:subprocess-list-args",
+          "file": "app.py",
+          "line": 76,
+          "vulnerable": false,
+          "cwe": 78,
+          "label": "subprocess-list-args",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "app.py:82:path-traversal-open",
+          "file": "app.py",
+          "line": 83,
+          "vulnerable": true,
+          "cwe": 22,
+          "label": "path-traversal-open",
+          "matches": [
+            {
+              "line": 83,
+              "ruleId": "PY-PATH-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "app.py:88:secure-filename",
+          "file": "app.py",
+          "line": 89,
+          "vulnerable": false,
+          "cwe": 22,
+          "label": "secure-filename",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "app.py:94:ssrf-requests-get",
+          "file": "app.py",
+          "line": 95,
+          "vulnerable": true,
+          "cwe": 918,
+          "label": "ssrf-requests-get",
+          "matches": [
+            {
+              "line": 95,
+              "ruleId": "PY-SSRF-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "app.py:107:ssrf-allowlist",
+          "file": "app.py",
+          "line": 108,
+          "vulnerable": false,
+          "cwe": 918,
+          "label": "ssrf-allowlist",
+          "matches": [
+            {
+              "line": 108,
+              "ruleId": "PY-SSRF-001"
+            }
+          ],
+          "outcome": "fp"
+        },
+        {
+          "id": "app.py:112:tls-verify-false",
+          "file": "app.py",
+          "line": 113,
+          "vulnerable": true,
+          "cwe": 295,
+          "label": "tls-verify-false",
+          "matches": [
+            {
+              "line": 113,
+              "ruleId": "PY-TLS-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "app.py:117:flask-debug-true",
+          "file": "app.py",
+          "line": 118,
+          "vulnerable": true,
+          "cwe": 489,
+          "label": "flask-debug-true",
+          "matches": [
+            {
+              "line": 118,
+              "ruleId": "PY-DEBUG-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "repo/db.py:9:sqli-fstring-cross-file",
+          "file": "repo/db.py",
+          "line": 10,
+          "vulnerable": true,
+          "cwe": 89,
+          "label": "sqli-fstring-cross-file",
+          "matches": [
+            {
+              "line": 10,
+              "ruleId": "PY-SQLI-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "repo/db.py:16:sqli-parameterized",
+          "file": "repo/db.py",
+          "line": 17,
+          "vulnerable": false,
+          "cwe": 89,
+          "label": "sqli-parameterized",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "repo/db.py:22:md5-password",
+          "file": "repo/db.py",
+          "line": 23,
+          "vulnerable": true,
+          "cwe": 327,
+          "label": "md5-password",
+          "matches": [
+            {
+              "line": 23,
+              "ruleId": "PY-CRYPTO-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "repo/db.py:27:scrypt-password",
+          "file": "repo/db.py",
+          "line": 28,
+          "vulnerable": false,
+          "cwe": 327,
+          "label": "scrypt-password",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "xmlimport.py:5:xxe-resolve-entities",
+          "file": "xmlimport.py",
+          "line": 6,
+          "vulnerable": true,
+          "cwe": 611,
+          "label": "xxe-resolve-entities",
+          "matches": [
+            {
+              "line": 6,
+              "ruleId": "PY-XXE-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "xmlimport.py:11:xxe-disabled",
+          "file": "xmlimport.py",
+          "line": 12,
+          "vulnerable": false,
+          "cwe": 611,
+          "label": "xxe-disabled",
+          "matches": [],
+          "outcome": "tn"
+        }
+      ],
+      "unmatched": [
+        {
+          "file": "requirements.txt",
+          "line": 3,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            502
+          ]
+        },
+        {
+          "file": "requirements.txt",
+          "line": 1,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            539
+          ]
+        },
+        {
+          "file": "requirements.txt",
+          "line": 2,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            693,
+            94
+          ]
+        },
+        {
+          "file": "requirements.txt",
+          "line": 6,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            352,
+            94
+          ]
+        },
+        {
+          "file": "app.py",
+          "line": 19,
+          "ruleId": "PY-LDAP-001",
+          "cwe": [
+            90
+          ]
+        },
+        {
+          "file": "app.py",
+          "line": 40,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "app.py",
+          "line": 80,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "requirements.txt",
+          "line": 4,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            295
+          ]
+        },
+        {
+          "file": "requirements.txt",
+          "line": 4,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            200
+          ]
+        },
+        {
+          "file": "app.py",
+          "line": 27,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "app.py",
+          "line": 33,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "app.py",
+          "line": 46,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        }
+      ],
+      "unscoredManifestLabels": 2
+    },
+    {
+      "app": "ruby-forum",
+      "findings": 4,
+      "totals": {
+        "cases": 23,
+        "tp": 4,
+        "fp": 0,
+        "tn": 9,
+        "fn": 10
+      },
+      "cases": [
+        {
+          "id": "app/controllers/posts_controller.rb:2:csrf-protection-skipped",
+          "file": "app/controllers/posts_controller.rb",
+          "line": 3,
+          "vulnerable": true,
+          "cwe": 352,
+          "label": "csrf-protection-skipped",
+          "matches": [
+            {
+              "line": 3,
+              "ruleId": "RB-CSRF-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "app/controllers/posts_controller.rb:12:idor-find-unscoped",
+          "file": "app/controllers/posts_controller.rb",
+          "line": 13,
+          "vulnerable": true,
+          "cwe": 639,
+          "label": "idor-find-unscoped",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "app/controllers/posts_controller.rb:17:scoped-to-current-user",
+          "file": "app/controllers/posts_controller.rb",
+          "line": 18,
+          "vulnerable": false,
+          "cwe": 639,
+          "label": "scoped-to-current-user",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "app/controllers/posts_controller.rb:22:mass-assignment-params-unpermitted",
+          "file": "app/controllers/posts_controller.rb",
+          "line": 23,
+          "vulnerable": true,
+          "cwe": 915,
+          "label": "mass-assignment-params-unpermitted",
+          "matches": [
+            {
+              "line": 23,
+              "ruleId": "RB-MASS-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "app/controllers/posts_controller.rb:28:strong-params",
+          "file": "app/controllers/posts_controller.rb",
+          "line": 29,
+          "vulnerable": false,
+          "cwe": 915,
+          "label": "strong-params",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "app/controllers/posts_controller.rb:34:html-safe-xss",
+          "file": "app/controllers/posts_controller.rb",
+          "line": 35,
+          "vulnerable": true,
+          "cwe": 79,
+          "label": "html-safe-xss",
+          "matches": [
+            {
+              "line": 35,
+              "ruleId": "RB-XSS-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "app/controllers/posts_controller.rb:39:sanitize-helper",
+          "file": "app/controllers/posts_controller.rb",
+          "line": 40,
+          "vulnerable": false,
+          "cwe": 79,
+          "label": "sanitize-helper",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "app/controllers/posts_controller.rb:44:ssti-render-inline",
+          "file": "app/controllers/posts_controller.rb",
+          "line": 45,
+          "vulnerable": true,
+          "cwe": 94,
+          "label": "ssti-render-inline",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "app/controllers/posts_controller.rb:49:open-redirect",
+          "file": "app/controllers/posts_controller.rb",
+          "line": 50,
+          "vulnerable": true,
+          "cwe": 601,
+          "label": "open-redirect",
+          "matches": [
+            {
+              "line": 50,
+              "ruleId": "RB-REDIRECT-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "app/controllers/posts_controller.rb:54:redirect-only-path",
+          "file": "app/controllers/posts_controller.rb",
+          "line": 55,
+          "vulnerable": false,
+          "cwe": 601,
+          "label": "redirect-only-path",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "app/controllers/posts_controller.rb:59:backtick-command-injection",
+          "file": "app/controllers/posts_controller.rb",
+          "line": 60,
+          "vulnerable": true,
+          "cwe": 78,
+          "label": "backtick-command-injection",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "app/controllers/posts_controller.rb:65:system-argv",
+          "file": "app/controllers/posts_controller.rb",
+          "line": 66,
+          "vulnerable": false,
+          "cwe": 78,
+          "label": "system-argv",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "app/controllers/posts_controller.rb:71:yaml-load",
+          "file": "app/controllers/posts_controller.rb",
+          "line": 72,
+          "vulnerable": true,
+          "cwe": 502,
+          "label": "yaml-load",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "app/controllers/posts_controller.rb:77:marshal-load",
+          "file": "app/controllers/posts_controller.rb",
+          "line": 78,
+          "vulnerable": true,
+          "cwe": 502,
+          "label": "marshal-load",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "app/controllers/posts_controller.rb:83:yaml-safe-load",
+          "file": "app/controllers/posts_controller.rb",
+          "line": 84,
+          "vulnerable": false,
+          "cwe": 502,
+          "label": "yaml-safe-load",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "app/controllers/posts_controller.rb:89:path-traversal-send-file",
+          "file": "app/controllers/posts_controller.rb",
+          "line": 90,
+          "vulnerable": true,
+          "cwe": 22,
+          "label": "path-traversal-send-file",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "app/controllers/posts_controller.rb:94:basename-send-file",
+          "file": "app/controllers/posts_controller.rb",
+          "line": 95,
+          "vulnerable": false,
+          "cwe": 22,
+          "label": "basename-send-file",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "app/controllers/posts_controller.rb:99:unsafe-reflection-send",
+          "file": "app/controllers/posts_controller.rb",
+          "line": 100,
+          "vulnerable": true,
+          "cwe": 470,
+          "label": "unsafe-reflection-send",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "app/models/post.rb:5:sqli-where-interpolation-cross-file",
+          "file": "app/models/post.rb",
+          "line": 6,
+          "vulnerable": true,
+          "cwe": 89,
+          "label": "sqli-where-interpolation-cross-file",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "app/models/post.rb:10:sqli-where-bound",
+          "file": "app/models/post.rb",
+          "line": 11,
+          "vulnerable": false,
+          "cwe": 89,
+          "label": "sqli-where-bound",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "app/models/user.rb:7:md5-password",
+          "file": "app/models/user.rb",
+          "line": 8,
+          "vulnerable": true,
+          "cwe": 328,
+          "label": "md5-password",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "app/models/user.rb:12:rand-token",
+          "file": "app/models/user.rb",
+          "line": 13,
+          "vulnerable": true,
+          "cwe": 338,
+          "label": "rand-token",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "app/models/user.rb:17:securerandom-token",
+          "file": "app/models/user.rb",
+          "line": 18,
+          "vulnerable": false,
+          "cwe": 338,
+          "label": "securerandom-token",
+          "matches": [],
+          "outcome": "tn"
+        }
+      ],
+      "unmatched": [],
+      "unscoredManifestLabels": 4
+    },
+    {
+      "app": "ts-react-portal",
+      "findings": 17,
+      "totals": {
+        "cases": 20,
+        "tp": 8,
+        "fp": 1,
+        "tn": 7,
+        "fn": 4
+      },
+      "cases": [
+        {
+          "id": "pages/api/proxy.ts:9:nextapi-ssrf-fetch",
+          "file": "pages/api/proxy.ts",
+          "line": 10,
+          "vulnerable": true,
+          "cwe": 918,
+          "label": "nextapi-ssrf-fetch",
+          "matches": [
+            {
+              "line": 10,
+              "ruleId": "JS-SSRF-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "pages/api/proxy.ts:17:nextapi-ssrf-allowlist",
+          "file": "pages/api/proxy.ts",
+          "line": 18,
+          "vulnerable": false,
+          "cwe": 918,
+          "label": "nextapi-ssrf-allowlist",
+          "matches": [
+            {
+              "line": 18,
+              "ruleId": "JS-SSRF-001"
+            }
+          ],
+          "outcome": "fp"
+        },
+        {
+          "id": "pages/api/proxy.ts:28:cors-reflect-origin-credentials",
+          "file": "pages/api/proxy.ts",
+          "line": 29,
+          "vulnerable": true,
+          "cwe": 942,
+          "label": "cors-reflect-origin-credentials",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "pages/api/proxy.ts:35:cookie-no-httponly-secure",
+          "file": "pages/api/proxy.ts",
+          "line": 36,
+          "vulnerable": true,
+          "cwe": 1004,
+          "label": "cookie-no-httponly-secure",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "pages/api/proxy.ts:41:cookie-hardened",
+          "file": "pages/api/proxy.ts",
+          "line": 42,
+          "vulnerable": false,
+          "cwe": 1004,
+          "label": "cookie-hardened",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/components/Comment.tsx:5:react-dangerously-set-inner-html",
+          "file": "src/components/Comment.tsx",
+          "line": 6,
+          "vulnerable": true,
+          "cwe": 79,
+          "label": "react-dangerously-set-inner-html",
+          "matches": [
+            {
+              "line": 6,
+              "ruleId": "JS-XSS-002"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/components/Comment.tsx:10:dompurify-sanitized",
+          "file": "src/components/Comment.tsx",
+          "line": 11,
+          "vulnerable": false,
+          "cwe": 79,
+          "label": "dompurify-sanitized",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/components/Comment.tsx:18:dom-xss-innerhtml-location",
+          "file": "src/components/Comment.tsx",
+          "line": 19,
+          "vulnerable": true,
+          "cwe": 79,
+          "label": "dom-xss-innerhtml-location",
+          "matches": [
+            {
+              "line": 19,
+              "ruleId": "JS-XSS-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/components/Comment.tsx:28:textcontent",
+          "file": "src/components/Comment.tsx",
+          "line": 29,
+          "vulnerable": false,
+          "cwe": 79,
+          "label": "textcontent",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/components/Comment.tsx:35:target-blank-no-noopener",
+          "file": "src/components/Comment.tsx",
+          "line": 36,
+          "vulnerable": true,
+          "cwe": 1022,
+          "label": "target-blank-no-noopener",
+          "matches": [
+            {
+              "line": 36,
+              "ruleId": "JS-OPENER-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/components/Comment.tsx:40:target-blank-noopener",
+          "file": "src/components/Comment.tsx",
+          "line": 41,
+          "vulnerable": false,
+          "cwe": 1022,
+          "label": "target-blank-noopener",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/lib/client.ts:2:token-in-localstorage",
+          "file": "src/lib/client.ts",
+          "line": 3,
+          "vulnerable": true,
+          "cwe": 922,
+          "label": "token-in-localstorage",
+          "matches": [
+            {
+              "line": 3,
+              "ruleId": "JS-STORAGE-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/lib/client.ts:7:postmessage-no-origin-check",
+          "file": "src/lib/client.ts",
+          "line": 8,
+          "vulnerable": true,
+          "cwe": 346,
+          "label": "postmessage-no-origin-check",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "src/lib/client.ts:13:postmessage-origin-checked",
+          "file": "src/lib/client.ts",
+          "line": 14,
+          "vulnerable": false,
+          "cwe": 346,
+          "label": "postmessage-origin-checked",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/lib/client.ts:20:postmessage-wildcard-target",
+          "file": "src/lib/client.ts",
+          "line": 21,
+          "vulnerable": true,
+          "cwe": 345,
+          "label": "postmessage-wildcard-target",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "src/lib/client.ts:26:client-open-redirect",
+          "file": "src/lib/client.ts",
+          "line": 27,
+          "vulnerable": true,
+          "cwe": 601,
+          "label": "client-open-redirect",
+          "matches": [
+            {
+              "line": 27,
+              "ruleId": "JS-REDIRECT-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/lib/client.ts:32:client-relative-only",
+          "file": "src/lib/client.ts",
+          "line": 33,
+          "vulnerable": false,
+          "cwe": 601,
+          "label": "client-relative-only",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "src/lib/client.ts:37:new-function-eval",
+          "file": "src/lib/client.ts",
+          "line": 38,
+          "vulnerable": true,
+          "cwe": 95,
+          "label": "new-function-eval",
+          "matches": [
+            {
+              "line": 38,
+              "ruleId": "JS-CODE-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/server/userRepo.ts:5:sqli-template-literal-cross-file",
+          "file": "src/server/userRepo.ts",
+          "line": 6,
+          "vulnerable": true,
+          "cwe": 89,
+          "label": "sqli-template-literal-cross-file",
+          "matches": [
+            {
+              "line": 6,
+              "ruleId": "JS-SQLI-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "src/server/userRepo.ts:11:sqli-parameterized",
+          "file": "src/server/userRepo.ts",
+          "line": 12,
+          "vulnerable": false,
+          "cwe": 89,
+          "label": "sqli-parameterized",
+          "matches": [],
+          "outcome": "tn"
+        }
+      ],
+      "unmatched": [
+        {
+          "file": "package.json",
+          "line": 5,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            285
+          ]
+        },
+        {
+          "file": "package.json",
+          "line": 10,
+          "ruleId": "SUPPLY-VULN-001",
+          "cwe": [
+            1321
+          ]
+        },
+        {
+          "file": "pages/api/proxy.ts",
+          "line": 29,
+          "ruleId": "JS-HDR-001",
+          "cwe": [
+            113,
+            93
+          ]
+        },
+        {
+          "file": "pages/api/proxy.ts",
+          "line": 36,
+          "ruleId": "JS-HDR-001",
+          "cwe": [
+            113,
+            93
+          ]
+        },
+        {
+          "file": "pages/api/proxy.ts",
+          "line": 42,
+          "ruleId": "JS-HDR-001",
+          "cwe": [
+            113,
+            93
+          ]
+        },
+        {
+          "file": "pages/api/proxy.ts",
+          "line": 1,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        },
+        {
+          "file": "package.json",
+          "line": 1,
+          "ruleId": "SUPPLY-LOCK-001",
+          "cwe": [
+            1357
+          ]
+        },
+        {
+          "file": "pages/api/proxy.ts",
+          "line": 34,
+          "ruleId": "PROJ-LOGGING-001",
+          "cwe": [
+            778,
+            223
+          ]
+        }
+      ],
+      "unscoredManifestLabels": 6
+    },
+    {
+      "app": "xfile-lab",
+      "findings": 11,
+      "totals": {
+        "cases": 20,
+        "tp": 6,
+        "fp": 4,
+        "tn": 7,
+        "fn": 3
+      },
+      "cases": [
+        {
+          "id": "js/routes.js:13:taint-through-helper-passthrough",
+          "file": "js/routes.js",
+          "line": 14,
+          "vulnerable": true,
+          "cwe": 78,
+          "label": "taint-through-helper-passthrough",
+          "matches": [
+            {
+              "line": 14,
+              "ruleId": "JS-CMDI-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "js/routes.js:19:taint-through-destructuring-helper",
+          "file": "js/routes.js",
+          "line": 20,
+          "vulnerable": true,
+          "cwe": 78,
+          "label": "taint-through-destructuring-helper",
+          "matches": [
+            {
+              "line": 20,
+              "ruleId": "JS-CMDI-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "js/routes.js:25:taint-through-class-field",
+          "file": "js/routes.js",
+          "line": 26,
+          "vulnerable": true,
+          "cwe": 89,
+          "label": "taint-through-class-field",
+          "matches": [
+            {
+              "line": 26,
+              "ruleId": "JS-SQLI-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "js/routes.js:31:fake-sanitizer-only-trims",
+          "file": "js/routes.js",
+          "line": 32,
+          "vulnerable": true,
+          "cwe": 78,
+          "label": "fake-sanitizer-only-trims",
+          "matches": [
+            {
+              "line": 32,
+              "ruleId": "JS-CMDI-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "js/routes.js:37:real-shell-quote-helper",
+          "file": "js/routes.js",
+          "line": 38,
+          "vulnerable": false,
+          "cwe": 78,
+          "label": "real-shell-quote-helper",
+          "matches": [
+            {
+              "line": 38,
+              "ruleId": "JS-CMDI-001"
+            }
+          ],
+          "outcome": "fp"
+        },
+        {
+          "id": "js/routes.js:44:validated-by-guard-helper",
+          "file": "js/routes.js",
+          "line": 45,
+          "vulnerable": false,
+          "cwe": 78,
+          "label": "validated-by-guard-helper",
+          "matches": [
+            {
+              "line": 45,
+              "ruleId": "JS-CMDI-001"
+            }
+          ],
+          "outcome": "fp"
+        },
+        {
+          "id": "js/routes.js:49:constant-from-config",
+          "file": "js/routes.js",
+          "line": 50,
+          "vulnerable": false,
+          "cwe": 78,
+          "label": "constant-from-config",
+          "matches": [
+            {
+              "line": 50,
+              "ruleId": "JS-CMDI-001"
+            }
+          ],
+          "outcome": "fp"
+        },
+        {
+          "id": "js/routes.js:56:allowlist-lookup-from-config",
+          "file": "js/routes.js",
+          "line": 57,
+          "vulnerable": false,
+          "cwe": 78,
+          "label": "allowlist-lookup-from-config",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "js/routes.js:62:taint-through-helper-path",
+          "file": "js/routes.js",
+          "line": 63,
+          "vulnerable": true,
+          "cwe": 22,
+          "label": "taint-through-helper-path",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "js/routes.js:68:basename-helper",
+          "file": "js/routes.js",
+          "line": 69,
+          "vulnerable": false,
+          "cwe": 22,
+          "label": "basename-helper",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "js/routes.js:74:numeric-cast-then-concat",
+          "file": "js/routes.js",
+          "line": 75,
+          "vulnerable": false,
+          "cwe": 89,
+          "label": "numeric-cast-then-concat",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "py/views.py:15:taint-through-helper-passthrough",
+          "file": "py/views.py",
+          "line": 16,
+          "vulnerable": true,
+          "cwe": 78,
+          "label": "taint-through-helper-passthrough",
+          "matches": [
+            {
+              "line": 16,
+              "ruleId": "PY-CMDI-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "py/views.py:22:fake-sanitizer-only-strips",
+          "file": "py/views.py",
+          "line": 23,
+          "vulnerable": true,
+          "cwe": 78,
+          "label": "fake-sanitizer-only-strips",
+          "matches": [
+            {
+              "line": 23,
+              "ruleId": "PY-CMDI-001"
+            }
+          ],
+          "outcome": "tp"
+        },
+        {
+          "id": "py/views.py:29:taint-through-query-builder",
+          "file": "py/views.py",
+          "line": 30,
+          "vulnerable": true,
+          "cwe": 89,
+          "label": "taint-through-query-builder",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "py/views.py:37:shlex-quote-helper",
+          "file": "py/views.py",
+          "line": 38,
+          "vulnerable": false,
+          "cwe": 78,
+          "label": "shlex-quote-helper",
+          "matches": [
+            {
+              "line": 38,
+              "ruleId": "PY-CMDI-001"
+            }
+          ],
+          "outcome": "fp"
+        },
+        {
+          "id": "py/views.py:46:validated-by-guard-helper",
+          "file": "py/views.py",
+          "line": 47,
+          "vulnerable": false,
+          "cwe": 78,
+          "label": "validated-by-guard-helper",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "py/views.py:55:allowlist-argv",
+          "file": "py/views.py",
+          "line": 56,
+          "vulnerable": false,
+          "cwe": 78,
+          "label": "allowlist-argv",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "py/views.py:62:taint-through-helper-path",
+          "file": "py/views.py",
+          "line": 63,
+          "vulnerable": true,
+          "cwe": 22,
+          "label": "taint-through-helper-path",
+          "matches": [],
+          "outcome": "fn"
+        },
+        {
+          "id": "py/views.py:69:basename-helper",
+          "file": "py/views.py",
+          "line": 70,
+          "vulnerable": false,
+          "cwe": 22,
+          "label": "basename-helper",
+          "matches": [],
+          "outcome": "tn"
+        },
+        {
+          "id": "py/views.py:76:int-cast-then-format",
+          "file": "py/views.py",
+          "line": 77,
+          "vulnerable": false,
+          "cwe": 89,
+          "label": "int-cast-then-format",
+          "matches": [],
+          "outcome": "tn"
+        }
+      ],
+      "unmatched": [
+        {
+          "file": "js/routes.js",
+          "line": 17,
+          "ruleId": "AUTHZ-ROUTE-001",
+          "cwe": [
+            862,
+            285,
+            306
+          ]
+        }
+      ],
+      "unscoredManifestLabels": 0
+    }
+  ],
+  "archive": {
+    "name": "appsec-benchmarks.zip",
+    "sha256": "3dab4cfd405e313ed80093560c3bf17cfb6f4ae5a33902da43a3054af9878c25"
+  },
+  "before": {
+    "gitCommit": "2686694d80303364a0a69ab61ef4bf1288ea7892",
+    "sourceSha256": "8e0ed5a3f529de65b9490d36420c38b717f8bf968fbd2465daee02f1d9414e70",
+    "measuredAt": "2026-10-20T21:36:50.876Z",
+    "totals": {
+      "cases": 227,
+      "tp": 81,
+      "fp": 11,
+      "tn": 79,
+      "fn": 56
+    }
+  },
+  "comparison": {
+    "transitions": {
+      "fn->fn": 56,
+      "tn->tn": 79,
+      "tp->tp": 81,
+      "fp->fp": 11
+    },
+    "correctedFalsePositiveCases": [],
+    "lostTruePositiveCases": [],
+    "newFalsePositiveCases": []
+  }
+}

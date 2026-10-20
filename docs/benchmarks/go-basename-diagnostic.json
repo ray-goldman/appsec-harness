@@ -1,0 +1,34 @@
+{
+  "schema": "kayfabe/go-basename-diagnostic@1",
+  "sourceSha256": "7db335b475b01da832a96429ffd2a80b8184268465188e4d13e62c8d7ee4b401",
+  "inputSha256": "d04713069f8939c0d228a5fc8e8833da75b7ab31125116c7dde5884f4a64739c",
+  "file": "go-api/main.go",
+  "sinkLine": 71,
+  "fileHeuristic": {
+    "nameTainted": true,
+    "sinkEvidence": {
+      "kind": "var",
+      "name": "name",
+      "from": 62
+    }
+  },
+  "functionHeuristic": {
+    "nameTainted": false,
+    "sinkEvidence": null
+  },
+  "functionWithoutGenericSanitizers": {
+    "nameTainted": true,
+    "sinkEvidence": {
+      "kind": "var",
+      "name": "name",
+      "from": 1
+    }
+  },
+  "currentSinkEvidence": {
+    "kind": "var",
+    "name": "name",
+    "from": 69
+  },
+  "conclusion": "Function isolation alone drops the warning through a generic basename sanitizer heuristic. Current analysis retains request-derived basename taint; the handler has no IsLocal rejection.",
+  "limits": "Static taint diagnostic only; no target execution, filesystem assumptions, exploitability claim or label change. Function-local diagnostic source lines are relative to the extracted body."
+}
