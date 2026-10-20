@@ -154,6 +154,11 @@ on a sibling environment value after `- run:`, reducing supplied-label FPs
 **13 → 12** while retaining all 81 detected vulnerable labels. Its report
 reviews all 13 starting labels and records the evidence needed for the remaining 12.
 
+The [path-containment pass](docs/PATH-PRECISION.md) recognizes Java's local
+normalize/check/read sequence, reducing supplied-label FPs **12 → 11** with
+all 81 detected vulnerable labels retained. Go supports a narrower basename
+plus `IsLocal` guard; its supplied unguarded case remains flagged.
+
 General taint tracking remains intra-file; Java's bounded helper proofs do not provide a whole-program call graph. Other cross-file flows may appear as lower-confidence pattern findings or in the attack-surface map for a reviewer to follow. This is a fast static first pass, not a replacement for whole-program tools such as CodeQL or Semgrep Pro, or for dynamic application testing.
 
 See [the prioritized roadmap](docs/ROADMAP.md) for independent datasets, parsing, supply-chain data, triage evaluation, and PR integration.

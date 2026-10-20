@@ -1,0 +1,204 @@
+{
+  "schema": "appsec-harness/benchmark@1",
+  "measuredAt": "2026-10-20T21:37:29.773Z",
+  "tool": {
+    "name": "kayfabe",
+    "version": "1.0.0",
+    "sourceSha256": "8e0ed5a3f529de65b9490d36420c38b717f8bf968fbd2465daee02f1d9414e70"
+  },
+  "runtime": {
+    "node": "v24.16.0",
+    "platform": "win32",
+    "arch": "x64"
+  },
+  "dataset": {
+    "name": "OWASP Benchmark Java",
+    "source": "https://github.com/OWASP-Benchmark/BenchmarkJava",
+    "version": "1.2",
+    "revision": null,
+    "revisionSource": "user-supplied, not verified",
+    "expectedSha256": "f0311c850dea7f15125113f7cfdbd7ad612d7f5951c7331584f6981b6ae2d630",
+    "inputSha256": "aa8e0b1bdc78551ba2154ba7b65ee62c054cd576e0cd6f6ef90ec87e060e707d"
+  },
+  "policy": {
+    "id": "owasp-java-file-cwe@1",
+    "unit": "labeled servlet",
+    "match": "exact source path and expected CWE in finding.cwe; status=open",
+    "duplicateDetections": "one positive prediction per case",
+    "cweAliases": false,
+    "excludesUnsupportedCwes": false
+  },
+  "scan": {
+    "options": {
+      "includeTests": true,
+      "minConfidence": "low",
+      "minSeverity": "info",
+      "trustSuppressions": false,
+      "osv": false
+    },
+    "stats": {
+      "files": 5666,
+      "languages": {
+        "json": 1,
+        "yaml": 6,
+        "xml": 26,
+        "shell": 35,
+        "markdown": 1,
+        "html": 2783,
+        "javascript": 4,
+        "java": 2766,
+        "properties": 5,
+        "dockerfile": 1
+      },
+      "skipped": {
+        "large": 16,
+        "binary": 43,
+        "vendoredDirs": 1,
+        "symlinks": 0
+      },
+      "truncated": false,
+      "dependencies": 44,
+      "routes": 3
+    },
+    "warnings": [],
+    "durationMs": 14573
+  },
+  "totals": {
+    "cases": 2740,
+    "tp": 571,
+    "fp": 289,
+    "tn": 1036,
+    "fn": 844,
+    "truePositiveRate": 0.40353356890459363,
+    "falsePositiveRate": 0.2181132075471698,
+    "precision": 0.663953488372093
+  },
+  "byCwe": [
+    {
+      "cwe": 22,
+      "cases": 268,
+      "tp": 2,
+      "fp": 8,
+      "tn": 127,
+      "fn": 131,
+      "truePositiveRate": 0.015037593984962405,
+      "falsePositiveRate": 0.05925925925925926,
+      "precision": 0.2
+    },
+    {
+      "cwe": 78,
+      "cases": 251,
+      "tp": 79,
+      "fp": 70,
+      "tn": 55,
+      "fn": 47,
+      "truePositiveRate": 0.626984126984127,
+      "falsePositiveRate": 0.56,
+      "precision": 0.5302013422818792
+    },
+    {
+      "cwe": 79,
+      "cases": 455,
+      "tp": 160,
+      "fp": 95,
+      "tn": 114,
+      "fn": 86,
+      "truePositiveRate": 0.6504065040650406,
+      "falsePositiveRate": 0.45454545454545453,
+      "precision": 0.6274509803921569
+    },
+    {
+      "cwe": 89,
+      "cases": 504,
+      "tp": 205,
+      "fp": 116,
+      "tn": 116,
+      "fn": 67,
+      "truePositiveRate": 0.7536764705882353,
+      "falsePositiveRate": 0.5,
+      "precision": 0.6386292834890965
+    },
+    {
+      "cwe": 90,
+      "cases": 59,
+      "tp": 0,
+      "fp": 0,
+      "tn": 32,
+      "fn": 27,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 327,
+      "cases": 246,
+      "tp": 0,
+      "fp": 0,
+      "tn": 116,
+      "fn": 130,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 328,
+      "cases": 236,
+      "tp": 89,
+      "fp": 0,
+      "tn": 107,
+      "fn": 40,
+      "truePositiveRate": 0.689922480620155,
+      "falsePositiveRate": 0,
+      "precision": 1
+    },
+    {
+      "cwe": 330,
+      "cases": 493,
+      "tp": 0,
+      "fp": 0,
+      "tn": 275,
+      "fn": 218,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 501,
+      "cases": 126,
+      "tp": 0,
+      "fp": 0,
+      "tn": 43,
+      "fn": 83,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 614,
+      "cases": 67,
+      "tp": 36,
+      "fp": 0,
+      "tn": 31,
+      "fn": 0,
+      "truePositiveRate": 1,
+      "falsePositiveRate": 0,
+      "precision": 1
+    },
+    {
+      "cwe": 643,
+      "cases": 35,
+      "tp": 0,
+      "fp": 0,
+      "tn": 20,
+      "fn": 15,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    }
+  ],
+  "unscoredFindings": {
+    "notOpen": 0,
+    "unlabeledFile": 107,
+    "wrongCwe": 878
+  }
+}
