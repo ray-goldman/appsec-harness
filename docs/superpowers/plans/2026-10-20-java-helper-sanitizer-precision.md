@@ -10,7 +10,7 @@
 
 **Spec:** The user's request to start with Java helper calls and sanitizer handling, rerun all benchmarks and complete two review passes before a PR; the design decisions below make that request concrete.
 
-**Status:** Implementation, both independent review passes and all four final measurements are complete. Publication is in progress.
+**Status:** Complete. Implementation, both independent review passes and all four measurements are published in [PR #5](https://github.com/ray-goldman/appsec-harness/pull/5).
 
 **Starting point:** merged `main` at `4fae4d9ae0113b86779320dd4c7d6896c0cefc64`. Planning branch: `codex/java-helper-sanitizer-precision`.
 
@@ -195,7 +195,7 @@ node bin/appsec.js benchmark cve-fixes appsec-out/cve-downloaded --out appsec-re
 - [x] Preserve SARD's undefined FPR and distinguish the historical CVE 0/8 policy from the localized 1/8 policy. Do not forecast improvements to these corpora.
 - [x] If source changes after measurement, rerun affected review checks and all four final measurements on the final source hash.
 - [x] Write `docs/JAVA-HELPERS-SANITIZERS.md`, new aggregate JSON and a case-transition comparison. State that the suites are development data and provide remaining gaps.
-- [ ] Check the complete diff and historical-report preservation, commit, push the new branch and open a PR against `main`. Attach it to this chat. Do not merge automatically.
+- [x] Check the complete diff and historical-report preservation, commit, push the new branch and open a PR against `main`. Attach it to this chat. Do not merge automatically.
 
 ## Review focus
 
@@ -242,3 +242,5 @@ The plan covers the requested helper-first order, sanitizer handling, safe/unsaf
 - Production frozen at commit `4e28140`, source SHA-256 `ca20b08f296449f8a58e99b24768975c497ca8babcbd2b3a177368e3e8afc671`. All four final measurements started on this source.
 - All four final runs completed. Comparison verified unchanged input/label/annotation hashes, policies and case counts, with one final source hash. Juliet FP 1,226→1,172; OWASP FP 301→291. No lost TP cases. OWASP has 11 corrections and one new FP, `BenchmarkTest00718`: an actually safe formatting array whose mutable contents the current proof does not model. This is an explained model limitation, not a label dispute. SARD and both CVE policies are unchanged.
 - New aggregates and `docs/JAVA-HELPERS-SANITIZERS.md` record the outcomes, per-CWE transitions, review fixes and runtime increase. The baseline FP inventory is saved locally at `appsec-out/helper-sanitizer-case-inventory.json`; uninspected entries are explicitly marked, not assigned a speculative cause.
+
+- Publication complete: branch pushed and PR #5 opened against `main`, attached to the chat. Production source remains frozen; no merge was performed.
