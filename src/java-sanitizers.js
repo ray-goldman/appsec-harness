@@ -23,34 +23,22 @@ function javaEncodingFact({ index, project, expression, argumentFacts }) {
 // All attribute/raw-text/comment positions remain unsupported.
 function htmlContext(text) {
   if (text === null || text.length > 16000) return 'unknown';
-  let i = 0, raw = null;
+  // Browser comment and raw-text parsing includes abrupt closes, noscript and
+  // script escaped states. Do not approximate those with a closing-tag regex.
+  if (text.includes('<!--')) return 'unknown';
+  let i = 0;
   while (i < text.length) {
-    if (raw) {
-      const close = new RegExp(`</${raw}\\s*>`, 'ig'); close.lastIndex = i;
-      const m = close.exec(text);
-      if (!m) return 'unknown';
-      i = close.lastIndex; raw = null; continue;
-    }
     if (text[i] !== '<') { i++; continue; }
-    if (text.startsWith('<!--', i)) {
-      const end = text.indexOf('-->', i + 4);
-      if (end < 0) return 'unknown';
-      i = end + 3; continue;
-    }
-    const start = i++;
-    let quote = null;
-    for (; i < text.length; i++) {
-      const c = text[i];
-      if (quote) { if (c === quote) quote = null; }
-      else if (c === '"' || c === "'") quote = c;
-      else if (c === '>') break;
-    }
-    if (i === text.length || quote) return 'unknown';
-    const tag = text.slice(start, ++i).match(/^<\s*(\/?)\s*([A-Za-z][\w:-]*)\b[\s\S]*>$/);
+    const start = i, end = text.indexOf('>', i + 1);
+    if (end < 0) return 'unknown';
+    i = end + 1;
+    // Only attribute-free tags have a supported lexical contract. A quote in
+    // an unquoted attribute is not a quote delimiter in the browser tokenizer.
+    const tag = text.slice(start, i).match(/^<(\/?)([A-Za-z][A-Za-z0-9-]*)\s*\/?>$/);
     if (!tag) return 'unknown';
-    if (!tag[1] && ['script', 'style', 'textarea', 'title', 'xmp', 'iframe', 'noembed', 'noframes', 'plaintext'].includes(tag[2].toLowerCase())) raw = tag[2].toLowerCase();
+    if (['script', 'style', 'textarea', 'title', 'xmp', 'iframe', 'noembed', 'noframes', 'plaintext', 'noscript'].includes(tag[2].toLowerCase())) return 'unknown';
   }
-  return raw ? 'unknown' : 'html-text';
+  return 'html-text';
 }
 
 function plusParts(expression) {

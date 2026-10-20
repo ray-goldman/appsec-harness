@@ -95,6 +95,11 @@ function indexJavaFile({ file, raw, code }) {
 
 function shadowsType(index, name, project, depth = 0) {
   if (!/^[A-Za-z_]\w*$/.test(name)) return true;
+  // Interface fields participate in unqualified value lookup too.
+  if (/\bimplements\b/.test(index.mask)) return true;
+  // Later declarators have no adjacent type token. Conservatively treat a
+  // comma/name occurrence as possible value ownership, including array forms.
+  if (new RegExp(`,\\s*${name}\\b`).test(index.mask)) return true;
   const re = new RegExp(`\\b([\\w.$<>\\[\\]]+)\\s+${name}\\b`, 'g');
   if ([...index.mask.matchAll(re)].some(m => !['class', 'interface', 'enum', 'record', 'package', 'import', 'return', 'throw', 'new'].includes(m[1]))) return true;
   const parent = index.mask.match(/\bextends\s+([\w.]+)/)?.[1];

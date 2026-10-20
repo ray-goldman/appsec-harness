@@ -163,3 +163,19 @@ test('repeated output cannot borrow the first iteration HTML context', async t =
   }`);
   assert.ok(hits.length);
 });
+
+test('unsupported browser comment and raw-text states retain warnings', async t => {
+  for (const prefix of ['<!--><script><!-- -->', "<noscript><p title='</noscript><script>'>", '<script><!--<script></script>', "<p a=b'><script>'>"]) {
+    // Split --> so the source-level lambda fallback cannot mask this test.
+    const expression = prefix.split('-->').map(JSON.stringify).join(' + "--" + ">" + ');
+    const hits = await findings(t, `${print(expression)} ${print(escape('input'))}`);
+    assert.ok(hits.length, prefix);
+  }
+});
+
+test('skipped source directories cannot establish encoder ownership', async t => {
+  const hits = await findings(t, print(escape('input')), '', {
+    'build/HtmlUtils.java': 'package org.springframework.web.util; public class HtmlUtils { public static String htmlEscape(String x) { return x; } }',
+  });
+  assert.ok(hits.length);
+});

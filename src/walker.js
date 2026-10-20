@@ -60,6 +60,7 @@ function walk(root, opts = {}) {
       if (e.isDirectory()) {
         if (!includeVendored && SKIP_DIRS.has(e.name)) {
           skipped.dirs++;
+          if (!['.git', '.hg', '.svn'].includes(e.name)) javaIncomplete = true;
           // Known-dangerous files that matter precisely because they ship inside vendor/.
           if (e.name === 'vendor') {
             for (const sub of ['phpunit/phpunit/src/Util/PHP/eval-stdin.php', 'phpunit/phpunit/Util/PHP/eval-stdin.php']) {

@@ -41,6 +41,10 @@ function createJavaSummaries({ file, raw, code, project }) {
     const resolved = select(call);
     if (!resolved) return unknown();
     const { target, method } = resolved, state = budget(context);
+    // Exact primitive/String argument types make the selected declaration more
+    // specific than inherited overloads. Unknown or widening conversions need
+    // a full overload resolver and therefore cannot use this summary.
+    if (method.parameters.some((p, i) => filter?.typeAt(call.args[i], position) !== p.type)) return unknown();
     if (--state.budget.left < 0 || state.stack.length >= 4 || state.stack.includes(method.id)) return unknown();
     state.budget.methods.add(method.id);
     if (state.budget.methods.size > 32 || !method.returns.length || method.type !== 'String') return unknown();
@@ -88,6 +92,7 @@ function createJavaSummaries({ file, raw, code, project }) {
       }
       const args = !depth && argumentsOf(index.code.slice(begin, end - 1));
       if (!args || args.length !== method.parameters.length) return unknown();
+      if (method.parameters.some((p, i) => filter.typeAt(args[i], hit.index) !== p.type)) return unknown();
       const child = { ...state, stack: [...state.stack, method.id], mode: 'constant' };
       if (state.mode === 'html') {
         if (!filter.valueAt(args[parameter], hit.index, { ...child, mode: 'html' })) return unknown();

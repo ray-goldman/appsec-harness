@@ -178,11 +178,38 @@ test('HTML encoding cannot sanitize SQL or shell arguments', async t => {
 });
 
 test('an inherited value receiver cannot select an imported static helper', async t => {
-  const hits = await findings(t, `import sample.Names; class Example extends Base {
+  for (const inheritance of ['extends', 'implements']) {
+    const hits = await findings(t, `import sample.Names; class Example ${inheritance} Base {
+      void run() { String selected = Names.value(); ${query('selected')} }
+    }`, {
+      'Base.java': inheritance === 'extends' ? 'class Base { protected Other Names; }'
+        : 'interface Base { Other Names = new Other(); }',
+      'Other.java': 'class Other { public String value() { return request.getParameter("x"); } }',
+      'sample/Names.java': 'package sample; public class Names { public static String value() { return "fixed"; } }',
+    });
+    assert.ok(hits.length);
+  }
+});
+
+test('inherited overloads cannot borrow a local summary for a different argument type', async t => {
+  for (const crossFile of [false, true]) {
+    const hits = await findings(t, crossFile
+      ? `class Example { void run() { String selected = Names.value(1); ${query('selected')} } }`
+      : `class Example extends Base { private String value(String x) { return "fixed"; }
+        void run() { String selected = value(1); ${query('selected')} } }`, {
+      'Names.java': 'class Names extends Base { static String value(String x) { return "fixed"; } }',
+      'Base.java': 'class Base { static String value(int x) { return System.getenv("VALUE"); } }',
+    });
+    assert.ok(hits.length);
+  }
+});
+
+test('comma-separated fields can shadow an imported class owner', async t => {
+  const hits = await findings(t, `import sample.Names; class Example {
+    Other first, Names;
     void run() { String selected = Names.value(); ${query('selected')} }
   }`, {
-    'Base.java': 'class Base { protected Other Names; }',
-    'Other.java': 'class Other { public String value() { return request.getParameter("x"); } }',
+    'Other.java': 'class Other { public String value() { return System.getenv("VALUE"); } }',
     'sample/Names.java': 'package sample; public class Names { public static String value() { return "fixed"; } }',
   });
   assert.ok(hits.length);

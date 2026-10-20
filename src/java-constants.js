@@ -221,6 +221,13 @@ function constantSinkFilter(code, callArgs, raw = code, options = {}) {
     };
     bounded.unreachable = unreachable;
     bounded.literal = fact;
+    bounded.type = (expr, position) => {
+      const value = fact(expr, position);
+      if (value) return value.type;
+      const name = expr.trim();
+      const entry = /^[A-Za-z_]\w*$/.test(name) ? resolve(name, position) : null;
+      return entry && !entry.array && !entry.invalid ? entry.type : null;
+    };
     cache.set(method, bounded);
     return bounded;
   }
@@ -286,6 +293,10 @@ function constantSinkFilter(code, callArgs, raw = code, options = {}) {
   filter.literalAt = (expression, position) => {
     const method = methods.find(m => position >= m.start && position < m.end);
     return method ? proof(method).literal?.(expression, position - method.start) : null;
+  };
+  filter.typeAt = (expression, position) => {
+    const method = methods.find(m => position >= m.start && position < m.end);
+    return method ? proof(method).type?.(expression, position - method.start) : null;
   };
   filter.index = summaries.index;
   summaries.attach(filter);
