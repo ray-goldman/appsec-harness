@@ -1,0 +1,1420 @@
+{
+  "schema": "appsec-harness/benchmark@1",
+  "measuredAt": "2026-10-20T19:02:38.941Z",
+  "tool": {
+    "name": "kayfabe",
+    "version": "1.0.0",
+    "sourceSha256": "7a22ea15d9cebb471dd4a3d95296be327279e58d26d606b9bf34778a2686da7e"
+  },
+  "runtime": {
+    "node": "v24.16.0",
+    "platform": "win32",
+    "arch": "x64"
+  },
+  "dataset": {
+    "name": "Juliet Java",
+    "source": "https://samate.nist.gov/SARD/test-suites/111",
+    "version": "1.3",
+    "revision": null,
+    "revisionSource": "user-supplied, not verified",
+    "inputSha256": "a1f620b0525b3c18048cbdfabda2bf18f1fbec59bd34204eb5b3ea9da8d31905",
+    "expectedSha256": "a97f8b477760f199d3127464a56d07443571846d101ea7a6f9593b90fa9fe367",
+    "manifestTestcases": 28881,
+    "manifestFlaws": 37277,
+    "exactLineFallbacks": 3,
+    "casesWithoutGoodRegions": 113,
+    "nonJavaFiles": 2,
+    "manifestFileSha256": "e0227dee176a75d56aee13482bea309dc78fdfc707762bb7ce42336e7ef6045b",
+    "officialJuliet13Manifest": true,
+    "redundantTestcaseClosings": 2,
+    "casesWithoutManifestFlaws": 3455,
+    "overriddenFlawAnchors": [
+      {
+        "file": "src/testcases/CWE491_Object_Hijack/CWE491_Object_Hijack__basic_01_good1.java",
+        "line": 21,
+        "cwe": 491,
+        "reason": "official manifest flaw conflicts with explicit Juliet good naming; suite polarity takes precedence"
+      },
+      {
+        "file": "src/testcases/CWE499_Sensitive_Data_Serializable/CWE499_Sensitive_Data_Serializable__serializable_01_good1.java",
+        "line": 61,
+        "cwe": 499,
+        "reason": "official manifest flaw conflicts with explicit Juliet good naming; suite polarity takes precedence"
+      },
+      {
+        "file": "src/testcases/CWE500_Public_Static_Field_Not_Final/CWE500_Public_Static_Field_Not_Final__String_01_good1.java",
+        "line": 17,
+        "cwe": 500,
+        "reason": "official manifest flaw conflicts with explicit Juliet good naming; suite polarity takes precedence"
+      },
+      {
+        "file": "src/testcases/CWE561_Dead_Code/CWE561_Dead_Code__unused_method_01_good1.java",
+        "line": 13,
+        "cwe": 561,
+        "reason": "official manifest flaw conflicts with explicit Juliet good naming; suite polarity takes precedence"
+      },
+      {
+        "file": "src/testcases/CWE563_Unused_Variable/CWE563_Unused_Variable__unused_private_member_value_01_good1.java",
+        "line": 17,
+        "cwe": 563,
+        "reason": "official manifest flaw conflicts with explicit Juliet good naming; suite polarity takes precedence"
+      },
+      {
+        "file": "src/testcases/CWE563_Unused_Variable/CWE563_Unused_Variable__unused_private_member_variable_01_good1.java",
+        "line": 17,
+        "cwe": 563,
+        "reason": "official manifest flaw conflicts with explicit Juliet good naming; suite polarity takes precedence"
+      },
+      {
+        "file": "src/testcases/CWE563_Unused_Variable/CWE563_Unused_Variable__unused_public_member_value_01_good1.java",
+        "line": 17,
+        "cwe": 563,
+        "reason": "official manifest flaw conflicts with explicit Juliet good naming; suite polarity takes precedence"
+      },
+      {
+        "file": "src/testcases/CWE563_Unused_Variable/CWE563_Unused_Variable__unused_public_member_variable_01_good1.java",
+        "line": 17,
+        "cwe": 563,
+        "reason": "official manifest flaw conflicts with explicit Juliet good naming; suite polarity takes precedence"
+      },
+      {
+        "file": "src/testcases/CWE568_Finalize_Without_Super/CWE568_Finalize_Without_Super__empty_01_good1.java",
+        "line": 64,
+        "cwe": 568,
+        "reason": "official manifest flaw conflicts with explicit Juliet good naming; suite polarity takes precedence"
+      },
+      {
+        "file": "src/testcases/CWE568_Finalize_Without_Super/CWE568_Finalize_Without_Super__from_console_01_good1.java",
+        "line": 64,
+        "cwe": 568,
+        "reason": "official manifest flaw conflicts with explicit Juliet good naming; suite polarity takes precedence"
+      },
+      {
+        "file": "src/testcases/CWE580_Clone_Without_Super/CWE580_Clone_Without_Super__clone_01_good1.java",
+        "line": 26,
+        "cwe": 580,
+        "reason": "official manifest flaw conflicts with explicit Juliet good naming; suite polarity takes precedence"
+      },
+      {
+        "file": "src/testcases/CWE581_Object_Model_Violation/CWE581_Object_Model_Violation__equals_01_good1.java",
+        "line": 24,
+        "cwe": 581,
+        "reason": "official manifest flaw conflicts with explicit Juliet good naming; suite polarity takes precedence"
+      },
+      {
+        "file": "src/testcases/CWE581_Object_Model_Violation/CWE581_Object_Model_Violation__hashCode_01_good1.java",
+        "line": 54,
+        "cwe": 581,
+        "reason": "official manifest flaw conflicts with explicit Juliet good naming; suite polarity takes precedence"
+      },
+      {
+        "file": "src/testcases/CWE582_Array_Public_Final_Static/CWE582_Array_Public_Final_Static__basic_01_good1.java",
+        "line": 14,
+        "cwe": 582,
+        "reason": "official manifest flaw conflicts with explicit Juliet good naming; suite polarity takes precedence"
+      },
+      {
+        "file": "src/testcases/CWE607_Public_Static_Final_Mutable/CWE607_Public_Static_Final_Mutable__console_01_good1.java",
+        "line": 17,
+        "cwe": 607,
+        "reason": "official manifest flaw conflicts with explicit Juliet good naming; suite polarity takes precedence"
+      }
+    ]
+  },
+  "policy": {
+    "id": "juliet-java-testcase-cwe-polarity-regions@1",
+    "unit": "one manifest testcase × CWE × bad/good polarity; methods and helper classes are aggregated",
+    "match": "open finding with exact CWE and path, with its start line inside a labeled method/class region (or exact manifest flaw line when no method encloses it)",
+    "limitations": [
+      "Manifest flaw labels anchor bad regions. Good regions require explicit Juliet good method/class naming; missing good regions never create a negative.",
+      "The official 1.3 manifest contains redundant closing testcase tags and cases without flaw entries. Redundant closings are counted and ignored; missing-flaw cases use the explicit CWE filename plus bad/good naming convention and remain in the denominator.",
+      "For the exact official 1.3 manifest hash only, an anchor conflicting with an explicitly good region is recorded and the suite good/bad convention takes precedence. This is corrected-label scoring, not pristine manifest scoring.",
+      "All good variants, wrappers, and helpers in a testcase form one negative unit. One matching detection anywhere predicts the aggregate positive; this is not per-method or per-flaw accuracy.",
+      "Neutral methods enclosing manifest flaws are bad regions. Other neutral helper methods, main/support code, and unlabeled source regions are unscored.",
+      "Separate good/bad helper classes use their complete original file regions. No target source is rewritten and scanner taint analysis still sees coexisting good/bad methods.",
+      "No call-graph reachability or cross-file taint is added by the evaluator; an intra-method or helper-class detection can satisfy its testcase unit."
+    ],
+    "excludesUnsupportedCwes": false,
+    "cweAliases": false,
+    "duplicateDetections": "one prediction per labeled unit"
+  },
+  "scan": {
+    "options": {
+      "includeTests": true,
+      "minConfidence": "low",
+      "minSeverity": "info",
+      "trustSuppressions": false,
+      "osv": false
+    },
+    "stats": {
+      "files": 47447,
+      "languages": {
+        "xml": 614,
+        "python": 4,
+        "properties": 2,
+        "java": 46803
+      },
+      "skipped": {
+        "large": 2,
+        "binary": 8,
+        "vendoredDirs": 0,
+        "symlinks": 0
+      },
+      "truncated": false,
+      "dependencies": 0,
+      "routes": 0
+    },
+    "warnings": [],
+    "durationMs": 185466
+  },
+  "totals": {
+    "cases": 57649,
+    "tp": 2410,
+    "fp": 1172,
+    "tn": 27596,
+    "fn": 26471,
+    "truePositiveRate": 0.08344586406287871,
+    "falsePositiveRate": 0.04073971078976641,
+    "precision": 0.6728084868788387
+  },
+  "byCwe": [
+    {
+      "cwe": 15,
+      "cases": 888,
+      "tp": 0,
+      "fp": 0,
+      "tn": 444,
+      "fn": 444,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 23,
+      "cases": 888,
+      "tp": 0,
+      "fp": 0,
+      "tn": 444,
+      "fn": 444,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 36,
+      "cases": 888,
+      "tp": 0,
+      "fp": 0,
+      "tn": 444,
+      "fn": 444,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 78,
+      "cases": 888,
+      "tp": 444,
+      "fp": 210,
+      "tn": 234,
+      "fn": 0,
+      "truePositiveRate": 1,
+      "falsePositiveRate": 0.47297297297297297,
+      "precision": 0.6788990825688074
+    },
+    {
+      "cwe": 80,
+      "cases": 1332,
+      "tp": 0,
+      "fp": 0,
+      "tn": 666,
+      "fn": 666,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 81,
+      "cases": 666,
+      "tp": 0,
+      "fp": 0,
+      "tn": 333,
+      "fn": 333,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 83,
+      "cases": 666,
+      "tp": 0,
+      "fp": 0,
+      "tn": 333,
+      "fn": 333,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 89,
+      "cases": 4440,
+      "tp": 1820,
+      "fp": 920,
+      "tn": 1300,
+      "fn": 400,
+      "truePositiveRate": 0.8198198198198198,
+      "falsePositiveRate": 0.4144144144144144,
+      "precision": 0.6642335766423357
+    },
+    {
+      "cwe": 90,
+      "cases": 888,
+      "tp": 0,
+      "fp": 0,
+      "tn": 444,
+      "fn": 444,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 111,
+      "cases": 1,
+      "tp": 0,
+      "fp": 0,
+      "tn": 0,
+      "fn": 1,
+      "truePositiveRate": 0,
+      "falsePositiveRate": null,
+      "precision": null
+    },
+    {
+      "cwe": 113,
+      "cases": 2664,
+      "tp": 0,
+      "fp": 0,
+      "tn": 1332,
+      "fn": 1332,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 114,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 129,
+      "cases": 5328,
+      "tp": 0,
+      "fp": 0,
+      "tn": 2664,
+      "fn": 2664,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 134,
+      "cases": 1332,
+      "tp": 0,
+      "fp": 0,
+      "tn": 666,
+      "fn": 666,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 190,
+      "cases": 8510,
+      "tp": 0,
+      "fp": 0,
+      "tn": 4255,
+      "fn": 4255,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 191,
+      "cases": 6808,
+      "tp": 0,
+      "fp": 0,
+      "tn": 3404,
+      "fn": 3404,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 193,
+      "cases": 102,
+      "tp": 0,
+      "fp": 0,
+      "tn": 51,
+      "fn": 51,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 197,
+      "cases": 2442,
+      "tp": 0,
+      "fp": 0,
+      "tn": 1221,
+      "fn": 1221,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 209,
+      "cases": 68,
+      "tp": 17,
+      "fp": 0,
+      "tn": 34,
+      "fn": 17,
+      "truePositiveRate": 0.5,
+      "falsePositiveRate": 0,
+      "precision": 1
+    },
+    {
+      "cwe": 226,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 248,
+      "cases": 2,
+      "tp": 0,
+      "fp": 0,
+      "tn": 1,
+      "fn": 1,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 252,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 253,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 256,
+      "cases": 74,
+      "tp": 0,
+      "fp": 0,
+      "tn": 37,
+      "fn": 37,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 259,
+      "cases": 222,
+      "tp": 0,
+      "fp": 0,
+      "tn": 111,
+      "fn": 111,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 315,
+      "cases": 74,
+      "tp": 0,
+      "fp": 0,
+      "tn": 37,
+      "fn": 37,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 319,
+      "cases": 740,
+      "tp": 0,
+      "fp": 0,
+      "tn": 370,
+      "fn": 370,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 321,
+      "cases": 74,
+      "tp": 0,
+      "fp": 0,
+      "tn": 37,
+      "fn": 37,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 325,
+      "cases": 68,
+      "tp": 0,
+      "fp": 0,
+      "tn": 34,
+      "fn": 34,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 327,
+      "cases": 68,
+      "tp": 34,
+      "fp": 34,
+      "tn": 0,
+      "fn": 0,
+      "truePositiveRate": 1,
+      "falsePositiveRate": 1,
+      "precision": 0.5
+    },
+    {
+      "cwe": 328,
+      "cases": 102,
+      "tp": 51,
+      "fp": 0,
+      "tn": 51,
+      "fn": 0,
+      "truePositiveRate": 1,
+      "falsePositiveRate": 0,
+      "precision": 1
+    },
+    {
+      "cwe": 329,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 336,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 338,
+      "cases": 68,
+      "tp": 0,
+      "fp": 0,
+      "tn": 34,
+      "fn": 34,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 369,
+      "cases": 3700,
+      "tp": 0,
+      "fp": 0,
+      "tn": 1850,
+      "fn": 1850,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 378,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 379,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 382,
+      "cases": 68,
+      "tp": 0,
+      "fp": 0,
+      "tn": 34,
+      "fn": 34,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 383,
+      "cases": 16,
+      "tp": 0,
+      "fp": 0,
+      "tn": 0,
+      "fn": 16,
+      "truePositiveRate": 0,
+      "falsePositiveRate": null,
+      "precision": null
+    },
+    {
+      "cwe": 390,
+      "cases": 68,
+      "tp": 0,
+      "fp": 0,
+      "tn": 34,
+      "fn": 34,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 395,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 396,
+      "cases": 68,
+      "tp": 0,
+      "fp": 0,
+      "tn": 34,
+      "fn": 34,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 397,
+      "cases": 8,
+      "tp": 0,
+      "fp": 0,
+      "tn": 4,
+      "fn": 4,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 398,
+      "cases": 274,
+      "tp": 0,
+      "fp": 0,
+      "tn": 137,
+      "fn": 137,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 400,
+      "cases": 2920,
+      "tp": 0,
+      "fp": 0,
+      "tn": 1460,
+      "fn": 1460,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 404,
+      "cases": 10,
+      "tp": 0,
+      "fp": 0,
+      "tn": 5,
+      "fn": 5,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 459,
+      "cases": 68,
+      "tp": 0,
+      "fp": 0,
+      "tn": 34,
+      "fn": 34,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 470,
+      "cases": 888,
+      "tp": 0,
+      "fp": 0,
+      "tn": 444,
+      "fn": 444,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 476,
+      "cases": 396,
+      "tp": 0,
+      "fp": 0,
+      "tn": 198,
+      "fn": 198,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 477,
+      "cases": 136,
+      "tp": 0,
+      "fp": 0,
+      "tn": 68,
+      "fn": 68,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 478,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 481,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 482,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 483,
+      "cases": 38,
+      "tp": 0,
+      "fp": 0,
+      "tn": 19,
+      "fn": 19,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 484,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 486,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 491,
+      "cases": 2,
+      "tp": 0,
+      "fp": 0,
+      "tn": 1,
+      "fn": 1,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 499,
+      "cases": 2,
+      "tp": 0,
+      "fp": 0,
+      "tn": 1,
+      "fn": 1,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 500,
+      "cases": 2,
+      "tp": 0,
+      "fp": 0,
+      "tn": 1,
+      "fn": 1,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 506,
+      "cases": 168,
+      "tp": 0,
+      "fp": 0,
+      "tn": 52,
+      "fn": 116,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 510,
+      "cases": 100,
+      "tp": 0,
+      "fp": 0,
+      "tn": 34,
+      "fn": 66,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 511,
+      "cases": 102,
+      "tp": 0,
+      "fp": 0,
+      "tn": 51,
+      "fn": 51,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 523,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 526,
+      "cases": 68,
+      "tp": 0,
+      "fp": 0,
+      "tn": 34,
+      "fn": 34,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 533,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 534,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 535,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 539,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 546,
+      "cases": 170,
+      "tp": 0,
+      "fp": 0,
+      "tn": 85,
+      "fn": 85,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 549,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 561,
+      "cases": 2,
+      "tp": 0,
+      "fp": 0,
+      "tn": 1,
+      "fn": 1,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 563,
+      "cases": 436,
+      "tp": 0,
+      "fp": 0,
+      "tn": 218,
+      "fn": 218,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 566,
+      "cases": 74,
+      "tp": 0,
+      "fp": 0,
+      "tn": 37,
+      "fn": 37,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 568,
+      "cases": 4,
+      "tp": 0,
+      "fp": 0,
+      "tn": 2,
+      "fn": 2,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 570,
+      "cases": 32,
+      "tp": 0,
+      "fp": 0,
+      "tn": 16,
+      "fn": 16,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 571,
+      "cases": 32,
+      "tp": 0,
+      "fp": 0,
+      "tn": 16,
+      "fn": 16,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 572,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 579,
+      "cases": 2,
+      "tp": 0,
+      "fp": 0,
+      "tn": 1,
+      "fn": 1,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 580,
+      "cases": 2,
+      "tp": 0,
+      "fp": 0,
+      "tn": 1,
+      "fn": 1,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 581,
+      "cases": 4,
+      "tp": 0,
+      "fp": 0,
+      "tn": 2,
+      "fn": 2,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 582,
+      "cases": 2,
+      "tp": 0,
+      "fp": 0,
+      "tn": 1,
+      "fn": 1,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 584,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 585,
+      "cases": 4,
+      "tp": 0,
+      "fp": 0,
+      "tn": 2,
+      "fn": 2,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 586,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 597,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 598,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 600,
+      "cases": 2,
+      "tp": 0,
+      "fp": 0,
+      "tn": 1,
+      "fn": 1,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 601,
+      "cases": 666,
+      "tp": 44,
+      "fp": 8,
+      "tn": 325,
+      "fn": 289,
+      "truePositiveRate": 0.13213213213213212,
+      "falsePositiveRate": 0.024024024024024024,
+      "precision": 0.8461538461538461
+    },
+    {
+      "cwe": 605,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 606,
+      "cases": 888,
+      "tp": 0,
+      "fp": 0,
+      "tn": 444,
+      "fn": 444,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 607,
+      "cases": 2,
+      "tp": 0,
+      "fp": 0,
+      "tn": 1,
+      "fn": 1,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 609,
+      "cases": 4,
+      "tp": 0,
+      "fp": 0,
+      "tn": 2,
+      "fn": 2,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 613,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 614,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 615,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 617,
+      "cases": 68,
+      "tp": 0,
+      "fp": 0,
+      "tn": 34,
+      "fn": 34,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 643,
+      "cases": 888,
+      "tp": 0,
+      "fp": 0,
+      "tn": 444,
+      "fn": 444,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 667,
+      "cases": 2,
+      "tp": 0,
+      "fp": 0,
+      "tn": 1,
+      "fn": 1,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 674,
+      "cases": 4,
+      "tp": 0,
+      "fp": 0,
+      "tn": 2,
+      "fn": 2,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 681,
+      "cases": 102,
+      "tp": 0,
+      "fp": 0,
+      "tn": 51,
+      "fn": 51,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 690,
+      "cases": 592,
+      "tp": 0,
+      "fp": 0,
+      "tn": 296,
+      "fn": 296,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 698,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 759,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 760,
+      "cases": 34,
+      "tp": 0,
+      "fp": 0,
+      "tn": 17,
+      "fn": 17,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 764,
+      "cases": 4,
+      "tp": 0,
+      "fp": 0,
+      "tn": 2,
+      "fn": 2,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 765,
+      "cases": 4,
+      "tp": 0,
+      "fp": 0,
+      "tn": 2,
+      "fn": 2,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 772,
+      "cases": 4,
+      "tp": 0,
+      "fp": 0,
+      "tn": 2,
+      "fn": 2,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 775,
+      "cases": 4,
+      "tp": 0,
+      "fp": 0,
+      "tn": 2,
+      "fn": 2,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 789,
+      "cases": 3142,
+      "tp": 0,
+      "fp": 0,
+      "tn": 1571,
+      "fn": 1571,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 832,
+      "cases": 4,
+      "tp": 0,
+      "fp": 0,
+      "tn": 2,
+      "fn": 2,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 833,
+      "cases": 12,
+      "tp": 0,
+      "fp": 0,
+      "tn": 6,
+      "fn": 6,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    },
+    {
+      "cwe": 835,
+      "cases": 12,
+      "tp": 0,
+      "fp": 0,
+      "tn": 6,
+      "fn": 6,
+      "truePositiveRate": 0,
+      "falsePositiveRate": 0,
+      "precision": null
+    }
+  ],
+  "unscoredFindings": {
+    "notOpen": 0,
+    "unlabeledFile": 17,
+    "wrongCwe": 5408,
+    "outsideRegions": 0
+  }
+}

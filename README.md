@@ -14,7 +14,7 @@ The scanner does not run code from the repository it scans. It is a first-pass r
 
 ## Quick start
 
-Requirements: Node.js 20 or later. The harness has no runtime dependencies; you do not need to run `npm install`.
+Requirements: Node.js 20 or later. No `npm install` is needed. A vendored, optional Acorn parser supports the [bounded JavaScript computed-read proof](docs/JAVASCRIPT-OWNERSHIP.md); its MIT license and byte provenance ship with the source.
 
 ```sh
 node bin/kayfabe.js selftest
@@ -137,6 +137,11 @@ The [Java helper and HTML-encoding pass](docs/JAVA-HELPERS-SANITIZERS.md) reduce
 The [formatting-array pass](docs/JAVA-FORMAT-ARRAYS.md) fixes that newly exposed case and one other OWASP XSS false positive, reducing OWASP FPs **291 → 289**. The proof checks every initializer for side effects, including unused elements. A separate [supplied-app baseline](docs/SUPPLIED-APPS.md) records 13 small applications with provisional labels; it is regression evidence, not held-out accuracy evidence.
 
 The [JavaScript/Python helper pass](docs/SCRIPT-HELPERS.md) reviews 11 supplied safe labels and adds bounded numeric-helper and Python hostname-guard proofs. Supplied-label FPs fall **16 → 14**, retaining all 81 detected vulnerable labels. Both corrections are Python cases. JavaScript computed access and shared or unresolved helper imports remain unsupported after two independent reviews.
+
+The subsequent [JavaScript computed-read pass](docs/JAVASCRIPT-OWNERSHIP.md)
+removes one numeric SQL false positive, taking supplied-label FPs **14 → 13**
+while retaining all 81 detected vulnerable labels. It uses an optional vendored
+parser and a bounded capability proof; unsupported syntax retains warnings.
 
 General taint tracking remains intra-file; Java's bounded helper proofs do not provide a whole-program call graph. Other cross-file flows may appear as lower-confidence pattern findings or in the attack-surface map for a reviewer to follow. This is a fast static first pass, not a replacement for whole-program tools such as CodeQL or Semgrep Pro, or for dynamic application testing.
 

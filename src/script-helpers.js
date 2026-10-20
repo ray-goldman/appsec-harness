@@ -2,6 +2,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { stripComments, maskStrings, detectLanguage } = require('./languages');
+const { computedDataOnly } = require('./js-computed');
 
 const IDENT = '[A-Za-z_][A-Za-z0-9_]*';
 const NUMERIC_SQL = /^(?:SELECT|UPDATE|DELETE|INSERT)\b[A-Za-z0-9_ .,*=<>]*[=<>]\s*$/i;
@@ -152,10 +153,10 @@ function scriptSinkFilter(file, project, callArgs) {
   const entry = project.entries.get(file);
   if (!entry || !project.complete || /\t|\\u[0-9a-fA-F{]|\\\r?\n/.test(entry.raw)) return () => false;
   const python = entry.lang === 'python', lines = entry.code.split('\n');
-  // Computed properties can reach constructors and mutate globals without
-  // naming either operation. Until property/effect analysis exists, reject
-  // bracket syntax anywhere in the admitted JavaScript project.
-  if (!python && project.sources.some(s => s.lang === 'javascript' && s.mask.includes('['))) return () => false;
+  // Computed properties can retrieve callable values. The optional bounded
+  // syntax proof must establish they stay data before relaxing this fallback.
+  if (!python && project.sources.some(s => s.lang === 'javascript' && s.mask.includes('[')) &&
+      !computedDataOnly(project)) return () => false;
   const previous = i => { while (--i >= 0) if (lines[i].trim()) return i; return -1; };
   const indent = line => line.length - line.trimStart().length;
   function fullCall(expression) {
