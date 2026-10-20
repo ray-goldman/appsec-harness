@@ -6,10 +6,10 @@
   "bin": { "appsec": "bin/appsec.js" },
   "engines": { "node": ">=20" },
   "scripts": {
-    "test": "node --test test/unit.test.js test/benchmark.test.js",
+    "test": "node --test test/unit.test.js test/benchmark.test.js test/java-precision.test.js test/php-precision.test.js test/cve-localization.test.js test/precision-report.test.js",
     "selftest": "node bin/appsec.js selftest",
     "rules": "node bin/appsec.js rules"
   },
-  "files": ["bin", "src", "corpus", "docs", "AGENTS.md", "README.md"],
+  "files": ["bin", "src", "corpus", "docs", "benchmarks", "AGENTS.md", "README.md"],
   "private": true
 }

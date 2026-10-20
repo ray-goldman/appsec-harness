@@ -1,5 +1,6 @@
 'use strict';
 const L = ['php'];
+const { checkPhpCode } = require('../php-code');
 const SUPER = '\\$_(?:GET|POST|REQUEST|COOKIE|SERVER|FILES)\\b';
 
 module.exports = [
@@ -28,8 +29,8 @@ module.exports = [
   {
     id: 'PHP-CODE-001', title: 'Code injection (eval / assert / create_function / preg_replace /e)',
     owasp: 'A05', cwe: [94, 95], severity: 'high', confidence: 'medium', severityIfTainted: 'critical', languages: L,
-    pattern: /\beval\s*\(\s*(?!['"][^'"$]*['"]\s*\))|\bassert\s*\(\s*\$|\bcreate_function\s*\(|\bpreg_replace\s*\(\s*['"]([^\w\s])(?:(?!\1).)*\1[a-zA-Z]*e[a-zA-Z]*['"]|\$\w+\s*\(\s*\$_(?:GET|POST|REQUEST)|\bcall_user_func(?:_array)?\s*\(\s*\$_/,
-    message: 'Executes attacker-controlled PHP.',
+    checkCode: checkPhpCode,
+    message: 'Dynamic PHP execution requires tracing its code or callback argument to an input source.',
     fix: 'Remove dynamic evaluation; use explicit dispatch maps; `preg_replace_callback` instead of /e.',
     refs: ['https://www.php.net/manual/en/function.eval.php'],
   },

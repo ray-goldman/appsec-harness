@@ -39,7 +39,7 @@ function toMarkdown(result, { gate } = {}) {
       out.push(`\`${f.file}:${f.line}\` · ${f.severity}/${f.confidence} · ${(f.cwe || []).map(cweLabel).join(', ')}${f.cves && f.cves.length ? ' · ' + f.cves.join(', ') : ''}${f.baseline === 'new' ? ' · 🆕 new since baseline' : ''}`);
       if (f.snippet) { out.push(''); out.push('```'); out.push(f.snippet); out.push('```'); }
       if (f.detail) out.push(`- Detail: ${mdEsc(f.detail)}`);
-      if (f.taint) out.push(`- Data flow: \`${mdEsc(f.taint.name)}\`${f.taint.from ? ` (tainted at line ${f.taint.from})` : ''} reaches this sink`);
+      if (f.taint) out.push(`- Data flow: \`${mdEsc(f.taint.source || f.taint.name || 'unknown')}\`${(f.taint.line || f.taint.from) ? ` (tainted at line ${f.taint.line || f.taint.from})` : ''} reaches this sink`);
       out.push(`- ${mdEsc(f.message)}`);
       out.push(`- **Fix:** ${mdEsc(f.fix)}`);
       if (f.triage) out.push(`- **Triage (${mdEsc(f.triage.verdict)}):** ${mdEsc(f.triage.rationale)}${f.triage.fix ? ' — ' + mdEsc(f.triage.fix) : ''}`);

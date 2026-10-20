@@ -196,7 +196,7 @@ function buildTriageRequest(result, { contextLines = 8, max = 400 } = {}) {
     return {
       fingerprint: f.fingerprint, id: f.id, ruleId: f.ruleId, title: f.title, severity: f.severity, confidence: f.confidence,
       owasp: `${f.owasp}:2025 ${f.owaspName}`, cwe: f.cwe, cves: f.cves, file: f.file, line: f.line, snippet: f.snippet,
-      detail: f.detail, taint: f.taint, message: f.message, fix: f.fix, verify: CHECKS[f.owasp], context,
+      detail: f.detail, kind: f.kind || 'vulnerability', taint: f.taint, message: f.message, fix: f.fix, verify: CHECKS[f.owasp], context,
     };
   });
   return {

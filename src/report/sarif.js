@@ -27,10 +27,10 @@ function toSarif(result) {
     const res = {
       ruleId: f.ruleId, ruleIndex: ruleIndex.get(f.ruleId),
       level: LEVEL[f.severity] || 'warning',
-      message: { text: `${f.title}${f.detail ? ` (${f.detail})` : ''}. ${f.message}${f.taint ? ` [tainted: ${f.taint.name}${f.taint.from ? ' from line ' + f.taint.from : ''}]` : ''}` },
+      message: { text: `${f.title}${f.detail ? ` (${f.detail})` : ''}. ${f.message}${f.taint ? ` [tainted: ${f.taint.source || f.taint.name || 'unknown'}${(f.taint.line || f.taint.from) ? ' from line ' + (f.taint.line || f.taint.from) : ''}]` : ''}` },
       locations: [{ physicalLocation: { artifactLocation: { uri: encodeURI(f.file), uriBaseId: 'SRCROOT' }, region: { startLine: f.line, startColumn: f.col || 1, snippet: f.snippet ? { text: f.snippet } : undefined } } }],
       partialFingerprints: { 'appsecFingerprint/v1': f.fingerprint },
-      properties: { severity: f.severity, confidence: f.confidence, owasp: `${f.owasp}:2025`, cwe: (f.cwe || []).map((c) => `CWE-${c}`), cves: f.cves, context: f.context, findingId: f.id, triage: f.triage ? f.triage.verdict : undefined },
+      properties: { kind: f.kind || 'vulnerability', severity: f.severity, confidence: f.confidence, owasp: `${f.owasp}:2025`, cwe: (f.cwe || []).map((c) => `CWE-${c}`), cves: f.cves, context: f.context, findingId: f.id, triage: f.triage ? f.triage.verdict : undefined },
     };
     if (['suppressed', 'ignored', 'accepted'].includes(f.status)) {
       res.suppressions = [{ kind: f.status === 'suppressed' ? 'inSource' : 'external', status: 'accepted', justification: f.ignoreReason || (f.inlineSuppression && f.inlineSuppression.reason) || (f.triage && f.triage.rationale) || '' }];

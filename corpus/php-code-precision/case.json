@@ -1,0 +1,7 @@
+{
+  "id": "php-code-precision",
+  "owasp": "A05",
+  "cwe": [94],
+  "description": "Request-controlled formula aliases reach multiline code evaluation; fixed dispatch selects explicit arithmetic operations.",
+  "expect": ["PHP-CODE-001"]
+}

@@ -12,11 +12,143 @@ const {
 const pkg = require('../package.json');
 
 const DEFAULT_MANIFEST = path.join(__dirname, '../benchmarks/cve-fixes.json');
+const DEFAULT_LOCALIZATION = path.join(__dirname, '../benchmarks/cve-localization.json');
 const MAX_FILE = 1024 * 1024;
 const MAX_TOTAL = 64 * MAX_FILE;
 const OPTIONS = Object.freeze({ ...SCAN_OPTIONS, includeVendored: true });
 const sha256 = (bytes) => crypto.createHash('sha256').update(bytes).digest('hex');
 const counts = () => ({ cases: 0, tp: 0, fp: 0, tn: 0, fn: 0 });
+
+// Separate versioned labels: never rewrite the historical file+CWE policy.
+function readLocalization(filename, manifest, manifestBytes, root) {
+  const explicit = filename !== undefined;
+  if (explicit && (typeof filename !== 'string' || !filename)) throw new Error('localization path must be a string');
+  const absolute = path.resolve(filename || DEFAULT_LOCALIZATION);
+  const directory = safeDirectory(path.dirname(absolute));
+  const file = checkedFile(directory, path.basename(absolute));
+  if (fs.statSync(file).size > MAX_FILE) throw new Error('localization exceeds 1 MiB');
+  const bytes = fs.readFileSync(file);
+  let metadata;
+  try { metadata = JSON.parse(bytes.toString('utf8')); } catch { throw new Error('invalid localization JSON'); }
+  if (!metadata || metadata.schema !== 'appsec-harness/cve-localization@1' ||
+      !/^\d+\.\d+\.\d+$/.test(metadata.version) || !/^[a-f0-9]{64}$/.test(metadata.manifestSha256) ||
+      !Array.isArray(metadata.entries) || !metadata.entries.length || metadata.entries.length > 128) {
+    throw new Error('invalid localization schema');
+  }
+  if (metadata.manifestSha256 !== sha256(manifestBytes)) {
+    if (explicit) throw new Error('localization manifest provenance mismatch');
+    return { status: 'unavailable', reason: 'Bundled localization does not match these exact manifest bytes; supply --localization with reviewed matching metadata.' };
+  }
+  const byId = new Map(manifest.entries.map((entry) => [entry.id, entry]));
+  const seen = new Set();
+  const prose = (value) => typeof value === 'string' && value.length >= 12 && value.length <= 8000;
+  for (const entry of metadata.entries) {
+    const original = byId.get(entry?.id);
+    if (!original || seen.has(entry.id) || entry.cwe !== original.cwe ||
+        !prose(entry.rationale) || !prose(entry.missingContext) ||
+        !Array.isArray(entry.permitted) || !entry.permitted.length || entry.permitted.length > 32) {
+      throw new Error('invalid, duplicate, or incomplete localization entry');
+    }
+    seen.add(entry.id);
+    const rules = new Set();
+    for (const criterion of entry.permitted) {
+      if (!criterion || typeof criterion.ruleId !== 'string' ||
+          !/^(?:\*|[A-Z][A-Z0-9-]{1,99})$/.test(criterion.ruleId) ||
+          criterion.cwe !== entry.cwe || typeof criterion.requireTaint !== 'boolean' ||
+          rules.has(criterion.ruleId)) throw new Error('invalid or duplicate localization rule/CWE criterion');
+      rules.add(criterion.ruleId);
+    }
+    if (rules.has('*') && rules.size > 1) throw new Error('overlapping localization rule criteria');
+    for (const variant of ['parent', 'fix']) {
+      const snapshot = entry[variant];
+      if (!snapshot || snapshot.revision !== original[variant].revision ||
+          !Array.isArray(snapshot.regions) || !snapshot.regions.length || snapshot.regions.length > 128) {
+        throw new Error('invalid localization snapshot provenance or regions');
+      }
+      const ranges = new Map();
+      for (const region of snapshot.regions) {
+        sourcePath(region?.file);
+        const source = original[variant].files.find((item) => item.path === region.file);
+        if (!source || !Number.isSafeInteger(region.start) || !Number.isSafeInteger(region.end) ||
+            region.start < 1 || region.end < region.start || !prose(region.evidence) ||
+            !Array.isArray(region.anchors) || !region.anchors.length || region.anchors.length > 16 ||
+            region.anchors.some((value) => typeof value !== 'string' || !value.trim() || value.length > 1000) ||
+            new Set(region.anchors).size !== region.anchors.length) {
+          throw new Error('invalid localization source region or evidence');
+        }
+        const prior = ranges.get(region.file) || [];
+        if (prior.some((item) => region.start <= item.end && item.start <= region.end)) {
+          throw new Error('overlapping or duplicate localization regions');
+        }
+        prior.push(region); ranges.set(region.file, prior);
+        const relative = relativeSource(original, variant, source);
+        verifySource(root, relative, source);
+        const text = fs.readFileSync(checkedFile(root, relative), 'utf8');
+        const lines = text.split(/\r?\n/);
+        if (lines.at(-1) === '') lines.pop();
+        const regionText = lines.slice(region.start - 1, region.end).join('\n');
+        if (region.end > lines.length || !region.anchors.every((anchor) => regionText.includes(anchor))) {
+          throw new Error(`localization bounds or evidence mismatch: ${entry.id}/${variant}/${region.file}`);
+        }
+      }
+    }
+  }
+  if (seen.size !== byId.size) throw new Error('incomplete localization CVE coverage');
+  return { status: 'available', version: metadata.version, sha256: sha256(bytes), manifestSha256: metadata.manifestSha256, entries: metadata.entries };
+}
+
+function scoreLocalized(entries, observations) {
+  const observed = new Map(observations.map((item) => [item.id, item]));
+  if (observed.size !== observations.length || observed.size !== entries.length ||
+      new Set(entries.map((item) => item.id)).size !== entries.length) throw new Error('invalid localization observation coverage');
+  const total = counts(), groups = new Map(), cases = [];
+  const warnings = { total: 0, matched: 0, notOpen: 0, review: 0, outsideRegion: 0, unapprovedRuleCwe: 0, missingEvidence: 0 };
+  for (const entry of entries) {
+    const observedCase = observed.get(entry.id);
+    if (!observedCase || !Array.isArray(observedCase.parent) || !Array.isArray(observedCase.fix)) {
+      throw new Error(`missing localization observations: ${entry.id}`);
+    }
+    if (!groups.has(entry.cwe)) groups.set(entry.cwe, { cwe: entry.cwe, ...counts() });
+    const item = { ...entry };
+    for (const variant of ['parent', 'fix']) {
+      const matches = [], excluded = [];
+      for (const finding of observedCase[variant]) {
+        warnings.total++;
+        const file = typeof finding.file === 'string' ? finding.file.replace(/\\/g, '/') : '';
+        let reason;
+        if (finding.status !== 'open') reason = 'notOpen';
+        else if (finding.kind !== undefined && finding.kind !== 'vulnerability') reason = 'review';
+        else if (!Number.isSafeInteger(finding.line) || !entry[variant].regions.some((region) =>
+          region.file === file && finding.line >= region.start && finding.line <= region.end)) reason = 'outsideRegion';
+        else {
+          const criteria = entry.permitted.filter((criterion) =>
+            (criterion.ruleId === '*' || criterion.ruleId === finding.ruleId) &&
+            Array.isArray(finding.cwe) && finding.cwe.includes(criterion.cwe));
+          if (!criteria.length) reason = 'unapprovedRuleCwe';
+          else if (!criteria.some((criterion) => !criterion.requireTaint ||
+            (typeof finding.taint?.source === 'string' && finding.taint.source.trim() &&
+             Number.isSafeInteger(finding.taint.line) && finding.taint.line > 0))) reason = 'missingEvidence';
+        }
+        const location = { ruleId: finding.ruleId, file, line: finding.line, kind: finding.kind || 'vulnerability' };
+        if (reason) { warnings[reason]++; excluded.push({ ...location, reason }); }
+        else { warnings.matched++; matches.push(location); }
+      }
+      const prediction = matches.length > 0;
+      const outcome = variant === 'parent' ? (prediction ? 'tp' : 'fn') : (prediction ? 'fp' : 'tn');
+      total.cases++; total[outcome]++;
+      const group = groups.get(entry.cwe); group.cases++; group[outcome]++;
+      item[variant] = { ...entry[variant], prediction, outcome, matches, excluded };
+    }
+    item.successfulPair = item.parent.outcome === 'tp' && item.fix.outcome === 'tn';
+    cases.push(item);
+  }
+  const successful = cases.filter((item) => item.successfulPair).length;
+  return {
+    totals: metrics(total), byCwe: [...groups.values()].sort((a, b) => a.cwe - b.cwe).map(metrics),
+    pairs: { total: cases.length, successful, rate: cases.length ? successful / cases.length : null },
+    warnings, cases,
+  };
+}
 
 function sourcePath(value) {
   if (typeof value !== 'string' || value.length > 240 ||
@@ -238,6 +370,22 @@ async function fetchCveCorpus(directory, opts = {}) {
 function toMarkdown(report) {
   const pct = (value) => value === null ? 'n/a' : `${(value * 100).toFixed(2)}%`;
   const row = (name, item) => `| ${name} | ${item.cases} | ${item.tp} | ${item.fp} | ${item.tn} | ${item.fn} | ${pct(item.truePositiveRate)} | ${pct(item.falsePositiveRate)} | ${pct(item.precision)} |`;
+  const localized = report.localized?.status === 'available' ? [
+    '## Fix-specific source-region scoring', '',
+    `Independent policy: \`${report.localized.policy.id}\`; annotation version: ${report.localized.version}.`,
+    `Annotation SHA-256: \`${report.localized.sha256}\``, '',
+    'A localized hit requires an open vulnerability finding at a reviewed source region, the exact advisory CWE, and its permitted rule/evidence criteria. Review-only and unrelated warnings are reported separately. Missing finding kind defaults to vulnerability for compatibility. All CVEs remain in the denominator; fixed-side silence alone does not establish detector support or application safety.', '',
+    '| CWE | Snapshots | TP | FP | TN | FN | TPR / recall | FPR | Precision |',
+    '|---|---:|---:|---:|---:|---:|---:|---:|---:|',
+    ...report.localized.byCwe.map((item) => row(`CWE-${item.cwe}`, item)),
+    row('Localized total (micro)', report.localized.totals), '',
+    `Localized successful complete pairs: ${report.localized.pairs.successful}/${report.localized.pairs.total} (${pct(report.localized.pairs.rate)}).`,
+    `Finding counts: ${Object.entries(report.localized.warnings).map(([key, value]) => `${key}=${value}`).join('; ')}.`, '',
+    '| CVE | CWE | Parent | Fix | Successful pair |',
+    '|---|---|---|---|---|',
+    ...report.localized.cases.map((item) => `| ${item.id} | CWE-${item.cwe} | ${item.parent.outcome.toUpperCase()} | ${item.fix.outcome.toUpperCase()} | ${item.successfulPair ? 'yes' : 'no'} |`), '',
+    'These scores use a different policy from the historical table above; differences between the two tables are not scanner improvements. Regions, evidence, permitted criteria, excluded finding locations, and missing repository context are recorded in benchmark.json.', '',
+  ] : ['## Fix-specific source-region scoring', '', `Unavailable: ${report.localized?.reason || 'this report predates localization metadata'}`, 'Historical baseline results above are unchanged.', ''];
   return [
     '# Real CVE fix-pair measurement', '',
     `Measured at: ${report.measuredAt}`,
@@ -260,6 +408,7 @@ function toMarkdown(report) {
     'TPR = TP / (TP + FN). FPR = FP / (FP + TN). Precision = TP / (TP + FP). Undefined rates are n/a.',
     'The corpus is small, curated, and deliberately includes unsupported weakness classes. It is not a representative estimate of production accuracy. Advisory labels and first-parent relationships were curated from upstream evidence; offline runs verify pinned bytes, not the truth of third-party advisories.',
     'Per-case immutable revisions, source hashes, matching rule IDs/locations, provenance, scope, and scanner statistics are in benchmark.json.', '',
+    ...localized,
   ].join('\n');
 }
 
@@ -274,13 +423,15 @@ async function runCveBenchmark(directory, opts = {}) {
     throw new Error('benchmark output must not contain the dataset');
   }
   const files = verifyDataset(root, manifest);
+  const localization = readLocalization(opts.localization, manifest, manifestBytes, root);
   const inputSha256 = hashInputs(root, files);
   const sourceSha256 = toolHash();
-  const total = counts(), groups = new Map(), cases = [];
+  const total = counts(), groups = new Map(), cases = [], observations = [];
   const unscoredFindings = { notOpen: 0, unlabeledFile: 0, wrongCwe: 0 };
   for (const entry of manifest.entries) {
     if (!groups.has(entry.cwe)) groups.set(entry.cwe, { cwe: entry.cwe, ...counts() });
     const item = { ...entry };
+    const observation = { id: entry.id };
     for (const variant of ['parent', 'fix']) {
       const snapshot = entry[variant];
       const snapshotRoot = path.join(root, entry.id, variant);
@@ -292,6 +443,7 @@ async function runCveBenchmark(directory, opts = {}) {
         throw new Error(`scanner skips or truncates corpus source: ${entry.id}/${variant}`);
       }
       const result = await scan(snapshotRoot, { ...OPTIONS, name: `${entry.id} ${variant}` });
+      observation[variant] = result.findings;
       if (result.stats.truncated || result.stats.files !== expected.size) {
         throw new Error(`incomplete corpus scan: ${entry.id}/${variant}`);
       }
@@ -314,12 +466,29 @@ async function runCveBenchmark(directory, opts = {}) {
     }
     item.successfulPair = item.parent.outcome === 'tp' && item.fix.outcome === 'tn';
     cases.push(item);
+    observations.push(observation);
   }
   verifyDataset(root, manifest);
   if (inputSha256 !== hashInputs(root, files) || sourceSha256 !== toolHash()) {
     throw new Error('corpus or harness changed during measurement');
   }
   const successful = cases.filter((item) => item.successfulPair).length;
+  if (localization.status === 'available' &&
+      readLocalization(opts.localization, manifest, manifestBytes, root).sha256 !== localization.sha256) {
+    throw new Error('localization changed during measurement');
+  }
+  const localized = localization.status === 'available' ? {
+    status: 'available', version: localization.version, sha256: localization.sha256,
+    manifestSha256: localization.manifestSha256,
+    policy: {
+      id: 'cve-fix-region@1', unit: 'one CVE revision snapshot',
+      match: 'open vulnerability finding within reviewed inclusive source region; exact advisory CWE and permitted rule/evidence criteria',
+      parentLabel: 'positive for the cited fix-specific mechanism', fixLabel: 'negative for the cited fix-specific mechanism',
+      missingKind: 'vulnerability', cweAliases: false, excludesUnsupportedCwes: false,
+      context: 'source localization is a static benchmark proxy; does not prove exploitability or application safety',
+    },
+    ...scoreLocalized(localization.entries, observations),
+  } : localization;
   const report = {
     schema: 'appsec-harness/cve-benchmark@1', measuredAt: new Date().toISOString(),
     tool: { name: pkg.name, version: pkg.version, sourceSha256 },
@@ -336,7 +505,7 @@ async function runCveBenchmark(directory, opts = {}) {
     scan: { options: { ...OPTIONS } },
     totals: metrics(total), byCwe: [...groups.values()].sort((a, b) => a.cwe - b.cwe).map(metrics),
     pairs: { total: cases.length, successful, rate: successful / cases.length },
-    unscoredFindings, cases,
+    unscoredFindings, cases, localized,
   };
   safeDirectory(out, true);
   writeReportFile(out, 'benchmark.json', JSON.stringify(report, null, 2) + '\n');
@@ -344,4 +513,4 @@ async function runCveBenchmark(directory, opts = {}) {
   return report;
 }
 
-module.exports = { fetchCveCorpus, runCveBenchmark, toMarkdown };
+module.exports = { fetchCveCorpus, runCveBenchmark, toMarkdown, readLocalization, scoreLocalized };
