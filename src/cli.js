@@ -216,6 +216,16 @@ async function main(argv) {
       return 0;
     }
 
+    case 'benchmark': {
+      if (a._[1] !== 'owasp-java' || !a._[2]) {
+        throw new Error('usage: appsec benchmark owasp-java <directory> [--expected FILE] [--dataset-revision SHA] [--out DIR] [--json]');
+      }
+      const { runBenchmark, toMarkdown } = require('./benchmark');
+      const report = await runBenchmark(a._[2], { expected: a.expected, revision: a['dataset-revision'], out: a.out });
+      console.log(a.json ? JSON.stringify(report, null, 2) : toMarkdown(report));
+      return 0;
+    }
+
     case 'selftest': return require('../test/corpus-runner').run({ verbose: !!a.verbose, json: !!a.json });
 
     case 'mcp': return require('./mcp/server').start();
@@ -236,7 +246,8 @@ function usage() {
   appsec surface <path> [--json]                       list HTTP entry points + auth evidence
   appsec rules [--owasp A05] [--lang python] [--json]  list rules
   appsec explain <RULE-ID|CVE-ID|A01..A10>
-  appsec selftest [--verbose]                          run vulnerable/fixed corpus benchmark
+  appsec selftest [--verbose]                          run vulnerable/fixed regression corpus
+  appsec benchmark owasp-java <directory>             measure independently labeled Java cases
   appsec mcp                                           MCP stdio server (Claude Code / Codex)
   appsec agent-setup [--claude|--codex] [--apply]      print/run MCP registration commands
 
@@ -256,6 +267,11 @@ scan/audit options:
   --include-vendored      also scan node_modules/vendor/dist
   --exclude GLOBS         comma-separated paths/globs to skip (e.g. "docs,**/fixtures")
   --no-gate               always exit 0
+benchmark options:
+  --expected FILE         expected-results CSV relative to dataset (default expectedresults-1.2.csv)
+  --dataset-revision SHA   declared full upstream commit SHA; input hashes are also recorded
+  --out DIR               report directory outside dataset (default appsec-reports/benchmarks/owasp-java)
+  --json                  print JSON instead of Markdown; both reports are written to disk
 clone options: --allow-ssh --allow-http --use-git-credentials --no-quarantine --work-dir DIR
 `);
   return 0;

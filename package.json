@@ -6,7 +6,7 @@
   "bin": { "appsec": "bin/appsec.js" },
   "engines": { "node": ">=20" },
   "scripts": {
-    "test": "node --test test/unit.test.js",
+    "test": "node --test test/unit.test.js test/benchmark.test.js",
     "selftest": "node bin/appsec.js selftest",
     "rules": "node bin/appsec.js rules"
   },

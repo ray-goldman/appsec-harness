@@ -112,12 +112,16 @@ Follow [the repository instructions](AGENTS.md) when reviewing a target: treat i
 
 ## Accuracy and limits
 
-The regression corpus contains 143 vulnerable/fixed pairs across the ten OWASP categories. The current rules report 100% precision and recall on that corpus; these figures describe the corpus only, not performance on arbitrary applications. The project also records checks against known-vulnerable and well-maintained projects in its development notes.
+The regression corpus contains 143 vulnerable/fixed pairs written alongside the rules. Its 100% precision and recall detect regressions against those expectations; they do not establish independent detection accuracy.
+
+The first independent run on **OWASP Benchmark Java 1.2** scored all 2,740 labeled cases: **40.35% recall, 23.70% false-positive rate, and 64.52% precision**. These are micro-averaged case metrics using exact file/CWE matching, with no omitted CWEs. They describe this synthetic Java benchmark, not arbitrary applications. See [the measurement and reproduction guide](docs/BENCHMARKS.md) for per-CWE counts, input hashes, and scoring limits.
 
 Taint tracking is intra-file. Cross-file flows may appear as lower-confidence pattern findings or in the attack-surface map for a reviewer to follow. This is a fast static first pass, not a replacement for whole-program tools such as CodeQL or Semgrep Pro, or for dynamic application testing.
+
+See [the prioritized roadmap](docs/ROADMAP.md) for independent datasets, parsing, supply-chain data, triage evaluation, and PR integration.
 
 ## Development
 
 Rules live in `src/rules/`; advisory data lives in `src/supply/advisories.js`. Add a paired `vuln/` and `fixed/` corpus case when changing a rule. Run `node bin/appsec.js selftest` and `npm test` before submitting a change.
 
-The CLI supports `audit`, `scan`, `clone`, `triage`, `report`, `gate`, `surface`, `rules`, `explain`, `selftest`, `mcp`, and `agent-setup`. Run `node bin/appsec.js help` for command usage and options.
+The CLI supports `audit`, `scan`, `clone`, `triage`, `report`, `gate`, `surface`, `rules`, `explain`, `selftest`, `benchmark`, `mcp`, and `agent-setup`. Run `node bin/appsec.js help` for command usage and options.

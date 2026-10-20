@@ -111,7 +111,7 @@ test('quarantine renames agent/IDE auto-load files', () => {
 test('walker does not follow symlinks out of the repository', async () => {
   const d = tmpdir({ 'app.js': 'const x = 1;\n' });
   const outside = tmpdir({ 'secret.js': "const k = 'AKIA" + 'ABCDEFGHIJKLMNOP' + "';\n" });
-  fs.symlinkSync(outside, path.join(d, 'linked'));
+  fs.symlinkSync(outside, path.join(d, 'linked'), process.platform === 'win32' ? 'junction' : 'dir');
   const r = await scan(d, {});
   assert.ok(!r.findings.some((f) => f.ruleId === 'SECRET-AWS-001'), 'must not read through symlink');
   assert.ok(r.findings.some((f) => f.ruleId === 'FILE-SYMLINK-001'));
