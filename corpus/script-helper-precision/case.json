@@ -1,0 +1,14 @@
+{
+  "id": "script-helper-precision",
+  "owasp": "A05",
+  "cwe": [
+    89,
+    78
+  ],
+  "description": "Local numeric helper results and a dominating exact hostname guard; unsafe request values retain SQL and command findings.",
+  "expect": [
+    "JS-SQLI-001",
+    "PY-SQLI-001",
+    "PY-CMDI-001"
+  ]
+}
