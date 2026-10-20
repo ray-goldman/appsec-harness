@@ -136,6 +136,8 @@ The [Java helper and HTML-encoding pass](docs/JAVA-HELPERS-SANITIZERS.md) reduce
 
 The [formatting-array pass](docs/JAVA-FORMAT-ARRAYS.md) fixes that newly exposed case and one other OWASP XSS false positive, reducing OWASP FPs **291 → 289**. The proof checks every initializer for side effects, including unused elements. A separate [supplied-app baseline](docs/SUPPLIED-APPS.md) records 13 small applications with provisional labels; it is regression evidence, not held-out accuracy evidence.
 
+The [JavaScript/Python helper pass](docs/SCRIPT-HELPERS.md) reviews 11 supplied safe labels and adds bounded numeric-helper and Python hostname-guard proofs. Supplied-label FPs fall **16 → 14**, retaining all 81 detected vulnerable labels. Both corrections are Python cases. JavaScript computed access and shared or unresolved helper imports remain unsupported after two independent reviews.
+
 General taint tracking remains intra-file; Java's bounded helper proofs do not provide a whole-program call graph. Other cross-file flows may appear as lower-confidence pattern findings or in the attack-surface map for a reviewer to follow. This is a fast static first pass, not a replacement for whole-program tools such as CodeQL or Semgrep Pro, or for dynamic application testing.
 
 See [the prioritized roadmap](docs/ROADMAP.md) for independent datasets, parsing, supply-chain data, triage evaluation, and PR integration.

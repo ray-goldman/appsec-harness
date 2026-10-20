@@ -30,6 +30,11 @@ The [formatting-array pass](JAVA-FORMAT-ARRAYS.md) supports single-use local
 scalar arrays and rejects initializer side effects, fixing the newly exposed
 OWASP case. The [supplied apps](SUPPLIED-APPS.md) provide a separate provisional
 baseline and concrete helper/guard candidates for future work.
+The [JavaScript/Python helper pass](SCRIPT-HELPERS.md) reviews 11 safe labels,
+adds bounded numeric helper and Flask hostname-guard proofs, and reduces
+supplied-label FPs from 16 to 14. Both corrections are Python cases; JavaScript
+computed properties and shared exports remain unsupported. The two review
+passes and their conservative fixes are recorded separately from accuracy scores.
 Remaining priorities are held-out accuracy data, broader Java call and collection flow, negative SARD examples, and
 mechanism-specific detection for the seven still-missed CVE parents.
 

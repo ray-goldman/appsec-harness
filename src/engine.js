@@ -14,6 +14,7 @@ const pkg = require('../package.json');
 const { constantSinkFilter } = require('./java-constants');
 const { buildJavaProjectIndex } = require('./java-project');
 const { javaOutputFilter } = require('./java-sanitizers');
+const { buildScriptProject, scriptSinkFilter } = require('./script-helpers');
 
 const MAX_LINE = 2000;
 const WRAPPED = new RegExp('^\\s*(?:await\\s+)?' + SANITIZERS.source.replace(/^\\\\b/, '') + '[\\s\\S]*\\)\\s*$', 'i');
@@ -66,7 +67,7 @@ function sinksOf(rule) {
   return [];
 }
 
-function applyCodeRules(file, lang, raw, codeLines, taint, javaProject) {
+function applyCodeRules(file, lang, raw, codeLines, taint, javaProject, scriptProject) {
   const out = [];
   const rawLines = raw.split(/\r?\n/);
   const code = codeLines.join('\n');
@@ -76,6 +77,7 @@ function applyCodeRules(file, lang, raw, codeLines, taint, javaProject) {
   const javaOutput = constantJavaSink ? javaOutputFilter({ code, filter: constantJavaSink, project: javaProject }) : null;
   const javaStrictTaint = lang === 'java' ? analyzeTaint(codeLines, lang, { genericSanitizers: false }) : null;
   const javaNonHtmlTaint = lang === 'java' ? analyzeTaint(codeLines, lang, { rejectHtmlSanitizers: true }) : null;
+  const scriptProof = ['javascript', 'python'].includes(lang) ? scriptSinkFilter(file, scriptProject, callArgs) : null;
   const win = (i) => (windows[i] === undefined ? (windows[i] = windowAt(codeLines, i)) : windows[i]);
   for (const rule of CODE_RULES) {
     if (!rule.languages.includes(lang)) continue;
@@ -141,6 +143,7 @@ function applyCodeRules(file, lang, raw, codeLines, taint, javaProject) {
         }
       }
       if (hit) {
+        if (scriptProof && scriptProof(rule.id, i, W)) continue;
         if (contextualJavaOutput && javaOutput(i, W)) continue;
         if (constantJavaSink && ['JAVA-SQLI-001', 'JAVA-SQLI-002', 'JAVA-CMDI-001', 'JAVA-REDIRECT-001'].includes(rule.id)
           && (rule.id === 'JAVA-SQLI-002'
@@ -196,6 +199,7 @@ async function scan(root, opts = {}) {
   root = path.resolve(root);
   if (!fs.statSync(root).isDirectory()) throw new Error(`not a directory: ${root}`);
   const { files, skipped, truncated, javaIncomplete } = walk(root, opts);
+  const scriptProject = buildScriptProject(files, !truncated && !javaIncomplete && !skipped.large);
 
   const raw = [];
   const fileData = new Map();
@@ -244,7 +248,7 @@ async function scan(root, opts = {}) {
     raw.push(...applyConfigRules(f.rel, lang, text, rawLines, codeLines));
     if (lang && !isLock && !vendored) {
       const taint = analyzeTaint(codeLines, lang);
-      raw.push(...applyCodeRules(f.rel, lang, text, codeLines, taint, javaProject));
+      raw.push(...applyCodeRules(f.rel, lang, text, codeLines, taint, javaProject, scriptProject));
       const r = extractRoutes(f.rel, lang, codeLines, text);
       routes.push(...r);
       if (['javascript', 'typescript', 'python', 'php', 'java', 'kotlin', 'go', 'ruby', 'csharp'].includes(lang)) projFiles.push({ rel: f.rel, code, lang });

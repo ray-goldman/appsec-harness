@@ -1,5 +1,11 @@
 # Supplied application baseline
 
+Latest follow-up: the [JavaScript/Python helper pass](SCRIPT-HELPERS.md) reduces
+supplied-label false positives from **16 to 14**, with **81 true positives**
+unchanged. The initial measurements below are preserved. The
+[safe-label review](SUPPLIED-HELPER-LABEL-REVIEW.md) records qualifications for
+11 helper-related labels without changing the original scoring denominator.
+
 The October 20, 2026 attachment contains 13 small applications with planted
 vulnerabilities and safe examples. We scanned their source without building,
 installing or running them. Scripts and instructions inside the archive were
