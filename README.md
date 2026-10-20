@@ -112,7 +112,7 @@ Follow [the repository instructions](AGENTS.md) when reviewing a target: treat i
 
 ## Accuracy and limits
 
-The regression corpus contains 149 vulnerable/fixed pairs written alongside the rules. Its 100% precision and recall detect regressions against those expectations; they do not establish independent detection accuracy.
+The regression corpus contains 150 vulnerable/fixed pairs written alongside the rules. Its 100% precision and recall detect regressions against those expectations; they do not establish independent detection accuracy.
 
 The first independent run on **OWASP Benchmark Java 1.2** scored all 2,740 labeled cases: **40.35% recall, 23.70% false-positive rate, and 64.52% precision**. These are micro-averaged case metrics using exact file/CWE matching, with no omitted CWEs. They describe this synthetic Java benchmark, not arbitrary applications. See [the measurement and reproduction guide](docs/BENCHMARKS.md) for per-CWE counts, input hashes, and scoring limits.
 
@@ -125,6 +125,8 @@ Subsequent [precision improvements](docs/PRECISION-IMPROVEMENTS.md) reduce Julie
 The next [Java scope and constant-branch pass](docs/JAVA-SCOPE-BRANCHES.md) reduces Juliet false positives **1,504 → 1,226 (18.48%)** and OWASP false positives **314 → 301 (4.14%)**. Case-by-case comparison across all four datasets found no lost true positives and no new false positives. SARD and both CVE policies remain unchanged. Two independent review passes and their fixes are documented.
 
 The [Java helper and HTML-encoding pass](docs/JAVA-HELPERS-SANITIZERS.md) reduces Juliet false positives **1,226 → 1,172** and OWASP **301 → 291**, with no lost previously detected true positives. OWASP has 11 corrections and one newly exposed formatting-array FP. The report records all four reruns, both independent reviews, the increased scan time and remaining work.
+
+The [formatting-array pass](docs/JAVA-FORMAT-ARRAYS.md) fixes that newly exposed case and one other OWASP XSS false positive, reducing OWASP FPs **291 → 289**. The proof checks every initializer for side effects, including unused elements. A separate [supplied-app baseline](docs/SUPPLIED-APPS.md) records 13 small applications with provisional labels; it is regression evidence, not held-out accuracy evidence.
 
 General taint tracking remains intra-file; Java's bounded helper proofs do not provide a whole-program call graph. Other cross-file flows may appear as lower-confidence pattern findings or in the attack-surface map for a reviewer to follow. This is a fast static first pass, not a replacement for whole-program tools such as CodeQL or Semgrep Pro, or for dynamic application testing.
 

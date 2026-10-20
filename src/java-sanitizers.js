@@ -1,5 +1,6 @@
 'use strict';
 const { parseCall, shadowsType, argumentsOf } = require('./java-methods');
+const { formattingArray } = require('./java-format-arrays');
 
 const HTML_ENCODERS = new Map([
   ['org.springframework.web.util.HtmlUtils', new Set(['htmlEscape'])],
@@ -108,6 +109,8 @@ function javaOutputFilter({ code, filter, project }) {
     }
     const format = literal(args[0] || '', call.position);
     if (format === null) return false;
+    const array = args.length === 2 ? formattingArray(index, args[1], call, filter) : null;
+    const substitutions = array || args.slice(1).map(expression => ({ expression, position: call.position }));
     let next = 1, last = 0;
     const re = /%((\d+)\$)?([s%n])/g;
     for (const m of format.matchAll(re)) {
@@ -117,7 +120,8 @@ function javaOutputFilter({ code, filter, project }) {
       if (m[3] === '%' || m[3] === 'n') output.text = output.text === null ? null : output.text + (m[3] === '%' ? '%' : '\n');
       else {
         const n = m[2] ? Number(m[2]) : next++;
-        if (!args[n] || !renderExpression(args[n], call.position, output)) return false;
+        const value = substitutions[n - 1];
+        if (!value || !renderExpression(value.expression, value.position, output)) return false;
       }
       last = m.index + m[0].length;
     }

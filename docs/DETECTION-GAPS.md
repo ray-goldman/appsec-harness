@@ -3,6 +3,10 @@
 These are the original measurements. The subsequent
 [precision changes and comparison](PRECISION-IMPROVEMENTS.md) retain these
 baselines and report their own source hash and scoring policies.
+Later [helper/sanitizer work](JAVA-HELPERS-SANITIZERS.md) and
+[formatting-array work](JAVA-FORMAT-ARRAYS.md) also preserve these original
+measurements. The [supplied apps](SUPPLIED-APPS.md) use a separate provisional
+line-label policy.
 
 Measured October 20, 2026, with Node 24.16.0 on Windows. All three runs used
 harness source SHA-256

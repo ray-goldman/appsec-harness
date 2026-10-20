@@ -179,3 +179,83 @@ test('skipped source directories cannot establish encoder ownership', async t =>
   });
   assert.ok(hits.length);
 });
+
+test('immutable formatting arrays render each indexed substitution in HTML text', async t => {
+  for (const declaration of ['Object[] parts = {"a", clean};', 'String[] parts = {"a", clean};',
+    'final Object[] parts = {"a", clean};']) {
+    const hits = await findings(t, `String clean = ${escape('input')};
+      ${declaration}
+      response.getWriter().printf(java.util.Locale.US, "<p>%1$s and %2$s %% %n</p>", parts);`);
+    assert.equal(hits.length, 0, declaration);
+  }
+});
+
+test('formatting arrays cannot hide raw elements, mutation, aliases or object callbacks', async t => {
+  for (const [declaration, change] of [
+    ['Object[] parts = {"a", input};', ''],
+    ['Object[] parts = {"a", clean};', 'parts[1] = input;'],
+    ['Object[] parts = {"a", clean};', '(parts)[1] = input;'],
+    ['Object[] parts = {"a", clean};', 'parts = new Object[] {"a", input};'],
+    ['Object[] parts = {"a", clean};', 'Object[] alias = parts; alias[1] = input;'],
+    ['Object[] parts = {"a", clean};', 'mutate(parts, input);'],
+    ['Object[] parts = {new Dangerous(), clean};', ''],
+    ['Object[] parts = {"a", input};', `input = ${escape('input')};`],
+  ]) {
+    assert.ok((await findings(t, `String clean = ${escape('input')};
+      ${declaration} ${change}
+      response.getWriter().printf("%1$s %2$s", parts);`)).length, declaration + change);
+  }
+});
+
+test('formatting arrays preserve output structure, scope and unsupported contexts', async t => {
+  for (const [prefix, declaration, format, suffix] of [
+    ['', 'Object[] parts = {"<script>", clean};', '%1$s %2$s', ''],
+    ['', 'Object[] parts = {"a", clean};', '<a href="%2$s">', ''],
+    ['response.getWriter().print("<script>");', 'Object[] parts = {"a", clean};', '%2$s', ''],
+    ['{ Object[] parts = {"a", clean}; }', 'Object[] parts = {"a", input};', '%2$s', ''],
+    ['', 'Object[] parts = {"a", clean};', '%2$s', 'mutate(parts, input);'],
+    ['', 'Object[] parts = {"a", clean};', '%3$s', ''],
+  ]) {
+    assert.ok((await findings(t, `String clean = ${escape('input')};
+      ${prefix} ${declaration}
+      response.getWriter().printf(${JSON.stringify(format)}, parts);
+      ${suffix}`)).length, prefix + declaration + format + suffix);
+  }
+});
+
+test('formatting arrays support sequential placeholders and ignore unselected raw values', async t => {
+  assert.equal((await findings(t, `String clean = ${escape('input')};
+    String[] parts = {"label", clean};
+    response.getWriter().printf("<p>%s: %s</p>", parts);`)).length, 0);
+  assert.equal((await findings(t, `String clean = ${escape('input')};
+    Object[] parts = {input, clean};
+    response.getWriter().printf("%2$s", parts);`)).length, 0);
+});
+
+test('formatting array budgets and unsupported carriers retain warnings', async t => {
+  const values = Array(32).fill('clean').join(', ');
+  assert.equal((await findings(t, `String clean = ${escape('input')};
+    Object[] parts = {${values}};
+    response.getWriter().printf("%32$s", parts);`)).length, 0);
+  for (const body of [
+    `Object[] parts = {${values}, clean}; response.getWriter().printf("%33$s", parts);`,
+    'Object[] parts = new Object[] {"a", clean}; response.getWriter().printf("%2$s", parts);',
+    'Object[] parts = {"a", clean}; response.getWriter().printf("%2$s", (Object) parts);',
+    'Object[] parts = {"a", clean}; response.getWriter().printf("%2$s", parts); parts[1] = input;',
+    'Object value = obtain(input); Object[] parts = {value, clean}; response.getWriter().printf("%1$s %2$s", parts);',
+  ]) assert.ok((await findings(t, `String clean = ${escape('input')};
+    ${body.replaceAll('; ', ';\n')}`)).length, body);
+});
+
+test('unselected array initializers cannot change the output context or invoke callbacks', async t => {
+  for (const value of [
+    'request.startAsync().getResponse().getWriter().append("<script>")',
+    'sideEffect(input)',
+    '(clean = input)',
+    'new Dangerous()',
+  ]) {
+    assert.ok((await findings(t, `String clean = ${escape('input')};
+      Object[] parts = {${value}, clean};
+      response.getWriter().printf("%2$s</script>", parts);`)).length, value);
+  }
+});

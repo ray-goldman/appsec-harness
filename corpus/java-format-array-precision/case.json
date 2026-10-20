@@ -1,0 +1,7 @@
+{
+  "id": "java-format-array-precision",
+  "owasp": "A05",
+  "cwe": [79],
+  "description": "A single-use formatting array preserves HTML text encoding; a raw array element remains unsafe.",
+  "expect": ["JAVA-XSS-001"]
+}

@@ -26,6 +26,10 @@ adds lexical binding and bounded constant conditions, removing another 278
 Juliet and 13 OWASP false positives without losing detected true-positive cases.
 The [helper and sanitizer pass](JAVA-HELPERS-SANITIZERS.md) adds bounded Java
 method summaries and HTML text proofs, with two further independent reviews.
+The [formatting-array pass](JAVA-FORMAT-ARRAYS.md) supports single-use local
+scalar arrays and rejects initializer side effects, fixing the newly exposed
+OWASP case. The [supplied apps](SUPPLIED-APPS.md) provide a separate provisional
+baseline and concrete helper/guard candidates for future work.
 Remaining priorities are held-out accuracy data, broader Java call and collection flow, negative SARD examples, and
 mechanism-specific detection for the seven still-missed CVE parents.
 
