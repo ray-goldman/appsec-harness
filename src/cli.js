@@ -217,12 +217,27 @@ async function main(argv) {
     }
 
     case 'benchmark': {
-      if (a._[1] !== 'owasp-java' || !a._[2]) {
-        throw new Error('usage: appsec benchmark owasp-java <directory> [--expected FILE] [--dataset-revision SHA] [--out DIR] [--json]');
+      const kind = a._[1], directory = a._[2];
+      if (!directory) {
+        throw new Error('usage: appsec benchmark <owasp-java|juliet-java|sard|cve-fixes|fetch-cve-fixes> <directory> [--out DIR] [--json]');
       }
-      const { runBenchmark, toMarkdown } = require('./benchmark');
-      const report = await runBenchmark(a._[2], { expected: a.expected, revision: a['dataset-revision'], out: a.out });
-      console.log(a.json ? JSON.stringify(report, null, 2) : toMarkdown(report));
+      const opts = { expected: a.expected, manifest: a.manifest, revision: a['dataset-revision'], out: a.out };
+      if (kind === 'fetch-cve-fixes') {
+        const prepared = await require('./benchmark-cve').fetchCveCorpus(directory, opts);
+        console.log(JSON.stringify(prepared, null, 2));
+        return 0;
+      }
+      const adapters = {
+        'owasp-java': ['./benchmark', 'runBenchmark'],
+        'juliet-java': ['./benchmark-juliet', 'runJulietBenchmark'],
+        sard: ['./benchmark-sard', 'runSardBenchmark'],
+        'cve-fixes': ['./benchmark-cve', 'runCveBenchmark'],
+      };
+      if (!Object.hasOwn(adapters, kind)) throw new Error(`unknown benchmark dataset "${kind}"`);
+      const [moduleName, method] = adapters[kind];
+      const adapter = require(moduleName);
+      const report = await adapter[method](directory, opts);
+      console.log(a.json ? JSON.stringify(report, null, 2) : adapter.toMarkdown(report));
       return 0;
     }
 
@@ -248,6 +263,10 @@ function usage() {
   appsec explain <RULE-ID|CVE-ID|A01..A10>
   appsec selftest [--verbose]                          run vulnerable/fixed regression corpus
   appsec benchmark owasp-java <directory>             measure independently labeled Java cases
+  appsec benchmark juliet-java <directory>            measure Juliet Java good/bad regions
+  appsec benchmark sard <directory>                   measure NIST SARD SARIF labels
+  appsec benchmark fetch-cve-fixes <directory>         download pinned CVE source pairs (network)
+  appsec benchmark cve-fixes <directory>               measure CVE parent/fix source pairs (offline)
   appsec mcp                                           MCP stdio server (Claude Code / Codex)
   appsec agent-setup [--claude|--codex] [--apply]      print/run MCP registration commands
 
@@ -268,9 +287,10 @@ scan/audit options:
   --exclude GLOBS         comma-separated paths/globs to skip (e.g. "docs,**/fixtures")
   --no-gate               always exit 0
 benchmark options:
-  --expected FILE         expected-results CSV relative to dataset (default expectedresults-1.2.csv)
+  --expected FILE         label file relative to dataset (adapter-specific default)
+  --manifest FILE         CVE corpus manifest (default bundled benchmarks/cve-fixes.json)
   --dataset-revision SHA   declared full upstream commit SHA; input hashes are also recorded
-  --out DIR               report directory outside dataset (default appsec-reports/benchmarks/owasp-java)
+  --out DIR               report directory outside dataset (default appsec-reports/benchmarks/<adapter>)
   --json                  print JSON instead of Markdown; both reports are written to disk
 clone options: --allow-ssh --allow-http --use-git-credentials --no-quarantine --work-dir DIR
 `);

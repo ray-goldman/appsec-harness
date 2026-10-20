@@ -10,7 +10,14 @@ The existing corpus was written alongside the rules. Its precision and recall de
 - Build a CVE-fix corpus from real fix commits for vulnerabilities in `CVE-CATALOG.md`. Record upstream repository, parent and fix SHAs, changed vulnerable paths, expected CWE, and review evidence. Measure detection on the parent and silence on the fix.
 - Preserve `selftest` as the regression suite. Keep regression, independent synthetic benchmark, and real CVE-fix results separate.
 
-Completed first milestone: the OWASP Java adapter and [a reproducible baseline](BENCHMARKS.md). All 2,740 cases were scored, with 40.35% recall and 23.70% false-positive rate. Juliet/SARD adapters and the CVE-fix corpus remain subsequent work.
+Completed measurements:
+
+- [OWASP Java](BENCHMARKS.md): all 2,740 labeled cases; 40.35% recall and 23.70% FPR.
+- [Juliet Java 1.3](JULIET-SARD.md): all 28,881 upstream testcases, represented by 57,649 good/bad units across 112 CWEs; 8.34% recall and 8.14% FPR under the documented label-correction policy.
+- [NIST SARD suite 115](JULIET-SARD.md): all 20 vulnerable PHP locations; 50% recall. No safe labels, so FPR is undefined.
+- [Real CVE-fix corpus](CVE-FIX-CORPUS.md): eight curated parent/fix pairs; one parent hit, one fixed-side alert, and zero successful complete pairs.
+
+The [detection-gap report](DETECTION-GAPS.md) links all three new baselines and records the misses, false positives, dataset limits, and follow-up work. Priority 1 remains open for additional SARD datasets with negative labels, broader CVE-catalog coverage, and more precise CVE location/context scoring. Detection rules were not tuned in this measurement change.
 
 ## 2. Parsing and cross-file taint
 
