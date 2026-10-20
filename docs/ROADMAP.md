@@ -64,6 +64,15 @@ function-local path taint. Supplied FPs remain **11**; a static diagnostic recor
 why the unguarded basename case stays unknown. General Go binding resolution,
 helper effects and explicit label adjudication remain open.
 
+The [.NET coverage pass](DOTNET-COVERAGE.md) adds bounded direct path, redirect,
+quoted-shell, password-MD5 and unsigned-JWT checks. It detects **8/14** supplied
+.NET vulnerable labels (previously **3/14**) with **0/7** safe labels flagged.
+Next steps are redacted connection-string credentials, authorization/environment
+context and security-sensitive random-number use. General C# symbol resolution,
+helper flows, modern syntax and independent .NET evaluation remain open. The
+original XXE/CORS labels need separate adjudication; changing them is not a
+detector improvement.
+
 - Keep the regex engine as the default.
 - Add an optional, vendored tree-sitter layer for AST-based rules and a call graph.
 - Follow taint through controller → service → repository calls, with explicit limits for unresolved calls and dynamic dispatch.

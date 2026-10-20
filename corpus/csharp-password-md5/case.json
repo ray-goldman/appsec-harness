@@ -1,0 +1,11 @@
+{
+  "id": "csharp-password-md5",
+  "owasp": "A04",
+  "cwe": [
+    327
+  ],
+  "description": "csharp password md5",
+  "expect": [
+    "CS-CRYPTO-001"
+  ]
+}
