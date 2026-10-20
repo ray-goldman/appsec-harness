@@ -1,0 +1,13 @@
+{
+  "id": "a05-php-eval-blade",
+  "owasp": "A05",
+  "cwe": [
+    94,
+    79
+  ],
+  "description": "eval of POST data and Blade raw output.",
+  "expect": [
+    "PHP-CODE-001",
+    "PHP-XSS-002"
+  ]
+}

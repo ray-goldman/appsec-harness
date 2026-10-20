@@ -1,0 +1,13 @@
+{
+  "id": "a01-py-redirect-perms",
+  "owasp": "A01",
+  "cwe": [
+    601,
+    732
+  ],
+  "description": "Unvalidated next= redirect and world-writable file.",
+  "expect": [
+    "PY-REDIRECT-001",
+    "PY-PERM-001"
+  ]
+}

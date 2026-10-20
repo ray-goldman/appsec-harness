@@ -1,0 +1,11 @@
+{
+  "id": "a05-php-cmdi",
+  "owasp": "A05",
+  "cwe": [
+    78
+  ],
+  "description": "system() with request data.",
+  "expect": [
+    "PHP-CMDI-001"
+  ]
+}

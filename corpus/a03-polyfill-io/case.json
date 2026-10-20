@@ -1,0 +1,11 @@
+{
+  "id": "a03-polyfill-io",
+  "owasp": "A03",
+  "cwe": [
+    506
+  ],
+  "description": "Page loads polyfill.io (2024 supply-chain compromise).",
+  "expect": [
+    "JS-SUPPLY-001"
+  ]
+}

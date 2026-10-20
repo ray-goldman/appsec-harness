@@ -1,0 +1,11 @@
+{
+  "id": "a01-php-open-redirect",
+  "owasp": "A01",
+  "cwe": [
+    601
+  ],
+  "description": "Location header from the query string.",
+  "expect": [
+    "PHP-REDIRECT-001"
+  ]
+}

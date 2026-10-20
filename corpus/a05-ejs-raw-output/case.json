@@ -1,0 +1,11 @@
+{
+  "id": "a05-ejs-raw-output",
+  "owasp": "A05",
+  "cwe": [
+    79
+  ],
+  "description": "EJS unescaped output of user content.",
+  "expect": [
+    "TPL-XSS-001"
+  ]
+}

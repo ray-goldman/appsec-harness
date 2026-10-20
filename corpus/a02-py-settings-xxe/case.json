@@ -1,0 +1,13 @@
+{
+  "id": "a02-py-settings-xxe",
+  "owasp": "A02",
+  "cwe": [
+    16,
+    611
+  ],
+  "description": "Django wildcard ALLOWED_HOSTS and lxml parser resolving entities.",
+  "expect": [
+    "PY-CONF-001",
+    "PY-XXE-001"
+  ]
+}

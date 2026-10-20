@@ -1,0 +1,13 @@
+{
+  "id": "a03-nextjs-cves",
+  "owasp": "A03",
+  "cwe": [
+    285,
+    502
+  ],
+  "description": "Next.js 15.2.2: middleware bypass (CVE-2025-29927) and React2Shell RCE (CVE-2025-55182).",
+  "expect": [
+    "SUPPLY-VULN-001"
+  ],
+  "cve": "CVE-2025-29927"
+}

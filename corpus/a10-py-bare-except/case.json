@@ -1,0 +1,11 @@
+{
+  "id": "a10-py-bare-except",
+  "owasp": "A10",
+  "cwe": [
+    390
+  ],
+  "description": "Bare except: pass around a security check.",
+  "expect": [
+    "PY-ERR-001"
+  ]
+}

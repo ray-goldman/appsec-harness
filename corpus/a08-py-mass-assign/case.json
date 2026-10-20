@@ -1,0 +1,11 @@
+{
+  "id": "a08-py-mass-assign",
+  "owasp": "A08",
+  "cwe": [
+    915
+  ],
+  "description": "Model constructed from **request.json.",
+  "expect": [
+    "PY-MASS-001"
+  ]
+}

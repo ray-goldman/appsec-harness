@@ -1,0 +1,11 @@
+{
+  "id": "a10-go-error-leak",
+  "owasp": "A10",
+  "cwe": [
+    209
+  ],
+  "description": "Go handler writes err.Error() to the response.",
+  "expect": [
+    "GO-ERR-001"
+  ]
+}

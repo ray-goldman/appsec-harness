@@ -1,0 +1,11 @@
+{
+  "id": "a05-js-sqli",
+  "owasp": "A05",
+  "cwe": [
+    89
+  ],
+  "description": "Node mysql query concatenates a request parameter.",
+  "expect": [
+    "JS-SQLI-001"
+  ]
+}

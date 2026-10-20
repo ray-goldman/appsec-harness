@@ -1,0 +1,12 @@
+{
+  "id": "a01-py-tarslip",
+  "owasp": "A01",
+  "cwe": [
+    22
+  ],
+  "description": "tarfile.extractall on an uploaded archive (CVE-2007-4559 tar slip).",
+  "expect": [
+    "PY-ARCHIVE-001"
+  ],
+  "cve": "CVE-2007-4559"
+}

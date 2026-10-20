@@ -1,0 +1,8 @@
+on: push
+permissions:
+  contents: read
+jobs:
+  d:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "token=${{ secrets.DEPLOY_TOKEN }}"

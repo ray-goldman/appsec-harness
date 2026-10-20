@@ -1,0 +1,11 @@
+{
+  "id": "a10-js-error-leak",
+  "owasp": "A10",
+  "cwe": [
+    209
+  ],
+  "description": "Express error handler returns err.stack to the client.",
+  "expect": [
+    "JS-ERR-001"
+  ]
+}

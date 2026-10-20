@@ -1,0 +1,11 @@
+{
+  "id": "a02-docker-env-secret",
+  "owasp": "A02",
+  "cwe": [
+    526
+  ],
+  "description": "Database password baked into an image layer via ENV.",
+  "expect": [
+    "DOCKER-SECRET-001"
+  ]
+}

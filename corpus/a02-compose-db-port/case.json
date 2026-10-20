@@ -1,0 +1,11 @@
+{
+  "id": "a02-compose-db-port",
+  "owasp": "A02",
+  "cwe": [
+    668
+  ],
+  "description": "Postgres published on all interfaces.",
+  "expect": [
+    "CONTAINER-PORT-001"
+  ]
+}

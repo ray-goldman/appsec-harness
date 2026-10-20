@@ -1,0 +1,13 @@
+{
+  "id": "a04-js-hardcoded-key",
+  "owasp": "A04",
+  "cwe": [
+    321,
+    327
+  ],
+  "description": "AES-CBC with a key literal and the deprecated createCipher API.",
+  "expect": [
+    "JS-CRYPTO-004",
+    "JS-CRYPTO-002"
+  ]
+}

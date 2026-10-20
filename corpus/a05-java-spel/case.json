@@ -1,0 +1,11 @@
+{
+  "id": "a05-java-spel",
+  "owasp": "A05",
+  "cwe": [
+    917
+  ],
+  "description": "Spring endpoint evaluates a SpEL expression from the request.",
+  "expect": [
+    "JAVA-EL-001"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "a05-php-sqli",
+  "owasp": "A05",
+  "cwe": [
+    89
+  ],
+  "description": "mysqli_query with $_GET interpolated in the SQL string.",
+  "expect": [
+    "PHP-SQLI-001"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "a02-js-cors-reflect",
+  "owasp": "A02",
+  "cwe": [
+    942
+  ],
+  "description": "CORS reflects any origin with credentials.",
+  "expect": [
+    "JS-CORS-001"
+  ]
+}

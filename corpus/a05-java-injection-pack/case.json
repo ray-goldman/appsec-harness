@@ -1,0 +1,15 @@
+{
+  "id": "a05-java-injection-pack",
+  "owasp": "A05",
+  "cwe": [
+    89,
+    90,
+    79
+  ],
+  "description": "SQL string from request, LDAP filter concatenation, servlet XSS.",
+  "expect": [
+    "JAVA-SQLI-002",
+    "JAVA-LDAP-001",
+    "JAVA-XSS-001"
+  ]
+}

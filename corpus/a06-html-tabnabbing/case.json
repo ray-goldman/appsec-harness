@@ -1,0 +1,11 @@
+{
+  "id": "a06-html-tabnabbing",
+  "owasp": "A06",
+  "cwe": [
+    1022
+  ],
+  "description": "External link opened with target=_blank and no rel.",
+  "expect": [
+    "JS-OPENER-001"
+  ]
+}

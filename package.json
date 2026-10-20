@@ -1,0 +1,15 @@
+{
+  "name": "appsec-harness",
+  "version": "1.0.0",
+  "description": "Zero-dependency AppSec harness: OWASP Top 10:2025 SAST, secrets, IaC/CI and supply-chain checks with SARIF/JUnit/HTML output and an agent triage protocol for Claude Code or Codex.",
+  "license": "UNLICENSED",
+  "bin": { "appsec": "bin/appsec.js" },
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "test": "node --test test/unit.test.js",
+    "selftest": "node bin/appsec.js selftest",
+    "rules": "node bin/appsec.js rules"
+  },
+  "files": ["bin", "src", "corpus", "docs", "AGENTS.md", "README.md"],
+  "private": true
+}

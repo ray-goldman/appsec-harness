@@ -1,0 +1,11 @@
+{
+  "id": "a02-php-xxe",
+  "owasp": "A02",
+  "cwe": [
+    611
+  ],
+  "description": "DOMDocument::loadXML with LIBXML_NOENT.",
+  "expect": [
+    "PHP-XXE-001"
+  ]
+}

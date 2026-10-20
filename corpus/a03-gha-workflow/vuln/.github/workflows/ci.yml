@@ -1,0 +1,12 @@
+name: triage
+on: pull_request_target
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: tj-actions/changed-files@v45
+      - run: echo "Title: ${{ github.event.pull_request.title }}"
+      - run: npm ci && npm test

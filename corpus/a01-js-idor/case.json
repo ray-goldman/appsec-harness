@@ -1,0 +1,11 @@
+{
+  "id": "a01-js-idor",
+  "owasp": "A01",
+  "cwe": [
+    639
+  ],
+  "description": "Invoice fetched by ID from the URL with no ownership scoping (IDOR).",
+  "expect": [
+    "JS-IDOR-001"
+  ]
+}

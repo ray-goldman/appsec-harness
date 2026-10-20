@@ -1,0 +1,11 @@
+{
+  "id": "a05-go-sqli",
+  "owasp": "A05",
+  "cwe": [
+    89
+  ],
+  "description": "database/sql query built with fmt.Sprintf.",
+  "expect": [
+    "GO-SQLI-001"
+  ]
+}

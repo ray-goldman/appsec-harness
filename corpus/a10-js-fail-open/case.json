@@ -1,0 +1,11 @@
+{
+  "id": "a10-js-fail-open",
+  "owasp": "A10",
+  "cwe": [
+    636
+  ],
+  "description": "Authorization middleware grants access when the policy service errors.",
+  "expect": [
+    "JS-ERR-003"
+  ]
+}

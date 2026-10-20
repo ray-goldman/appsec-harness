@@ -1,0 +1,12 @@
+{
+  "id": "a05-js-sqli-template",
+  "owasp": "A05",
+  "cwe": [
+    89
+  ],
+  "description": "Prisma $queryRawUnsafe with template interpolation built in a variable.",
+  "expect": [
+    "JS-SQLI-001",
+    "JS-SQLI-002"
+  ]
+}

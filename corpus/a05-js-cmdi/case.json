@@ -1,0 +1,11 @@
+{
+  "id": "a05-js-cmdi",
+  "owasp": "A05",
+  "cwe": [
+    78
+  ],
+  "description": "Diagnostics endpoint passes a hostname to exec().",
+  "expect": [
+    "JS-CMDI-001"
+  ]
+}

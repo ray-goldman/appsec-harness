@@ -1,0 +1,11 @@
+{
+  "id": "a01-go-path-traversal",
+  "owasp": "A01",
+  "cwe": [
+    22
+  ],
+  "description": "Go handler serves files joined from a query value.",
+  "expect": [
+    "GO-PATH-001"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "a02-spring-actuator",
+  "owasp": "A02",
+  "cwe": [
+    200,
+    209
+  ],
+  "description": "Spring Boot exposes every actuator endpoint and stack traces.",
+  "expect": [
+    "SPRING-001"
+  ]
+}

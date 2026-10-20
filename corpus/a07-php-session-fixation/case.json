@@ -1,0 +1,11 @@
+{
+  "id": "a07-php-session-fixation",
+  "owasp": "A07",
+  "cwe": [
+    384
+  ],
+  "description": "Session ID taken from the request.",
+  "expect": [
+    "PHP-SESSION-001"
+  ]
+}

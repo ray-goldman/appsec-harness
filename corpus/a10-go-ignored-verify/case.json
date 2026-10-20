@@ -1,0 +1,11 @@
+{
+  "id": "a10-go-ignored-verify",
+  "owasp": "A10",
+  "cwe": [
+    252
+  ],
+  "description": "Error from token verification discarded.",
+  "expect": [
+    "GO-ERR-002"
+  ]
+}

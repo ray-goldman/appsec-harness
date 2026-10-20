@@ -1,0 +1,12 @@
+{
+  "id": "a01-js-ssrf",
+  "owasp": "A01",
+  "cwe": [
+    918
+  ],
+  "description": "Image proxy fetches any URL supplied by the client (cloud metadata reachable).",
+  "expect": [
+    "JS-SSRF-001"
+  ],
+  "ref": "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "a05-php-lfi",
+  "owasp": "A05",
+  "cwe": [
+    98
+  ],
+  "description": "Page router includes a file named by the query string.",
+  "expect": [
+    "PHP-LFI-001"
+  ]
+}

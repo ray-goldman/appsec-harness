@@ -1,0 +1,11 @@
+{
+  "id": "a05-py-ssti",
+  "owasp": "A05",
+  "cwe": [
+    1336
+  ],
+  "description": "Jinja2 render_template_string with an f-string (SSTI).",
+  "expect": [
+    "PY-SSTI-001"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "a07-js-timing-postmessage",
+  "owasp": "A07",
+  "cwe": [
+    208,
+    346
+  ],
+  "description": "API key compared with === and postMessage handler without origin check.",
+  "expect": [
+    "JS-AUTH-001",
+    "JS-POSTMSG-001"
+  ]
+}

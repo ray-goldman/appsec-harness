@@ -1,0 +1,11 @@
+{
+  "id": "a08-ruby-mass-assign",
+  "owasp": "A08",
+  "cwe": [
+    915
+  ],
+  "description": "Model built from unfiltered params.",
+  "expect": [
+    "RB-MASS-001"
+  ]
+}

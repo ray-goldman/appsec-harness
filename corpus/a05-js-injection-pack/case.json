@@ -1,0 +1,20 @@
+{
+  "id": "a05-js-injection-pack",
+  "owasp": "A05",
+  "cwe": [
+    943,
+    78,
+    79,
+    1333,
+    113
+  ],
+  "description": "NoSQL $where, spawn shell:true, React/Vue raw HTML, regex and header injection.",
+  "expect": [
+    "JS-NOSQLI-002",
+    "JS-CMDI-002",
+    "JS-XSS-002",
+    "JS-XSS-004",
+    "JS-REDOS-001",
+    "JS-HDR-001"
+  ]
+}

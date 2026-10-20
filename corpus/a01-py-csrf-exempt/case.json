@@ -1,0 +1,11 @@
+{
+  "id": "a01-py-csrf-exempt",
+  "owasp": "A01",
+  "cwe": [
+    352
+  ],
+  "description": "Django money-transfer view with CSRF protection disabled.",
+  "expect": [
+    "PY-CSRF-001"
+  ]
+}

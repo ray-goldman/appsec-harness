@@ -1,0 +1,11 @@
+{
+  "id": "a05-py-eval",
+  "owasp": "A05",
+  "cwe": [
+    95
+  ],
+  "description": "eval of a query parameter.",
+  "expect": [
+    "PY-CODE-001"
+  ]
+}

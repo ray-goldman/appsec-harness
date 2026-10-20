@@ -1,0 +1,11 @@
+{
+  "id": "a09-gha-echo-secret",
+  "owasp": "A09",
+  "cwe": [
+    532
+  ],
+  "description": "Workflow echoes a secret into job logs.",
+  "expect": [
+    "GHA-SECRET-001"
+  ]
+}

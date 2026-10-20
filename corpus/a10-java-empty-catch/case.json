@@ -1,0 +1,11 @@
+{
+  "id": "a10-java-empty-catch",
+  "owasp": "A10",
+  "cwe": [
+    390
+  ],
+  "description": "Generic exception swallowed.",
+  "expect": [
+    "JAVA-ERR-001"
+  ]
+}

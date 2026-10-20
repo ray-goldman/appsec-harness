@@ -1,0 +1,11 @@
+{
+  "id": "a08-php-unserialize",
+  "owasp": "A08",
+  "cwe": [
+    502
+  ],
+  "description": "unserialize() of a cookie (PHP object injection).",
+  "expect": [
+    "PHP-DESER-001"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "a08-java-entity-binding",
+  "owasp": "A08",
+  "cwe": [
+    915
+  ],
+  "description": "JPA entity bound directly from @RequestBody.",
+  "expect": [
+    "JAVA-MASS-001"
+  ]
+}

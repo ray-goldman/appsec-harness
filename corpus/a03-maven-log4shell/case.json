@@ -1,0 +1,13 @@
+{
+  "id": "a03-maven-log4shell",
+  "owasp": "A03",
+  "cwe": [
+    917,
+    502
+  ],
+  "description": "pom.xml pins log4j-core 2.14.1 (Log4Shell) and commons-text 1.9 (Text4Shell).",
+  "expect": [
+    "SUPPLY-VULN-001"
+  ],
+  "cve": "CVE-2021-44228"
+}

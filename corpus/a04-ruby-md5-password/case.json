@@ -1,0 +1,11 @@
+{
+  "id": "a04-ruby-md5-password",
+  "owasp": "A04",
+  "cwe": [
+    916
+  ],
+  "description": "MD5 used for password hashing.",
+  "expect": [
+    "RB-CRYPTO-001"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "id": "a05-ruby-injection-pack",
+  "owasp": "A05",
+  "cwe": [
+    78,
+    94,
+    79
+  ],
+  "description": "Interpolated system(), eval of params, html_safe on params.",
+  "expect": [
+    "RB-CMDI-001",
+    "RB-CODE-001",
+    "RB-XSS-001"
+  ]
+}

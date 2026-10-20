@@ -1,0 +1,12 @@
+{
+  "id": "a05-java-sqli-owasp",
+  "owasp": "A05",
+  "cwe": [
+    89
+  ],
+  "description": "OWASP Top 10:2025 A05 Scenario #1 \u2014 concatenated JDBC query.",
+  "expect": [
+    "JAVA-SQLI-001"
+  ],
+  "ref": "https://owasp.org/Top10/2025/A05_2025-Injection/"
+}

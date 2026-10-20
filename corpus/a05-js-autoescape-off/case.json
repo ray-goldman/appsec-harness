@@ -1,0 +1,11 @@
+{
+  "id": "a05-js-autoescape-off",
+  "owasp": "A05",
+  "cwe": [
+    79
+  ],
+  "description": "swig configured with autoescape disabled (NodeGoat).",
+  "expect": [
+    "JS-XSS-005"
+  ]
+}

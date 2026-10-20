@@ -1,0 +1,11 @@
+{
+  "id": "a01-java-path-traversal",
+  "owasp": "A01",
+  "cwe": [
+    22
+  ],
+  "description": "Servlet reads a file named by a request parameter.",
+  "expect": [
+    "JAVA-PATH-001"
+  ]
+}

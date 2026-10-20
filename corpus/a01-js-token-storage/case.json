@@ -1,0 +1,11 @@
+{
+  "id": "a01-js-token-storage",
+  "owasp": "A01",
+  "cwe": [
+    922
+  ],
+  "description": "JWT persisted in localStorage.",
+  "expect": [
+    "JS-STORAGE-001"
+  ]
+}

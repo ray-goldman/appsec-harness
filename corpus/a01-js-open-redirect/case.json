@@ -1,0 +1,11 @@
+{
+  "id": "a01-js-open-redirect",
+  "owasp": "A01",
+  "cwe": [
+    601
+  ],
+  "description": "Login flow redirects to an unvalidated ?next= parameter.",
+  "expect": [
+    "JS-REDIRECT-001"
+  ]
+}

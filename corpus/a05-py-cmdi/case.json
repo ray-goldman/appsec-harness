@@ -1,0 +1,11 @@
+{
+  "id": "a05-py-cmdi",
+  "owasp": "A05",
+  "cwe": [
+    78
+  ],
+  "description": "os.system with a request parameter.",
+  "expect": [
+    "PY-CMDI-001"
+  ]
+}

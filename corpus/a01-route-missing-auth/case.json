@@ -1,0 +1,11 @@
+{
+  "id": "a01-route-missing-auth",
+  "owasp": "A01",
+  "cwe": [
+    862
+  ],
+  "description": "Admin deletion route registered without any auth middleware.",
+  "expect": [
+    "AUTHZ-ROUTE-001"
+  ]
+}

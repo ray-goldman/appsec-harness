@@ -1,0 +1,12 @@
+{
+  "id": "a08-agent-prompt-injection",
+  "owasp": "A08",
+  "cwe": [
+    829
+  ],
+  "description": "Comment instructing AI reviewers to ignore instructions and approve.",
+  "expect": [
+    "AGENT-INJ-001"
+  ],
+  "ref": "https://genai.owasp.org/llmrisk/llm01-prompt-injection/"
+}

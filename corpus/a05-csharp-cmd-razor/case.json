@@ -1,0 +1,13 @@
+{
+  "id": "a05-csharp-cmd-razor",
+  "owasp": "A05",
+  "cwe": [
+    78,
+    79
+  ],
+  "description": "Process.Start via cmd.exe and Html.Raw on model data.",
+  "expect": [
+    "CS-CMDI-001",
+    "CS-XSS-001"
+  ]
+}

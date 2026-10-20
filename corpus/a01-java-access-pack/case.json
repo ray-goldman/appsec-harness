@@ -1,0 +1,17 @@
+{
+  "id": "a01-java-access-pack",
+  "owasp": "A01",
+  "cwe": [
+    918,
+    601,
+    352,
+    942
+  ],
+  "description": "SSRF via URL, open redirect, CSRF disabled, CORS wildcard.",
+  "expect": [
+    "JAVA-SSRF-001",
+    "JAVA-REDIRECT-001",
+    "JAVA-CSRF-001",
+    "JAVA-AUTHZ-001"
+  ]
+}

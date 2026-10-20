@@ -1,0 +1,12 @@
+{
+  "id": "a04-php-weak-hash",
+  "owasp": "A04",
+  "cwe": [
+    916,
+    338
+  ],
+  "description": "md5($password) and mt_rand() reset tokens.",
+  "expect": [
+    "PHP-CRYPTO-001"
+  ]
+}

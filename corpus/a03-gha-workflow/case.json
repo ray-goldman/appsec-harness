@@ -1,0 +1,15 @@
+{
+  "id": "a03-gha-workflow",
+  "owasp": "A03",
+  "cwe": [
+    78,
+    829
+  ],
+  "description": "Workflow with script injection, pwn-request checkout and a mutable third-party tag.",
+  "expect": [
+    "GHA-INJ-001",
+    "GHA-PRT-001",
+    "GHA-PIN-001"
+  ],
+  "cve": "CVE-2025-30066"
+}

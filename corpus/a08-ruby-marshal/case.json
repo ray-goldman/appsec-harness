@@ -1,0 +1,11 @@
+{
+  "id": "a08-ruby-marshal",
+  "owasp": "A08",
+  "cwe": [
+    502
+  ],
+  "description": "Marshal.load of a cookie.",
+  "expect": [
+    "RB-DESER-001"
+  ]
+}

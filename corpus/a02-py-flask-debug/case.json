@@ -1,0 +1,11 @@
+{
+  "id": "a02-py-flask-debug",
+  "owasp": "A02",
+  "cwe": [
+    489
+  ],
+  "description": "Flask app started with the Werkzeug debugger enabled.",
+  "expect": [
+    "PY-DEBUG-001"
+  ]
+}

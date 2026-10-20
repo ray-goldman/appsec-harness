@@ -1,0 +1,12 @@
+{
+  "id": "a01-nginx-alias",
+  "owasp": "A01",
+  "cwe": [
+    22
+  ],
+  "description": "nginx location without trailing slash + alias with slash (off-by-slash traversal).",
+  "expect": [
+    "NGINX-001"
+  ],
+  "ref": "https://i.blackhat.com/us-18/Wed-August-8/us-18-Orange-Tsai-Breaking-Parser-Logic-Take-Your-Path-Normalization-Off-And-Pop-0days-Out-2.pdf"
+}

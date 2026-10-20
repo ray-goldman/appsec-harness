@@ -1,0 +1,11 @@
+{
+  "id": "a04-js-bcrypt-cost",
+  "owasp": "A04",
+  "cwe": [
+    916
+  ],
+  "description": "bcrypt cost factor of 4.",
+  "expect": [
+    "JS-CRYPTO-005"
+  ]
+}

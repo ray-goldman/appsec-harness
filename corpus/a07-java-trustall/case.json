@@ -1,0 +1,11 @@
+{
+  "id": "a07-java-trustall",
+  "owasp": "A07",
+  "cwe": [
+    295
+  ],
+  "description": "Trust-all X509TrustManager.",
+  "expect": [
+    "JAVA-TLS-001"
+  ]
+}

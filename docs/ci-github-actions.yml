@@ -1,0 +1,47 @@
+# Example: gate pull requests and releases with appsec-harness.
+# Copy to .github/workflows/appsec.yml in the repository you want to protect and vendor the harness
+# (git submodule, subtree, or a pinned checkout of your own fork at a commit SHA).
+name: appsec
+on:
+  pull_request:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+  security-events: write   # upload SARIF to code scanning
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: YOUR_ORG/appsec-harness
+          ref: 0000000000000000000000000000000000000000   # pin to a commit SHA
+          path: .appsec-harness
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # The harness never executes the scanned project; no npm install needed (zero dependencies).
+      - name: Scan
+        run: |
+          node .appsec-harness/bin/appsec.js scan . \
+            --out appsec-out --format sarif,junit,html,json \
+            --fail-on high --fail-confidence medium --osv \
+            --ignore-file .appsec-ignore.json || echo "APPSEC_FAILED=1" >> "$GITHUB_ENV"
+      - uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: appsec-out/results.sarif
+          category: appsec-harness
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: appsec-report
+          path: appsec-out/
+      - name: Gate
+        if: env.APPSEC_FAILED == '1'
+        run: exit 1

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "appsec": {
+      "command": "node",
+      "args": ["bin/appsec.js", "mcp"]
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "a08-vscode-autorun",
+  "owasp": "A08",
+  "cwe": [
+    829
+  ],
+  "description": "VS Code task that runs automatically when the folder is opened.",
+  "expect": [
+    "AGENT-CFG-001"
+  ]
+}

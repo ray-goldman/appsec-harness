@@ -1,0 +1,11 @@
+{
+  "id": "a09-js-log-injection",
+  "owasp": "A09",
+  "cwe": [
+    117
+  ],
+  "description": "User-controlled value interpolated into a log line.",
+  "expect": [
+    "JS-LOG-002"
+  ]
+}

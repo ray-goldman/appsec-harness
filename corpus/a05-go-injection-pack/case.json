@@ -1,0 +1,16 @@
+{
+  "id": "a05-go-injection-pack",
+  "owasp": "A05",
+  "cwe": [
+    89,
+    78,
+    79
+  ],
+  "description": "Sprintf SQL from form, sh -c, template.HTML of input, text/template in handler.",
+  "expect": [
+    "GO-SQLI-002",
+    "GO-CMDI-001",
+    "GO-XSS-001",
+    "GO-XSS-002"
+  ]
+}

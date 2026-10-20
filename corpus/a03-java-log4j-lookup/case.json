@@ -1,0 +1,11 @@
+{
+  "id": "a03-java-log4j-lookup",
+  "owasp": "A03",
+  "cwe": [
+    917
+  ],
+  "description": "Request header logged through Log4j 2 (Log4Shell sink).",
+  "expect": [
+    "JAVA-LOG4SHELL-001"
+  ]
+}

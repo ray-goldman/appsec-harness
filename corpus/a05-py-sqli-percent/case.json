@@ -1,0 +1,11 @@
+{
+  "id": "a05-py-sqli-percent",
+  "owasp": "A05",
+  "cwe": [
+    89
+  ],
+  "description": "DAO formats SQL with the % operator before execute (dvpwa pattern).",
+  "expect": [
+    "PY-SQLI-003"
+  ]
+}

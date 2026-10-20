@@ -1,0 +1,11 @@
+{
+  "id": "a07-php-type-juggling",
+  "owasp": "A07",
+  "cwe": [
+    697
+  ],
+  "description": "Loose == comparison of password hashes (magic hashes).",
+  "expect": [
+    "PHP-AUTH-001"
+  ]
+}

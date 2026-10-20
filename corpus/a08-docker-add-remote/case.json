@@ -1,0 +1,11 @@
+{
+  "id": "a08-docker-add-remote",
+  "owasp": "A08",
+  "cwe": [
+    494
+  ],
+  "description": "ADD of a remote tarball without checksum.",
+  "expect": [
+    "DOCKER-ADD-001"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "a08-js-mass-assignment",
+  "owasp": "A08",
+  "cwe": [
+    915
+  ],
+  "description": "Profile update writes the whole request body to the model.",
+  "expect": [
+    "JS-MASS-001"
+  ]
+}

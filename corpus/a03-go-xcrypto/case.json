@@ -1,0 +1,12 @@
+{
+  "id": "a03-go-xcrypto",
+  "owasp": "A03",
+  "cwe": [
+    863
+  ],
+  "description": "go.mod pins golang.org/x/crypto below 0.31.0 (CVE-2024-45337).",
+  "expect": [
+    "SUPPLY-VULN-001"
+  ],
+  "cve": "CVE-2024-45337"
+}

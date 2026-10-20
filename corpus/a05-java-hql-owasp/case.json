@@ -1,0 +1,12 @@
+{
+  "id": "a05-java-hql-owasp",
+  "owasp": "A05",
+  "cwe": [
+    564
+  ],
+  "description": "OWASP Top 10:2025 A05 Scenario #2 \u2014 HQL concatenation.",
+  "expect": [
+    "JAVA-SQLI-001"
+  ],
+  "ref": "https://owasp.org/Top10/2025/A05_2025-Injection/"
+}

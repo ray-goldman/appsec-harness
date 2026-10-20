@@ -1,0 +1,11 @@
+{
+  "id": "a02-php-display-errors",
+  "owasp": "A02",
+  "cwe": [
+    209
+  ],
+  "description": "PHP displays errors to users.",
+  "expect": [
+    "PHP-CONF-001"
+  ]
+}

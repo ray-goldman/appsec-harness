@@ -1,0 +1,11 @@
+{
+  "id": "a09-java-log-secret",
+  "owasp": "A09",
+  "cwe": [
+    532
+  ],
+  "description": "Password written to the application log.",
+  "expect": [
+    "JAVA-LOG-001"
+  ]
+}

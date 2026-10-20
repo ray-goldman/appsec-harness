@@ -1,0 +1,11 @@
+{
+  "id": "a08-py-pickle",
+  "owasp": "A08",
+  "cwe": [
+    502
+  ],
+  "description": "Session state restored with pickle.loads.",
+  "expect": [
+    "PY-DESER-001"
+  ]
+}

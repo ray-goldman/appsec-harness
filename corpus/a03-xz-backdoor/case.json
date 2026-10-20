@@ -1,0 +1,11 @@
+{
+  "id": "a03-xz-backdoor",
+  "owasp": "A03",
+  "cwe": [
+    506
+  ],
+  "description": "Image pins backdoored xz-utils 5.6.1 (CVE-2024-3094).",
+  "expect": [
+    "DOCKER-XZ-001"
+  ]
+}

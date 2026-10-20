@@ -1,0 +1,11 @@
+{
+  "id": "a02-java-xxe",
+  "owasp": "A02",
+  "cwe": [
+    611
+  ],
+  "description": "DocumentBuilderFactory with default settings parses untrusted XML (XXE).",
+  "expect": [
+    "JAVA-XXE-001"
+  ]
+}

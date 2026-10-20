@@ -1,0 +1,13 @@
+{
+  "id": "a04-go-crypto",
+  "owasp": "A04",
+  "cwe": [
+    327,
+    338
+  ],
+  "description": "Go uses MD5 and math/rand for a session token.",
+  "expect": [
+    "GO-CRYPTO-001",
+    "GO-CRYPTO-002"
+  ]
+}

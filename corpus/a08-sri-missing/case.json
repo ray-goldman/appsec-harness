@@ -1,0 +1,11 @@
+{
+  "id": "a08-sri-missing",
+  "owasp": "A08",
+  "cwe": [
+    830
+  ],
+  "description": "Third-party CDN script without Subresource Integrity.",
+  "expect": [
+    "JS-SRI-001"
+  ]
+}

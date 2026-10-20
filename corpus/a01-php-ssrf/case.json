@@ -1,0 +1,11 @@
+{
+  "id": "a01-php-ssrf",
+  "owasp": "A01",
+  "cwe": [
+    918
+  ],
+  "description": "PHP fetches a URL from the query string (file:// and metadata reachable).",
+  "expect": [
+    "PHP-SSRF-001"
+  ]
+}

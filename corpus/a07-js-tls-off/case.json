@@ -1,0 +1,11 @@
+{
+  "id": "a07-js-tls-off",
+  "owasp": "A07",
+  "cwe": [
+    295
+  ],
+  "description": "HTTPS agent with certificate validation disabled.",
+  "expect": [
+    "JS-TLS-001"
+  ]
+}

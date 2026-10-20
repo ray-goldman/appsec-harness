@@ -1,0 +1,11 @@
+{
+  "id": "a06-js-upload-name",
+  "owasp": "A06",
+  "cwe": [
+    434
+  ],
+  "description": "multer storage keeps the client-supplied filename.",
+  "expect": [
+    "JS-UPLOAD-001"
+  ]
+}

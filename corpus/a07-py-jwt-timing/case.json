@@ -1,0 +1,13 @@
+{
+  "id": "a07-py-jwt-timing",
+  "owasp": "A07",
+  "cwe": [
+    347,
+    208
+  ],
+  "description": "PyJWT without signature verification; token compared with ==.",
+  "expect": [
+    "PY-JWT-001",
+    "PY-AUTH-002"
+  ]
+}

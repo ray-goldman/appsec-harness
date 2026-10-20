@@ -1,0 +1,13 @@
+{
+  "id": "a04-java-crypto",
+  "owasp": "A04",
+  "cwe": [
+    327,
+    338
+  ],
+  "description": "DES/ECB cipher, MD5 digest and java.util.Random session tokens.",
+  "expect": [
+    "JAVA-CRYPTO-001",
+    "JAVA-CRYPTO-002"
+  ]
+}

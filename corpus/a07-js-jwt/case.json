@@ -1,0 +1,13 @@
+{
+  "id": "a07-js-jwt",
+  "owasp": "A07",
+  "cwe": [
+    347,
+    798
+  ],
+  "description": "Auth middleware trusts jwt.decode() and signs with a literal secret.",
+  "expect": [
+    "JS-JWT-001",
+    "JS-SESSION-001"
+  ]
+}

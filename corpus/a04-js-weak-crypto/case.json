@@ -1,0 +1,13 @@
+{
+  "id": "a04-js-weak-crypto",
+  "owasp": "A04",
+  "cwe": [
+    327,
+    338
+  ],
+  "description": "MD5 password hashing and Math.random reset tokens.",
+  "expect": [
+    "JS-CRYPTO-001",
+    "JS-CRYPTO-003"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "a10-py-traceback",
+  "owasp": "A10",
+  "cwe": [
+    209
+  ],
+  "description": "Flask returns the exception text to the caller.",
+  "expect": [
+    "PY-ERR-002"
+  ]
+}

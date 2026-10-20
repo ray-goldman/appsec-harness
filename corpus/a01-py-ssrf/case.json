@@ -1,0 +1,11 @@
+{
+  "id": "a01-py-ssrf",
+  "owasp": "A01",
+  "cwe": [
+    918
+  ],
+  "description": "Webhook tester requests an arbitrary URL from the server.",
+  "expect": [
+    "PY-SSRF-001"
+  ]
+}

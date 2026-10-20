@@ -1,0 +1,11 @@
+{
+  "id": "a05-py-sqli",
+  "owasp": "A05",
+  "cwe": [
+    89
+  ],
+  "description": "psycopg cursor.execute with an f-string.",
+  "expect": [
+    "PY-SQLI-001"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "a02-java-cookie",
+  "owasp": "A02",
+  "cwe": [
+    1004
+  ],
+  "description": "Session cookie with HttpOnly disabled.",
+  "expect": [
+    "JAVA-COOKIE-001"
+  ]
+}

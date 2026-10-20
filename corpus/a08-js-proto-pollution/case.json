@@ -1,0 +1,11 @@
+{
+  "id": "a08-js-proto-pollution",
+  "owasp": "A08",
+  "cwe": [
+    1321
+  ],
+  "description": "lodash merge of request body into a settings object.",
+  "expect": [
+    "JS-PROTO-001"
+  ]
+}

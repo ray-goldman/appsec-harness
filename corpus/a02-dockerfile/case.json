@@ -1,0 +1,14 @@
+{
+  "id": "a02-dockerfile",
+  "owasp": "A02",
+  "cwe": [
+    250,
+    494
+  ],
+  "description": "Dockerfile running as root, piping curl to sh, unpinned base.",
+  "expect": [
+    "DOCKER-ROOT-001",
+    "DOCKER-CURLPIPE-001",
+    "DOCKER-TAG-001"
+  ]
+}

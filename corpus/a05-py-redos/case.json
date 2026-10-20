@@ -1,0 +1,11 @@
+{
+  "id": "a05-py-redos",
+  "owasp": "A05",
+  "cwe": [
+    1333
+  ],
+  "description": "Python email regex with nested quantifiers.",
+  "expect": [
+    "PY-REDOS-001"
+  ]
+}

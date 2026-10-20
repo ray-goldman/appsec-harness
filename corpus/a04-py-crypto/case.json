@@ -1,0 +1,13 @@
+{
+  "id": "a04-py-crypto",
+  "owasp": "A04",
+  "cwe": [
+    327,
+    338
+  ],
+  "description": "MD5 for passwords and random module for API keys.",
+  "expect": [
+    "PY-CRYPTO-001",
+    "PY-CRYPTO-003"
+  ]
+}

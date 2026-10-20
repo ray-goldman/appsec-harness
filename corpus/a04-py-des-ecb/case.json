@@ -1,0 +1,11 @@
+{
+  "id": "a04-py-des-ecb",
+  "owasp": "A04",
+  "cwe": [
+    327
+  ],
+  "description": "PyCryptodome DES in ECB mode.",
+  "expect": [
+    "PY-CRYPTO-002"
+  ]
+}

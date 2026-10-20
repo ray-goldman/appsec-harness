@@ -1,0 +1,11 @@
+{
+  "id": "a05-js-dom-xss",
+  "owasp": "A05",
+  "cwe": [
+    79
+  ],
+  "description": "Client code writes location.hash into innerHTML.",
+  "expect": [
+    "JS-XSS-001"
+  ]
+}

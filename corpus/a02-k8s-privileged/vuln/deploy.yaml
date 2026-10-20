@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: api
+spec:
+  hostNetwork: true
+  containers:
+    - name: api
+      image: registry.example.com/api:1.4.2
+      securityContext:
+        privileged: true

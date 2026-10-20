@@ -1,0 +1,11 @@
+{
+  "id": "a07-go-jwt-keyfunc",
+  "owasp": "A07",
+  "cwe": [
+    347
+  ],
+  "description": "jwt.Parse key function ignores the signing method.",
+  "expect": [
+    "GO-JWT-001"
+  ]
+}

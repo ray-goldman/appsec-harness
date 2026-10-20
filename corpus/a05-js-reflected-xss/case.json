@@ -1,0 +1,11 @@
+{
+  "id": "a05-js-reflected-xss",
+  "owasp": "A05",
+  "cwe": [
+    79
+  ],
+  "description": "Express echoes a query parameter into HTML.",
+  "expect": [
+    "JS-XSS-003"
+  ]
+}

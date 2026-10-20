@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node bin/appsec.js:*)",
+      "Bash(node --test:*)",
+      "Bash(npm test)",
+      "mcp__appsec__appsec_findings",
+      "mcp__appsec__appsec_read_code",
+      "mcp__appsec__appsec_search_code",
+      "mcp__appsec__appsec_triage_schema",
+      "mcp__appsec__appsec_explain"
+    ],
+    "deny": [
+      "Bash(npm install:*)",
+      "Bash(npm ci:*)",
+      "Bash(npm run:*)",
+      "Bash(npx:*)",
+      "Bash(yarn:*)",
+      "Bash(pnpm:*)",
+      "Bash(pip install:*)",
+      "Bash(pip3 install:*)",
+      "Bash(poetry install:*)",
+      "Bash(composer install:*)",
+      "Bash(bundle install:*)",
+      "Bash(mvn:*)",
+      "Bash(gradle:*)",
+      "Bash(./gradlew:*)",
+      "Bash(go run:*)",
+      "Bash(make:*)",
+      "Bash(docker build:*)",
+      "Bash(docker compose:*)"
+    ]
+  }
+}

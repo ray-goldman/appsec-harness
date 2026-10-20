@@ -1,0 +1,18 @@
+{
+  "id": "a07-hardcoded-secrets",
+  "owasp": "A07",
+  "cwe": [
+    798
+  ],
+  "description": "Cloud keys, a GitHub token and a private key committed in config.",
+  "expect": [
+    "SECRET-AWS-001",
+    "SECRET-GH-001",
+    "SECRET-PK-001"
+  ],
+  "generate": {
+    "__GEN_AWS_KEY__": "aws",
+    "__GEN_GH_TOKEN__": "gh",
+    "__GEN_PK_HEADER__": "pk"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "a01-go-access-pack",
+  "owasp": "A01",
+  "cwe": [
+    22,
+    918,
+    601
+  ],
+  "description": "Zip slip, SSRF via http.Get, open redirect.",
+  "expect": [
+    "GO-ZIPSLIP-001",
+    "GO-SSRF-001",
+    "GO-REDIRECT-001"
+  ]
+}

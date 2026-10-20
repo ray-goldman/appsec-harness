@@ -1,0 +1,13 @@
+{
+  "id": "a02-js-xxe-debug",
+  "owasp": "A02",
+  "cwe": [
+    611,
+    489
+  ],
+  "description": "libxmljs with noent and the development errorhandler in production.",
+  "expect": [
+    "JS-XXE-001",
+    "JS-DEBUG-001"
+  ]
+}

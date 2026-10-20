@@ -1,0 +1,13 @@
+{
+  "id": "a01-ruby-redirect-csrf",
+  "owasp": "A01",
+  "cwe": [
+    601,
+    352
+  ],
+  "description": "redirect_to params and CSRF verification skipped.",
+  "expect": [
+    "RB-REDIRECT-001",
+    "RB-CSRF-001"
+  ]
+}

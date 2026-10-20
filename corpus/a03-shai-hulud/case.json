@@ -1,0 +1,12 @@
+{
+  "id": "a03-shai-hulud",
+  "owasp": "A03",
+  "cwe": [
+    506,
+    509
+  ],
+  "description": "Repository contains the Shai-Hulud worm workflow.",
+  "expect": [
+    "SHAI-HULUD-001"
+  ]
+}

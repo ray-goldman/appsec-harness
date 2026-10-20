@@ -1,0 +1,11 @@
+{
+  "id": "a08-java-deser",
+  "owasp": "A08",
+  "cwe": [
+    502
+  ],
+  "description": "ObjectInputStream.readObject on request bytes.",
+  "expect": [
+    "JAVA-DESER-001"
+  ]
+}

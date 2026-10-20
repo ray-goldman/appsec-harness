@@ -1,0 +1,17 @@
+{
+  "id": "a06-trojan-source",
+  "owasp": "A06",
+  "cwe": [
+    451
+  ],
+  "description": "Bidi override hides logic from reviewers (CVE-2021-42574).",
+  "expect": [
+    "TROJAN-SOURCE-001"
+  ],
+  "cve": "CVE-2021-42574",
+  "generate": {
+    "__GEN_RLO__": "rlo",
+    "__GEN_LRI__": "lri",
+    "__GEN_PDI__": "pdi"
+  }
+}

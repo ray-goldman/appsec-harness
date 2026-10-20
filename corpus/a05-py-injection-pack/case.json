@@ -1,0 +1,16 @@
+{
+  "id": "a05-py-injection-pack",
+  "owasp": "A05",
+  "cwe": [
+    89,
+    79,
+    90
+  ],
+  "description": "f-string SQL from request, Markup with f-string, reflected HTML, LDAP filter.",
+  "expect": [
+    "PY-SQLI-002",
+    "PY-XSS-001",
+    "PY-XSS-002",
+    "PY-LDAP-001"
+  ]
+}

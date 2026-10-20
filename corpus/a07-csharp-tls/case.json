@@ -1,0 +1,11 @@
+{
+  "id": "a07-csharp-tls",
+  "owasp": "A07",
+  "cwe": [
+    295
+  ],
+  "description": "Certificate validation callback always returns true.",
+  "expect": [
+    "CS-TLS-001"
+  ]
+}

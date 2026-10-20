@@ -1,0 +1,11 @@
+{
+  "id": "a08-php-extract",
+  "owasp": "A08",
+  "cwe": [
+    915
+  ],
+  "description": "extract($_POST) overwrites local variables.",
+  "expect": [
+    "PHP-EXTRACT-001"
+  ]
+}

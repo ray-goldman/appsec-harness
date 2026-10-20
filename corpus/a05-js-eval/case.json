@@ -1,0 +1,11 @@
+{
+  "id": "a05-js-eval",
+  "owasp": "A05",
+  "cwe": [
+    95
+  ],
+  "description": "Calculator evaluates user expressions with eval().",
+  "expect": [
+    "JS-CODE-001"
+  ]
+}

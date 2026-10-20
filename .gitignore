@@ -1,0 +1,5 @@
+appsec-reports/
+appsec-out/
+node_modules/
+*.log
+.DS_Store

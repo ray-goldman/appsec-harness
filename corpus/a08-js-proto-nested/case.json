@@ -1,0 +1,11 @@
+{
+  "id": "a08-js-proto-nested",
+  "owasp": "A08",
+  "cwe": [
+    1321
+  ],
+  "description": "Nested computed write with request-controlled keys.",
+  "expect": [
+    "JS-PROTO-002"
+  ]
+}

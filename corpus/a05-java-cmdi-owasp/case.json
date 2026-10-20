@@ -1,0 +1,12 @@
+{
+  "id": "a05-java-cmdi-owasp",
+  "owasp": "A05",
+  "cwe": [
+    78
+  ],
+  "description": "OWASP Top 10:2025 A05 Scenario #3 \u2014 nslookup via Runtime.exec.",
+  "expect": [
+    "JAVA-CMDI-001"
+  ],
+  "ref": "https://owasp.org/Top10/2025/A05_2025-Injection/"
+}

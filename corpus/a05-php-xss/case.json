@@ -1,0 +1,11 @@
+{
+  "id": "a05-php-xss",
+  "owasp": "A05",
+  "cwe": [
+    79
+  ],
+  "description": "Echoes a query parameter without encoding.",
+  "expect": [
+    "PHP-XSS-001"
+  ]
+}

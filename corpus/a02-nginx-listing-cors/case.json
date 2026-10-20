@@ -1,0 +1,13 @@
+{
+  "id": "a02-nginx-listing-cors",
+  "owasp": "A02",
+  "cwe": [
+    548,
+    942
+  ],
+  "description": "nginx directory listing and Origin reflection.",
+  "expect": [
+    "NGINX-002",
+    "NGINX-003"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "a05-js-nosqli",
+  "owasp": "A05",
+  "cwe": [
+    943
+  ],
+  "description": "Login passes the request body straight into a MongoDB query ($ne bypass).",
+  "expect": [
+    "JS-NOSQLI-001"
+  ]
+}

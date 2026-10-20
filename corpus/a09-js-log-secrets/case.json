@@ -1,0 +1,11 @@
+{
+  "id": "a09-js-log-secrets",
+  "owasp": "A09",
+  "cwe": [
+    532
+  ],
+  "description": "Login handler logs the request body including the password.",
+  "expect": [
+    "JS-LOG-001"
+  ]
+}

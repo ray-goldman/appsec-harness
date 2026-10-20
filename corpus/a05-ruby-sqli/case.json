@@ -1,0 +1,11 @@
+{
+  "id": "a05-ruby-sqli",
+  "owasp": "A05",
+  "cwe": [
+    89
+  ],
+  "description": "ActiveRecord where() with interpolated params.",
+  "expect": [
+    "RB-SQLI-001"
+  ]
+}

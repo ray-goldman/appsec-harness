@@ -1,0 +1,11 @@
+{
+  "id": "a05-js-ssti",
+  "owasp": "A05",
+  "cwe": [
+    1336
+  ],
+  "description": "User-submitted EJS template compiled server-side.",
+  "expect": [
+    "JS-SSTI-001"
+  ]
+}

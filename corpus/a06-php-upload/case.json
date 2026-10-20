@@ -1,0 +1,11 @@
+{
+  "id": "a06-php-upload",
+  "owasp": "A06",
+  "cwe": [
+    434
+  ],
+  "description": "move_uploaded_file keeps the original name inside the web root.",
+  "expect": [
+    "PHP-UPLOAD-001"
+  ]
+}

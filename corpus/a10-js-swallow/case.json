@@ -1,0 +1,11 @@
+{
+  "id": "a10-js-swallow",
+  "owasp": "A10",
+  "cwe": [
+    390
+  ],
+  "description": "Audit write failure silently ignored.",
+  "expect": [
+    "JS-ERR-002"
+  ]
+}

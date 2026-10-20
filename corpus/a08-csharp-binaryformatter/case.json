@@ -1,0 +1,11 @@
+{
+  "id": "a08-csharp-binaryformatter",
+  "owasp": "A08",
+  "cwe": [
+    502
+  ],
+  "description": "BinaryFormatter deserialization.",
+  "expect": [
+    "CS-DESER-001"
+  ]
+}

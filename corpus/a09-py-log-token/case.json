@@ -1,0 +1,11 @@
+{
+  "id": "a09-py-log-token",
+  "owasp": "A09",
+  "cwe": [
+    532
+  ],
+  "description": "Bearer token written to application logs.",
+  "expect": [
+    "PY-LOG-001"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "a02-terraform-public",
+  "owasp": "A02",
+  "cwe": [
+    732,
+    311
+  ],
+  "description": "Public-read S3 bucket and IMDSv1 allowed.",
+  "expect": [
+    "TF-001"
+  ]
+}

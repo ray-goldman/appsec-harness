@@ -1,0 +1,11 @@
+{
+  "id": "a03-eol-base-image",
+  "owasp": "A03",
+  "cwe": [
+    1104
+  ],
+  "description": "Container built on an end-of-life Node.js runtime.",
+  "expect": [
+    "DOCKER-EOL-001"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "a01-js-path-traversal",
+  "owasp": "A01",
+  "cwe": [
+    22
+  ],
+  "description": "Express download handler joins a query parameter into a filesystem path.",
+  "expect": [
+    "JS-PATH-001"
+  ],
+  "ref": "https://owasp.org/www-community/attacks/Path_Traversal"
+}

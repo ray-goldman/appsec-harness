@@ -1,0 +1,11 @@
+{
+  "id": "a01-py-path-traversal",
+  "owasp": "A01",
+  "cwe": [
+    22
+  ],
+  "description": "Flask endpoint opens a user-chosen file under a base directory.",
+  "expect": [
+    "PY-PATH-001"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "a02-env-committed",
+  "owasp": "A02",
+  "cwe": [
+    538
+  ],
+  "description": ".env file with live values committed to the repository.",
+  "expect": [
+    "FILE-ENV-001"
+  ]
+}

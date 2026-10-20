@@ -1,0 +1,11 @@
+{
+  "id": "a02-k8s-privileged",
+  "owasp": "A02",
+  "cwe": [
+    250
+  ],
+  "description": "Pod spec with privileged container and host networking.",
+  "expect": [
+    "CONTAINER-PRIV-001"
+  ]
+}

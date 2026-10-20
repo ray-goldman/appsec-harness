@@ -1,0 +1,11 @@
+{
+  "id": "a05-csharp-sqli",
+  "owasp": "A05",
+  "cwe": [
+    89
+  ],
+  "description": "ADO.NET SqlCommand with string interpolation.",
+  "expect": [
+    "CS-SQLI-001"
+  ]
+}

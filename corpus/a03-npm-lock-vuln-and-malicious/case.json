@@ -1,0 +1,14 @@
+{
+  "id": "a03-npm-lock-vuln-and-malicious",
+  "owasp": "A03",
+  "cwe": [
+    1395,
+    506
+  ],
+  "description": "Lockfile resolves vulnerable lodash and the hijacked chalk@5.6.1 (Sept 2025).",
+  "expect": [
+    "SUPPLY-VULN-001",
+    "SUPPLY-MAL-001"
+  ],
+  "cve": "CVE-2021-23337"
+}

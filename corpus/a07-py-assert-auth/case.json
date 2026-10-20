@@ -1,0 +1,11 @@
+{
+  "id": "a07-py-assert-auth",
+  "owasp": "A07",
+  "cwe": [
+    617
+  ],
+  "description": "Authorization enforced with assert (stripped under -O).",
+  "expect": [
+    "PY-AUTH-001"
+  ]
+}

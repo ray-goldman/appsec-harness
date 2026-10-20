@@ -1,0 +1,11 @@
+{
+  "id": "a08-py-yaml-load",
+  "owasp": "A08",
+  "cwe": [
+    502
+  ],
+  "description": "yaml.load without SafeLoader.",
+  "expect": [
+    "PY-DESER-001"
+  ]
+}

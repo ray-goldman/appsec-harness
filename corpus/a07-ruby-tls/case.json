@@ -1,0 +1,11 @@
+{
+  "id": "a07-ruby-tls",
+  "owasp": "A07",
+  "cwe": [
+    295
+  ],
+  "description": "Net::HTTP with VERIFY_NONE.",
+  "expect": [
+    "RB-TLS-001"
+  ]
+}

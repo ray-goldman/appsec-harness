@@ -1,0 +1,11 @@
+{
+  "id": "a07-go-tls-off",
+  "owasp": "A07",
+  "cwe": [
+    295
+  ],
+  "description": "Go TLS client with InsecureSkipVerify.",
+  "expect": [
+    "GO-TLS-001"
+  ]
+}

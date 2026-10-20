@@ -1,0 +1,11 @@
+{
+  "id": "a04-html-mixed-content",
+  "owasp": "A04",
+  "cwe": [
+    319
+  ],
+  "description": "Script and login form over plain HTTP.",
+  "expect": [
+    "HTML-MIXED-001"
+  ]
+}

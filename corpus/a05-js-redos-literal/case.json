@@ -1,0 +1,11 @@
+{
+  "id": "a05-js-redos-literal",
+  "owasp": "A05",
+  "cwe": [
+    1333
+  ],
+  "description": "Validation regex with nested quantifiers (NodeGoat bank routing).",
+  "expect": [
+    "JS-REDOS-002"
+  ]
+}

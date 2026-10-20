@@ -1,0 +1,12 @@
+{
+  "id": "a08-js-node-serialize",
+  "owasp": "A08",
+  "cwe": [
+    502
+  ],
+  "description": "Cookie deserialized with node-serialize (CVE-2017-5941).",
+  "expect": [
+    "JS-DESER-001"
+  ],
+  "cve": "CVE-2017-5941"
+}

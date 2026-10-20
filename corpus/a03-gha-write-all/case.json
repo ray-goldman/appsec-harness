@@ -1,0 +1,11 @@
+{
+  "id": "a03-gha-write-all",
+  "owasp": "A03",
+  "cwe": [
+    269
+  ],
+  "description": "Workflow token with write-all permissions.",
+  "expect": [
+    "GHA-PERM-001"
+  ]
+}

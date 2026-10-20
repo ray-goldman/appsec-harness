@@ -1,0 +1,12 @@
+{
+  "id": "a02-js-cookie-flags",
+  "owasp": "A02",
+  "cwe": [
+    1004,
+    614
+  ],
+  "description": "Session cookie configured readable by JS and sent over HTTP.",
+  "expect": [
+    "JS-COOKIE-001"
+  ]
+}

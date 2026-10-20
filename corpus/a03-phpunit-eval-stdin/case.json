@@ -1,0 +1,11 @@
+{
+  "id": "a03-phpunit-eval-stdin",
+  "owasp": "A03",
+  "cwe": [
+    94
+  ],
+  "description": "Vendored PHPUnit eval-stdin.php (CVE-2017-9841).",
+  "expect": [
+    "FILE-PHPUNIT-001"
+  ]
+}
