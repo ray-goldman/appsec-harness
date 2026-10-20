@@ -144,6 +144,11 @@ See [the prioritized roadmap](docs/ROADMAP.md) for independent datasets, parsing
 
 ## Development
 
+GitHub Actions runs `npm test` and `npm run selftest` on Node 24 for pull
+requests and pushes to `main`. The required check is named **Tests**. The
+downloaded external benchmark datasets are not part of this CI job; their
+measurements remain a separate evaluation step.
+
 Rules live in `src/rules/`; advisory data lives in `src/supply/advisories.js`. Add a paired `vuln/` and `fixed/` corpus case when changing a rule. Run `node bin/kayfabe.js selftest` and `npm test` before submitting a change.
 
 The CLI supports `audit`, `scan`, `clone`, `triage`, `report`, `gate`, `surface`, `rules`, `explain`, `selftest`, `benchmark`, `mcp`, and `agent-setup`. Run `node bin/kayfabe.js help` for command usage and options.
