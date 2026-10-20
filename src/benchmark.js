@@ -223,4 +223,8 @@ async function runBenchmark(directory, opts = {}) {
   return report;
 }
 
-module.exports = { parseExpectedResults, scoreBenchmark, runBenchmark, toMarkdown };
+module.exports = {
+  parseExpectedResults, scoreBenchmark, runBenchmark, toMarkdown,
+  // Shared by the external-label adapters; keep input/output safety consistent.
+  checkedFile, outputDirectory, hashInputs, toolHash, writeReportFile, SCAN_OPTIONS, metrics,
+};

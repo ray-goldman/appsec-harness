@@ -2,7 +2,14 @@
 
 `selftest` runs cases developed alongside the rules. Keep it as a regression check. Use independently labeled datasets to measure detection.
 
-The first adapter supports [OWASP Benchmark Java](https://github.com/OWASP-Benchmark/BenchmarkJava). OWASP publishes the intended CWE and true/false label for each servlet in `expectedresults-1.2.csv`. The adapter uses these upstream labels and runs the existing scanner without changing detection rules.
+The OWASP adapter supports [OWASP Benchmark Java](https://github.com/OWASP-Benchmark/BenchmarkJava). OWASP publishes the intended CWE and true/false label for each servlet in `expectedresults-1.2.csv`. The adapter uses these upstream labels and runs the existing scanner without changing detection rules.
+
+Other datasets have separate guides and scoring policies:
+
+- [Juliet Java and NIST SARD](JULIET-SARD.md): mixed good/bad method regions and explicit SARIF labels.
+- [Real CVE fixes](CVE-FIX-CORPUS.md): immutable upstream parent/fix source pairs.
+
+Do not pool these datasets into a single accuracy claim.
 
 ## Reproduce the first baseline
 
@@ -65,8 +72,8 @@ The checked-in [aggregate JSON](benchmarks/owasp-java-1.2-baseline.json) records
 
 The low scores identify work to investigate. Zero recall may reflect detection gaps, CWE classification, or both. High false-positive rates in command injection, XSS, and SQL injection deserve investigation before expanding those rules. This measurement alone does not establish which implementation change would fix them.
 
-## Limits and next datasets
+## Limits
 
 OWASP Benchmark is independently authored but synthetic. This run does not measure production application accuracy, cross-file flow coverage, or agent triage. The evaluator's unit fixtures check arithmetic and input handling; they are not independent accuracy data.
 
-Juliet/SARD need their own adapters: many cases contain good and bad functions together, so scoring an entire file would give misleading results. CVE-fix cases need reviewed vulnerability locations and both parent/fix revisions. These remain pending in the [roadmap](ROADMAP.md).
+The Juliet/SARD adapters and CVE-fix corpus use their own policies, described in the linked guides above. The [roadmap](ROADMAP.md) tracks remaining dataset expansion and detection work.
