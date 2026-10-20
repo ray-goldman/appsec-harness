@@ -1,5 +1,5 @@
 'use strict';
-// Corpus benchmark: every case has vuln/ (must trigger all `expect` rules) and fixed/ (must trigger none of them).
+// Regression corpus: every case has vuln/ (must trigger all `expect` rules) and fixed/ (must trigger none of them).
 // Reports per-OWASP-category recall and precision. Exit 1 on any regression.
 const fs = require('fs');
 const os = require('os');
@@ -81,7 +81,8 @@ async function run({ verbose = false, json = false, filter } = {}) {
   if (json) {
     console.log(JSON.stringify({ cases: results.length, passed: results.filter((r) => r.pass).length, recall: TP / (TP + FN), precision: TP / (TP + FP), byCategory: cat, results }, null, 2));
   } else {
-    console.log(`\nCorpus benchmark — ${results.length} vulnerable/fixed case pairs\n`);
+    console.log(`\nRegression corpus — ${results.length} vulnerable/fixed case pairs\n`);
+    console.log('Rules and cases were developed together. These metrics do not measure independent detection accuracy.\n');
     console.log('Category                                         cases  recall   precision');
     for (const [k, c] of Object.entries(cat)) {
       if (!c.cases) continue;
