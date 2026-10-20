@@ -10,7 +10,7 @@ The existing corpus was written alongside the rules. Its precision and recall de
 - Build a CVE-fix corpus from real fix commits for vulnerabilities in `CVE-CATALOG.md`. Record upstream repository, parent and fix SHAs, changed vulnerable paths, expected CWE, and review evidence. Measure detection on the parent and silence on the fix.
 - Preserve `selftest` as the regression suite. Keep regression, independent synthetic benchmark, and real CVE-fix results separate.
 
-First deliverable: the OWASP Java adapter and a reproducible baseline. Juliet/SARD adapters and the CVE-fix corpus remain subsequent work.
+Completed first milestone: the OWASP Java adapter and [a reproducible baseline](BENCHMARKS.md). All 2,740 cases were scored, with 40.35% recall and 23.70% false-positive rate. Juliet/SARD adapters and the CVE-fix corpus remain subsequent work.
 
 ## 2. Parsing and cross-file taint
 

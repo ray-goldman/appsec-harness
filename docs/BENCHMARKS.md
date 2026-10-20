@@ -18,7 +18,7 @@ node bin/appsec.js benchmark owasp-java appsec-out/benchmarks/owasp-java \
   --out appsec-reports/benchmarks/owasp-java
 ```
 
-The example uses shell line continuations; use a single line or PowerShell backticks on Windows. The clone destination must be new or empty. Both dataset and local results directories are ignored by Git.
+The example uses shell line continuations; use a single line or PowerShell backticks on Windows. The clone destination must be new or empty. Both dataset and local results directories are ignored by Git. Keep the checkout unchanged during measurement: validation, hashing, and scanning are separate reads, not an atomic snapshot.
 
 The runner writes `benchmark.json` with every case decision and `benchmark.md` with aggregate and per-CWE results. `--json` also prints JSON to stdout. A complete measurement exits `0`, regardless of accuracy. Invalid labels, missing cases, or incomplete scans exit `2`.
 
@@ -42,7 +42,7 @@ For the upstream rationale, see [OWASP's scoring documentation](https://owasp.or
 
 ## First measurement
 
-Measured October 19, 2026 (America/New_York), with Node 24.16.0 on Windows. Upstream commit: `bc5ffeb09fb18ab039806d84ca1f718c2e332c54`.
+Measured October 19, 2026 (America/New_York), with Node 24.16.0 on Windows. Upstream commit: `bc5ffeb09fb18ab039806d84ca1f718c2e332c54`. Harness implementation commit: `995b91552f241adc471cd8a588fc68753d87e56d`; the baseline also records the exact harness source bytes by hash.
 
 | CWE | Cases | TP | FP | TN | FN | Recall | FPR |
 |---|---:|---:|---:|---:|---:|---:|---:|
