@@ -1,0 +1,11 @@
+{
+  "id": "csharp-escaped-shell",
+  "owasp": "A05",
+  "cwe": [
+    78
+  ],
+  "description": "csharp escaped shell",
+  "expect": [
+    "CS-CMDI-002"
+  ]
+}

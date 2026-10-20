@@ -10,6 +10,7 @@ const CODE_RULES = [
   ...require('./php'),
   ...require('./java'),
   ...require('./go_ruby_csharp'),
+  ...require('./csharp'),
 ];
 
 const SUPPLY_RULES = [

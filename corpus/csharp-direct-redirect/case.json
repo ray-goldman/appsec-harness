@@ -1,0 +1,11 @@
+{
+  "id": "csharp-direct-redirect",
+  "owasp": "A01",
+  "cwe": [
+    601
+  ],
+  "description": "csharp direct redirect",
+  "expect": [
+    "CS-REDIRECT-001"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "csharp-unsigned-jwt",
+  "owasp": "A07",
+  "cwe": [
+    347
+  ],
+  "description": "csharp unsigned jwt",
+  "expect": [
+    "CS-JWT-001"
+  ]
+}

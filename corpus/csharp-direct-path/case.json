@@ -1,0 +1,11 @@
+{
+  "id": "csharp-direct-path",
+  "owasp": "A01",
+  "cwe": [
+    22
+  ],
+  "description": "csharp direct path",
+  "expect": [
+    "CS-PATH-001"
+  ]
+}
