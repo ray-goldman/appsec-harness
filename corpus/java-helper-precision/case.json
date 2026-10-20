@@ -1,0 +1,7 @@
+{
+  "id": "java-helper-precision",
+  "owasp": "A05",
+  "cwe": [89, 78],
+  "description": "Resolved private helpers preserve argument provenance; literal inputs are quiet and request-derived inputs retain SQL and command findings.",
+  "expect": ["JAVA-SQLI-001", "JAVA-CMDI-001"]
+}

@@ -12,6 +12,7 @@ const { CATEGORIES } = require('./owasp');
 const { sha256, sevRank, confRank, isProbablyBinary, isTestPath, redact, truncate } = require('./util');
 const pkg = require('../package.json');
 const { constantSinkFilter } = require('./java-constants');
+const { buildJavaProjectIndex } = require('./java-project');
 
 const MAX_LINE = 2000;
 const WRAPPED = new RegExp('^\\s*(?:await\\s+)?' + SANITIZERS.source.replace(/^\\\\b/, '') + '[\\s\\S]*\\)\\s*$', 'i');
@@ -64,13 +65,13 @@ function sinksOf(rule) {
   return [];
 }
 
-function applyCodeRules(file, lang, raw, codeLines, taint) {
+function applyCodeRules(file, lang, raw, codeLines, taint, javaProject) {
   const out = [];
   const rawLines = raw.split(/\r?\n/);
   const code = codeLines.join('\n');
   const maskedLines = maskStrings(code, lang).split('\n'); // file-level: knows about multi-line strings/docstrings
   const windows = new Array(codeLines.length);
-  const constantJavaSink = lang === 'java' ? constantSinkFilter(code, callArgs, raw) : null;
+  const constantJavaSink = lang === 'java' ? constantSinkFilter(code, callArgs, raw, { file, project: javaProject }) : null;
   const win = (i) => (windows[i] === undefined ? (windows[i] = windowAt(codeLines, i)) : windows[i]);
   for (const rule of CODE_RULES) {
     if (!rule.languages.includes(lang)) continue;
@@ -192,6 +193,20 @@ async function scan(root, opts = {}) {
   const projFiles = [];
   const langCount = {};
   const warnings = [];
+  const javaSources = [];
+  let javaBytes = 0, javaComplete = !truncated && !skipped.large.length;
+  for (const f of files) {
+    if (detectLanguage(f.rel.replace(/\.appsec-quarantined$/, '')) !== 'java') continue;
+    try {
+      const buf = fs.readFileSync(f.abs);
+      javaBytes += buf.length;
+      if (javaBytes > 100 * 1024 * 1024 || javaSources.length >= 50000) { javaComplete = false; break; }
+      if (isProbablyBinary(buf)) { javaComplete = false; continue; }
+      const text = buf.toString('utf8');
+      javaSources.push({ file: f.rel, raw: text, code: stripComments(text, 'java').split(/\r?\n/).join('\n') });
+    } catch { javaComplete = false; }
+  }
+  const javaProject = buildJavaProjectIndex(javaSources, { complete: javaComplete, callArgs });
 
   for (const f of files) {
     let buf;
@@ -218,7 +233,7 @@ async function scan(root, opts = {}) {
     raw.push(...applyConfigRules(f.rel, lang, text, rawLines, codeLines));
     if (lang && !isLock && !vendored) {
       const taint = analyzeTaint(codeLines, lang);
-      raw.push(...applyCodeRules(f.rel, lang, text, codeLines, taint));
+      raw.push(...applyCodeRules(f.rel, lang, text, codeLines, taint, javaProject));
       const r = extractRoutes(f.rel, lang, codeLines, text);
       routes.push(...r);
       if (['javascript', 'typescript', 'python', 'php', 'java', 'kotlin', 'go', 'ruby', 'csharp'].includes(lang)) projFiles.push({ rel: f.rel, code, lang });
