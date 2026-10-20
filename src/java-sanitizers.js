@@ -109,7 +109,7 @@ function javaOutputFilter({ code, filter, project }) {
     }
     const format = literal(args[0] || '', call.position);
     if (format === null) return false;
-    const array = args.length === 2 ? formattingArray(index, args[1], call) : null;
+    const array = args.length === 2 ? formattingArray(index, args[1], call, filter) : null;
     const substitutions = array || args.slice(1).map(expression => ({ expression, position: call.position }));
     let next = 1, last = 0;
     const re = /%((\d+)\$)?([s%n])/g;

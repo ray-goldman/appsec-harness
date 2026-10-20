@@ -222,3 +222,40 @@ test('formatting arrays preserve output structure, scope and unsupported context
       ${suffix}`)).length, prefix + declaration + format + suffix);
   }
 });
+
+test('formatting arrays support sequential placeholders and ignore unselected raw values', async t => {
+  assert.equal((await findings(t, `String clean = ${escape('input')};
+    String[] parts = {"label", clean};
+    response.getWriter().printf("<p>%s: %s</p>", parts);`)).length, 0);
+  assert.equal((await findings(t, `String clean = ${escape('input')};
+    Object[] parts = {input, clean};
+    response.getWriter().printf("%2$s", parts);`)).length, 0);
+});
+
+test('formatting array budgets and unsupported carriers retain warnings', async t => {
+  const values = Array(32).fill('clean').join(', ');
+  assert.equal((await findings(t, `String clean = ${escape('input')};
+    Object[] parts = {${values}};
+    response.getWriter().printf("%32$s", parts);`)).length, 0);
+  for (const body of [
+    `Object[] parts = {${values}, clean}; response.getWriter().printf("%33$s", parts);`,
+    'Object[] parts = new Object[] {"a", clean}; response.getWriter().printf("%2$s", parts);',
+    'Object[] parts = {"a", clean}; response.getWriter().printf("%2$s", (Object) parts);',
+    'Object[] parts = {"a", clean}; response.getWriter().printf("%2$s", parts); parts[1] = input;',
+    'Object value = obtain(input); Object[] parts = {value, clean}; response.getWriter().printf("%1$s %2$s", parts);',
+  ]) assert.ok((await findings(t, `String clean = ${escape('input')};
+    ${body.replaceAll('; ', ';\n')}`)).length, body);
+});
+
+test('unselected array initializers cannot change the output context or invoke callbacks', async t => {
+  for (const value of [
+    'request.startAsync().getResponse().getWriter().append("<script>")',
+    'sideEffect(input)',
+    '(clean = input)',
+    'new Dangerous()',
+  ]) {
+    assert.ok((await findings(t, `String clean = ${escape('input')};
+      Object[] parts = {${value}, clean};
+      response.getWriter().printf("%2$s</script>", parts);`)).length, value);
+  }
+});

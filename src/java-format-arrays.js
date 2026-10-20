@@ -4,7 +4,7 @@ const { argumentsOf } = require('./java-methods');
 // An intentionally narrow ownership proof: a top-level local initializer and
 // exactly one use, as the entire varargs carrier of this printf call.
 // Any other reference (including a later write or escape) leaves it unknown.
-function formattingArray(index, expression, call) {
+function formattingArray(index, expression, call, filter) {
   const name = expression.trim();
   if (!index?.complete || !/^[A-Za-z_]\w*$/.test(name)) return null;
   const method = index.at(call.position);
@@ -34,6 +34,16 @@ function formattingArray(index, expression, call) {
   const position = method.start + open + 1;
   const values = argumentsOf(index.code.slice(position, method.start + close));
   if (!values?.length || values.length > 32 || method.start + close >= call.position) return null;
+  // Java evaluates EVERY initializer, even an element omitted by the format.
+  // Only literal scalars and local scalar reads have no hidden callbacks here.
+  // Do not use an encoded-return summary as a purity guarantee for a call.
+  for (const value of values) {
+    if (/^[A-Za-z_]\w*$/.test(value) &&
+        ['String', 'int', 'boolean', 'char'].includes(filter.typeAt(value, position))) continue;
+    if (/^(?:"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)'|-?\d+|true|false)$/.test(value) &&
+        filter.literalAt(value, position)) continue;
+    return null;
+  }
   const use = method.start + refs[1].index;
   if (refs[0].index < m.index || refs[0].index >= open ||
       use < call.position || use >= call.end) return null;
