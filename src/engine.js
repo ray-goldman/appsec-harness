@@ -11,6 +11,7 @@ const { extractRoutes, routeFindings } = require('./surface');
 const { CATEGORIES } = require('./owasp');
 const { sha256, sevRank, confRank, isProbablyBinary, isTestPath, redact, truncate } = require('./util');
 const pkg = require('../package.json');
+const { constantSinkFilter } = require('./java-constants');
 
 const MAX_LINE = 2000;
 const WRAPPED = new RegExp('^\\s*(?:await\\s+)?' + SANITIZERS.source.replace(/^\\\\b/, '') + '[\\s\\S]*\\)\\s*$', 'i');
@@ -69,12 +70,19 @@ function applyCodeRules(file, lang, raw, codeLines, taint) {
   const code = codeLines.join('\n');
   const maskedLines = maskStrings(code, lang).split('\n'); // file-level: knows about multi-line strings/docstrings
   const windows = new Array(codeLines.length);
+  const constantJavaSink = lang === 'java' ? constantSinkFilter(code, callArgs) : null;
   const win = (i) => (windows[i] === undefined ? (windows[i] = windowAt(codeLines, i)) : windows[i]);
   for (const rule of CODE_RULES) {
     if (!rule.languages.includes(lang)) continue;
     if (rule.files && !rule.files.test(file)) continue;
     if (rule.fileRequires && !rule.fileRequires.test(code)) continue;
     if (rule.fileExcludes && rule.fileExcludes.test(code)) continue;
+    if (rule.checkCode) {
+      for (const hit of rule.checkCode({ file, lang, raw, code, codeLines, maskedLines, taint })) {
+        out.push({ ...hit, ruleId: rule.id, file, source: 'sast' });
+      }
+      continue;
+    }
     const sinks = sinksOf(rule);
     for (let i = 0; i < codeLines.length; i++) {
       const L = codeLines[i];
@@ -122,6 +130,8 @@ function applyCodeRules(file, lang, raw, codeLines, taint) {
         }
       }
       if (hit) {
+        if (constantJavaSink && ['JAVA-SQLI-001', 'JAVA-SQLI-002', 'JAVA-CMDI-001', 'JAVA-REDIRECT-001'].includes(rule.id)
+          && constantJavaSink(i, W, rule.taintSink || BY_ID.get('JAVA-SQLI-001').taintSink, rule.taintArg === 'all')) continue;
         let severity;
         if (hit.taint && rule.severityIfTainted) severity = rule.severityIfTainted;
         if (rule.escalate && rule.escalate.re.test(W)) severity = rule.escalate.severity;
@@ -254,6 +264,7 @@ async function scan(root, opts = {}) {
       file: f.file, line: f.line || 1, col: f.col || 1, snippet,
       message: f.message || rule.message || '', fix: f.fix || rule.fix || '', refs: f.refs || rule.refs || [],
       detail: f.detail, taint: f.taint, package: f.package,
+      kind: f.kind || 'vulnerability',
       context: testCtx ? 'test' : 'app', source: f.source, status: 'open',
     };
   });

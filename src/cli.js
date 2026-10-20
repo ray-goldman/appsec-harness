@@ -221,7 +221,7 @@ async function main(argv) {
       if (!directory) {
         throw new Error('usage: appsec benchmark <owasp-java|juliet-java|sard|cve-fixes|fetch-cve-fixes> <directory> [--out DIR] [--json]');
       }
-      const opts = { expected: a.expected, manifest: a.manifest, revision: a['dataset-revision'], out: a.out };
+      const opts = { expected: a.expected, manifest: a.manifest, localization: a.localization, revision: a['dataset-revision'], out: a.out };
       if (kind === 'fetch-cve-fixes') {
         const prepared = await require('./benchmark-cve').fetchCveCorpus(directory, opts);
         console.log(JSON.stringify(prepared, null, 2));
@@ -289,6 +289,7 @@ scan/audit options:
 benchmark options:
   --expected FILE         label file relative to dataset (adapter-specific default)
   --manifest FILE         CVE corpus manifest (default bundled benchmarks/cve-fixes.json)
+  --localization FILE     Reviewed CVE source-region labels (separate scoring policy)
   --dataset-revision SHA   declared full upstream commit SHA; input hashes are also recorded
   --out DIR               report directory outside dataset (default appsec-reports/benchmarks/<adapter>)
   --json                  print JSON instead of Markdown; both reports are written to disk

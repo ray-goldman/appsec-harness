@@ -19,6 +19,12 @@ Completed measurements:
 
 The [detection-gap report](DETECTION-GAPS.md) links all three new baselines and records the misses, false positives, dataset limits, and follow-up work. Priority 1 remains open for additional SARD datasets with negative labels, broader CVE-catalog coverage, and more precise CVE location/context scoring. Detection rules were not tuned in this measurement change.
 
+Subsequent [precision work](PRECISION-IMPROVEMENTS.md) adds bounded Java constant
+analysis, PHP request-source evidence, and separate CVE source-region scoring.
+It preserves the original baselines. Remaining priorities are held-out accuracy
+data, Java lexical scope and helper-call flow, negative SARD examples, and
+mechanism-specific detection for the seven still-missed CVE parents.
+
 ## 2. Parsing and cross-file taint
 
 - Keep the regex engine as the default.

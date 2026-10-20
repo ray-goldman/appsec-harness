@@ -1,5 +1,9 @@
 # Independent baseline results and detection gaps
 
+These are the original measurements. The subsequent
+[precision changes and comparison](PRECISION-IMPROVEMENTS.md) retain these
+baselines and report their own source hash and scoring policies.
+
 Measured October 20, 2026, with Node 24.16.0 on Windows. All three runs used
 harness source SHA-256
 `8d6855a2374dd351e47d75a461636d391404c157a59f3f41f4649960b2713489`.

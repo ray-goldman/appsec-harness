@@ -1,0 +1,7 @@
+{
+  "id": "java-constant-precision",
+  "owasp": "A05",
+  "cwe": [89, 78, 601],
+  "description": "Request values reach SQL, commands and redirects; constant local alternatives retain no injection warning.",
+  "expect": ["JAVA-SQLI-001", "JAVA-CMDI-001", "JAVA-REDIRECT-001"]
+}

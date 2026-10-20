@@ -118,7 +118,9 @@ The first independent run on **OWASP Benchmark Java 1.2** scored all 2,740 label
 
 Additional adapters measure [Juliet Java and NIST SARD labels](docs/JULIET-SARD.md), and [real CVE parent/fix source pairs](docs/CVE-FIX-CORPUS.md). Each adapter reports its scoring unit and coverage. Synthetic-case metrics and real CVE-pair results remain separate.
 
-The new baselines show **8.34% recall on Juliet**, **50% recall on the 20-case SARD PHP suite**, and **0/8 successful real CVE pairs**. See [the remaining detection gaps](docs/DETECTION-GAPS.md) for false-positive rates, coverage limits, and the evidence behind those numbers.
+The original baselines show **8.34% recall on Juliet**, **50% recall on the 20-case SARD PHP suite**, and **0/8 successful real CVE pairs**. See [the remaining detection gaps](docs/DETECTION-GAPS.md) for false-positive rates, coverage limits, and the evidence behind those numbers.
+
+Subsequent [precision improvements](docs/PRECISION-IMPROVEMENTS.md) reduce Juliet false positives **2,342 → 1,504 (35.78%)**, retaining all 2,410 true-positive cases. OWASP and SARD counts are unchanged. The original CVE score remains 0/8; a separately versioned source-region policy scores 1/8, distinguishing PHPUnit request input from a fixed-side review warning. Both scores and their limits are reported.
 
 Taint tracking is intra-file. Cross-file flows may appear as lower-confidence pattern findings or in the attack-surface map for a reviewer to follow. This is a fast static first pass, not a replacement for whole-program tools such as CodeQL or Semgrep Pro, or for dynamic application testing.
 

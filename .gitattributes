@@ -1,0 +1,2 @@
+# Byte-pinned corpus manifests and annotations must survive Windows checkouts.
+benchmarks/*.json text eol=lf

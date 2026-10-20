@@ -68,7 +68,7 @@ var sum=el('summary',null,[el('span',{class:'sev '+f.severity},[f.severity]),el(
 var body=el('div',{class:'body'},[
 f.snippet?el('pre',null,[f.snippet]):null,
 f.detail?el('p',null,[el('span',{class:'k'},['Detail: ']),f.detail]):null,
-f.taint?el('p',null,[el('span',{class:'k'},['Data flow: ']),f.taint.name+(f.taint.from?' (tainted at line '+f.taint.from+')':'')+' reaches this sink']):null,
+f.taint?el('p',null,[el('span',{class:'k'},['Data flow: ']),(f.taint.source||f.taint.name||'unknown')+((f.taint.line||f.taint.from)?' (tainted at line '+(f.taint.line||f.taint.from)+')':'')+' reaches this sink']):null,
 el('p',null,[f.message]),el('p',null,[el('b',null,['Fix: ']),f.fix]),
 f.triage?el('p',null,[el('b',null,['Triage ('+f.triage.verdict+'): ']),f.triage.rationale]):null,
 el('p',{class:'k'},[(f.cwe||[]).map(function(c){return 'CWE-'+c}).join(', ')+((f.cves&&f.cves.length)?' · '+f.cves.join(', '):'')+' · '+f.id+' · fp '+f.fingerprint]),
