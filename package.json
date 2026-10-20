@@ -6,7 +6,7 @@
   "bin": { "appsec": "bin/appsec.js" },
   "engines": { "node": ">=20" },
   "scripts": {
-    "test": "node --test test/unit.test.js test/benchmark.test.js test/java-precision.test.js test/java-branch-adversarial.test.js test/php-precision.test.js test/cve-localization.test.js test/precision-report.test.js",
+    "test": "node --test test/unit.test.js test/benchmark.test.js test/java-precision.test.js test/java-branch-adversarial.test.js test/java-helper-precision.test.js test/java-sanitizer-precision.test.js test/php-precision.test.js test/cve-localization.test.js test/precision-report.test.js",
     "selftest": "node bin/appsec.js selftest",
     "rules": "node bin/appsec.js rules"
   },

@@ -24,7 +24,9 @@ analysis, PHP request-source evidence, and separate CVE source-region scoring.
 It preserves the original baselines. The next [Java scope and branch pass](JAVA-SCOPE-BRANCHES.md)
 adds lexical binding and bounded constant conditions, removing another 278
 Juliet and 13 OWASP false positives without losing detected true-positive cases.
-Remaining priorities are held-out accuracy data, Java helper-call flow, negative SARD examples, and
+The [helper and sanitizer pass](JAVA-HELPERS-SANITIZERS.md) adds bounded Java
+method summaries and HTML text proofs, with two further independent reviews.
+Remaining priorities are held-out accuracy data, broader Java call and collection flow, negative SARD examples, and
 mechanism-specific detection for the seven still-missed CVE parents.
 
 ## 2. Parsing and cross-file taint

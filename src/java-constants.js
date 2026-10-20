@@ -1,17 +1,20 @@
 'use strict';
 const { maskStrings } = require('./languages');
 const { evaluate, excludedBranches } = require('./java-branches');
+const { createJavaSummaries, isSafeFact } = require('./java-summaries');
 
 // This is a bounded proof for local String values, not a Java parser. Unknown
 // syntax retains the warning. Inspect all writes, including writes after a sink
 // which could affect a later loop iteration.
-function constantSinkFilter(code, callArgs, raw = code) {
+function constantSinkFilter(code, callArgs, raw = code, options = {}) {
   const masked = maskStrings(code, 'java');
   if (/\\u+[0-9a-fA-F]{4}/.test(raw) || /"""|->/.test(code)) {
     const unknown = () => false;
     unknown.sqlAssembly = unknown;
+    unknown.valueAt = unknown;
     return unknown;
   }
+  const summaries = createJavaSummaries({ file: options.file || '<file>', raw, code, project: options.project });
   const methods = [];
   const declaration = /\b(?:void|String|boolean|int|long|Object)\s+\w+\s*\([^{};]*\)\s*(?:throws\s+[\w.,\s]+)?\{/g;
   let m;
@@ -60,6 +63,13 @@ function constantSinkFilter(code, callArgs, raw = code) {
         if (entry && entry.index <= position) return entry;
       }
       return null;
+    }
+    const owner = summaries.index.methods.find(m => m.start === method.start);
+    for (const parameter of owner?.parameters || []) {
+      if (!parameter) continue;
+      const entry = { name: parameter.name, type: parameter.type, array: false, index: -1, end: 0, values: [], parameter: true };
+      scopes[0].bindings.set(entry.name, entry);
+      locals.push(entry);
     }
     const decl = /\b(String|int|boolean|char)\s*(\[\s*\])?\s+([A-Za-z_]\w*)\s*(\[\s*\])?\s*(?=[=;])/g;
     for (const m of mask.matchAll(decl)) {
@@ -151,7 +161,7 @@ function constantSinkFilter(code, callArgs, raw = code) {
     function fact(expr, position, visiting = new Set(), budget = { left: 512 }) {
       return evaluate(expr, name => {
         const entry = resolve(name, position);
-        if (!entry || entry.index >= position || entry.invalid || entry.array || !entry.values.length || visiting.has(entry) || visiting.size > 32) return null;
+        if (!entry || entry.parameter || entry.index >= position || entry.invalid || entry.array || !entry.values.length || visiting.has(entry) || visiting.size > 32) return null;
         const next = new Set(visiting); next.add(entry);
         let result = null;
         for (const value of entry.values) {
@@ -167,11 +177,14 @@ function constantSinkFilter(code, callArgs, raw = code) {
     const dead = excludedBranches(body, (expr, position) => fact(expr, position));
     const unreachable = position => dead.some(([start, end]) => position >= start && position < end);
     let remaining;
-    function constant(expr, visiting = new Set(), position = Infinity) {
+    function constant(expr, visiting = new Set(), position = Infinity, context = {}) {
       if (--remaining < 0 || expr.length > 4000) return false;
+      if (context.budget && --context.budget.left < 0) return false;
       expr = expr.trim();
       if (!expr) return false;
-      if (fact(expr, position)) return true;
+      const value = fact(expr, position);
+      if (value) return context.mode !== 'html' ||
+        !String(value.type === 'char' ? String.fromCharCode(value.value) : value.value).includes('<');
       // Split concatenation only outside quoted strings, parentheses and indexes.
       let quote = null, depth = 0, last = 0;
       const parts = [];
@@ -184,25 +197,37 @@ function constantSinkFilter(code, callArgs, raw = code) {
         if (c === '+' && depth === 0) { parts.push(expr.slice(last, i)); last = i + 1; }
       }
       if (quote || depth !== 0) return false;
-      if (parts.length) return [...parts, expr.slice(last)].every(p => constant(p, visiting, position));
-      if (/^"(?:[^"\\]|\\.)*"$|^'(?:[^'\\]|\\.)*'$|^(?:true|false|null|\d+)$/.test(expr)) return true;
-      if (expr.startsWith('(') && expr.endsWith(')')) return constant(expr.slice(1, -1), visiting, position);
+      if (parts.length) return [...parts, expr.slice(last)].every(p => constant(p, visiting, position, context));
+      if (/^"(?:[^"\\]|\\.)*"$|^'(?:[^'\\]|\\.)*'$|^(?:true|false|null|\d+)$/.test(expr)) return context.mode !== 'html';
+      if (expr.startsWith('(') && expr.endsWith(')')) return constant(expr.slice(1, -1), visiting, position, context);
       const split = expr.match(/^([\s\S]+)\.split\s*\(\s*("(?:[^"\\]|\\.)*")\s*\)$/);
-      if (split) return constant(split[1], visiting, position);
+      if (split) return constant(split[1], visiting, position, context);
+      if (isSafeFact(summaries.callFact({ expression: expr, position: method.start + position, context,
+        prove: (argument, mode) => constant(argument, visiting, position, { ...context, mode }) }), context.mode)) return true;
       const identifier = expr.match(/^([A-Za-z_]\w*)(?:\s*\[[^\]]+\])?$/);
       if (!identifier) return false;
       const entry = resolve(identifier[1], position);
-      if (!entry || entry.index >= position || entry.invalid || !entry.values.length || visiting.has(entry) || visiting.size > 32) return false;
+      if (!entry || entry.index >= position || entry.invalid || visiting.has(entry) || visiting.size > 32) return false;
+      if (entry.parameter && !isSafeFact(summaries.parameterFact({ methodStart: method.start, name: entry.name, context }), context.mode)) return false;
+      if (!entry.values.length) return !!entry.parameter;
       if (expr.includes('[') !== entry.array) return false;
       const next = new Set(visiting); next.add(entry);
       const reachable = entry.values.filter(value => !unreachable(value.offset));
-      return reachable.length > 0 && reachable.every(value => constant(value.expression, next, value.offset));
+      return reachable.length > 0 && reachable.every(value => constant(value.expression, next, value.offset, context));
     }
-    const bounded = (expr, visiting, position) => {
+    const bounded = (expr, visiting, position, context) => {
       remaining = 512;
-      return constant(expr, visiting, position);
+      return constant(expr, visiting, position, { budget: { left: 10000, methods: new Set() }, stack: [], ...context });
     };
     bounded.unreachable = unreachable;
+    bounded.literal = fact;
+    bounded.type = (expr, position) => {
+      const value = fact(expr, position);
+      if (value) return value.type;
+      const name = expr.trim();
+      const entry = /^[A-Za-z_]\w*$/.test(name) ? resolve(name, position) : null;
+      return entry && !entry.array && !entry.invalid ? entry.type : null;
+    };
     cache.set(method, bounded);
     return bounded;
   }
@@ -261,6 +286,20 @@ function constantSinkFilter(code, callArgs, raw = code) {
     }
     return found;
   };
+  filter.valueAt = (expression, position, context = {}) => {
+    const method = methods.find(m => position >= m.start && position < m.end);
+    return !!method && proof(method)(expression, new Set(), position - method.start, context);
+  };
+  filter.literalAt = (expression, position) => {
+    const method = methods.find(m => position >= m.start && position < m.end);
+    return method ? proof(method).literal?.(expression, position - method.start) : null;
+  };
+  filter.typeAt = (expression, position) => {
+    const method = methods.find(m => position >= m.start && position < m.end);
+    return method ? proof(method).type?.(expression, position - method.start) : null;
+  };
+  filter.index = summaries.index;
+  summaries.attach(filter);
   return filter;
 }
 

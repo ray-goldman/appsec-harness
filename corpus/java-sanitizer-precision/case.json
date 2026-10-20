@@ -1,0 +1,7 @@
+{
+  "id": "java-sanitizer-precision",
+  "owasp": "A05",
+  "cwe": [79],
+  "description": "HTML text encoding survives a helper and alias; encoding one operand does not protect a raw operand.",
+  "expect": ["JAVA-XSS-001"]
+}

@@ -224,7 +224,7 @@ function identRegex(name) {
 }
 
 // Returns { tainted: Map<name, sourceLine>, sourceRe, hasTaint(line) }
-function analyzeTaint(codeLines, lang) {
+function analyzeTaint(codeLines, lang, options = {}) {
   const sourceRe = SOURCES[lang];
   const assigns = ASSIGN[lang];
   const tainted = new Map();
@@ -277,7 +277,8 @@ function analyzeTaint(codeLines, lang) {
     let changed = false;
     for (const { i, names, rhs } of parsed) {
       if (KILLERS.test(rhs) && !/[+`]|\$\{|%|\.format\(|f["']/.test(rhs.replace(KILLERS, ''))) continue;
-      if (SANITIZERS.test(rhs)) continue;
+      if (options.genericSanitizers !== false && SANITIZERS.test(rhs) &&
+          !(options.rejectHtmlSanitizers && /\b(?:forHtml|forHtmlContent|encodeForHTML|htmlEscape|escapeHtml|escapeHtml4)\s*\(/.test(rhs))) continue;
       if (lang === 'php' && /\$_FILES\s*\[[^\]]+\]\s*\[\s*['"](?:tmp_name|size|error)['"]\s*\]/.test(rhs) && !/['"]name['"]/.test(rhs)) continue; // server-generated
       // Lookup in a constant allow-list table: ROUTES[req.query.x] → value comes from the table.
       if (/^\s*(?:await\s+)?\$?[A-Z][A-Z0-9_]{2,}(?:\s*\[.+\]|\.(?:get|getOrDefault|fetch)\s*\(.+\))\s*(?:(?:\?\?|\|\||\bor\b).*)?;?\s*$/.test(rhs)) continue;
