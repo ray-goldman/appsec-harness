@@ -1,0 +1,7 @@
+{
+  "id": "gha-run-env-boundary",
+  "owasp": "A03",
+  "cwe": [78, 94],
+  "description": "A run-first step passes event data through a sibling environment mapping instead of interpolating it into the script.",
+  "expect": ["GHA-INJ-001"]
+}

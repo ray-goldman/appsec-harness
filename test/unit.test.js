@@ -15,6 +15,34 @@ const { toSarif } = require('../src/report/sarif');
 const { toJUnit } = require('../src/report/junit');
 const { validateRules, ALL } = require('../src/rules');
 
+test('workflow injection stops at sibling keys after a sequence run key', () => {
+  const rule = ALL.find(r => r.id === 'GHA-INJ-001');
+  const event = '${{ github.event.pull_request.title }}';
+  for (const spacing of [' ', '   ']) {
+    const sibling = ' '.repeat(6 + 1 + spacing.length);
+    for (const value of ['echo "$TITLE"', '|', '>-']) {
+      const lines = [`      -${spacing}run: ${value}`];
+      if (value !== 'echo "$TITLE"') lines.push(`${sibling}  echo "$TITLE"`);
+      lines.push(`${sibling}env:`, `${sibling}  TITLE: ${event}`);
+      assert.deepEqual(rule.check({ lines }), [], lines.join('\n'));
+    }
+  }
+});
+
+test('workflow injection keeps inline and multiline script findings', () => {
+  const rule = ALL.find(r => r.id === 'GHA-INJ-001');
+  const event = '${{ github.event.pull_request.title }}';
+  for (const prefix of ['      - run:', '        run:', '      -   run:']) {
+    const column = prefix.indexOf('run');
+    assert.equal(rule.check({ lines: [`${prefix} echo "${event}"`] }).length, 1);
+    for (const value of ['|', '|-', '>+', '|2', 'echo first']) {
+      const lines = [`${prefix} ${value}`, `${' '.repeat(column + 2)}echo "${event}"`];
+      assert.deepEqual(rule.check({ lines }).map(f => f.line), [2]);
+    }
+  }
+  assert.deepEqual(rule.check({ lines: ['        script: |', `          console.log('${event}')`] }).map(f => f.line), [2]);
+});
+
 function tmpdir(files) {
   const d = fs.mkdtempSync(path.join(os.tmpdir(), 'appsec-unit-'));
   for (const [rel, content] of Object.entries(files)) {
