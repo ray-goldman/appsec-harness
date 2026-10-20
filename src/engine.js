@@ -16,6 +16,7 @@ const { buildJavaProjectIndex } = require('./java-project');
 const { javaOutputFilter } = require('./java-sanitizers');
 const { buildScriptProject, scriptSinkFilter } = require('./script-helpers');
 const { pathSinkFilter } = require('./path-proofs');
+const { goFunctionTaint } = require('./go-scopes');
 
 const MAX_LINE = 2000;
 const WRAPPED = new RegExp('^\\s*(?:await\\s+)?' + SANITIZERS.source.replace(/^\\\\b/, '') + '[\\s\\S]*\\)\\s*$', 'i');
@@ -80,6 +81,7 @@ function applyCodeRules(file, lang, raw, codeLines, taint, javaProject, scriptPr
   const javaNonHtmlTaint = lang === 'java' ? analyzeTaint(codeLines, lang, { rejectHtmlSanitizers: true }) : null;
   const scriptProof = ['javascript', 'python'].includes(lang) ? scriptSinkFilter(file, scriptProject, callArgs) : null;
   const pathProof = ['java', 'go'].includes(lang) ? pathSinkFilter({ file, lang, raw, code, project: javaProject }) : null;
+  const goTaint = lang === 'go' ? goFunctionTaint(code, raw, taint) : null;
   const win = (i) => (windows[i] === undefined ? (windows[i] = windowAt(codeLines, i)) : windows[i]);
   for (const rule of CODE_RULES) {
     if (!rule.languages.includes(lang)) continue;
@@ -99,6 +101,7 @@ function applyCodeRules(file, lang, raw, codeLines, taint, javaProject, scriptPr
       const L = codeLines[i];
       if (!L || L.length > MAX_LINE || !L.trim()) continue;
       const W = win(i);
+      const scopedTaint = goTaint ? goTaint(i, rule.id) : ruleTaint;
       if (!contextualJavaOutput && rule.notLine && rule.notLine.test(W)) continue;
       if (rule.rawNotLine && rule.rawNotLine.test(rawLines[i] || '')) continue;
       let hit = null;
@@ -108,7 +111,7 @@ function applyCodeRules(file, lang, raw, codeLines, taint, javaProject, scriptPr
       if (rule.pattern) {
         const m = W.match(rule.pattern);
         if (m && m.index < L.length && !startsInString(m.index + (m[0].length - m[0].trimStart().length))) {
-          const t = ruleTaint.lineTainted(W);
+          const t = scopedTaint.lineTainted(W);
           if (!(rule.requireTaint && !t)) {
             let ok = true;
             if (rule.nextLine) {
@@ -136,7 +139,7 @@ function applyCodeRules(file, lang, raw, codeLines, taint, javaProject, scriptPr
             for (const arg of args) {
               if (!contextualJavaOutput && WRAPPED.test(arg) &&
                   !(lang === 'java' && /\b(?:forHtml|forHtmlContent|encodeForHTML|htmlEscape|escapeHtml|escapeHtml4)\s*\(/.test(arg))) continue;
-              t = ruleTaint.lineTainted(arg);
+              t = scopedTaint.lineTainted(arg);
               if (t) break;
             }
             if (t) { hit = { col: m.index + 1, confidence: 'high', taint: t }; break; }

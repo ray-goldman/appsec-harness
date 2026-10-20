@@ -59,6 +59,11 @@ has paired regression coverage; the supplied unguarded basename case and
 general Go function-scoped taint remain open. Both proofs are lexical and
 do not establish filesystem symlink safety.
 
+The [Go scope follow-up](GO-SCOPES.md) adds bounded literal-local isolation and
+function-local path taint. Supplied FPs remain **11**; a static diagnostic records
+why the unguarded basename case stays unknown. General Go binding resolution,
+helper effects and explicit label adjudication remain open.
+
 - Keep the regex engine as the default.
 - Add an optional, vendored tree-sitter layer for AST-based rules and a call graph.
 - Follow taint through controller → service → repository calls, with explicit limits for unresolved calls and dynamic dispatch.
