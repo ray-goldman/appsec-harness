@@ -23,8 +23,8 @@ foreach ($dataset in $datasets) {
 Extract the Juliet archive into `appsec-out/benchmarks/juliet-java-1.3`, preserving its `Java` directory. Extract suite 115 into `appsec-out/benchmarks/sard-115`, preserving the 20 case directories and their SARIF manifests. Use an extractor that rejects path traversal and symbolic links. Juliet includes long filenames: on Windows use a short extraction root or an extractor that supports extended-length paths. A partial extraction fails the runner's missing-input checks.
 
 ```console
-node bin/appsec.js benchmark juliet-java appsec-out/benchmarks/juliet-java-1.3/Java --out appsec-reports/benchmarks/juliet-java
-node bin/appsec.js benchmark sard appsec-out/benchmarks/sard-115 --out appsec-reports/benchmarks/sard-115
+node bin/kayfabe.js benchmark juliet-java appsec-out/benchmarks/juliet-java-1.3/Java --out appsec-reports/benchmarks/juliet-java
+node bin/kayfabe.js benchmark sard appsec-out/benchmarks/sard-115 --out appsec-reports/benchmarks/sard-115
 ```
 
 Each command writes `benchmark.json` and `benchmark.md` outside the dataset. JSON includes individual labels, original source regions, matched findings, per-CWE and aggregate counts, scanner settings, Node/platform, and hashes of the input files, label files, and harness source. Source and input hashes are checked again after scanning; changing either during a scan fails the run. `--expected` selects one relative manifest path; without it Juliet uses `manifest.xml` and SARD discovers all files named `manifest.sarif`. Paths must stay within the dataset. `--dataset-revision` accepts a full Git commit SHA as a declaration and does not verify it; archive hashes in the source metadata are the download provenance.

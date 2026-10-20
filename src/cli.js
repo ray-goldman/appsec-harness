@@ -37,7 +37,7 @@ function stamp() { return new Date().toISOString().replace(/[:.]/g, '-').slice(0
 
 function printSummary(result, g, written) {
   const s = result.summary;
-  log(`\n${C.B}appsec-harness ${pkg.version}${C.x} — ${result.target.name}${result.target.commit ? ' @ ' + result.target.commit.slice(0, 12) : ''}`);
+  log(`\n${C.B}kayfabe ${pkg.version}${C.x} — ${result.target.name}${result.target.commit ? ' @ ' + result.target.commit.slice(0, 12) : ''}`);
   log(`${C.d}${result.stats.files} files · ${result.stats.dependencies} deps · ${result.stats.routes} routes · ${result.durationMs} ms${C.x}`);
   log(`${SEVC.critical}critical ${s.bySeverity.critical}${C.x}  ${SEVC.high}high ${s.bySeverity.high}${C.x}  ${SEVC.medium}medium ${s.bySeverity.medium}${C.x}  ${SEVC.low}low ${s.bySeverity.low}${C.x}  ${C.d}info ${s.bySeverity.info}${C.x}`);
   for (const [k, c] of Object.entries(s.byCategory)) if (c.total) log(`  ${k} ${c.name.padEnd(40)} ${String(c.total).padStart(4)}`);
@@ -60,7 +60,7 @@ function scanOpts(a) {
 const gateOpts = (a) => ({ failOn: a['fail-on'] || 'high', failConfidence: a['fail-confidence'] || 'medium', newOnly: !!a['new-only'] });
 
 async function cmdScan(a, target, targetMeta) {
-  if (!target) throw new Error('usage: appsec scan <path>');
+  if (!target) throw new Error('usage: kayfabe scan <path>');
   const result = await scan(target, { ...scanOpts(a), targetMeta, repoSymlinks: targetMeta && targetMeta.symlinks });
   const g = gate(result, gateOpts(a));
   const outDir = a.out || path.join(process.cwd(), 'appsec-reports', `${result.target.name}-${stamp()}`);
@@ -92,7 +92,7 @@ async function main(argv) {
 
     case 'audit': {
       const t = a._[1];
-      if (!t) throw new Error('usage: appsec audit <git-url|path> [--ref REF]');
+      if (!t) throw new Error('usage: kayfabe audit <git-url|path> [--ref REF]');
       let target = t, meta;
       if (/^(?:https?|ssh):\/\/|^[\w.-]+@[\w.-]+:/.test(t)) {
         log(`${C.d}cloning ${t}${a.ref ? ' @ ' + a.ref : ''} (hardened, shallow)…${C.x}`);
@@ -103,7 +103,7 @@ async function main(argv) {
         if (!a.name) a.name = path.basename(meta.path).replace(/-[a-z0-9]+$/, '');
       }
       const r = await cmdScan(a, target, meta && { url: meta.url, ref: meta.ref, commit: meta.commit, commitDate: meta.commitDate, quarantined: meta.quarantined });
-      log(`\n${C.B}Next (agent triage):${C.x}\n  1. Read ${path.join(r.outDir, 'triage-request.json')}\n  2. Write ${path.join(r.outDir, 'triage.json')} (schema: appsec triage schema)\n  3. appsec triage validate ${r.outDir}\n  4. appsec report ${r.outDir}`);
+      log(`\n${C.B}Next (agent triage):${C.x}\n  1. Read ${path.join(r.outDir, 'triage-request.json')}\n  2. Write ${path.join(r.outDir, 'triage.json')} (schema: kayfabe triage schema)\n  3. kayfabe triage validate ${r.outDir}\n  4. kayfabe report ${r.outDir}`);
       return a['no-gate'] || r.gate.passed ? 0 : 1;
     }
 
@@ -111,7 +111,7 @@ async function main(argv) {
       const sub = a._[1];
       if (sub === 'schema') { console.log(JSON.stringify(TRIAGE_SCHEMA, null, 2)); return 0; }
       if (sub === 'validate') {
-        const dir = a._[2]; if (!dir) throw new Error('usage: appsec triage validate <reportDir> [triage.json]');
+        const dir = a._[2]; if (!dir) throw new Error('usage: kayfabe triage validate <reportDir> [triage.json]');
         const result = JSON.parse(fs.readFileSync(path.join(dir, 'findings.json'), 'utf8'));
         const tfile = a._[3] || path.join(dir, 'triage.json');
         const tri = JSON.parse(fs.readFileSync(tfile, 'utf8'));
@@ -119,11 +119,11 @@ async function main(argv) {
         console.log(JSON.stringify(v, null, 2));
         return v.ok ? 0 : 1;
       }
-      throw new Error('usage: appsec triage <validate|schema>');
+      throw new Error('usage: kayfabe triage <validate|schema>');
     }
 
     case 'report': {
-      const dir = a._[1]; if (!dir) throw new Error('usage: appsec report <reportDir> [--triage triage.json]');
+      const dir = a._[1]; if (!dir) throw new Error('usage: kayfabe report <reportDir> [--triage triage.json]');
       let result = JSON.parse(fs.readFileSync(path.join(dir, 'findings.json'), 'utf8'));
       delete result.gate;
       const tfile = a.triage || path.join(dir, 'triage.json');
@@ -142,7 +142,7 @@ async function main(argv) {
     }
 
     case 'gate': {
-      const p = a._[1]; if (!p) throw new Error('usage: appsec gate <reportDir|findings.json>');
+      const p = a._[1]; if (!p) throw new Error('usage: kayfabe gate <reportDir|findings.json>');
       const file = fs.statSync(p).isDirectory() ? (fs.existsSync(path.join(p, 'final-findings.json')) ? path.join(p, 'final-findings.json') : path.join(p, 'findings.json')) : p;
       const result = JSON.parse(fs.readFileSync(file, 'utf8'));
       const g = gate(result, gateOpts(a));
@@ -163,7 +163,7 @@ async function main(argv) {
       if (a.lang) rules = rules.filter((r) => (r.languages || []).includes(a.lang));
       if (a.json) { console.log(JSON.stringify(rules.map((r) => ({ id: r.id, title: r.title, owasp: r.owasp, cwe: r.cwe, severity: r.severity, languages: r.languages })), null, 2)); return 0; }
       if (a.md) {
-        const o = ['# Rule reference', '', `Generated by \`appsec rules --md\` — ${rules.length} rules, ${ADVISORIES.length} curated advisories. Every code rule has a vulnerable/fixed pair in \`corpus/\`.`, ''];
+        const o = ['# Rule reference', '', `Generated by \`kayfabe rules --md\` — ${rules.length} rules, ${ADVISORIES.length} curated advisories. Every code rule has a vulnerable/fixed pair in \`corpus/\`.`, ''];
         for (const k of Object.keys(CATEGORIES)) {
           const rs = rules.filter((r) => r.owasp === k);
           o.push(`## ${k}:2025 ${CATEGORIES[k].name}`, '', `[OWASP page](${CATEGORIES[k].url}) · mapped CWEs: ${CATEGORIES[k].cwes.length}`, '', '| Rule | Title | Severity | CWE | Scope |', '|---|---|---|---|---|');
@@ -196,16 +196,16 @@ async function main(argv) {
 
     case 'agent-setup': {
       const { spawnSync } = require('child_process');
-      const bin = path.resolve(__dirname, '..', 'bin', 'appsec.js');
+      const bin = path.resolve(__dirname, '..', 'bin', 'kayfabe.js');
       const node = process.execPath;
       const which = (cmd) => spawnSync(process.platform === 'win32' ? 'where' : 'which', [cmd], { encoding: 'utf8' }).status === 0;
       const plans = [];
       if (!a.codex || a.claude) plans.push({ tool: 'claude', args: ['mcp', 'add', '--scope', 'user', 'appsec', '--', node, bin, 'mcp'] });
       if (!a.claude || a.codex) plans.push({ tool: 'codex', args: ['mcp', 'add', 'appsec', '--', node, bin, 'mcp'] });
-      console.log('Register the appsec MCP server (absolute paths, works from any directory):\n');
+      console.log('Register the kayfabe MCP server (absolute paths, works from any directory):\n');
       for (const p of plans) console.log(`  ${p.tool} ${p.args.map((x) => (/\s/.test(x) ? JSON.stringify(x) : x)).join(' ')}`);
       console.log(`\nCodex reads ${path.resolve(__dirname, '..', 'AGENTS.md')} when started in this directory; Claude Code reads CLAUDE.md and the /appsec-review skill.`);
-      console.log('The CLI works without MCP: node bin/appsec.js audit <url> — see AGENTS.md §2.');
+      console.log('The CLI works without MCP: node bin/kayfabe.js audit <url> — see AGENTS.md §2.');
       if (a.apply) {
         for (const p of plans) {
           if (!which(p.tool)) { log(`${C.y}skip:${C.x} ${p.tool} not found on PATH`); continue; }
@@ -219,7 +219,7 @@ async function main(argv) {
     case 'benchmark': {
       const kind = a._[1], directory = a._[2];
       if (!directory) {
-        throw new Error('usage: appsec benchmark <owasp-java|juliet-java|sard|cve-fixes|fetch-cve-fixes> <directory> [--out DIR] [--json]');
+        throw new Error('usage: kayfabe benchmark <owasp-java|juliet-java|sard|cve-fixes|fetch-cve-fixes> <directory> [--out DIR] [--json]');
       }
       const opts = { expected: a.expected, manifest: a.manifest, localization: a.localization, revision: a['dataset-revision'], out: a.out };
       if (kind === 'fetch-cve-fixes') {
@@ -245,30 +245,30 @@ async function main(argv) {
 
     case 'mcp': return require('./mcp/server').start();
 
-    default: throw new Error(`unknown command "${cmd}" — run appsec help`);
+    default: throw new Error(`unknown command "${cmd}" — run kayfabe help`);
   }
 }
 
 function usage() {
-  console.log(`appsec-harness ${pkg.version} — OWASP Top 10:2025 AppSec harness (zero dependencies)
+  console.log(`kayfabe ${pkg.version} — OWASP Top 10:2025 AppSec harness (zero dependencies)
 
-  appsec audit <git-url|path> [--ref TAG|BRANCH|SHA]   clone (hardened) + scan + triage package
-  appsec scan  <path>                                  scan a local directory
-  appsec clone <git-url> [--ref REF] [--dest DIR]      hardened shallow clone only
-  appsec triage schema | validate <reportDir> [file]   agent triage protocol
-  appsec report <reportDir> [--triage triage.json]     merge triage → final-* reports
-  appsec gate <reportDir|findings.json>                CI gate (exit 1 on failure)
-  appsec surface <path> [--json]                       list HTTP entry points + auth evidence
-  appsec rules [--owasp A05] [--lang python] [--json]  list rules
-  appsec explain <RULE-ID|CVE-ID|A01..A10>
-  appsec selftest [--verbose]                          run vulnerable/fixed regression corpus
-  appsec benchmark owasp-java <directory>             measure independently labeled Java cases
-  appsec benchmark juliet-java <directory>            measure Juliet Java good/bad regions
-  appsec benchmark sard <directory>                   measure NIST SARD SARIF labels
-  appsec benchmark fetch-cve-fixes <directory>         download pinned CVE source pairs (network)
-  appsec benchmark cve-fixes <directory>               measure CVE parent/fix source pairs (offline)
-  appsec mcp                                           MCP stdio server (Claude Code / Codex)
-  appsec agent-setup [--claude|--codex] [--apply]      print/run MCP registration commands
+  kayfabe audit <git-url|path> [--ref TAG|BRANCH|SHA]   clone (hardened) + scan + triage package
+  kayfabe scan  <path>                                  scan a local directory
+  kayfabe clone <git-url> [--ref REF] [--dest DIR]      hardened shallow clone only
+  kayfabe triage schema | validate <reportDir> [file]   agent triage protocol
+  kayfabe report <reportDir> [--triage triage.json]     merge triage → final-* reports
+  kayfabe gate <reportDir|findings.json>                CI gate (exit 1 on failure)
+  kayfabe surface <path> [--json]                       list HTTP entry points + auth evidence
+  kayfabe rules [--owasp A05] [--lang python] [--json]  list rules
+  kayfabe explain <RULE-ID|CVE-ID|A01..A10>
+  kayfabe selftest [--verbose]                          run vulnerable/fixed regression corpus
+  kayfabe benchmark owasp-java <directory>             measure independently labeled Java cases
+  kayfabe benchmark juliet-java <directory>            measure Juliet Java good/bad regions
+  kayfabe benchmark sard <directory>                   measure NIST SARD SARIF labels
+  kayfabe benchmark fetch-cve-fixes <directory>         download pinned CVE source pairs (network)
+  kayfabe benchmark cve-fixes <directory>               measure CVE parent/fix source pairs (offline)
+  kayfabe mcp                                           MCP stdio server (Claude Code / Codex)
+  kayfabe agent-setup [--claude|--codex] [--apply]      print/run MCP registration commands
 
 scan/audit options:
   --out DIR               report directory (default ./appsec-reports/<name>-<time>)

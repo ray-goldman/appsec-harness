@@ -1,8 +1,8 @@
 # Project-scoped Codex config (loaded only when this project is trusted in Codex).
 # If your Codex build does not resolve relative paths for MCP servers, register it globally instead:
-#   node bin/appsec.js agent-setup        # prints the exact `codex mcp add` / `claude mcp add` commands
+#   node bin/kayfabe.js agent-setup        # prints the exact `codex mcp add` / `claude mcp add` commands
 [mcp_servers.appsec]
 command = "node"
-args = ["bin/appsec.js", "mcp"]
+args = ["bin/kayfabe.js", "mcp"]
 startup_timeout_sec = 20
 tool_timeout_sec = 600

@@ -16,11 +16,11 @@ Do not pool these datasets into a single accuracy claim.
 Requirements: Node.js 20 or later and Git for acquiring the dataset. The commands below use only the harness; do not build the Java application or run scripts from its checkout.
 
 ```sh
-node bin/appsec.js clone https://github.com/OWASP-Benchmark/BenchmarkJava \
+node bin/kayfabe.js clone https://github.com/OWASP-Benchmark/BenchmarkJava \
   --ref bc5ffeb09fb18ab039806d84ca1f718c2e332c54 \
   --dest appsec-out/benchmarks/owasp-java
 
-node bin/appsec.js benchmark owasp-java appsec-out/benchmarks/owasp-java \
+node bin/kayfabe.js benchmark owasp-java appsec-out/benchmarks/owasp-java \
   --dataset-revision bc5ffeb09fb18ab039806d84ca1f718c2e332c54 \
   --out appsec-reports/benchmarks/owasp-java
 ```

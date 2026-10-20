@@ -54,10 +54,10 @@ have a measurable cost; profiling is part of the next pass.
 Reproduce using the previously downloaded, unchanged inputs:
 
 ```sh
-node bin/appsec.js benchmark owasp-java appsec-out/benchmarks/owasp-java --out appsec-reports/benchmarks/helper-sanitizer-owasp
-node bin/appsec.js benchmark juliet-java appsec-out/benchmarks/juliet-java-1.3/Java --out appsec-reports/benchmarks/helper-sanitizer-juliet
-node bin/appsec.js benchmark sard appsec-out/benchmarks/sard-115 --out appsec-reports/benchmarks/helper-sanitizer-sard
-node bin/appsec.js benchmark cve-fixes appsec-out/cve-downloaded --out appsec-reports/benchmarks/helper-sanitizer-cve
+node bin/kayfabe.js benchmark owasp-java appsec-out/benchmarks/owasp-java --out appsec-reports/benchmarks/helper-sanitizer-owasp
+node bin/kayfabe.js benchmark juliet-java appsec-out/benchmarks/juliet-java-1.3/Java --out appsec-reports/benchmarks/helper-sanitizer-juliet
+node bin/kayfabe.js benchmark sard appsec-out/benchmarks/sard-115 --out appsec-reports/benchmarks/helper-sanitizer-sard
+node bin/kayfabe.js benchmark cve-fixes appsec-out/cve-downloaded --out appsec-reports/benchmarks/helper-sanitizer-cve
 ```
 
 ### Newly exposed warning
@@ -147,7 +147,7 @@ metadata directories are exempt.
 Both reviewers independently verified the fixes with scan-only adversarial
 probes: 13 in the first pass and nine in the second. The final focused suite
 passed 37 tests. On the frozen implementation, `npm test` passed 150 tests and
-`node bin/appsec.js selftest` passed all 149 vulnerable/fixed pairs.
+`node bin/kayfabe.js selftest` passed all 149 vulnerable/fixed pairs.
 One Windows symlink subcheck could not create a link; its separate source
 tampering check passed. The regression corpus was developed alongside the
 rules and does not measure independent accuracy.

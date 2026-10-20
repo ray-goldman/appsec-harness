@@ -2,7 +2,7 @@
   "mcpServers": {
     "appsec": {
       "command": "node",
-      "args": ["bin/appsec.js", "mcp"]
+      "args": ["bin/kayfabe.js", "mcp"]
     }
   }
 }

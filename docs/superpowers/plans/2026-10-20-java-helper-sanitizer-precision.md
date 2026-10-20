@@ -10,7 +10,7 @@
 
 **Spec:** The user's request to start with Java helper calls and sanitizer handling, rerun all benchmarks and complete two review passes before a PR; the design decisions below make that request concrete.
 
-**Status:** Complete. Implementation, both independent review passes and all four measurements are published in [PR #5](https://github.com/ray-goldman/appsec-harness/pull/5).
+**Status:** Complete. Implementation, both independent review passes and all four measurements are published in [PR #5](https://github.com/ray-goldman/kayfabe/pull/5).
 
 **Starting point:** merged `main` at `4fae4d9ae0113b86779320dd4c7d6896c0cefc64`. Planning branch: `codex/java-helper-sanitizer-precision`.
 
@@ -179,14 +179,14 @@ For `printf`, distinguish an optional Locale argument, the format string and sub
 
 ### 6. Freeze, measure, compare and publish
 
-- [x] Freeze scanner sources after review fixes. Run `npm test` and `node bin/appsec.js selftest`.
+- [x] Freeze scanner sources after review fixes. Run `npm test` and `node bin/kayfabe.js selftest`.
 - [x] Run all four benchmarks, writing **new** `helper-sanitizer-*` output directories:
 
 ```sh
-node bin/appsec.js benchmark owasp-java appsec-out/benchmarks/owasp-java --out appsec-reports/benchmarks/helper-sanitizer-owasp
-node bin/appsec.js benchmark juliet-java appsec-out/benchmarks/juliet-java-1.3/Java --out appsec-reports/benchmarks/helper-sanitizer-juliet
-node bin/appsec.js benchmark sard appsec-out/benchmarks/sard-115 --out appsec-reports/benchmarks/helper-sanitizer-sard
-node bin/appsec.js benchmark cve-fixes appsec-out/cve-downloaded --out appsec-reports/benchmarks/helper-sanitizer-cve
+node bin/kayfabe.js benchmark owasp-java appsec-out/benchmarks/owasp-java --out appsec-reports/benchmarks/helper-sanitizer-owasp
+node bin/kayfabe.js benchmark juliet-java appsec-out/benchmarks/juliet-java-1.3/Java --out appsec-reports/benchmarks/helper-sanitizer-juliet
+node bin/kayfabe.js benchmark sard appsec-out/benchmarks/sard-115 --out appsec-reports/benchmarks/helper-sanitizer-sard
+node bin/kayfabe.js benchmark cve-fixes appsec-out/cve-downloaded --out appsec-reports/benchmarks/helper-sanitizer-cve
 ```
 
 - [x] Compare every case to `scope-branches-*`, including both CVE revisions and both CVE policies. Verify identical input, label, annotation and policy hashes and one final scanner hash.

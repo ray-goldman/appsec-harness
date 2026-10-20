@@ -49,10 +49,10 @@ are untouched.
 Reproduce against the previously downloaded datasets:
 
 ```sh
-node bin/appsec.js benchmark owasp-java appsec-out/benchmarks/owasp-java --out appsec-reports/benchmarks/precision-owasp
-node bin/appsec.js benchmark juliet-java appsec-out/benchmarks/juliet-java-1.3/Java --out appsec-reports/benchmarks/precision-juliet
-node bin/appsec.js benchmark sard appsec-out/benchmarks/sard-115 --out appsec-reports/benchmarks/precision-sard
-node bin/appsec.js benchmark cve-fixes appsec-out/cve-downloaded --out appsec-reports/benchmarks/precision-cve
+node bin/kayfabe.js benchmark owasp-java appsec-out/benchmarks/owasp-java --out appsec-reports/benchmarks/precision-owasp
+node bin/kayfabe.js benchmark juliet-java appsec-out/benchmarks/juliet-java-1.3/Java --out appsec-reports/benchmarks/precision-juliet
+node bin/kayfabe.js benchmark sard appsec-out/benchmarks/sard-115 --out appsec-reports/benchmarks/precision-sard
+node bin/kayfabe.js benchmark cve-fixes appsec-out/cve-downloaded --out appsec-reports/benchmarks/precision-cve
 ```
 
 ## Detection changes
@@ -114,7 +114,7 @@ fallback, and qualified builtin checks address those cases. Source evidence and
 review classification also survive SARIF and triage export; HTML and Markdown
 show the PHP source name and line.
 
-Verification: `npm test` passed 79 tests; `node bin/appsec.js selftest` passed
+Verification: `npm test` passed 79 tests; `node bin/kayfabe.js selftest` passed
 all 145 paired cases at 100% regression recall and precision. The second
 reviewer's final focused rerun passed 43 tests. Windows denied creation of the
 symlink fixture in one localization test, so that subcheck was skipped; the

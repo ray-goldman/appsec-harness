@@ -29,7 +29,7 @@ function toJUnit(result, { failOn = 'high' } = {}) {
     totalTests += cases.length; totalFail += failures; totalSkip += skipped;
     suites.push(`  <testsuite name="${esc(`${code}:2025 ${cat.name}`)}" tests="${cases.length}" failures="${failures}" errors="0" skipped="${skipped}" timestamp="${esc(result.scannedAt)}">\n${cases.join('\n')}\n  </testsuite>`);
   }
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<testsuites name="appsec-harness ${esc(result.target.name)}" tests="${totalTests}" failures="${totalFail}" errors="0" skipped="${totalSkip}">\n${suites.join('\n')}\n</testsuites>\n`;
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<testsuites name="kayfabe ${esc(result.target.name)}" tests="${totalTests}" failures="${totalFail}" errors="0" skipped="${totalSkip}">\n${suites.join('\n')}\n</testsuites>\n`;
 }
 
 module.exports = { toJUnit };

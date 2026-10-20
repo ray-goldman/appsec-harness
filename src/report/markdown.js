@@ -8,11 +8,11 @@ function toMarkdown(result, { gate } = {}) {
   const s = result.summary;
   const t = result.target;
   const out = [];
-  out.push(`# AppSec report — ${t.name}`);
+  out.push(`# kayfabe report — ${t.name}`);
   out.push('');
   out.push(`- **Target:** \`${t.url || t.root}\`${t.commit ? ` @ \`${t.commit.slice(0, 12)}\`` : ''}${t.ref ? ` (ref \`${t.ref}\`)` : ''}`);
   out.push(`- **Scanned:** ${result.scannedAt} · ${result.stats.files} files · ${result.stats.dependencies} dependencies · ${result.stats.routes} routes · ${result.durationMs} ms`);
-  out.push(`- **Harness:** appsec-harness ${result.tool.version}${result.triage ? ` · triaged by **${mdEsc(result.triage.reviewer)}**${result.triage.model ? ` (${mdEsc(result.triage.model)})` : ''}` : ' · not yet triaged'}`);
+  out.push(`- **Harness:** kayfabe ${result.tool.version}${result.triage ? ` · triaged by **${mdEsc(result.triage.reviewer)}**${result.triage.model ? ` (${mdEsc(result.triage.model)})` : ''}` : ' · not yet triaged'}`);
   if (gate) out.push(`- **Gate:** ${gate.passed ? '✅ PASS' : '❌ FAIL'} — ${gate.reason}`);
   out.push('');
   out.push(`| Severity | Open |`); out.push('|---|---|');

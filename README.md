@@ -1,6 +1,14 @@
-# appsec-harness
+# kayfabe
 
-`appsec-harness` is a static application-security scanner and agent-assisted triage workflow for the OWASP Top 10:2025. It scans a local directory or a Git repository, writes findings in common security-report formats, and gives a reviewer a validated way to confirm or dismiss each finding.
+`kayfabe` is a static application-security scanner and agent-assisted triage workflow for the OWASP Top 10:2025. It scans a local directory or a Git repository, writes findings in common security-report formats, and gives a reviewer a validated way to confirm or dismiss each finding.
+
+Repository: [ray-goldman/kayfabe](https://github.com/ray-goldman/kayfabe).
+
+Previously named `appsec-harness`. The primary command is now `kayfabe`;
+`appsec` and `node bin/appsec.js` remain compatibility aliases. Existing
+`appsec` MCP registrations and tool names, report schema identifiers,
+suppression markers and report directories remain supported. Historical
+benchmark reports retain the name and source hash recorded when they ran.
 
 The scanner does not run code from the repository it scans. It is a first-pass review tool; it does not replace whole-program analysis or dynamic testing.
 
@@ -9,14 +17,14 @@ The scanner does not run code from the repository it scans. It is a first-pass r
 Requirements: Node.js 20 or later. The harness has no runtime dependencies; you do not need to run `npm install`.
 
 ```sh
-node bin/appsec.js selftest
-node bin/appsec.js scan ./my-service --fail-on high
-node bin/appsec.js audit https://github.com/org/app --ref v2.4.0
+node bin/kayfabe.js selftest
+node bin/kayfabe.js scan ./my-service --fail-on high
+node bin/kayfabe.js audit https://github.com/org/app --ref v2.4.0
 ```
 
 `scan` reads a local directory. `audit` makes a hardened, shallow clone and scans it. Add `--osv` to query OSV.dev with dependency names and versions for additional advisory coverage. Use `--out <directory>` to choose where reports are written.
 
-To install the optional `appsec` command globally for your user, run `npm link` from this directory.
+To install the optional `kayfabe` command globally for your user, run `npm link` from this directory.
 
 ## Coverage
 
@@ -52,11 +60,11 @@ Typical workflow:
 
 ```sh
 # Scan a repository or local directory
-node bin/appsec.js audit https://github.com/org/app --ref v2.4.0 --out appsec-reports/app
+node bin/kayfabe.js audit https://github.com/org/app --ref v2.4.0 --out appsec-reports/app
 
 # Review appsec-reports/app/triage-request.json and write triage.json
-node bin/appsec.js triage validate appsec-reports/app
-node bin/appsec.js report appsec-reports/app --fail-on high
+node bin/kayfabe.js triage validate appsec-reports/app
+node bin/kayfabe.js report appsec-reports/app --fail-on high
 ```
 
 The report command merges the validated triage and applies the severity gate. The default gate fails for open findings at high severity or above with at least medium confidence, and for confirmed true positives at that severity.
@@ -65,7 +73,7 @@ The report command merges the validated triage and applies the severity gate. Th
 
 The review process uses files and a CLI, so it works with Codex, Claude Code, or a human reviewer.
 
-**Codex** reads `AGENTS.md`. Open this directory as the project and request an AppSec review. The optional project MCP server is configured in `.codex/config.toml`; trust the project to enable it. Alternatively, `node bin/appsec.js agent-setup` prints the MCP registration commands without applying them.
+**Codex** reads `AGENTS.md`. Open this directory as the project and request an AppSec review. The optional project MCP server is configured in `.codex/config.toml`; trust the project to enable it. Alternatively, `node bin/kayfabe.js agent-setup` prints the MCP registration commands without applying them.
 
 **Claude Code** includes `/appsec-review`. The project ships `.mcp.json` for the MCP server and `.claude/settings.json` to allow the harness CLI while denying package installs and build commands.
 
@@ -91,8 +99,8 @@ Exit codes: `0` gate passed, `1` gate failed, `2` usage or runtime error.
 Compare a release with a previous scan and gate only on new findings:
 
 ```sh
-appsec audit https://github.com/org/app --ref v2.3.0 --out reports/v2.3.0
-appsec audit https://github.com/org/app --ref v2.4.0 --out reports/v2.4.0 \
+kayfabe audit https://github.com/org/app --ref v2.3.0 --out reports/v2.3.0
+kayfabe audit https://github.com/org/app --ref v2.4.0 --out reports/v2.4.0 \
   --baseline reports/v2.3.0/findings.json --new-only
 ```
 
@@ -134,6 +142,6 @@ See [the prioritized roadmap](docs/ROADMAP.md) for independent datasets, parsing
 
 ## Development
 
-Rules live in `src/rules/`; advisory data lives in `src/supply/advisories.js`. Add a paired `vuln/` and `fixed/` corpus case when changing a rule. Run `node bin/appsec.js selftest` and `npm test` before submitting a change.
+Rules live in `src/rules/`; advisory data lives in `src/supply/advisories.js`. Add a paired `vuln/` and `fixed/` corpus case when changing a rule. Run `node bin/kayfabe.js selftest` and `npm test` before submitting a change.
 
-The CLI supports `audit`, `scan`, `clone`, `triage`, `report`, `gate`, `surface`, `rules`, `explain`, `selftest`, `benchmark`, `mcp`, and `agent-setup`. Run `node bin/appsec.js help` for command usage and options.
+The CLI supports `audit`, `scan`, `clone`, `triage`, `report`, `gate`, `surface`, `rules`, `explain`, `selftest`, `benchmark`, `mcp`, and `agent-setup`. Run `node bin/kayfabe.js help` for command usage and options.

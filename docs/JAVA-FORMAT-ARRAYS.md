@@ -92,10 +92,10 @@ The comparison checks scanner hashes, case IDs and transitions, including
 previously detected true positives. Original reports remain unchanged.
 
 ```sh
-node bin/appsec.js benchmark owasp-java appsec-out/benchmarks/owasp-java --out appsec-reports/benchmarks/format-arrays-owasp
-node bin/appsec.js benchmark juliet-java appsec-out/benchmarks/juliet-java-1.3/Java --out appsec-reports/benchmarks/format-arrays-juliet
-node bin/appsec.js benchmark sard appsec-out/benchmarks/sard-115 --out appsec-reports/benchmarks/format-arrays-sard
-node bin/appsec.js benchmark cve-fixes appsec-out/cve-downloaded --out appsec-reports/benchmarks/format-arrays-cve
+node bin/kayfabe.js benchmark owasp-java appsec-out/benchmarks/owasp-java --out appsec-reports/benchmarks/format-arrays-owasp
+node bin/kayfabe.js benchmark juliet-java appsec-out/benchmarks/juliet-java-1.3/Java --out appsec-reports/benchmarks/format-arrays-juliet
+node bin/kayfabe.js benchmark sard appsec-out/benchmarks/sard-115 --out appsec-reports/benchmarks/format-arrays-sard
+node bin/kayfabe.js benchmark cve-fixes appsec-out/cve-downloaded --out appsec-reports/benchmarks/format-arrays-cve
 node scripts/compare-format-arrays.js
 ```
 

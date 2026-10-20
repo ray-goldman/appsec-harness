@@ -1,7 +1,7 @@
-# Example: gate pull requests and releases with appsec-harness.
+# Example: gate pull requests and releases with kayfabe.
 # Copy to .github/workflows/appsec.yml in the repository you want to protect and vendor the harness
 # (git submodule, subtree, or a pinned checkout of your own fork at a commit SHA).
-name: appsec
+name: kayfabe
 on:
   pull_request:
   push:
@@ -18,9 +18,9 @@ jobs:
           persist-credentials: false
       - uses: actions/checkout@v4
         with:
-          repository: YOUR_ORG/appsec-harness
+          repository: YOUR_ORG/kayfabe
           ref: 0000000000000000000000000000000000000000   # pin to a commit SHA
-          path: .appsec-harness
+          path: .kayfabe
           persist-credentials: false
       - uses: actions/setup-node@v4
         with:
@@ -28,7 +28,7 @@ jobs:
       # The harness never executes the scanned project; no npm install needed (zero dependencies).
       - name: Scan
         run: |
-          node .appsec-harness/bin/appsec.js scan . \
+          node .kayfabe/bin/kayfabe.js scan . \
             --out appsec-out --format sarif,junit,html,json \
             --fail-on high --fail-confidence medium --osv \
             --ignore-file .appsec-ignore.json || echo "APPSEC_FAILED=1" >> "$GITHUB_ENV"
@@ -36,7 +36,7 @@ jobs:
         if: always()
         with:
           sarif_file: appsec-out/results.sarif
-          category: appsec-harness
+          category: kayfabe
       - uses: actions/upload-artifact@v4
         if: always()
         with:

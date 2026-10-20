@@ -350,7 +350,7 @@ async function scan(root, opts = {}) {
   const summary = summarize(findings);
   return {
     schema: 'appsec-harness/findings@1',
-    tool: { name: 'appsec-harness', version: pkg.version },
+    tool: { name: 'kayfabe', version: pkg.version },
     target: { root, name: opts.name || path.basename(root), ...(opts.targetMeta || {}) },
     scannedAt: new Date().toISOString(),
     durationMs: Date.now() - started,

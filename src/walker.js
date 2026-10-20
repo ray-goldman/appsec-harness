@@ -7,7 +7,7 @@ const SKIP_DIRS = new Set([
   '.git', '.hg', '.svn', 'node_modules', 'bower_components', 'jspm_packages', 'vendor', 'third_party', 'third-party',
   '.venv', 'venv', 'env', '.tox', '.nox', '__pycache__', '.mypy_cache', '.pytest_cache', 'site-packages',
   'dist', 'build', 'out', 'target', '.next', '.nuxt', '.svelte-kit', '.output', 'coverage', '.nyc_output',
-  '.gradle', '.idea', '.terraform', '.cache', '.parcel-cache', '.turbo', 'Pods', 'DerivedData', '.appsec-harness',
+  '.gradle', '.idea', '.terraform', '.cache', '.parcel-cache', '.turbo', 'Pods', 'DerivedData', '.appsec-harness', '.kayfabe',
 ]);
 const SKIP_FILE = /\.(?:min\.(?:js|css)|map|lock\.json\.bak|png|jpe?g|gif|webp|ico|bmp|tiff?|svgz|woff2?|ttf|eot|otf|mp[34]|mov|avi|webm|wav|flac|ogg|zip|tar|gz|tgz|bz2|xz|7z|rar|jar|war|ear|class|so|dylib|dll|exe|bin|o|a|pyc|pyo|wasm|pdf|docx?|xlsx?|pptx?|psd|ai|sketch|fig|sqlite3?|db|parquet|avro|pb|onnx|pt|pth|safetensors|h5|ckpt|npy|npz|pkl|iso|dmg|apk|ipa)$/i;
 

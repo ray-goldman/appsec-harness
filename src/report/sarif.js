@@ -40,7 +40,7 @@ function toSarif(result) {
   return {
     $schema: 'https://json.schemastore.org/sarif-2.1.0.json', version: '2.1.0',
     runs: [{
-      tool: { driver: { name: 'appsec-harness', version: result.tool.version, informationUri: 'https://owasp.org/Top10/2025/', semanticVersion: result.tool.version, rules } },
+      tool: { driver: { name: 'kayfabe', version: result.tool.version, informationUri: 'https://github.com/ray-goldman/kayfabe', semanticVersion: result.tool.version, rules } },
       originalUriBaseIds: { SRCROOT: { uri: 'file://' + encodeURI(result.target.root.replace(/\\/g, '/')) + '/' } },
       versionControlProvenance: result.target.url ? [{ repositoryUri: result.target.url, revisionId: result.target.commit }] : undefined,
       invocations: [{ executionSuccessful: true, endTimeUtc: result.scannedAt, toolExecutionNotifications: (result.warnings || []).map((w) => ({ level: 'warning', message: { text: w } })) }],

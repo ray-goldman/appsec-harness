@@ -1,6 +1,7 @@
 {
   "permissions": {
     "allow": [
+      "Bash(node bin/kayfabe.js:*)",
       "Bash(node bin/appsec.js:*)",
       "Bash(node --test:*)",
       "Bash(npm test)",

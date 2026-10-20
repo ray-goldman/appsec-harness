@@ -92,10 +92,10 @@ function toHtml(result, { gate } = {}) {
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'sha256-${hash}'; img-src data:; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
-<title>AppSec report — ${esc(t.name)}</title><style>${CSS}</style></head>
+<title>kayfabe report — ${esc(t.name)}</title><style>${CSS}</style></head>
 <body><header><button class="theme" type="button">◐ theme</button>
-<h1>AppSec report — ${esc(t.name)}</h1>
-<div class="meta">${esc(t.url || t.root)}${t.commit ? ' @ ' + esc(t.commit.slice(0, 12)) : ''}${t.ref ? ' (ref ' + esc(t.ref) + ')' : ''} · ${esc(result.scannedAt)} · ${result.stats.files} files · ${result.stats.dependencies} deps · appsec-harness ${esc(result.tool.version)}${result.triage ? ' · triaged by ' + esc(result.triage.reviewer) + (result.triage.model ? ' (' + esc(result.triage.model) + ')' : '') : ' · not yet triaged'}</div>
+<h1>kayfabe report — ${esc(t.name)}</h1>
+<div class="meta">${esc(t.url || t.root)}${t.commit ? ' @ ' + esc(t.commit.slice(0, 12)) : ''}${t.ref ? ' (ref ' + esc(t.ref) + ')' : ''} · ${esc(result.scannedAt)} · ${result.stats.files} files · ${result.stats.dependencies} deps · kayfabe ${esc(result.tool.version)}${result.triage ? ' · triaged by ' + esc(result.triage.reviewer) + (result.triage.model ? ' (' + esc(result.triage.model) + ')' : '') : ' · not yet triaged'}</div>
 ${gate ? `<span class="gate ${gate.passed ? 'pass' : 'fail'}">${gate.passed ? 'GATE PASS' : 'GATE FAIL'} — ${esc(gate.reason)}</span>` : ''}
 </header><main>
 <div class="kpis">${['critical', 'high', 'medium', 'low', 'info'].map((k) => `<div class="kpi ${k}"><b>${s[k]}</b><span>${k}</span></div>`).join('')}<div class="kpi"><b>${result.summary.open}</b><span>open total</span></div></div>
