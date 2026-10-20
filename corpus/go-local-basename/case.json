@@ -1,0 +1,1 @@
+{"id":"go-local-basename","owasp":"A01","cwe":[22],"description":"Basename with IsLocal rejection before reading, despite unrelated same-named request variable; lexical containment only.","expect":["GO-PATH-001"]}

@@ -1,0 +1,1 @@
+{"id":"java-normalized-path","owasp":"A01","cwe":[22],"description":"Normalized local Path is rejected outside the immutable base before reading; lexical containment only.","expect":["JAVA-PATH-001"]}
