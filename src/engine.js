@@ -13,6 +13,7 @@ const { sha256, sevRank, confRank, isProbablyBinary, isTestPath, redact, truncat
 const pkg = require('../package.json');
 const { constantSinkFilter } = require('./java-constants');
 const { buildJavaProjectIndex } = require('./java-project');
+const { javaOutputFilter } = require('./java-sanitizers');
 
 const MAX_LINE = 2000;
 const WRAPPED = new RegExp('^\\s*(?:await\\s+)?' + SANITIZERS.source.replace(/^\\\\b/, '') + '[\\s\\S]*\\)\\s*$', 'i');
@@ -72,12 +73,17 @@ function applyCodeRules(file, lang, raw, codeLines, taint, javaProject) {
   const maskedLines = maskStrings(code, lang).split('\n'); // file-level: knows about multi-line strings/docstrings
   const windows = new Array(codeLines.length);
   const constantJavaSink = lang === 'java' ? constantSinkFilter(code, callArgs, raw, { file, project: javaProject }) : null;
+  const javaOutput = constantJavaSink ? javaOutputFilter({ code, filter: constantJavaSink, project: javaProject }) : null;
+  const javaStrictTaint = lang === 'java' ? analyzeTaint(codeLines, lang, { genericSanitizers: false }) : null;
+  const javaNonHtmlTaint = lang === 'java' ? analyzeTaint(codeLines, lang, { rejectHtmlSanitizers: true }) : null;
   const win = (i) => (windows[i] === undefined ? (windows[i] = windowAt(codeLines, i)) : windows[i]);
   for (const rule of CODE_RULES) {
     if (!rule.languages.includes(lang)) continue;
     if (rule.files && !rule.files.test(file)) continue;
     if (rule.fileRequires && !rule.fileRequires.test(code)) continue;
     if (rule.fileExcludes && rule.fileExcludes.test(code)) continue;
+    const contextualJavaOutput = lang === 'java' && rule.id === 'JAVA-XSS-001';
+    const ruleTaint = contextualJavaOutput ? javaStrictTaint : javaNonHtmlTaint || taint;
     if (rule.checkCode) {
       for (const hit of rule.checkCode({ file, lang, raw, code, codeLines, maskedLines, taint })) {
         out.push({ ...hit, ruleId: rule.id, file, source: 'sast' });
@@ -89,7 +95,7 @@ function applyCodeRules(file, lang, raw, codeLines, taint, javaProject) {
       const L = codeLines[i];
       if (!L || L.length > MAX_LINE || !L.trim()) continue;
       const W = win(i);
-      if (rule.notLine && rule.notLine.test(W)) continue;
+      if (!contextualJavaOutput && rule.notLine && rule.notLine.test(W)) continue;
       if (rule.rawNotLine && rule.rawNotLine.test(rawLines[i] || '')) continue;
       let hit = null;
       // A match that *starts* inside a string literal is text, not code (e.g. an error message mentioning eval()).
@@ -98,7 +104,7 @@ function applyCodeRules(file, lang, raw, codeLines, taint, javaProject) {
       if (rule.pattern) {
         const m = W.match(rule.pattern);
         if (m && m.index < L.length && !startsInString(m.index + (m[0].length - m[0].trimStart().length))) {
-          const t = taint.lineTainted(W);
+          const t = ruleTaint.lineTainted(W);
           if (!(rule.requireTaint && !t)) {
             let ok = true;
             if (rule.nextLine) {
@@ -114,23 +120,28 @@ function applyCodeRules(file, lang, raw, codeLines, taint, javaProject) {
       }
       if (!hit) {
         for (const s of sinks) {
-          const re = new RegExp(s.re.source, s.re.flags.replace('g', ''));
-          const m = W.match(re);
-          if (!m || m.index >= L.length || startsInString(m.index)) continue;
-          const after = m.index + m[0].length;
-          const isCall = /\($/.test(m[0].replace(/\s+$/, ''));
-          let args = isCall ? callArgs(W, after) : [W.slice(after)];
-          if (s.arg !== 'all') args = args.slice(0, 1);
-          let t = null;
-          for (const arg of args) {
-            if (WRAPPED.test(arg)) continue; // value fully wrapped by a sanitizer/validator call
-            t = taint.lineTainted(arg);
-            if (t) break;
+          const re = new RegExp(s.re.source, s.re.flags.replace(/[gy]/g, '') + 'g');
+          const matches = contextualJavaOutput ? [...W.matchAll(re)] : [re.exec(W)].filter(Boolean);
+          for (const m of matches) {
+            if (m.index >= L.length || startsInString(m.index)) continue;
+            const after = m.index + m[0].length;
+            const isCall = /\($/.test(m[0].replace(/\s+$/, ''));
+            let args = isCall ? callArgs(W, after) : [W.slice(after)];
+            if (s.arg !== 'all') args = args.slice(0, 1);
+            let t = null;
+            for (const arg of args) {
+              if (!contextualJavaOutput && WRAPPED.test(arg) &&
+                  !(lang === 'java' && /\b(?:forHtml|forHtmlContent|encodeForHTML|htmlEscape|escapeHtml|escapeHtml4)\s*\(/.test(arg))) continue;
+              t = ruleTaint.lineTainted(arg);
+              if (t) break;
+            }
+            if (t) { hit = { col: m.index + 1, confidence: 'high', taint: t }; break; }
           }
-          if (t) { hit = { col: m.index + 1, confidence: 'high', taint: t }; break; }
+          if (hit) break;
         }
       }
       if (hit) {
+        if (contextualJavaOutput && javaOutput(i, W)) continue;
         if (constantJavaSink && ['JAVA-SQLI-001', 'JAVA-SQLI-002', 'JAVA-CMDI-001', 'JAVA-REDIRECT-001'].includes(rule.id)
           && (rule.id === 'JAVA-SQLI-002'
             ? constantJavaSink.sqlAssembly(i, W, rule.pattern, BY_ID.get('JAVA-SQLI-001').taintSink)
@@ -184,7 +195,7 @@ async function scan(root, opts = {}) {
   const started = Date.now();
   root = path.resolve(root);
   if (!fs.statSync(root).isDirectory()) throw new Error(`not a directory: ${root}`);
-  const { files, skipped, truncated } = walk(root, opts);
+  const { files, skipped, truncated, javaIncomplete } = walk(root, opts);
 
   const raw = [];
   const fileData = new Map();
@@ -194,7 +205,7 @@ async function scan(root, opts = {}) {
   const langCount = {};
   const warnings = [];
   const javaSources = [];
-  let javaBytes = 0, javaComplete = !truncated && !skipped.large.length;
+  let javaBytes = 0, javaComplete = !truncated && !javaIncomplete;
   for (const f of files) {
     if (detectLanguage(f.rel.replace(/\.appsec-quarantined$/, '')) !== 'java') continue;
     try {

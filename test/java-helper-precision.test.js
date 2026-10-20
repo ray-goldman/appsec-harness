@@ -6,7 +6,7 @@ const os = require('node:os');
 const path = require('node:path');
 const { scan } = require('../src/engine');
 
-async function findings(t, source, extra = {}) {
+async function findings(t, source, extra = {}, options = {}) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'appsec-java-helpers-'));
   t.after(() => {
     const resolved = fs.realpathSync(root);
@@ -18,7 +18,7 @@ async function findings(t, source, extra = {}) {
     fs.mkdirSync(path.dirname(path.join(root, file)), { recursive: true });
     fs.writeFileSync(path.join(root, file), text);
   }
-  return (await scan(root, { includeTests: true })).findings.filter(f => f.cwe.includes(89) || f.cwe.includes(78));
+  return (await scan(root, { includeTests: true, ...options })).findings.filter(f => f.cwe.includes(89) || f.cwe.includes(78));
 }
 const query = value => `statement.executeQuery("SELECT name FROM users WHERE name='" + ${value} + "'");`;
 
@@ -135,4 +135,55 @@ test('private parameter writes cannot create invariant guard facts', async t => 
     }
     void run() { String selected = value(0); ${query('selected')} }
   }`)).length);
+});
+
+test('skipped Java definitions cannot establish a complete static source index', async t => {
+  const source = `class Example { void run() { String selected = sample.Names.value(); ${query('selected')} } }`;
+  assert.ok((await findings(t, source, {
+    'a/Names.java': 'package sample; public class Names { public static String value() { return "fixed"; } }',
+    'b/Names.java': 'package sample; public class Names { public static String value() { return request.getParameter("x"); } }' + ' '.repeat(600),
+  }, { maxFileSize: 512 })).length, 'incomplete Java source inventory');
+});
+
+test('helper expansion depth exhaustion retains findings', async t => {
+  const methods = Array.from({ length: 7 }, (_, i) => `private String value${i}() { return ${i === 6 ? '"fixed"' : `value${i + 1}()`}; }`).join('\n');
+  assert.ok((await findings(t, `class Example { ${methods}
+    void run() { String selected = value0(); ${query('selected')} }
+  }`)).length, 'depth bound');
+});
+
+test('reflective invocation prevents private caller closure even without a named reference', async t => {
+  assert.ok((await findings(t, `class Example {
+    private void consume(String value) { ${query('value')} }
+    void safe() { consume("fixed"); }
+    void unsafe() throws Exception {
+      java.lang.reflect.Method m = getClass().getDeclaredMethods()[0];
+      m.setAccessible(true);
+      m.invoke(this, request.getParameter("x"));
+    }
+  }`)).length);
+});
+
+test('HTML encoding cannot sanitize SQL or shell arguments', async t => {
+  for (const sink of [query('clean'), 'Runtime.getRuntime().exec(clean);']) {
+    const hits = await findings(t, `class Example {
+      void run() {
+        String input = request.getParameter("value");
+        String clean = org.owasp.encoder.Encode.forHtml(input);
+        ${sink}
+      }
+    }`);
+    assert.ok(hits.length, sink);
+  }
+});
+
+test('an inherited value receiver cannot select an imported static helper', async t => {
+  const hits = await findings(t, `import sample.Names; class Example extends Base {
+    void run() { String selected = Names.value(); ${query('selected')} }
+  }`, {
+    'Base.java': 'class Base { protected Other Names; }',
+    'Other.java': 'class Other { public String value() { return request.getParameter("x"); } }',
+    'sample/Names.java': 'package sample; public class Names { public static String value() { return "fixed"; } }',
+  });
+  assert.ok(hits.length);
 });

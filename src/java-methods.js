@@ -93,10 +93,25 @@ function indexJavaFile({ file, raw, code }) {
   return index;
 }
 
-function shadowsType(index, name) {
+function shadowsType(index, name, project, depth = 0) {
   if (!/^[A-Za-z_]\w*$/.test(name)) return true;
   const re = new RegExp(`\\b([\\w.$<>\\[\\]]+)\\s+${name}\\b`, 'g');
-  return [...index.mask.matchAll(re)].some(m => !['class', 'interface', 'enum', 'record', 'package', 'import', 'return', 'throw', 'new'].includes(m[1]));
+  if ([...index.mask.matchAll(re)].some(m => !['class', 'interface', 'enum', 'record', 'package', 'import', 'return', 'throw', 'new'].includes(m[1]))) return true;
+  const parent = index.mask.match(/\bextends\s+([\w.]+)/)?.[1];
+  if (!parent) return false;
+  if (!project?.complete || depth >= 4) return true;
+  const source = project.resolve(index, parent);
+  if (source) return shadowsType(source.index, name, project, depth + 1);
+  let qualified = parent.includes('.') ? parent : index.imports.get(parent);
+  if (!qualified && parent === 'HttpServlet' &&
+      !project.classes.has([index.package, parent].filter(Boolean).join('.'))) {
+    const http = [...index.mask.matchAll(/\bimport\s+((?:javax|jakarta)\.servlet\.http)\.\*\s*;/g)];
+    if (http.length === 1) qualified = `${http[0][1]}.HttpServlet`;
+  }
+  // These library bases do not introduce the supported encoder/type owners.
+  // Other missing bases may contain a same-named value and stay unknown.
+  return !(['java.lang.Object', 'javax.servlet.http.HttpServlet', 'jakarta.servlet.http.HttpServlet'].includes(qualified) &&
+    !project.classes.has(qualified));
 }
 
 module.exports = { indexJavaFile, parseCall, argumentsOf, shadowsType };

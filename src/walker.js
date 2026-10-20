@@ -34,19 +34,21 @@ function walk(root, opts = {}) {
   const excluded = (rel) => excludes.some((re) => re.test(rel));
   const files = [];
   const skipped = { large: 0, symlinks: [], binaryExt: 0, dirs: 0 };
+  let javaIncomplete = false;
   const rootReal = fs.realpathSync(root);
 
   function visit(dirAbs, rel, depth) {
-    if (depth > maxDepth || files.length >= maxFiles) return;
+    if (depth > maxDepth || files.length >= maxFiles) { javaIncomplete = true; return; }
     let entries;
-    try { entries = fs.readdirSync(dirAbs, { withFileTypes: true }); } catch { return; }
+    try { entries = fs.readdirSync(dirAbs, { withFileTypes: true }); } catch { javaIncomplete = true; return; }
     entries.sort((a, b) => a.name.localeCompare(b.name));
     for (const e of entries) {
       if (files.length >= maxFiles) return;
       const abs = path.join(dirAbs, e.name);
       const r = rel ? `${rel}/${e.name}` : e.name;
-      if (excluded(r)) { skipped.excluded = (skipped.excluded || 0) + 1; continue; }
+      if (excluded(r)) { skipped.excluded = (skipped.excluded || 0) + 1; javaIncomplete = true; continue; }
       if (e.isSymbolicLink()) {
+        javaIncomplete = true;
         // Record symlinks; flag ones that escape the repo (CWE-59) — never follow them.
         let target = null;
         try { target = fs.readlinkSync(abs); } catch { /* ignore */ }
@@ -73,13 +75,13 @@ function walk(root, opts = {}) {
       if (!e.isFile()) continue;
       if (SKIP_FILE.test(e.name)) { skipped.binaryExt++; continue; }
       let st;
-      try { st = fs.lstatSync(abs); } catch { continue; }
-      if (st.size > maxSize) { skipped.large++; continue; }
+      try { st = fs.lstatSync(abs); } catch { javaIncomplete = true; continue; }
+      if (st.size > maxSize) { skipped.large++; if (/\.java(?:\.appsec-quarantined)?$/i.test(r)) javaIncomplete = true; continue; }
       files.push({ rel: r, abs, size: st.size });
     }
   }
   visit(root, '', 0);
-  return { files, skipped, truncated: files.length >= maxFiles };
+  return { files, skipped, truncated: files.length >= maxFiles, javaIncomplete };
 }
 
 module.exports = { walk, SKIP_DIRS, globToRegExp };

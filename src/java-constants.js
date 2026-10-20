@@ -1,7 +1,7 @@
 'use strict';
 const { maskStrings } = require('./languages');
 const { evaluate, excludedBranches } = require('./java-branches');
-const { createJavaSummaries } = require('./java-summaries');
+const { createJavaSummaries, isSafeFact } = require('./java-summaries');
 
 // This is a bounded proof for local String values, not a Java parser. Unknown
 // syntax retains the warning. Inspect all writes, including writes after a sink
@@ -182,7 +182,9 @@ function constantSinkFilter(code, callArgs, raw = code, options = {}) {
       if (context.budget && --context.budget.left < 0) return false;
       expr = expr.trim();
       if (!expr) return false;
-      if (fact(expr, position)) return true;
+      const value = fact(expr, position);
+      if (value) return context.mode !== 'html' ||
+        !String(value.type === 'char' ? String.fromCharCode(value.value) : value.value).includes('<');
       // Split concatenation only outside quoted strings, parentheses and indexes.
       let quote = null, depth = 0, last = 0;
       const parts = [];
@@ -196,17 +198,17 @@ function constantSinkFilter(code, callArgs, raw = code, options = {}) {
       }
       if (quote || depth !== 0) return false;
       if (parts.length) return [...parts, expr.slice(last)].every(p => constant(p, visiting, position, context));
-      if (/^"(?:[^"\\]|\\.)*"$|^'(?:[^'\\]|\\.)*'$|^(?:true|false|null|\d+)$/.test(expr)) return true;
+      if (/^"(?:[^"\\]|\\.)*"$|^'(?:[^'\\]|\\.)*'$|^(?:true|false|null|\d+)$/.test(expr)) return context.mode !== 'html';
       if (expr.startsWith('(') && expr.endsWith(')')) return constant(expr.slice(1, -1), visiting, position, context);
       const split = expr.match(/^([\s\S]+)\.split\s*\(\s*("(?:[^"\\]|\\.)*")\s*\)$/);
       if (split) return constant(split[1], visiting, position, context);
-      if (summaries.callFact({ expression: expr, position: method.start + position, context,
-        prove: argument => constant(argument, visiting, position, context) }).known) return true;
+      if (isSafeFact(summaries.callFact({ expression: expr, position: method.start + position, context,
+        prove: (argument, mode) => constant(argument, visiting, position, { ...context, mode }) }), context.mode)) return true;
       const identifier = expr.match(/^([A-Za-z_]\w*)(?:\s*\[[^\]]+\])?$/);
       if (!identifier) return false;
       const entry = resolve(identifier[1], position);
       if (!entry || entry.index >= position || entry.invalid || visiting.has(entry) || visiting.size > 32) return false;
-      if (entry.parameter && !summaries.parameterFact({ methodStart: method.start, name: entry.name, context }).known) return false;
+      if (entry.parameter && !isSafeFact(summaries.parameterFact({ methodStart: method.start, name: entry.name, context }), context.mode)) return false;
       if (!entry.values.length) return !!entry.parameter;
       if (expr.includes('[') !== entry.array) return false;
       const next = new Set(visiting); next.add(entry);
@@ -215,9 +217,10 @@ function constantSinkFilter(code, callArgs, raw = code, options = {}) {
     }
     const bounded = (expr, visiting, position, context) => {
       remaining = 512;
-      return constant(expr, visiting, position, context);
+      return constant(expr, visiting, position, { budget: { left: 10000, methods: new Set() }, stack: [], ...context });
     };
     bounded.unreachable = unreachable;
+    bounded.literal = fact;
     cache.set(method, bounded);
     return bounded;
   }
@@ -280,6 +283,11 @@ function constantSinkFilter(code, callArgs, raw = code, options = {}) {
     const method = methods.find(m => position >= m.start && position < m.end);
     return !!method && proof(method)(expression, new Set(), position - method.start, context);
   };
+  filter.literalAt = (expression, position) => {
+    const method = methods.find(m => position >= m.start && position < m.end);
+    return method ? proof(method).literal?.(expression, position - method.start) : null;
+  };
+  filter.index = summaries.index;
   summaries.attach(filter);
   return filter;
 }
