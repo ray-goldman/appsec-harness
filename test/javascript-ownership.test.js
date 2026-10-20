@@ -121,6 +121,7 @@ test('vendored parser bytes match provenance and unsupported input fails closed'
   assert.equal(computedDataOnly(project('invalid !!! javascript')), false);
   assert.equal(computedDataOnly(project('function inspect(value) { return arguments; }')), false);
   assert.equal(computedDataOnly(project('function keep(a, b) { return b; } keep(...values);')), false);
+  assert.equal(computedDataOnly(project('function update(req) { ({value: target.field} = req.query); }')), false);
   assert.equal(computedDataOnly(project(' '.repeat(250001))), false);
   const Module = require('node:module'), original = Module._load;
   try {

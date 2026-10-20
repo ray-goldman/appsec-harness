@@ -3,6 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { stripComments, maskStrings, detectLanguage } = require('./languages');
 const { computedDataOnly } = require('./js-computed');
+const { javascriptCommandSafe } = require('./js-command-proofs');
 
 const IDENT = '[A-Za-z_][A-Za-z0-9_]*';
 const NUMERIC_SQL = /^(?:SELECT|UPDATE|DELETE|INSERT)\b[A-Za-z0-9_ .,*=<>]*[=<>]\s*$/i;
@@ -261,6 +262,7 @@ function scriptSinkFilter(file, project, callArgs) {
     return !project.sources.some(s => /\b(?:__radd__|__add__|__str__|__class__|__getattr__|__getattribute__|metaclass)\b|\.\s*args\b(?!\s*(?:\.get\s*\(|\[))/.test(s.mask));
   }
   return (ruleId, line, window) => {
+    if (!python && ruleId === 'JS-CMDI-001') return javascriptCommandSafe(file, line, project);
     if (window.includes('\n') || window.length > 2000) return false;
     const sqlRule = /^(?:JS|PY)-SQLI-00[123]$/.test(ruleId);
     const commandRule = ruleId === 'PY-CMDI-001';

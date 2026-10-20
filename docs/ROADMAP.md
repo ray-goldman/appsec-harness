@@ -43,6 +43,10 @@ mechanism-specific detection for the seven still-missed CVE parents.
 The [JavaScript computed-read pass](JAVASCRIPT-OWNERSHIP.md) introduces a small
 optional vendored Acorn proof for numeric SQL suppression. General parsing and
 cross-file request taint remain open.
+The [hostname/config follow-up](JAVASCRIPT-GUARDS-CONFIG.md) uses that parser
+for typed guard dominance and closed literal exports. Broader import syntax,
+route callbacks, safe export sharing and request-type evidence remain open;
+the supplied app labels are unchanged.
 
 - Keep the regex engine as the default.
 - Add an optional, vendored tree-sitter layer for AST-based rules and a call graph.

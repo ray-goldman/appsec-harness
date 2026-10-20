@@ -1,0 +1,1 @@
+{"id":"javascript-hostname-guard","owasp":"A05","cwe":[78],"description":"A source-resolved primitive-string hostname guard dominates exec; passthrough remains flagged.","expect":["JS-CMDI-001"]}
