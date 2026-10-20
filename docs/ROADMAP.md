@@ -48,6 +48,11 @@ for typed guard dominance and closed literal exports. Broader import syntax,
 route callbacks, safe export sharing and request-type evidence remain open;
 the supplied app labels are unchanged.
 
+The [workflow boundary follow-up](WORKFLOW-ENV-PRECISION.md) reduces supplied
+FP labels **13 → 12** by fixing the `run`/`env` boundary. The remaining-case
+review prioritizes scoped Go basename and Java path-containment proofs; URL
+redirect behavior and platform-dependent shell quoting still need explicit models.
+
 - Keep the regex engine as the default.
 - Add an optional, vendored tree-sitter layer for AST-based rules and a call graph.
 - Follow taint through controller → service → repository calls, with explicit limits for unresolved calls and dynamic dispatch.

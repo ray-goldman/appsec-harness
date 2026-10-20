@@ -225,7 +225,9 @@ const RULES = [
         const indent = l.search(/\S/);
         const runStart = l.match(/^(\s*)(?:-\s+)?run\s*:\s*(.*)$/);
         if (runStart) {
-          inRun = true; runIndent = runStart[1].length;
+          // The mapping key starts after the sequence indicator, not at it.
+          // Sibling env/with keys end the scalar even when run starts the step.
+          inRun = true; runIndent = l.indexOf('run');
           if (UNTRUSTED.test(runStart[2])) out.push({ line: i + 1, col: 1 });
           continue;
         }

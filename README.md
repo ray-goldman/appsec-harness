@@ -149,6 +149,11 @@ The supplied examples still lack the required type/ownership evidence, so
 their measured counts remain unchanged. Two new paired regression cases
 cover the supported forms.
 
+The [workflow boundary fix](docs/WORKFLOW-ENV-PRECISION.md) removes a finding
+on a sibling environment value after `- run:`, reducing supplied-label FPs
+**13 → 12** while retaining all 81 detected vulnerable labels. Its report
+reviews all 13 starting labels and records the evidence needed for the remaining 12.
+
 General taint tracking remains intra-file; Java's bounded helper proofs do not provide a whole-program call graph. Other cross-file flows may appear as lower-confidence pattern findings or in the attack-surface map for a reviewer to follow. This is a fast static first pass, not a replacement for whole-program tools such as CodeQL or Semgrep Pro, or for dynamic application testing.
 
 See [the prioritized roadmap](docs/ROADMAP.md) for independent datasets, parsing, supply-chain data, triage evaluation, and PR integration.
