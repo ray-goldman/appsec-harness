@@ -3,7 +3,7 @@
 Instructions for any coding agent (Claude Code, Codex, Cursor, Gemini CLI, …) working in this repository.
 Claude Code reads this through `CLAUDE.md`; Codex reads it directly.
 
-This repo is a zero-dependency Node.js (≥ 20) application-security harness:
+This repo is a Node.js (≥ 20) application-security harness requiring no package installation:
 
 - **Scanner** (`bin/kayfabe.js`, `src/`) — OWASP Top 10:2025 rules for JS/TS, Python, PHP, Java/Kotlin, Go, Ruby, C#; secrets; Dockerfile/K8s/nginx/Terraform/Spring config; GitHub Actions; dependency CVEs and known-malicious releases; agent/IDE auto-run config and prompt-injection text.
 - **Corpus** (`corpus/`) — paired `vuln/` and `fixed/` samples per category. It is the regression suite: every rule change must keep `node bin/kayfabe.js selftest` at 100 %.
@@ -122,6 +122,6 @@ Fingerprints come from `triage-request.json`. The validator rejects unknown fing
 - Rules live in `src/rules/*.js`. A rule needs `id`, `title`, `owasp` (A01–A10), `cwe[]`, `severity`, `confidence`, `message`, `fix`, `refs[]` and one of: `pattern` (regex on comment-stripped code), `taintSink`/`taintSinks` (fires only when request data reaches the argument), or a structured `check()` (config rules).
 - **Every new or changed rule needs a corpus case**: `corpus/<id>/case.json`, `vuln/…`, `fixed/…`. The fixed variant must use the idiomatic secure pattern, not just delete the code.
 - Run `node bin/kayfabe.js selftest` (must stay 100 % / 100 %) and `npm test` (`node --test test/unit.test.js`) before finishing.
-- Zero runtime dependencies — do not add packages. Node built-ins only.
+- No installed runtime dependencies. Prefer Node built-ins. The optional vendored Acorn parser follows the roadmap's vendored-parser exception; preserve its license, byte provenance and fail-closed fallback. Do not add installed packages.
 - Keep the harness itself safe to run on hostile repos: no `eval`, no shelling out with interpolated strings (git is invoked with argument arrays), bounded regexes (no nested quantifiers), output escaped in HTML.
 - Never commit token-shaped strings to the corpus; use `generate` placeholders in `case.json` (see `a07-hardcoded-secrets`).

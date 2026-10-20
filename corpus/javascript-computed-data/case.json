@@ -1,0 +1,11 @@
+{
+  "id": "javascript-computed-data",
+  "owasp": "A05",
+  "cwe": [
+    89
+  ],
+  "description": "Computed request helper reads stay data; local numeric conversion prevents SQL injection while raw helper output remains flagged.",
+  "expect": [
+    "JS-SQLI-001"
+  ]
+}

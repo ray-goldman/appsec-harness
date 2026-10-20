@@ -40,6 +40,10 @@ mechanism-specific detection for the seven still-missed CVE parents.
 
 ## 2. Parsing and cross-file taint
 
+The [JavaScript computed-read pass](JAVASCRIPT-OWNERSHIP.md) introduces a small
+optional vendored Acorn proof for numeric SQL suppression. General parsing and
+cross-file request taint remain open.
+
 - Keep the regex engine as the default.
 - Add an optional, vendored tree-sitter layer for AST-based rules and a call graph.
 - Follow taint through controller → service → repository calls, with explicit limits for unresolved calls and dynamic dispatch.

@@ -1,2 +1,5 @@
 # Byte-pinned corpus manifests and annotations must survive Windows checkouts.
 benchmarks/*.json text eol=lf
+# Preserve the exact audited upstream bytes recorded in parser provenance.
+src/parsers/acorn.js -text
+src/parsers/ACORN-LICENSE.txt -text
