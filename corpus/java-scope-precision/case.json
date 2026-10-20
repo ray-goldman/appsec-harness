@@ -1,0 +1,7 @@
+{
+  "id": "java-scope-precision",
+  "owasp": "A05",
+  "cwe": [89, 78],
+  "description": "Nested and sibling Java locals keep their lexical bindings; request-derived SQL and commands warn while local constant alternatives do not.",
+  "expect": ["JAVA-SQLI-001", "JAVA-CMDI-001"]
+}

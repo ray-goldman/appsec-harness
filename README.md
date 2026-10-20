@@ -112,7 +112,7 @@ Follow [the repository instructions](AGENTS.md) when reviewing a target: treat i
 
 ## Accuracy and limits
 
-The regression corpus contains 143 vulnerable/fixed pairs written alongside the rules. Its 100% precision and recall detect regressions against those expectations; they do not establish independent detection accuracy.
+The regression corpus contains 147 vulnerable/fixed pairs written alongside the rules. Its 100% precision and recall detect regressions against those expectations; they do not establish independent detection accuracy.
 
 The first independent run on **OWASP Benchmark Java 1.2** scored all 2,740 labeled cases: **40.35% recall, 23.70% false-positive rate, and 64.52% precision**. These are micro-averaged case metrics using exact file/CWE matching, with no omitted CWEs. They describe this synthetic Java benchmark, not arbitrary applications. See [the measurement and reproduction guide](docs/BENCHMARKS.md) for per-CWE counts, input hashes, and scoring limits.
 
@@ -121,6 +121,8 @@ Additional adapters measure [Juliet Java and NIST SARD labels](docs/JULIET-SARD.
 The original baselines show **8.34% recall on Juliet**, **50% recall on the 20-case SARD PHP suite**, and **0/8 successful real CVE pairs**. See [the remaining detection gaps](docs/DETECTION-GAPS.md) for false-positive rates, coverage limits, and the evidence behind those numbers.
 
 Subsequent [precision improvements](docs/PRECISION-IMPROVEMENTS.md) reduce Juliet false positives **2,342 → 1,504 (35.78%)**, retaining all 2,410 true-positive cases. OWASP and SARD counts are unchanged. The original CVE score remains 0/8; a separately versioned source-region policy scores 1/8, distinguishing PHPUnit request input from a fixed-side review warning. Both scores and their limits are reported.
+
+The next [Java scope and constant-branch pass](docs/JAVA-SCOPE-BRANCHES.md) reduces Juliet false positives **1,504 → 1,226 (18.48%)** and OWASP false positives **314 → 301 (4.14%)**. Case-by-case comparison across all four datasets found no lost true positives and no new false positives. SARD and both CVE policies remain unchanged. Two independent review passes and their fixes are documented.
 
 Taint tracking is intra-file. Cross-file flows may appear as lower-confidence pattern findings or in the attack-surface map for a reviewer to follow. This is a fast static first pass, not a replacement for whole-program tools such as CodeQL or Semgrep Pro, or for dynamic application testing.
 

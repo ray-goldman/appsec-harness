@@ -1,0 +1,3826 @@
+{
+  "schema": "appsec-harness/java-scope-branches-comparison@1",
+  "sourceSha256": "3f3f4563f3b22e75e0951233d2548eeb61a703e326086e336dc4e03a5d0af60f",
+  "datasets": [
+    {
+      "dataset": "owasp",
+      "inputSha256": "aa8e0b1bdc78551ba2154ba7b65ee62c054cd576e0cd6f6ef90ec87e060e707d",
+      "policy": {
+        "id": "owasp-java-file-cwe@1",
+        "unit": "labeled servlet",
+        "match": "exact source path and expected CWE in finding.cwe; status=open",
+        "duplicateDetections": "one positive prediction per case",
+        "cweAliases": false,
+        "excludesUnsupportedCwes": false
+      },
+      "beforeSourceSha256": "421949170f87438e2a6df8608c04082afef3894f690c97abafd8d1b49d2bfc85",
+      "afterSourceSha256": "3f3f4563f3b22e75e0951233d2548eeb61a703e326086e336dc4e03a5d0af60f",
+      "before": {
+        "cases": 2740,
+        "tp": 571,
+        "fp": 314,
+        "tn": 1011,
+        "fn": 844,
+        "truePositiveRate": 0.40353356890459363,
+        "falsePositiveRate": 0.2369811320754717,
+        "precision": 0.6451977401129944
+      },
+      "after": {
+        "cases": 2740,
+        "tp": 571,
+        "fp": 301,
+        "tn": 1024,
+        "fn": 844,
+        "truePositiveRate": 0.40353356890459363,
+        "falsePositiveRate": 0.22716981132075473,
+        "precision": 0.6548165137614679
+      },
+      "byCwe": [
+        {
+          "cwe": 22,
+          "before": {
+            "cwe": 22,
+            "cases": 268,
+            "tp": 2,
+            "fp": 8,
+            "tn": 127,
+            "fn": 131,
+            "truePositiveRate": 0.015037593984962405,
+            "falsePositiveRate": 0.05925925925925926,
+            "precision": 0.2
+          },
+          "after": {
+            "cwe": 22,
+            "cases": 268,
+            "tp": 2,
+            "fp": 8,
+            "tn": 127,
+            "fn": 131,
+            "truePositiveRate": 0.015037593984962405,
+            "falsePositiveRate": 0.05925925925925926,
+            "precision": 0.2
+          }
+        },
+        {
+          "cwe": 78,
+          "before": {
+            "cwe": 78,
+            "cases": 251,
+            "tp": 79,
+            "fp": 72,
+            "tn": 53,
+            "fn": 47,
+            "truePositiveRate": 0.626984126984127,
+            "falsePositiveRate": 0.576,
+            "precision": 0.5231788079470199
+          },
+          "after": {
+            "cwe": 78,
+            "cases": 251,
+            "tp": 79,
+            "fp": 72,
+            "tn": 53,
+            "fn": 47,
+            "truePositiveRate": 0.626984126984127,
+            "falsePositiveRate": 0.576,
+            "precision": 0.5231788079470199
+          }
+        },
+        {
+          "cwe": 79,
+          "before": {
+            "cwe": 79,
+            "cases": 455,
+            "tp": 160,
+            "fp": 105,
+            "tn": 104,
+            "fn": 86,
+            "truePositiveRate": 0.6504065040650406,
+            "falsePositiveRate": 0.5023923444976076,
+            "precision": 0.6037735849056604
+          },
+          "after": {
+            "cwe": 79,
+            "cases": 455,
+            "tp": 160,
+            "fp": 105,
+            "tn": 104,
+            "fn": 86,
+            "truePositiveRate": 0.6504065040650406,
+            "falsePositiveRate": 0.5023923444976076,
+            "precision": 0.6037735849056604
+          }
+        },
+        {
+          "cwe": 89,
+          "before": {
+            "cwe": 89,
+            "cases": 504,
+            "tp": 205,
+            "fp": 129,
+            "tn": 103,
+            "fn": 67,
+            "truePositiveRate": 0.7536764705882353,
+            "falsePositiveRate": 0.5560344827586207,
+            "precision": 0.6137724550898204
+          },
+          "after": {
+            "cwe": 89,
+            "cases": 504,
+            "tp": 205,
+            "fp": 116,
+            "tn": 116,
+            "fn": 67,
+            "truePositiveRate": 0.7536764705882353,
+            "falsePositiveRate": 0.5,
+            "precision": 0.6386292834890965
+          }
+        },
+        {
+          "cwe": 90,
+          "before": {
+            "cwe": 90,
+            "cases": 59,
+            "tp": 0,
+            "fp": 0,
+            "tn": 32,
+            "fn": 27,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 90,
+            "cases": 59,
+            "tp": 0,
+            "fp": 0,
+            "tn": 32,
+            "fn": 27,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 327,
+          "before": {
+            "cwe": 327,
+            "cases": 246,
+            "tp": 0,
+            "fp": 0,
+            "tn": 116,
+            "fn": 130,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 327,
+            "cases": 246,
+            "tp": 0,
+            "fp": 0,
+            "tn": 116,
+            "fn": 130,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 328,
+          "before": {
+            "cwe": 328,
+            "cases": 236,
+            "tp": 89,
+            "fp": 0,
+            "tn": 107,
+            "fn": 40,
+            "truePositiveRate": 0.689922480620155,
+            "falsePositiveRate": 0,
+            "precision": 1
+          },
+          "after": {
+            "cwe": 328,
+            "cases": 236,
+            "tp": 89,
+            "fp": 0,
+            "tn": 107,
+            "fn": 40,
+            "truePositiveRate": 0.689922480620155,
+            "falsePositiveRate": 0,
+            "precision": 1
+          }
+        },
+        {
+          "cwe": 330,
+          "before": {
+            "cwe": 330,
+            "cases": 493,
+            "tp": 0,
+            "fp": 0,
+            "tn": 275,
+            "fn": 218,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 330,
+            "cases": 493,
+            "tp": 0,
+            "fp": 0,
+            "tn": 275,
+            "fn": 218,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 501,
+          "before": {
+            "cwe": 501,
+            "cases": 126,
+            "tp": 0,
+            "fp": 0,
+            "tn": 43,
+            "fn": 83,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 501,
+            "cases": 126,
+            "tp": 0,
+            "fp": 0,
+            "tn": 43,
+            "fn": 83,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 614,
+          "before": {
+            "cwe": 614,
+            "cases": 67,
+            "tp": 36,
+            "fp": 0,
+            "tn": 31,
+            "fn": 0,
+            "truePositiveRate": 1,
+            "falsePositiveRate": 0,
+            "precision": 1
+          },
+          "after": {
+            "cwe": 614,
+            "cases": 67,
+            "tp": 36,
+            "fp": 0,
+            "tn": 31,
+            "fn": 0,
+            "truePositiveRate": 1,
+            "falsePositiveRate": 0,
+            "precision": 1
+          }
+        },
+        {
+          "cwe": 643,
+          "before": {
+            "cwe": 643,
+            "cases": 35,
+            "tp": 0,
+            "fp": 0,
+            "tn": 20,
+            "fn": 15,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 643,
+            "cases": 35,
+            "tp": 0,
+            "fp": 0,
+            "tn": 20,
+            "fn": 15,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        }
+      ],
+      "transitions": {
+        "fn->fn": 844,
+        "tp->tp": 571,
+        "tn->tn": 1011,
+        "fp->fp": 301,
+        "fp->tn": 13
+      },
+      "correctedFalsePositiveCases": [
+        "BenchmarkTest00191",
+        "BenchmarkTest00329",
+        "BenchmarkTest00333",
+        "BenchmarkTest00340",
+        "BenchmarkTest00344",
+        "BenchmarkTest00430",
+        "BenchmarkTest00436",
+        "BenchmarkTest00514",
+        "BenchmarkTest00601",
+        "BenchmarkTest00605",
+        "BenchmarkTest00772",
+        "BenchmarkTest00774",
+        "BenchmarkTest00838"
+      ],
+      "lostTruePositiveCases": [],
+      "newFalsePositiveCases": []
+    },
+    {
+      "dataset": "juliet",
+      "inputSha256": "a1f620b0525b3c18048cbdfabda2bf18f1fbec59bd34204eb5b3ea9da8d31905",
+      "policy": {
+        "id": "juliet-java-testcase-cwe-polarity-regions@1",
+        "unit": "one manifest testcase × CWE × bad/good polarity; methods and helper classes are aggregated",
+        "match": "open finding with exact CWE and path, with its start line inside a labeled method/class region (or exact manifest flaw line when no method encloses it)",
+        "limitations": [
+          "Manifest flaw labels anchor bad regions. Good regions require explicit Juliet good method/class naming; missing good regions never create a negative.",
+          "The official 1.3 manifest contains redundant closing testcase tags and cases without flaw entries. Redundant closings are counted and ignored; missing-flaw cases use the explicit CWE filename plus bad/good naming convention and remain in the denominator.",
+          "For the exact official 1.3 manifest hash only, an anchor conflicting with an explicitly good region is recorded and the suite good/bad convention takes precedence. This is corrected-label scoring, not pristine manifest scoring.",
+          "All good variants, wrappers, and helpers in a testcase form one negative unit. One matching detection anywhere predicts the aggregate positive; this is not per-method or per-flaw accuracy.",
+          "Neutral methods enclosing manifest flaws are bad regions. Other neutral helper methods, main/support code, and unlabeled source regions are unscored.",
+          "Separate good/bad helper classes use their complete original file regions. No target source is rewritten and scanner taint analysis still sees coexisting good/bad methods.",
+          "No call-graph reachability or cross-file taint is added by the evaluator; an intra-method or helper-class detection can satisfy its testcase unit."
+        ],
+        "excludesUnsupportedCwes": false,
+        "cweAliases": false,
+        "duplicateDetections": "one prediction per labeled unit"
+      },
+      "beforeSourceSha256": "421949170f87438e2a6df8608c04082afef3894f690c97abafd8d1b49d2bfc85",
+      "afterSourceSha256": "3f3f4563f3b22e75e0951233d2548eeb61a703e326086e336dc4e03a5d0af60f",
+      "before": {
+        "cases": 57649,
+        "tp": 2410,
+        "fp": 1504,
+        "tn": 27264,
+        "fn": 26471,
+        "truePositiveRate": 0.08344586406287871,
+        "falsePositiveRate": 0.05228031145717464,
+        "precision": 0.6157383750638733
+      },
+      "after": {
+        "cases": 57649,
+        "tp": 2410,
+        "fp": 1226,
+        "tn": 27542,
+        "fn": 26471,
+        "truePositiveRate": 0.08344586406287871,
+        "falsePositiveRate": 0.042616796440489435,
+        "precision": 0.6628162816281629
+      },
+      "byCwe": [
+        {
+          "cwe": 15,
+          "before": {
+            "cwe": 15,
+            "cases": 888,
+            "tp": 0,
+            "fp": 0,
+            "tn": 444,
+            "fn": 444,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 15,
+            "cases": 888,
+            "tp": 0,
+            "fp": 0,
+            "tn": 444,
+            "fn": 444,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 23,
+          "before": {
+            "cwe": 23,
+            "cases": 888,
+            "tp": 0,
+            "fp": 0,
+            "tn": 444,
+            "fn": 444,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 23,
+            "cases": 888,
+            "tp": 0,
+            "fp": 0,
+            "tn": 444,
+            "fn": 444,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 36,
+          "before": {
+            "cwe": 36,
+            "cases": 888,
+            "tp": 0,
+            "fp": 0,
+            "tn": 444,
+            "fn": 444,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 36,
+            "cases": 888,
+            "tp": 0,
+            "fp": 0,
+            "tn": 444,
+            "fn": 444,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 78,
+          "before": {
+            "cwe": 78,
+            "cases": 888,
+            "tp": 444,
+            "fp": 252,
+            "tn": 192,
+            "fn": 0,
+            "truePositiveRate": 1,
+            "falsePositiveRate": 0.5675675675675675,
+            "precision": 0.6379310344827587
+          },
+          "after": {
+            "cwe": 78,
+            "cases": 888,
+            "tp": 444,
+            "fp": 228,
+            "tn": 216,
+            "fn": 0,
+            "truePositiveRate": 1,
+            "falsePositiveRate": 0.5135135135135135,
+            "precision": 0.6607142857142857
+          }
+        },
+        {
+          "cwe": 80,
+          "before": {
+            "cwe": 80,
+            "cases": 1332,
+            "tp": 0,
+            "fp": 0,
+            "tn": 666,
+            "fn": 666,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 80,
+            "cases": 1332,
+            "tp": 0,
+            "fp": 0,
+            "tn": 666,
+            "fn": 666,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 81,
+          "before": {
+            "cwe": 81,
+            "cases": 666,
+            "tp": 0,
+            "fp": 0,
+            "tn": 333,
+            "fn": 333,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 81,
+            "cases": 666,
+            "tp": 0,
+            "fp": 0,
+            "tn": 333,
+            "fn": 333,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 83,
+          "before": {
+            "cwe": 83,
+            "cases": 666,
+            "tp": 0,
+            "fp": 0,
+            "tn": 333,
+            "fn": 333,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 83,
+            "cases": 666,
+            "tp": 0,
+            "fp": 0,
+            "tn": 333,
+            "fn": 333,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 89,
+          "before": {
+            "cwe": 89,
+            "cases": 4440,
+            "tp": 1820,
+            "fp": 1208,
+            "tn": 1012,
+            "fn": 400,
+            "truePositiveRate": 0.8198198198198198,
+            "falsePositiveRate": 0.5441441441441441,
+            "precision": 0.6010568031704095
+          },
+          "after": {
+            "cwe": 89,
+            "cases": 4440,
+            "tp": 1820,
+            "fp": 956,
+            "tn": 1264,
+            "fn": 400,
+            "truePositiveRate": 0.8198198198198198,
+            "falsePositiveRate": 0.4306306306306306,
+            "precision": 0.6556195965417867
+          }
+        },
+        {
+          "cwe": 90,
+          "before": {
+            "cwe": 90,
+            "cases": 888,
+            "tp": 0,
+            "fp": 0,
+            "tn": 444,
+            "fn": 444,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 90,
+            "cases": 888,
+            "tp": 0,
+            "fp": 0,
+            "tn": 444,
+            "fn": 444,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 111,
+          "before": {
+            "cwe": 111,
+            "cases": 1,
+            "tp": 0,
+            "fp": 0,
+            "tn": 0,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": null,
+            "precision": null
+          },
+          "after": {
+            "cwe": 111,
+            "cases": 1,
+            "tp": 0,
+            "fp": 0,
+            "tn": 0,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": null,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 113,
+          "before": {
+            "cwe": 113,
+            "cases": 2664,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1332,
+            "fn": 1332,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 113,
+            "cases": 2664,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1332,
+            "fn": 1332,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 114,
+          "before": {
+            "cwe": 114,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 114,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 129,
+          "before": {
+            "cwe": 129,
+            "cases": 5328,
+            "tp": 0,
+            "fp": 0,
+            "tn": 2664,
+            "fn": 2664,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 129,
+            "cases": 5328,
+            "tp": 0,
+            "fp": 0,
+            "tn": 2664,
+            "fn": 2664,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 134,
+          "before": {
+            "cwe": 134,
+            "cases": 1332,
+            "tp": 0,
+            "fp": 0,
+            "tn": 666,
+            "fn": 666,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 134,
+            "cases": 1332,
+            "tp": 0,
+            "fp": 0,
+            "tn": 666,
+            "fn": 666,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 190,
+          "before": {
+            "cwe": 190,
+            "cases": 8510,
+            "tp": 0,
+            "fp": 0,
+            "tn": 4255,
+            "fn": 4255,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 190,
+            "cases": 8510,
+            "tp": 0,
+            "fp": 0,
+            "tn": 4255,
+            "fn": 4255,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 191,
+          "before": {
+            "cwe": 191,
+            "cases": 6808,
+            "tp": 0,
+            "fp": 0,
+            "tn": 3404,
+            "fn": 3404,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 191,
+            "cases": 6808,
+            "tp": 0,
+            "fp": 0,
+            "tn": 3404,
+            "fn": 3404,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 193,
+          "before": {
+            "cwe": 193,
+            "cases": 102,
+            "tp": 0,
+            "fp": 0,
+            "tn": 51,
+            "fn": 51,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 193,
+            "cases": 102,
+            "tp": 0,
+            "fp": 0,
+            "tn": 51,
+            "fn": 51,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 197,
+          "before": {
+            "cwe": 197,
+            "cases": 2442,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1221,
+            "fn": 1221,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 197,
+            "cases": 2442,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1221,
+            "fn": 1221,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 209,
+          "before": {
+            "cwe": 209,
+            "cases": 68,
+            "tp": 17,
+            "fp": 0,
+            "tn": 34,
+            "fn": 17,
+            "truePositiveRate": 0.5,
+            "falsePositiveRate": 0,
+            "precision": 1
+          },
+          "after": {
+            "cwe": 209,
+            "cases": 68,
+            "tp": 17,
+            "fp": 0,
+            "tn": 34,
+            "fn": 17,
+            "truePositiveRate": 0.5,
+            "falsePositiveRate": 0,
+            "precision": 1
+          }
+        },
+        {
+          "cwe": 226,
+          "before": {
+            "cwe": 226,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 226,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 248,
+          "before": {
+            "cwe": 248,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 248,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 252,
+          "before": {
+            "cwe": 252,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 252,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 253,
+          "before": {
+            "cwe": 253,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 253,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 256,
+          "before": {
+            "cwe": 256,
+            "cases": 74,
+            "tp": 0,
+            "fp": 0,
+            "tn": 37,
+            "fn": 37,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 256,
+            "cases": 74,
+            "tp": 0,
+            "fp": 0,
+            "tn": 37,
+            "fn": 37,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 259,
+          "before": {
+            "cwe": 259,
+            "cases": 222,
+            "tp": 0,
+            "fp": 0,
+            "tn": 111,
+            "fn": 111,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 259,
+            "cases": 222,
+            "tp": 0,
+            "fp": 0,
+            "tn": 111,
+            "fn": 111,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 315,
+          "before": {
+            "cwe": 315,
+            "cases": 74,
+            "tp": 0,
+            "fp": 0,
+            "tn": 37,
+            "fn": 37,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 315,
+            "cases": 74,
+            "tp": 0,
+            "fp": 0,
+            "tn": 37,
+            "fn": 37,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 319,
+          "before": {
+            "cwe": 319,
+            "cases": 740,
+            "tp": 0,
+            "fp": 0,
+            "tn": 370,
+            "fn": 370,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 319,
+            "cases": 740,
+            "tp": 0,
+            "fp": 0,
+            "tn": 370,
+            "fn": 370,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 321,
+          "before": {
+            "cwe": 321,
+            "cases": 74,
+            "tp": 0,
+            "fp": 0,
+            "tn": 37,
+            "fn": 37,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 321,
+            "cases": 74,
+            "tp": 0,
+            "fp": 0,
+            "tn": 37,
+            "fn": 37,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 325,
+          "before": {
+            "cwe": 325,
+            "cases": 68,
+            "tp": 0,
+            "fp": 0,
+            "tn": 34,
+            "fn": 34,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 325,
+            "cases": 68,
+            "tp": 0,
+            "fp": 0,
+            "tn": 34,
+            "fn": 34,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 327,
+          "before": {
+            "cwe": 327,
+            "cases": 68,
+            "tp": 34,
+            "fp": 34,
+            "tn": 0,
+            "fn": 0,
+            "truePositiveRate": 1,
+            "falsePositiveRate": 1,
+            "precision": 0.5
+          },
+          "after": {
+            "cwe": 327,
+            "cases": 68,
+            "tp": 34,
+            "fp": 34,
+            "tn": 0,
+            "fn": 0,
+            "truePositiveRate": 1,
+            "falsePositiveRate": 1,
+            "precision": 0.5
+          }
+        },
+        {
+          "cwe": 328,
+          "before": {
+            "cwe": 328,
+            "cases": 102,
+            "tp": 51,
+            "fp": 0,
+            "tn": 51,
+            "fn": 0,
+            "truePositiveRate": 1,
+            "falsePositiveRate": 0,
+            "precision": 1
+          },
+          "after": {
+            "cwe": 328,
+            "cases": 102,
+            "tp": 51,
+            "fp": 0,
+            "tn": 51,
+            "fn": 0,
+            "truePositiveRate": 1,
+            "falsePositiveRate": 0,
+            "precision": 1
+          }
+        },
+        {
+          "cwe": 329,
+          "before": {
+            "cwe": 329,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 329,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 336,
+          "before": {
+            "cwe": 336,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 336,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 338,
+          "before": {
+            "cwe": 338,
+            "cases": 68,
+            "tp": 0,
+            "fp": 0,
+            "tn": 34,
+            "fn": 34,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 338,
+            "cases": 68,
+            "tp": 0,
+            "fp": 0,
+            "tn": 34,
+            "fn": 34,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 369,
+          "before": {
+            "cwe": 369,
+            "cases": 3700,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1850,
+            "fn": 1850,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 369,
+            "cases": 3700,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1850,
+            "fn": 1850,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 378,
+          "before": {
+            "cwe": 378,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 378,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 379,
+          "before": {
+            "cwe": 379,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 379,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 382,
+          "before": {
+            "cwe": 382,
+            "cases": 68,
+            "tp": 0,
+            "fp": 0,
+            "tn": 34,
+            "fn": 34,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 382,
+            "cases": 68,
+            "tp": 0,
+            "fp": 0,
+            "tn": 34,
+            "fn": 34,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 383,
+          "before": {
+            "cwe": 383,
+            "cases": 16,
+            "tp": 0,
+            "fp": 0,
+            "tn": 0,
+            "fn": 16,
+            "truePositiveRate": 0,
+            "falsePositiveRate": null,
+            "precision": null
+          },
+          "after": {
+            "cwe": 383,
+            "cases": 16,
+            "tp": 0,
+            "fp": 0,
+            "tn": 0,
+            "fn": 16,
+            "truePositiveRate": 0,
+            "falsePositiveRate": null,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 390,
+          "before": {
+            "cwe": 390,
+            "cases": 68,
+            "tp": 0,
+            "fp": 0,
+            "tn": 34,
+            "fn": 34,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 390,
+            "cases": 68,
+            "tp": 0,
+            "fp": 0,
+            "tn": 34,
+            "fn": 34,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 395,
+          "before": {
+            "cwe": 395,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 395,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 396,
+          "before": {
+            "cwe": 396,
+            "cases": 68,
+            "tp": 0,
+            "fp": 0,
+            "tn": 34,
+            "fn": 34,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 396,
+            "cases": 68,
+            "tp": 0,
+            "fp": 0,
+            "tn": 34,
+            "fn": 34,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 397,
+          "before": {
+            "cwe": 397,
+            "cases": 8,
+            "tp": 0,
+            "fp": 0,
+            "tn": 4,
+            "fn": 4,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 397,
+            "cases": 8,
+            "tp": 0,
+            "fp": 0,
+            "tn": 4,
+            "fn": 4,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 398,
+          "before": {
+            "cwe": 398,
+            "cases": 274,
+            "tp": 0,
+            "fp": 0,
+            "tn": 137,
+            "fn": 137,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 398,
+            "cases": 274,
+            "tp": 0,
+            "fp": 0,
+            "tn": 137,
+            "fn": 137,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 400,
+          "before": {
+            "cwe": 400,
+            "cases": 2920,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1460,
+            "fn": 1460,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 400,
+            "cases": 2920,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1460,
+            "fn": 1460,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 404,
+          "before": {
+            "cwe": 404,
+            "cases": 10,
+            "tp": 0,
+            "fp": 0,
+            "tn": 5,
+            "fn": 5,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 404,
+            "cases": 10,
+            "tp": 0,
+            "fp": 0,
+            "tn": 5,
+            "fn": 5,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 459,
+          "before": {
+            "cwe": 459,
+            "cases": 68,
+            "tp": 0,
+            "fp": 0,
+            "tn": 34,
+            "fn": 34,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 459,
+            "cases": 68,
+            "tp": 0,
+            "fp": 0,
+            "tn": 34,
+            "fn": 34,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 470,
+          "before": {
+            "cwe": 470,
+            "cases": 888,
+            "tp": 0,
+            "fp": 0,
+            "tn": 444,
+            "fn": 444,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 470,
+            "cases": 888,
+            "tp": 0,
+            "fp": 0,
+            "tn": 444,
+            "fn": 444,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 476,
+          "before": {
+            "cwe": 476,
+            "cases": 396,
+            "tp": 0,
+            "fp": 0,
+            "tn": 198,
+            "fn": 198,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 476,
+            "cases": 396,
+            "tp": 0,
+            "fp": 0,
+            "tn": 198,
+            "fn": 198,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 477,
+          "before": {
+            "cwe": 477,
+            "cases": 136,
+            "tp": 0,
+            "fp": 0,
+            "tn": 68,
+            "fn": 68,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 477,
+            "cases": 136,
+            "tp": 0,
+            "fp": 0,
+            "tn": 68,
+            "fn": 68,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 478,
+          "before": {
+            "cwe": 478,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 478,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 481,
+          "before": {
+            "cwe": 481,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 481,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 482,
+          "before": {
+            "cwe": 482,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 482,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 483,
+          "before": {
+            "cwe": 483,
+            "cases": 38,
+            "tp": 0,
+            "fp": 0,
+            "tn": 19,
+            "fn": 19,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 483,
+            "cases": 38,
+            "tp": 0,
+            "fp": 0,
+            "tn": 19,
+            "fn": 19,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 484,
+          "before": {
+            "cwe": 484,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 484,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 486,
+          "before": {
+            "cwe": 486,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 486,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 491,
+          "before": {
+            "cwe": 491,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 491,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 499,
+          "before": {
+            "cwe": 499,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 499,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 500,
+          "before": {
+            "cwe": 500,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 500,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 506,
+          "before": {
+            "cwe": 506,
+            "cases": 168,
+            "tp": 0,
+            "fp": 0,
+            "tn": 52,
+            "fn": 116,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 506,
+            "cases": 168,
+            "tp": 0,
+            "fp": 0,
+            "tn": 52,
+            "fn": 116,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 510,
+          "before": {
+            "cwe": 510,
+            "cases": 100,
+            "tp": 0,
+            "fp": 0,
+            "tn": 34,
+            "fn": 66,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 510,
+            "cases": 100,
+            "tp": 0,
+            "fp": 0,
+            "tn": 34,
+            "fn": 66,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 511,
+          "before": {
+            "cwe": 511,
+            "cases": 102,
+            "tp": 0,
+            "fp": 0,
+            "tn": 51,
+            "fn": 51,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 511,
+            "cases": 102,
+            "tp": 0,
+            "fp": 0,
+            "tn": 51,
+            "fn": 51,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 523,
+          "before": {
+            "cwe": 523,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 523,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 526,
+          "before": {
+            "cwe": 526,
+            "cases": 68,
+            "tp": 0,
+            "fp": 0,
+            "tn": 34,
+            "fn": 34,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 526,
+            "cases": 68,
+            "tp": 0,
+            "fp": 0,
+            "tn": 34,
+            "fn": 34,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 533,
+          "before": {
+            "cwe": 533,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 533,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 534,
+          "before": {
+            "cwe": 534,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 534,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 535,
+          "before": {
+            "cwe": 535,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 535,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 539,
+          "before": {
+            "cwe": 539,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 539,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 546,
+          "before": {
+            "cwe": 546,
+            "cases": 170,
+            "tp": 0,
+            "fp": 0,
+            "tn": 85,
+            "fn": 85,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 546,
+            "cases": 170,
+            "tp": 0,
+            "fp": 0,
+            "tn": 85,
+            "fn": 85,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 549,
+          "before": {
+            "cwe": 549,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 549,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 561,
+          "before": {
+            "cwe": 561,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 561,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 563,
+          "before": {
+            "cwe": 563,
+            "cases": 436,
+            "tp": 0,
+            "fp": 0,
+            "tn": 218,
+            "fn": 218,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 563,
+            "cases": 436,
+            "tp": 0,
+            "fp": 0,
+            "tn": 218,
+            "fn": 218,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 566,
+          "before": {
+            "cwe": 566,
+            "cases": 74,
+            "tp": 0,
+            "fp": 0,
+            "tn": 37,
+            "fn": 37,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 566,
+            "cases": 74,
+            "tp": 0,
+            "fp": 0,
+            "tn": 37,
+            "fn": 37,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 568,
+          "before": {
+            "cwe": 568,
+            "cases": 4,
+            "tp": 0,
+            "fp": 0,
+            "tn": 2,
+            "fn": 2,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 568,
+            "cases": 4,
+            "tp": 0,
+            "fp": 0,
+            "tn": 2,
+            "fn": 2,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 570,
+          "before": {
+            "cwe": 570,
+            "cases": 32,
+            "tp": 0,
+            "fp": 0,
+            "tn": 16,
+            "fn": 16,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 570,
+            "cases": 32,
+            "tp": 0,
+            "fp": 0,
+            "tn": 16,
+            "fn": 16,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 571,
+          "before": {
+            "cwe": 571,
+            "cases": 32,
+            "tp": 0,
+            "fp": 0,
+            "tn": 16,
+            "fn": 16,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 571,
+            "cases": 32,
+            "tp": 0,
+            "fp": 0,
+            "tn": 16,
+            "fn": 16,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 572,
+          "before": {
+            "cwe": 572,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 572,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 579,
+          "before": {
+            "cwe": 579,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 579,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 580,
+          "before": {
+            "cwe": 580,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 580,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 581,
+          "before": {
+            "cwe": 581,
+            "cases": 4,
+            "tp": 0,
+            "fp": 0,
+            "tn": 2,
+            "fn": 2,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 581,
+            "cases": 4,
+            "tp": 0,
+            "fp": 0,
+            "tn": 2,
+            "fn": 2,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 582,
+          "before": {
+            "cwe": 582,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 582,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 584,
+          "before": {
+            "cwe": 584,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 584,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 585,
+          "before": {
+            "cwe": 585,
+            "cases": 4,
+            "tp": 0,
+            "fp": 0,
+            "tn": 2,
+            "fn": 2,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 585,
+            "cases": 4,
+            "tp": 0,
+            "fp": 0,
+            "tn": 2,
+            "fn": 2,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 586,
+          "before": {
+            "cwe": 586,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 586,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 597,
+          "before": {
+            "cwe": 597,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 597,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 598,
+          "before": {
+            "cwe": 598,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 598,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 600,
+          "before": {
+            "cwe": 600,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 600,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 601,
+          "before": {
+            "cwe": 601,
+            "cases": 666,
+            "tp": 44,
+            "fp": 10,
+            "tn": 323,
+            "fn": 289,
+            "truePositiveRate": 0.13213213213213212,
+            "falsePositiveRate": 0.03003003003003003,
+            "precision": 0.8148148148148148
+          },
+          "after": {
+            "cwe": 601,
+            "cases": 666,
+            "tp": 44,
+            "fp": 8,
+            "tn": 325,
+            "fn": 289,
+            "truePositiveRate": 0.13213213213213212,
+            "falsePositiveRate": 0.024024024024024024,
+            "precision": 0.8461538461538461
+          }
+        },
+        {
+          "cwe": 605,
+          "before": {
+            "cwe": 605,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 605,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 606,
+          "before": {
+            "cwe": 606,
+            "cases": 888,
+            "tp": 0,
+            "fp": 0,
+            "tn": 444,
+            "fn": 444,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 606,
+            "cases": 888,
+            "tp": 0,
+            "fp": 0,
+            "tn": 444,
+            "fn": 444,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 607,
+          "before": {
+            "cwe": 607,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 607,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 609,
+          "before": {
+            "cwe": 609,
+            "cases": 4,
+            "tp": 0,
+            "fp": 0,
+            "tn": 2,
+            "fn": 2,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 609,
+            "cases": 4,
+            "tp": 0,
+            "fp": 0,
+            "tn": 2,
+            "fn": 2,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 613,
+          "before": {
+            "cwe": 613,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 613,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 614,
+          "before": {
+            "cwe": 614,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 614,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 615,
+          "before": {
+            "cwe": 615,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 615,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 617,
+          "before": {
+            "cwe": 617,
+            "cases": 68,
+            "tp": 0,
+            "fp": 0,
+            "tn": 34,
+            "fn": 34,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 617,
+            "cases": 68,
+            "tp": 0,
+            "fp": 0,
+            "tn": 34,
+            "fn": 34,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 643,
+          "before": {
+            "cwe": 643,
+            "cases": 888,
+            "tp": 0,
+            "fp": 0,
+            "tn": 444,
+            "fn": 444,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 643,
+            "cases": 888,
+            "tp": 0,
+            "fp": 0,
+            "tn": 444,
+            "fn": 444,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 667,
+          "before": {
+            "cwe": 667,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 667,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 674,
+          "before": {
+            "cwe": 674,
+            "cases": 4,
+            "tp": 0,
+            "fp": 0,
+            "tn": 2,
+            "fn": 2,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 674,
+            "cases": 4,
+            "tp": 0,
+            "fp": 0,
+            "tn": 2,
+            "fn": 2,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 681,
+          "before": {
+            "cwe": 681,
+            "cases": 102,
+            "tp": 0,
+            "fp": 0,
+            "tn": 51,
+            "fn": 51,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 681,
+            "cases": 102,
+            "tp": 0,
+            "fp": 0,
+            "tn": 51,
+            "fn": 51,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 690,
+          "before": {
+            "cwe": 690,
+            "cases": 592,
+            "tp": 0,
+            "fp": 0,
+            "tn": 296,
+            "fn": 296,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 690,
+            "cases": 592,
+            "tp": 0,
+            "fp": 0,
+            "tn": 296,
+            "fn": 296,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 698,
+          "before": {
+            "cwe": 698,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 698,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 759,
+          "before": {
+            "cwe": 759,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 759,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 760,
+          "before": {
+            "cwe": 760,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 760,
+            "cases": 34,
+            "tp": 0,
+            "fp": 0,
+            "tn": 17,
+            "fn": 17,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 764,
+          "before": {
+            "cwe": 764,
+            "cases": 4,
+            "tp": 0,
+            "fp": 0,
+            "tn": 2,
+            "fn": 2,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 764,
+            "cases": 4,
+            "tp": 0,
+            "fp": 0,
+            "tn": 2,
+            "fn": 2,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 765,
+          "before": {
+            "cwe": 765,
+            "cases": 4,
+            "tp": 0,
+            "fp": 0,
+            "tn": 2,
+            "fn": 2,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 765,
+            "cases": 4,
+            "tp": 0,
+            "fp": 0,
+            "tn": 2,
+            "fn": 2,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 772,
+          "before": {
+            "cwe": 772,
+            "cases": 4,
+            "tp": 0,
+            "fp": 0,
+            "tn": 2,
+            "fn": 2,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 772,
+            "cases": 4,
+            "tp": 0,
+            "fp": 0,
+            "tn": 2,
+            "fn": 2,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 775,
+          "before": {
+            "cwe": 775,
+            "cases": 4,
+            "tp": 0,
+            "fp": 0,
+            "tn": 2,
+            "fn": 2,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 775,
+            "cases": 4,
+            "tp": 0,
+            "fp": 0,
+            "tn": 2,
+            "fn": 2,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 789,
+          "before": {
+            "cwe": 789,
+            "cases": 3142,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1571,
+            "fn": 1571,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 789,
+            "cases": 3142,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1571,
+            "fn": 1571,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 832,
+          "before": {
+            "cwe": 832,
+            "cases": 4,
+            "tp": 0,
+            "fp": 0,
+            "tn": 2,
+            "fn": 2,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 832,
+            "cases": 4,
+            "tp": 0,
+            "fp": 0,
+            "tn": 2,
+            "fn": 2,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 833,
+          "before": {
+            "cwe": 833,
+            "cases": 12,
+            "tp": 0,
+            "fp": 0,
+            "tn": 6,
+            "fn": 6,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 833,
+            "cases": 12,
+            "tp": 0,
+            "fp": 0,
+            "tn": 6,
+            "fn": 6,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 835,
+          "before": {
+            "cwe": 835,
+            "cases": 12,
+            "tp": 0,
+            "fp": 0,
+            "tn": 6,
+            "fn": 6,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 835,
+            "cases": 12,
+            "tp": 0,
+            "fp": 0,
+            "tn": 6,
+            "fn": 6,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        }
+      ],
+      "transitions": {
+        "fn->fn": 26471,
+        "tn->tn": 27264,
+        "tp->tp": 2410,
+        "fp->fp": 1226,
+        "fp->tn": 278
+      },
+      "correctedFalsePositiveCases": [
+        "testcase-21363:CWE-601:good",
+        "testcase-21400:CWE-601:good",
+        "testcase-24444:CWE-78:good",
+        "testcase-24447:CWE-78:good",
+        "testcase-24481:CWE-78:good",
+        "testcase-24484:CWE-78:good",
+        "testcase-24518:CWE-78:good",
+        "testcase-24521:CWE-78:good",
+        "testcase-24555:CWE-78:good",
+        "testcase-24558:CWE-78:good",
+        "testcase-24592:CWE-78:good",
+        "testcase-24595:CWE-78:good",
+        "testcase-24629:CWE-78:good",
+        "testcase-24632:CWE-78:good",
+        "testcase-24666:CWE-78:good",
+        "testcase-24669:CWE-78:good",
+        "testcase-24703:CWE-78:good",
+        "testcase-24706:CWE-78:good",
+        "testcase-24740:CWE-78:good",
+        "testcase-24743:CWE-78:good",
+        "testcase-24777:CWE-78:good",
+        "testcase-24780:CWE-78:good",
+        "testcase-24814:CWE-78:good",
+        "testcase-24817:CWE-78:good",
+        "testcase-24851:CWE-78:good",
+        "testcase-24854:CWE-78:good",
+        "testcase-26218:CWE-89:good",
+        "testcase-26219:CWE-89:good",
+        "testcase-26220:CWE-89:good",
+        "testcase-26221:CWE-89:good",
+        "testcase-26222:CWE-89:good",
+        "testcase-26223:CWE-89:good",
+        "testcase-26224:CWE-89:good",
+        "testcase-26225:CWE-89:good",
+        "testcase-26226:CWE-89:good",
+        "testcase-26227:CWE-89:good",
+        "testcase-26228:CWE-89:good",
+        "testcase-26229:CWE-89:good",
+        "testcase-26230:CWE-89:good",
+        "testcase-26231:CWE-89:good",
+        "testcase-26232:CWE-89:good",
+        "testcase-26233:CWE-89:good",
+        "testcase-26234:CWE-89:good",
+        "testcase-26237:CWE-89:good",
+        "testcase-26255:CWE-89:good",
+        "testcase-26256:CWE-89:good",
+        "testcase-26257:CWE-89:good",
+        "testcase-26258:CWE-89:good",
+        "testcase-26259:CWE-89:good",
+        "testcase-26260:CWE-89:good",
+        "testcase-26261:CWE-89:good",
+        "testcase-26262:CWE-89:good",
+        "testcase-26263:CWE-89:good",
+        "testcase-26264:CWE-89:good",
+        "testcase-26265:CWE-89:good",
+        "testcase-26266:CWE-89:good",
+        "testcase-26267:CWE-89:good",
+        "testcase-26268:CWE-89:good",
+        "testcase-26269:CWE-89:good",
+        "testcase-26270:CWE-89:good",
+        "testcase-26271:CWE-89:good",
+        "testcase-26274:CWE-89:good",
+        "testcase-26311:CWE-89:good",
+        "testcase-26348:CWE-89:good",
+        "testcase-26422:CWE-89:good",
+        "testcase-26440:CWE-89:good",
+        "testcase-26441:CWE-89:good",
+        "testcase-26442:CWE-89:good",
+        "testcase-26443:CWE-89:good",
+        "testcase-26444:CWE-89:good",
+        "testcase-26445:CWE-89:good",
+        "testcase-26446:CWE-89:good",
+        "testcase-26447:CWE-89:good",
+        "testcase-26448:CWE-89:good",
+        "testcase-26449:CWE-89:good",
+        "testcase-26450:CWE-89:good",
+        "testcase-26451:CWE-89:good",
+        "testcase-26452:CWE-89:good",
+        "testcase-26453:CWE-89:good",
+        "testcase-26454:CWE-89:good",
+        "testcase-26455:CWE-89:good",
+        "testcase-26456:CWE-89:good",
+        "testcase-26459:CWE-89:good",
+        "testcase-26496:CWE-89:good",
+        "testcase-26533:CWE-89:good",
+        "testcase-26607:CWE-89:good",
+        "testcase-26625:CWE-89:good",
+        "testcase-26626:CWE-89:good",
+        "testcase-26627:CWE-89:good",
+        "testcase-26628:CWE-89:good",
+        "testcase-26629:CWE-89:good",
+        "testcase-26630:CWE-89:good",
+        "testcase-26631:CWE-89:good",
+        "testcase-26632:CWE-89:good",
+        "testcase-26633:CWE-89:good",
+        "testcase-26634:CWE-89:good",
+        "testcase-26635:CWE-89:good",
+        "testcase-26636:CWE-89:good",
+        "testcase-26637:CWE-89:good",
+        "testcase-26638:CWE-89:good",
+        "testcase-26639:CWE-89:good",
+        "testcase-26640:CWE-89:good",
+        "testcase-26641:CWE-89:good",
+        "testcase-26644:CWE-89:good",
+        "testcase-26681:CWE-89:good",
+        "testcase-26718:CWE-89:good",
+        "testcase-26792:CWE-89:good",
+        "testcase-26829:CWE-89:good",
+        "testcase-26866:CWE-89:good",
+        "testcase-26940:CWE-89:good",
+        "testcase-26958:CWE-89:good",
+        "testcase-26959:CWE-89:good",
+        "testcase-26960:CWE-89:good",
+        "testcase-26961:CWE-89:good",
+        "testcase-26962:CWE-89:good",
+        "testcase-26963:CWE-89:good",
+        "testcase-26964:CWE-89:good",
+        "testcase-26965:CWE-89:good",
+        "testcase-26966:CWE-89:good",
+        "testcase-26967:CWE-89:good",
+        "testcase-26968:CWE-89:good",
+        "testcase-26969:CWE-89:good",
+        "testcase-26970:CWE-89:good",
+        "testcase-26971:CWE-89:good",
+        "testcase-26972:CWE-89:good",
+        "testcase-26973:CWE-89:good",
+        "testcase-26974:CWE-89:good",
+        "testcase-26977:CWE-89:good",
+        "testcase-27014:CWE-89:good",
+        "testcase-27051:CWE-89:good",
+        "testcase-27125:CWE-89:good",
+        "testcase-27143:CWE-89:good",
+        "testcase-27144:CWE-89:good",
+        "testcase-27145:CWE-89:good",
+        "testcase-27146:CWE-89:good",
+        "testcase-27147:CWE-89:good",
+        "testcase-27148:CWE-89:good",
+        "testcase-27149:CWE-89:good",
+        "testcase-27150:CWE-89:good",
+        "testcase-27151:CWE-89:good",
+        "testcase-27152:CWE-89:good",
+        "testcase-27153:CWE-89:good",
+        "testcase-27154:CWE-89:good",
+        "testcase-27155:CWE-89:good",
+        "testcase-27156:CWE-89:good",
+        "testcase-27157:CWE-89:good",
+        "testcase-27158:CWE-89:good",
+        "testcase-27159:CWE-89:good",
+        "testcase-27162:CWE-89:good",
+        "testcase-27199:CWE-89:good",
+        "testcase-27236:CWE-89:good",
+        "testcase-27310:CWE-89:good",
+        "testcase-27328:CWE-89:good",
+        "testcase-27329:CWE-89:good",
+        "testcase-27330:CWE-89:good",
+        "testcase-27331:CWE-89:good",
+        "testcase-27332:CWE-89:good",
+        "testcase-27333:CWE-89:good",
+        "testcase-27334:CWE-89:good",
+        "testcase-27335:CWE-89:good",
+        "testcase-27336:CWE-89:good",
+        "testcase-27337:CWE-89:good",
+        "testcase-27338:CWE-89:good",
+        "testcase-27339:CWE-89:good",
+        "testcase-27340:CWE-89:good",
+        "testcase-27341:CWE-89:good",
+        "testcase-27342:CWE-89:good",
+        "testcase-27343:CWE-89:good",
+        "testcase-27344:CWE-89:good",
+        "testcase-27347:CWE-89:good",
+        "testcase-27384:CWE-89:good",
+        "testcase-27402:CWE-89:good",
+        "testcase-27403:CWE-89:good",
+        "testcase-27404:CWE-89:good",
+        "testcase-27405:CWE-89:good",
+        "testcase-27406:CWE-89:good",
+        "testcase-27407:CWE-89:good",
+        "testcase-27408:CWE-89:good",
+        "testcase-27409:CWE-89:good",
+        "testcase-27410:CWE-89:good",
+        "testcase-27411:CWE-89:good",
+        "testcase-27412:CWE-89:good",
+        "testcase-27413:CWE-89:good",
+        "testcase-27414:CWE-89:good",
+        "testcase-27415:CWE-89:good",
+        "testcase-27416:CWE-89:good",
+        "testcase-27417:CWE-89:good",
+        "testcase-27418:CWE-89:good",
+        "testcase-27421:CWE-89:good",
+        "testcase-27458:CWE-89:good",
+        "testcase-27495:CWE-89:good",
+        "testcase-27532:CWE-89:good",
+        "testcase-27606:CWE-89:good",
+        "testcase-27624:CWE-89:good",
+        "testcase-27625:CWE-89:good",
+        "testcase-27626:CWE-89:good",
+        "testcase-27627:CWE-89:good",
+        "testcase-27628:CWE-89:good",
+        "testcase-27629:CWE-89:good",
+        "testcase-27630:CWE-89:good",
+        "testcase-27631:CWE-89:good",
+        "testcase-27632:CWE-89:good",
+        "testcase-27633:CWE-89:good",
+        "testcase-27634:CWE-89:good",
+        "testcase-27635:CWE-89:good",
+        "testcase-27636:CWE-89:good",
+        "testcase-27637:CWE-89:good",
+        "testcase-27638:CWE-89:good",
+        "testcase-27639:CWE-89:good",
+        "testcase-27640:CWE-89:good",
+        "testcase-27643:CWE-89:good",
+        "testcase-27680:CWE-89:good",
+        "testcase-27717:CWE-89:good",
+        "testcase-27791:CWE-89:good",
+        "testcase-27809:CWE-89:good",
+        "testcase-27810:CWE-89:good",
+        "testcase-27811:CWE-89:good",
+        "testcase-27812:CWE-89:good",
+        "testcase-27813:CWE-89:good",
+        "testcase-27814:CWE-89:good",
+        "testcase-27815:CWE-89:good",
+        "testcase-27816:CWE-89:good",
+        "testcase-27817:CWE-89:good",
+        "testcase-27818:CWE-89:good",
+        "testcase-27819:CWE-89:good",
+        "testcase-27820:CWE-89:good",
+        "testcase-27821:CWE-89:good",
+        "testcase-27822:CWE-89:good",
+        "testcase-27823:CWE-89:good",
+        "testcase-27824:CWE-89:good",
+        "testcase-27825:CWE-89:good",
+        "testcase-27828:CWE-89:good",
+        "testcase-27865:CWE-89:good",
+        "testcase-27902:CWE-89:good",
+        "testcase-27976:CWE-89:good",
+        "testcase-28050:CWE-89:good",
+        "testcase-28068:CWE-89:good",
+        "testcase-28069:CWE-89:good",
+        "testcase-28070:CWE-89:good",
+        "testcase-28071:CWE-89:good",
+        "testcase-28072:CWE-89:good",
+        "testcase-28073:CWE-89:good",
+        "testcase-28074:CWE-89:good",
+        "testcase-28075:CWE-89:good",
+        "testcase-28076:CWE-89:good",
+        "testcase-28077:CWE-89:good",
+        "testcase-28078:CWE-89:good",
+        "testcase-28079:CWE-89:good",
+        "testcase-28080:CWE-89:good",
+        "testcase-28081:CWE-89:good",
+        "testcase-28082:CWE-89:good",
+        "testcase-28083:CWE-89:good",
+        "testcase-28084:CWE-89:good",
+        "testcase-28087:CWE-89:good",
+        "testcase-28124:CWE-89:good",
+        "testcase-28161:CWE-89:good",
+        "testcase-28235:CWE-89:good",
+        "testcase-28253:CWE-89:good",
+        "testcase-28254:CWE-89:good",
+        "testcase-28255:CWE-89:good",
+        "testcase-28256:CWE-89:good",
+        "testcase-28257:CWE-89:good",
+        "testcase-28258:CWE-89:good",
+        "testcase-28259:CWE-89:good",
+        "testcase-28260:CWE-89:good",
+        "testcase-28261:CWE-89:good",
+        "testcase-28262:CWE-89:good",
+        "testcase-28263:CWE-89:good",
+        "testcase-28264:CWE-89:good",
+        "testcase-28265:CWE-89:good",
+        "testcase-28266:CWE-89:good",
+        "testcase-28267:CWE-89:good",
+        "testcase-28268:CWE-89:good",
+        "testcase-28269:CWE-89:good",
+        "testcase-28272:CWE-89:good",
+        "testcase-28309:CWE-89:good",
+        "testcase-28346:CWE-89:good",
+        "testcase-28420:CWE-89:good"
+      ],
+      "lostTruePositiveCases": [],
+      "newFalsePositiveCases": []
+    },
+    {
+      "dataset": "sard",
+      "inputSha256": "a2a2ce017a0ae7425b3011b275bb70d9cbbeffe258f03bba2b74f975455e07ec",
+      "policy": {
+        "id": "sard-sarif-location-cwe@1",
+        "unit": "one explicit SARIF result location × CWE × polarity",
+        "match": "open finding with exact source path and CWE and start line at the labeled line, or within an explicitly supplied inclusive upstream line range",
+        "limitations": [
+          "A bad/good run state labels its explicit result locations; mixed runs require an explicit result kind fail/pass or properties.state bad/good. Missing or conflicting metadata is rejected.",
+          "No safe locations are inferred from absent results. Datasets with only bad labels have no negative denominator and FPR is n/a.",
+          "Exact labeled locations can miss a valid detection reported at a nearby source or sink; no line tolerance, CWE aliases, or file-level fallback is applied.",
+          "Artifacts are checked against supplied byte length and SHA-256; declared hashes and computed hashes are retained in JSON. Other hash algorithms are preserved but not verified.",
+          "URI base IDs, remote/absolute URIs, parent traversal, symbolic links, ambiguous artifacts, duplicate labels, and missing labeled files are rejected."
+        ],
+        "excludesUnsupportedCwes": false,
+        "cweAliases": false,
+        "duplicateDetections": "one prediction per labeled unit"
+      },
+      "beforeSourceSha256": "421949170f87438e2a6df8608c04082afef3894f690c97abafd8d1b49d2bfc85",
+      "afterSourceSha256": "3f3f4563f3b22e75e0951233d2548eeb61a703e326086e336dc4e03a5d0af60f",
+      "before": {
+        "cases": 20,
+        "tp": 10,
+        "fp": 0,
+        "tn": 0,
+        "fn": 10,
+        "truePositiveRate": 0.5,
+        "falsePositiveRate": null,
+        "precision": 1
+      },
+      "after": {
+        "cases": 20,
+        "tp": 10,
+        "fp": 0,
+        "tn": 0,
+        "fn": 10,
+        "truePositiveRate": 0.5,
+        "falsePositiveRate": null,
+        "precision": 1
+      },
+      "byCwe": [
+        {
+          "cwe": 79,
+          "before": {
+            "cwe": 79,
+            "cases": 20,
+            "tp": 10,
+            "fp": 0,
+            "tn": 0,
+            "fn": 10,
+            "truePositiveRate": 0.5,
+            "falsePositiveRate": null,
+            "precision": 1
+          },
+          "after": {
+            "cwe": 79,
+            "cases": 20,
+            "tp": 10,
+            "fp": 0,
+            "tn": 0,
+            "fn": 10,
+            "truePositiveRate": 0.5,
+            "falsePositiveRate": null,
+            "precision": 1
+          }
+        }
+      ],
+      "transitions": {
+        "tp->tp": 10,
+        "fn->fn": 10
+      },
+      "correctedFalsePositiveCases": [],
+      "lostTruePositiveCases": [],
+      "newFalsePositiveCases": []
+    },
+    {
+      "dataset": "cve",
+      "inputSha256": "854acf4a769874fa8cb8b6ace227cc47fd6b5996a8404d649326039e00449734",
+      "policy": {
+        "id": "cve-changed-file-cwe@1",
+        "unit": "one CVE revision snapshot",
+        "match": "open finding in a listed affected file with exact expected CWE; duplicates count once",
+        "parentLabel": "positive",
+        "fixLabel": "negative for the cited CWE in selected affected files only",
+        "cweAliases": false,
+        "excludesUnsupportedCwes": false,
+        "context": "full selected source files, limited repository context; not CVE localization or application-wide safety",
+        "provenance": "first parent verified during curation; immutable source bytes verified offline on every run"
+      },
+      "beforeSourceSha256": "421949170f87438e2a6df8608c04082afef3894f690c97abafd8d1b49d2bfc85",
+      "afterSourceSha256": "3f3f4563f3b22e75e0951233d2548eeb61a703e326086e336dc4e03a5d0af60f",
+      "before": {
+        "cases": 16,
+        "tp": 1,
+        "fp": 1,
+        "tn": 7,
+        "fn": 7,
+        "truePositiveRate": 0.125,
+        "falsePositiveRate": 0.125,
+        "precision": 0.5
+      },
+      "after": {
+        "cases": 16,
+        "tp": 1,
+        "fp": 1,
+        "tn": 7,
+        "fn": 7,
+        "truePositiveRate": 0.125,
+        "falsePositiveRate": 0.125,
+        "precision": 0.5
+      },
+      "byCwe": [
+        {
+          "cwe": 20,
+          "before": {
+            "cwe": 20,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 20,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 74,
+          "before": {
+            "cwe": 74,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 74,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 94,
+          "before": {
+            "cwe": 94,
+            "cases": 4,
+            "tp": 1,
+            "fp": 1,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0.5,
+            "falsePositiveRate": 0.5,
+            "precision": 0.5
+          },
+          "after": {
+            "cwe": 94,
+            "cases": 4,
+            "tp": 1,
+            "fp": 1,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0.5,
+            "falsePositiveRate": 0.5,
+            "precision": 0.5
+          }
+        },
+        {
+          "cwe": 285,
+          "before": {
+            "cwe": 285,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 285,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 352,
+          "before": {
+            "cwe": 352,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 352,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 1108,
+          "before": {
+            "cwe": 1108,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 1108,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        },
+        {
+          "cwe": 1336,
+          "before": {
+            "cwe": 1336,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          },
+          "after": {
+            "cwe": 1336,
+            "cases": 2,
+            "tp": 0,
+            "fp": 0,
+            "tn": 1,
+            "fn": 1,
+            "truePositiveRate": 0,
+            "falsePositiveRate": 0,
+            "precision": null
+          }
+        }
+      ],
+      "transitions": {
+        "tp->tp": 1,
+        "fp->fp": 1,
+        "fn->fn": 7,
+        "tn->tn": 7
+      },
+      "lostTruePositiveCases": [],
+      "newFalsePositiveCases": [],
+      "beforePairs": {
+        "total": 8,
+        "successful": 0,
+        "rate": 0
+      },
+      "afterPairs": {
+        "total": 8,
+        "successful": 0,
+        "rate": 0
+      },
+      "localized": {
+        "policy": {
+          "id": "cve-fix-region@1",
+          "unit": "one CVE revision snapshot",
+          "match": "open vulnerability finding within reviewed inclusive source region; exact advisory CWE and permitted rule/evidence criteria",
+          "parentLabel": "positive for the cited fix-specific mechanism",
+          "fixLabel": "negative for the cited fix-specific mechanism",
+          "missingKind": "vulnerability",
+          "cweAliases": false,
+          "excludesUnsupportedCwes": false,
+          "context": "source localization is a static benchmark proxy; does not prove exploitability or application safety"
+        },
+        "annotationSha256": "74428d25aa13aa68be7dc537cd53bd67beea1ad2b66586141d2adb346d38d84c",
+        "before": {
+          "cases": 16,
+          "tp": 1,
+          "fp": 0,
+          "tn": 8,
+          "fn": 7,
+          "truePositiveRate": 0.125,
+          "falsePositiveRate": 0,
+          "precision": 1
+        },
+        "after": {
+          "cases": 16,
+          "tp": 1,
+          "fp": 0,
+          "tn": 8,
+          "fn": 7,
+          "truePositiveRate": 0.125,
+          "falsePositiveRate": 0,
+          "precision": 1
+        },
+        "beforePairs": {
+          "total": 8,
+          "successful": 1,
+          "rate": 0.125
+        },
+        "afterPairs": {
+          "total": 8,
+          "successful": 1,
+          "rate": 0.125
+        }
+      }
+    }
+  ]
+}
