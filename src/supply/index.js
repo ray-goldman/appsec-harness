@@ -4,7 +4,7 @@ const ADVISORIES = require('./advisories');
 const { parseManifest, LOCKFILES } = require('./manifests');
 const { inRange, floorOfSpec } = require('../util');
 
-const OSV_ECO = { npm: 'npm', pypi: 'PyPI', maven: 'Maven', go: 'Go', rubygems: 'RubyGems', composer: 'Packagist' };
+const OSV_ECO = { npm: 'npm', pypi: 'PyPI', maven: 'Maven', go: 'Go', rubygems: 'RubyGems', composer: 'Packagist', nuget: 'NuGet' };
 
 const index = new Map();
 for (const a of ADVISORIES) {

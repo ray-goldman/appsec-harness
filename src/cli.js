@@ -10,7 +10,7 @@ const { CATEGORIES, cweLabel } = require('./owasp');
 const ADVISORIES = require('./supply/advisories');
 const pkg = require('../package.json');
 
-const BOOL = new Set(['md', 'apply', 'claude', 'codex', 'include-tests', 'trust-suppressions', 'osv', 'include-vendored', 'dotnet-stored-data', 'quiet', 'json', 'allow-ssh', 'allow-http', 'use-git-credentials', 'no-quarantine', 'new-only', 'verbose', 'help', 'no-gate']);
+const BOOL = new Set(['md', 'apply', 'claude', 'codex', 'include-tests', 'trust-suppressions', 'osv', 'include-vendored', 'dotnet-stored-data', 'dotnet-project-analysis', 'quiet', 'json', 'allow-ssh', 'allow-http', 'use-git-credentials', 'no-quarantine', 'new-only', 'verbose', 'help', 'no-gate']);
 
 function parseArgs(argv) {
   const args = { _: [] };
@@ -53,7 +53,7 @@ function printSummary(result, g, written) {
 function scanOpts(a) {
   return {
     includeTests: !!a['include-tests'], minConfidence: a['min-confidence'], minSeverity: a['min-severity'],
-    trustSuppressions: !!a['trust-suppressions'], ignoreFile: a['ignore-file'], baseline: a.baseline, osv: !!a.osv, dotnetStoredData: !!a['dotnet-stored-data'],
+    trustSuppressions: !!a['trust-suppressions'], ignoreFile: a['ignore-file'], baseline: a.baseline, osv: !!a.osv, dotnetStoredData: !!a['dotnet-stored-data'], dotnetProjectAnalysis: !!a['dotnet-project-analysis'],
     includeVendored: !!a['include-vendored'], name: a.name, exclude: a.exclude ? String(a.exclude).split(',') : undefined, maxFileSize: a['max-file-size'] ? Number(a['max-file-size']) : undefined,
   };
 }
@@ -284,6 +284,7 @@ scan/audit options:
   --trust-suppressions    honour inline "appsec-ignore" comments in the target (off by default)
   --osv                   query osv.dev for every resolved dependency (sends name+version only)
   --dotnet-stored-data    opt in to low-confidence same-file stored-data XSS/raw-SQL checks
+  --dotnet-project-analysis opt in to experimental C# method summaries and route-policy diagnostics
   --include-vendored      also scan node_modules/vendor/dist
   --exclude GLOBS         comma-separated paths/globs to skip (e.g. "docs,**/fixtures")
   --no-gate               always exit 0

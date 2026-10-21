@@ -30,3 +30,8 @@ test('private parameter summaries suppress only when visible callers all pass co
   const read = project.methods.find(m => m.name === 'Read');
   assert.deepEqual(read.summary.constantOnlySuppressedParameters, [0]);
 });
+
+test('sink matchers do not leak lastIndex between methods', () => {
+  const project = buildDotnetProjectIndex([{ file: 'A.cs', source: `class A { public void One(string sql) { db.ExecuteSqlRaw(sql); } public void Two(string query) { db.ExecuteSqlRaw(query); } }` }]);
+  assert.equal(project.methods.filter(m => m.summary.parameterToSink.some(s => s.category === 'sql')).length, 2);
+});

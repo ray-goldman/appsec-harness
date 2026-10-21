@@ -28,7 +28,7 @@ To install the optional `kayfabe` command globally for your user, run `npm link`
 
 ## Coverage
 
-The harness checks source code, dependency manifests, infrastructure configuration, and CI workflows. Supported languages include JavaScript and TypeScript, Python, PHP, Java and Kotlin, Go, Ruby, and C#. It also recognizes Docker, Compose, Kubernetes, nginx, Terraform, Spring properties, GitHub Actions, and HTML or template files. See [the rule reference](docs/RULES.md) for the complete list.
+The harness checks source code, dependency manifests, infrastructure configuration, and CI workflows. Supported languages include JavaScript and TypeScript, Python, PHP, Java and Kotlin, Go, Ruby, and C#. NuGet dependencies are read from `packages.lock.json`, `project.assets.json`, and direct `PackageReference` entries; OSV lookup for resolved NuGet versions is available with `--osv`. It also recognizes Docker, Compose, Kubernetes, nginx, Terraform, Spring properties, GitHub Actions, and HTML or template files. See [the rule reference](docs/RULES.md) for the complete list.
 
 | OWASP category | Examples of checks |
 |---|---|
