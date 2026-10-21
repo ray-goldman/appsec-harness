@@ -1,0 +1,8 @@
+{
+  "id": "dotnet-connection-secret",
+  "owasp": "A07",
+  "cwe": [798],
+  "description": "Generated literal SQL connection password versus managed identity.",
+  "expect": ["SECRET-DOTNET-CONN-001"],
+  "generate": { "__CONNECTION_PASSWORD__": "connection-password" }
+}

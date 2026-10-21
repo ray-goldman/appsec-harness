@@ -4,12 +4,12 @@ const path = require('path');
 const { walk } = require('./walker');
 const { detectLanguage, stripComments, analyzeTaint, maskStrings, SANITIZERS } = require('./languages');
 const { CODE_RULES, CONFIG_RULES, PROJECT_RULES, BY_ID } = require('./rules');
-const { scanSecrets } = require('./rules/secrets');
+const { scanSecrets, redactSecretLines } = require('./rules/secrets');
 const { analyzeSupplyChain, queryOsv } = require('./supply');
 const { isManifest } = require('./supply/manifests');
 const { extractRoutes, routeFindings } = require('./surface');
 const { CATEGORIES } = require('./owasp');
-const { sha256, sevRank, confRank, isProbablyBinary, isTestPath, redact, truncate } = require('./util');
+const { sha256, sevRank, confRank, isProbablyBinary, isTestPath, truncate } = require('./util');
 const pkg = require('../package.json');
 const { constantSinkFilter } = require('./java-constants');
 const { buildJavaProjectIndex } = require('./java-project');
@@ -247,8 +247,11 @@ async function scan(root, opts = {}) {
 
     const isLock = /(?:package-lock\.json|yarn\.lock|pnpm-lock\.yaml|composer\.lock|Gemfile\.lock|poetry\.lock|go\.sum|Cargo\.lock|uv\.lock|bun\.lock)$/.test(f.rel);
     if (!isLock) {
-      for (const s of scanSecrets(f.rel, text, rawLines)) {
-        raw.push({ ruleId: s.ruleId, file: f.rel, line: s.line, col: s.col, severity: s.severity, confidence: s.confidence || 'high', secretRedacted: redact(s.secret), secretRaw: s.secret, detail: s.key ? `key: ${s.key}` : undefined, source: 'secrets' });
+      const secrets = scanSecrets(f.rel, text, rawLines);
+      fileData.get(f.rel).hasSecrets = secrets.length > 0;
+      fileData.get(f.rel).redactedLines = redactSecretLines(f.rel, text, rawLines, secrets);
+      for (const s of secrets) {
+        raw.push({ ruleId: s.ruleId, file: f.rel, line: s.line, col: s.col, severity: s.severity, confidence: s.confidence || 'high', detail: s.key ? `key: ${s.key}` : undefined, source: 'secrets' });
       }
     }
     raw.push(...applyConfigRules(f.rel, lang, text, rawLines, codeLines));
@@ -292,8 +295,8 @@ async function scan(root, opts = {}) {
     } else if (testCtx && ['critical', 'high'].includes(severity)) {
       severity = 'medium'; // fixture keys/tokens are usually throwaway — still reported, not gating by default
     }
-    let snippet = truncate(lineText(f).trim(), 240);
-    if (f.secretRaw) snippet = snippet.split(f.secretRaw).join(f.secretRedacted);
+    const redactedLines = fileData.get(f.file)?.redactedLines;
+    const snippet = truncate((redactedLines ? redactedLines[f.line - 1] || '' : lineText(f)).trim(), 240);
     const owasp = rule.owasp || 'A03';
     return {
       ruleId: f.ruleId, title: f.title || rule.title || f.ruleId,
@@ -326,7 +329,7 @@ async function scan(root, opts = {}) {
     const prev = d.rawLines[f.line - 2] || '';
     const m = here.match(SUPPRESS_RE) || prev.match(SUPPRESS_RE);
     if (m && (!m[1] || m[1].split(/\s*,\s*/).includes(f.ruleId))) {
-      f.inlineSuppression = { reason: (m[2] || '').trim() || null };
+      f.inlineSuppression = { reason: d.hasSecrets ? '[REDACTED: explanation withheld for a file containing detected secrets]' : (m[2] || '').trim() || null };
       if (opts.trustSuppressions) f.status = 'suppressed';
     }
   }
@@ -335,7 +338,7 @@ async function scan(root, opts = {}) {
     const ig = ignores.find((x) => (x.fingerprint && x.fingerprint === f.fingerprint) || (!x.fingerprint && x.ruleId === f.ruleId && x.file && f.file === x.file));
     if (!ig) continue;
     if (ig.expired) { warnings.push(`ignore for ${f.fingerprint} (${f.ruleId}) expired ${ig.expires}`); continue; }
-    f.status = 'ignored'; f.ignoreReason = ig.reason || null;
+    f.status = 'ignored'; f.ignoreReason = fileData.get(f.file)?.hasSecrets ? '[REDACTED: explanation withheld for a file containing detected secrets]' : ig.reason || null;
   }
 
   // filters

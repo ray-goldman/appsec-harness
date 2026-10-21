@@ -73,6 +73,12 @@ helper flows, modern syntax and independent .NET evaluation remain open. The
 original XXE/CORS labels need separate adjudication; changing them is not a
 detector improvement.
 
+The [.NET secrets follow-up](DOTNET-SECRETS.md) adds literal SQL-style connection
+credential detection with output redaction and a legacy ASP.NET machine-key
+exposure check. Supplied .NET detections reach **9/14**, with **0/7** safe labels
+flagged. Remaining credential work includes builder APIs, multiline/raw literals,
+provider-specific syntax and independent evaluation of exposed-key detection.
+
 - Keep the regex engine as the default.
 - Add an optional, vendored tree-sitter layer for AST-based rules and a call graph.
 - Follow taint through controller → service → repository calls, with explicit limits for unresolved calls and dynamic dispatch.

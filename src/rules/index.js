@@ -34,6 +34,13 @@ const SURFACE_RULES = [
 ];
 
 const SECRET_RULES = [
+  { id: 'SECRET-DOTNET-CONN-001', title: 'Literal connection string contains a password', severity: 'high', ...SECRET_RULE_META,
+    message: 'A literal connection string contains an endpoint, user name and non-placeholder password. This reports committed credential material, not verified credential validity.',
+    refs: ['https://learn.microsoft.com/en-us/sql/connect/ado-net/connection-strings'] },
+  { id: 'SECRET-ASPNET-MACHINEKEY-001', title: 'Literal ASP.NET machine key in configuration', severity: 'high', ...SECRET_RULE_META,
+    message: 'Configuration contains literal machine-key material. Shared or exposed keys can undermine ViewState integrity. This does not establish that the key is publicly known or the application is exploitable.',
+    fix: 'Keep per-application keys in protected deployment configuration. Rotate exposed keys consistently across the application farm; do not reuse sample or cross-customer keys.',
+    refs: ['https://cloud.google.com/blog/topics/threat-intelligence/knowledgedeliver-viewstate-deserialization-vulnerability/'] },
   ...SECRET_PATTERNS.map((p) => ({ id: p.id, title: p.title, severity: p.severity, ...SECRET_RULE_META })),
   { id: 'SECRET-GENERIC-001', title: 'Hard-coded credential or secret', severity: 'high', ...SECRET_RULE_META },
   { id: 'SECRET-DEFAULT-001', title: 'Default / weak credential hard-coded', severity: 'high', ...SECRET_RULE_META, cwe: [1392, 1393, 798] },
