@@ -49,7 +49,7 @@ function buildDotnetProjectIndex(files, { maxMethods = 50000, maxCalls = 150000 
       const parameters = method.parameters || [];
       const parameterToReturn = parameters.flatMap((parameter, index) => new RegExp(`\\breturn\\s+[^;]*\\b${parameter.name.replace(/[$]/g, '\\$&')}\\b`).test(body) ? [index] : []);
       const parameterToSink = [];
-      for (const [category, pattern] of Object.entries(SINKS)) for (const match of body.matchAll(pattern)) for (let i = 0; i < parameters.length; i++) {
+      for (const [category, pattern] of Object.entries(SINKS)) for (const match of body.matchAll(new RegExp(pattern.source, pattern.flags))) for (let i = 0; i < parameters.length; i++) {
         if (new RegExp(`\\b${parameters[i].name.replace(/[$]/g, '\\$&')}\\b`).test(match[1])) parameterToSink.push({ parameter: i, category, sanitized: sanitizeCategory(match[1], category) });
       }
       const returnExpressions = [...body.matchAll(/\breturn\s+([^;]+);/g)].map(m => m[1]);
