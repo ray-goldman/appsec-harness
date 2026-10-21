@@ -17,6 +17,8 @@ function generated(kind) {
   if (kind === 'aws') return 'AKIA' + pick('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567', 16);
   if (kind === 'gh') return 'ghp_' + pick('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', 36);
   if (kind === 'pk') return '-----BEGIN ' + 'RSA PRIVATE KEY-----';
+  if (kind === 'connection-password') return crypto.randomBytes(24).toString('base64url');
+  if (kind === 'machine-key') return crypto.randomBytes(32).toString('hex');
   if (kind === 'rlo') return String.fromCharCode(0x202e);
   if (kind === 'lri') return String.fromCharCode(0x2066);
   if (kind === 'pdi') return String.fromCharCode(0x2069);

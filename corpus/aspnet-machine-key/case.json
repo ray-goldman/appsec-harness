@@ -1,0 +1,8 @@
+{
+  "id": "aspnet-machine-key",
+  "owasp": "A07",
+  "cwe": [798],
+  "description": "Generated literal ASP.NET key material versus per-application automatic keys.",
+  "expect": ["SECRET-ASPNET-MACHINEKEY-001"],
+  "generate": { "__VALIDATION_KEY__": "machine-key", "__DECRYPTION_KEY__": "machine-key" }
+}

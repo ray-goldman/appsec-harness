@@ -2,6 +2,7 @@
 // Hard-coded secret detection. Runs on raw text (comments included — secrets in comments still leak).
 // Matched values are always redacted before they reach any report.
 const { shannonEntropy } = require('../util');
+const { scanDotnetSecrets } = require('../dotnet-secrets');
 
 const PLACEHOLDER = /^(?:x+|\*+|\.+|0+|1234\w*|changeme|change_me|password|passw0rd|secret|example\w*|sample\w*|dummy\w*|test\w*|fake\w*|placeholder|your[_-]?\w+|<[^>]+>|\$\{[^}]+\}|\{\{[^}]+\}\}|%\(?\w+\)?s?|process\.env\.\w+|env\(.*\)|null|none|undefined|todo|redacted|xxx\w*|abc\w*|foo\w*|bar\w*|replace[_-]?me\w*|insert[_-]?\w+|\.\.\.)$/i;
 
@@ -33,7 +34,7 @@ const SECRET_PATTERNS = [
 const GENERIC = /(?<![\w.])([A-Za-z_][\w.-]*?(?:password|passwd|pwd|secret|api[_-]?key|apikey|access[_-]?token|auth[_-]?token|private[_-]?key|client[_-]?secret|signing[_-]?key|encryption[_-]?key)[A-Za-z_]*)["']?\s*(?:=|:|=>|:=)\s*["']([^"'\s]{6,})["']/i;
 
 function scanSecrets(rel, raw, lines, opts = {}) {
-  const findings = [];
+  const findings = scanDotnetSecrets(rel, raw, lines, value => PLACEHOLDER.test(value));
   const isExampleFile = /\.(?:example|sample|template|dist)(?:\.|$)|(^|\/)(?:docs?|examples?)\//i.test(rel);
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
@@ -81,4 +82,28 @@ const SECRET_RULE_META = {
   refs: ['https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html'],
 };
 
-module.exports = { scanSecrets, SECRET_PATTERNS, SECRET_RULE_META };
+// Drop whole affected source lines before truncating. This handles multiple
+// secrets and encoded literals without exposing partial values or raw syntax.
+function redactSecretLines(rel, raw, lines, findings = scanSecrets(rel, raw, lines)) {
+  const hidden = new Set();
+  const values = new Set();
+  for (const finding of findings) {
+    for (const value of [finding.secret, ...(finding.redactValues || [])]) {
+      if (value) { values.add(value); values.add(JSON.stringify(value).slice(1, -1)); }
+    }
+    if (values.size > 256) return lines.map(() => '[REDACTED: secret redaction budget exceeded]');
+    let end = finding.endLine || finding.line;
+    if (finding.ruleId === 'SECRET-PK-001') {
+      // A detected PEM header authenticates the following body as secret text.
+      // Missing/malformed footer: withhold the remaining file from context.
+      end = lines.length;
+      for (let line = finding.line - 1; line < lines.length; line++) {
+        if (/-----END [A-Z ]*PRIVATE KEY(?: BLOCK)?-----/.test(lines[line])) { end = line + 1; break; }
+      }
+    }
+    for (let line = finding.line; line <= end; line++) hidden.add(line);
+  }
+  return lines.map((line, i) => hidden.has(i + 1) || (findings.length && /appsec-ignore/.test(line)) ||
+    [...values].some(value => line.includes(value)) ? '[REDACTED: source line contains detected secret]' : line);
+}
+module.exports = { scanSecrets, redactSecretLines, SECRET_PATTERNS, SECRET_RULE_META };

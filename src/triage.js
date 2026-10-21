@@ -6,6 +6,7 @@ const path = require('path');
 const { CATEGORIES } = require('./owasp');
 const { sevRank, confRank } = require('./util');
 const { summarize } = require('./engine');
+const { redactSecretLines } = require('./rules/secrets');
 
 const VERDICTS = ['true_positive', 'false_positive', 'needs_review', 'accepted_risk'];
 const SEVERITIES = ['critical', 'high', 'medium', 'low', 'info'];
@@ -181,7 +182,7 @@ function buildTriageRequest(result, { contextLines = 8, max = 400 } = {}) {
     if (!fileCache.has(rel)) {
       const abs = within(root, rel);
       let lines = null;
-      try { if (abs) lines = fs.readFileSync(abs, 'utf8').split(/\r?\n/); } catch { lines = null; }
+      try { if (abs) { const raw = fs.readFileSync(abs, 'utf8'); lines = redactSecretLines(rel, raw, raw.split(/\r?\n/)); } } catch { lines = null; }
       fileCache.set(rel, lines);
     }
     return fileCache.get(rel);
