@@ -1,10 +1,10 @@
 'use strict';
 
 const SUMMARY_SCHEMA_VERSION = 1;
-function createMethodSummary({ methodId, parameters = [], parameterToReturn = [], parameterToSinks = [], parameterToFields = [], sourcesToReturn = [], sourcesToFields = [], sanitizersBySink = {}, unresolvedCallSites = [] }) {
+function createMethodSummary({ methodId, parameters = [], parameterToReturn = [], parameterToSinks = [], parameterToFields = [], sourcesToReturn = [], sourcesToFields = [], sourcesToSinks = [], sanitizersBySink = {}, unresolvedCallSites = [] }) {
   if (typeof methodId !== 'string' || !methodId) throw new TypeError('methodId is required');
   return validateMethodSummary({ schemaVersion: SUMMARY_SCHEMA_VERSION, methodId, parameters, parameterToReturn, parameterToSinks, parameterToFields,
-    sourcesToReturn, sourcesToFields, sanitizersBySink, unresolvedCallSites });
+    sourcesToReturn, sourcesToFields, sourcesToSinks, sanitizersBySink, unresolvedCallSites });
 }
 function serializeMethodSummary(summary) {
   validateMethodSummary(summary);
@@ -13,7 +13,7 @@ function serializeMethodSummary(summary) {
 function validateMethodSummary(summary) {
   if (!summary || summary.schemaVersion !== SUMMARY_SCHEMA_VERSION) throw new Error(`unsupported summary schema: ${summary?.schemaVersion}`);
   if (typeof summary.methodId !== 'string' || !summary.methodId) throw new Error('invalid method summary methodId');
-  for (const field of ['parameters','parameterToReturn','parameterToSinks','parameterToFields','sourcesToReturn','sourcesToFields','unresolvedCallSites']) {
+  for (const field of ['parameters','parameterToReturn','parameterToSinks','parameterToFields','sourcesToReturn','sourcesToFields','sourcesToSinks','unresolvedCallSites']) {
     if (!Array.isArray(summary[field])) throw new Error('invalid method summary '+field);
   }
   const index=p=>Number.isInteger(p)&&p>=0&&p<summary.parameters.length;
@@ -24,6 +24,7 @@ function validateMethodSummary(summary) {
       !summary.parameterToFields.every(s=>object(s)&&index(s.parameter)&&typeof s.field==='string') ||
       !summary.sourcesToReturn.every(s=>typeof s==='string') ||
       !summary.sourcesToFields.every(s=>object(s)&&typeof s.source==='string'&&typeof s.field==='string') ||
+      !summary.sourcesToSinks.every(s=>object(s)&&typeof s.source==='string'&&typeof s.category==='string'&&object(s.sourceLocation)&&object(s.sinkLocation)&&Array.isArray(s.callPath)) ||
       !summary.unresolvedCallSites.every(s=>object(s)&&typeof s.reason==='string') ||
       !object(summary.sanitizersBySink)||!Object.values(summary.sanitizersBySink).every(v=>typeof v==='boolean')) {
     throw new Error('invalid method summary flow data');

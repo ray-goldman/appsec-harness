@@ -30,7 +30,7 @@ function toSarif(result) {
       message: { text: `${f.title}${f.detail ? ` (${f.detail})` : ''}. ${f.message}${f.taint ? ` [tainted: ${f.taint.source || f.taint.name || 'unknown'}${(f.taint.line || f.taint.from) ? ' from line ' + (f.taint.line || f.taint.from) : ''}]` : ''}` },
       locations: [{ physicalLocation: { artifactLocation: { uri: encodeURI(f.file), uriBaseId: 'SRCROOT' }, region: { startLine: f.line, startColumn: f.col || 1, snippet: f.snippet ? { text: f.snippet } : undefined } } }],
       partialFingerprints: { 'appsecFingerprint/v1': f.fingerprint },
-      properties: { kind: f.kind || 'vulnerability', severity: f.severity, confidence: f.confidence, owasp: `${f.owasp}:2025`, cwe: (f.cwe || []).map((c) => `CWE-${c}`), cves: f.cves, context: f.context, findingId: f.id, triage: f.triage ? f.triage.verdict : undefined },
+      properties: { kind: f.kind || 'vulnerability', severity: f.severity, confidence: f.confidence, owasp: `${f.owasp}:2025`, cwe: (f.cwe || []).map((c) => `CWE-${c}`), cves: f.cves, context: f.context, findingId: f.id, sourceLocation: f.sourceLocation, callPath: f.callPath, summaryVersion: f.summaryVersion, triage: f.triage ? f.triage.verdict : undefined },
     };
     if (['suppressed', 'ignored', 'accepted'].includes(f.status)) {
       res.suppressions = [{ kind: f.status === 'suppressed' ? 'inSource' : 'external', status: 'accepted', justification: f.ignoreReason || (f.inlineSuppression && f.inlineSuppression.reason) || (f.triage && f.triage.rationale) || '' }];

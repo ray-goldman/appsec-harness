@@ -11,6 +11,7 @@ function resolveCall(call,index) {
   if(target.unsupported) return unresolved('unsupported-declaration');
   if(!Array.isArray(call.argumentTypes)||call.argumentTypes.length!==call.arity||call.argumentTypes.some(t=>typeof t!=='string'||!t)) return unresolved('insufficient-type-evidence');
   if(!target.parameterTypes.every((type,i)=>typeof type==='string'&&type.replace(/\s+/g,'')===call.argumentTypes[i])) return unresolved('no-compatible-target');
+  if(!target.static&&!call.instanceReceiver) return unresolved('instance-receiver-unresolved');
   return {targets:[target.id],status:'resolved',reason:null};
 }
 module.exports={resolveCall};

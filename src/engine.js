@@ -298,6 +298,8 @@ async function scan(root, opts = {}) {
   for (const rule of PROJECT_RULES) {
     try { for (const h of rule.check(ctx)) raw.push({ ruleId: rule.id, file: h.file, line: h.line || 1, col: 1, detail: h.detail, source: 'project' }); } catch { /* ignore */ }
   }
+  const dotnetProject = opts.dotnetProjectAnalysis ? analyzeDotnetSummaries(csharpSources, opts.dotnetProjectAnalysisLimits) : null;
+  if (dotnetProject) raw.push(...dotnetProject.findings);
 
   // ---------- enrich ----------
   const lineText = (f) => { const d = fileData.get(f.file); return d ? (d.rawLines[f.line - 1] || '') : ''; };
@@ -322,7 +324,7 @@ async function scan(root, opts = {}) {
       cwe: f.cwe || rule.cwe || [], cves: f.cves, tags: rule.tags,
       file: f.file, line: f.line || 1, col: f.col || 1, snippet,
       message: f.message || rule.message || '', fix: f.fix || rule.fix || '', refs: f.refs || rule.refs || [],
-      detail: f.detail, taint: f.taint, package: f.package,
+      detail: f.detail, taint: f.taint, sourceLocation: f.sourceLocation, package: f.package, callPath: f.callPath, summaryVersion: f.callPath ? 1 : undefined,
       kind: f.kind || 'vulnerability',
       context: testCtx ? 'test' : 'app', source: f.source, status: 'open',
     };
@@ -380,7 +382,6 @@ async function scan(root, opts = {}) {
   findings.forEach((f, i) => { f.id = `F${String(i + 1).padStart(4, '0')}`; });
 
   const summary = summarize(findings);
-  const dotnetProject = opts.dotnetProjectAnalysis ? analyzeDotnetSummaries(csharpSources) : null;
   const dotnetRoutes = opts.dotnetProjectAnalysis ? buildDotnetRoutes(csharpSources) : null;
   const dotnetMiddleware = opts.dotnetProjectAnalysis ? csharpSources.map(x => middlewareOrder(x.source)) : null;
   return {
@@ -389,7 +390,7 @@ async function scan(root, opts = {}) {
     target: { root, name: opts.name || path.basename(root), ...(opts.targetMeta || {}) },
     scannedAt: new Date().toISOString(),
     durationMs: Date.now() - started,
-    options: { includeTests: !!opts.includeTests, minConfidence: opts.minConfidence || 'low', trustSuppressions: !!opts.trustSuppressions, osv: !!opts.osv, dotnetStoredData: !!opts.dotnetStoredData, dotnetProjectAnalysis: !!opts.dotnetProjectAnalysis },
+    options: { includeTests: !!opts.includeTests, minConfidence: opts.minConfidence || 'low', trustSuppressions: !!opts.trustSuppressions, osv: !!opts.osv, dotnetStoredData: !!opts.dotnetStoredData, dotnetProjectAnalysis: !!opts.dotnetProjectAnalysis, dotnetProjectAnalysisLimits: opts.dotnetProjectAnalysis ? (opts.dotnetProjectAnalysisLimits || { maxIterations: 32, maxEdges: 100000 }) : undefined },
     stats: { files: files.length, languages: langCount, skipped: { large: skipped.large, binary: skipped.binaryExt, vendoredDirs: skipped.dirs, symlinks: skipped.symlinks.length }, truncated, dependencies: supply.inventory.length, routes: routes.length,
       csharpParser: { ...csharpCoverage, fileRatio: csharpCoverage.eligibleFiles ? csharpCoverage.completeFiles / csharpCoverage.eligibleFiles : null,
         methodRatio: csharpCoverage.discoveredMethods ? csharpCoverage.completeMethods / csharpCoverage.discoveredMethods : null },

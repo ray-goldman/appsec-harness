@@ -37,6 +37,10 @@ function summarizeMethod(method) {
     if(parts.length) return [...parts,tokens.slice(start)].flatMap(terms);
     return tokens.length===1 && param(tokens[0])>=0?[param(tokens[0])]:[];
   }
+  function sourceCategory(tokens) {
+    for(let i=0;i+2<tokens.length;i++) if(tokens[i].text==='Request'&&tokens[i+1].text==='.'&&['Query','Form','Headers','Cookies','QueryString'].includes(tokens[i+2].text)) return 'request';
+    return null;
+  }
   const firstReturn=ts.findIndex(t=>t.text==='return');let end=ts.length;
   if(firstReturn>=0) {
     const semi=ts.findIndex((t,i)=>i>firstReturn && t.text===';');end=semi<0?ts.length:semi;
@@ -63,8 +67,14 @@ function summarizeMethod(method) {
       if(ts[k].text===',' && depth===0) {argEnd=k;break;}
     }
     for(const parameter of new Set(terms(ts.slice(i+1,argEnd)))) {
-      summary.parameterToSinks.push({parameter,category,sanitized:false});
+      const line=(method.bodyLine||1)+body.slice(0,ts[i].start).split(/\r?\n/).length-1;
+      summary.parameterToSinks.push({parameter,category,sanitized:false,sinkLocation:{file:method.file||'',line},callPath:[method.id]});
       summary.sanitizersBySink[category]=false;
+    }
+    const source=sourceCategory(ts.slice(i+1,argEnd));
+    if(source) {
+      const line=(method.bodyLine||1)+body.slice(0,ts[i].start).split(/\r?\n/).length-1;
+      summary.sourcesToSinks.push({source,category,sourceLocation:{file:method.file||'',line},sinkLocation:{file:method.file||'',line},callPath:[method.id]});
     }
   }
   return summary;
