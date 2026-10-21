@@ -23,11 +23,12 @@ has a 97.37% false-positive rate and CWE-89 has 64.91%. This is synthetic,
 seen third-party test code; the observed set is now development data. See the
 [baseline report](benchmarks/dotnet-juliet-phase2-baseline.json).
 
-The initial bounded parser pass recorded 100% file/method completeness on this
-Juliet input and a 1.35× scan-time ratio; these numbers do not establish full
-C# grammar coverage. The scan continues to run the existing regex rules on all
-files. The project/cross-file recall gate fails, and the independent and
-real-repository gates remain not measured. See the [parser phase report](benchmarks/dotnet-parser-phase-report.json).
+The initial bounded parser pass's completeness detector reported 100% on this
+Juliet input and a 1.35× scan-time ratio; grammar validation is incomplete, so
+the 95% parser-coverage gate is **not measured**. The scan continues to run the
+existing regex rules on all files. The Juliet cross-file recall gate fails, and
+the independent and real-repository gates remain not measured. See the
+[parser phase report](benchmarks/dotnet-parser-phase-report.json).
 
 The versioned summary and authorization modules are analysis foundations,
 not default finding sources. The summary index refuses ambiguous name/arity

@@ -13,15 +13,15 @@
   "scanDurationMs": 58097,
   "preParserScanDurationMs": 43006,
   "timeRatio": 1.3510449704697029,
-  "parserCoverage": { "eligibleFiles": 46597, "completeFiles": 46597, "fallbackFiles": 0, "discoveredMethods": 173779, "completeMethods": 173779, "fileRatio": 1, "methodRatio": 1 },
+  "parserCoverage": { "eligibleFiles": 46597, "completeFiles": 46597, "fallbackFiles": 0, "discoveredMethods": 173779, "completeMethods": 173779, "fileRatio": 1, "methodRatio": 1, "metricStatus": "preliminary-completeness-detector-only; grammar validation not established" },
   "scoring": { "units": 59282, "tp": 1036, "fp": 1036, "tn": 28565, "fn": 28645, "recall": 0.03490448435025774, "falsePositiveRate": 0.034998817607513256, "precision": 0.5 },
   "gateStatus": {
-    "parserCoverage95Percent": "measured-pass-on-this-dataset; independent syntax fixtures and remaining tiers not yet measured",
+    "parserCoverage95Percent": "not-measured; reported counts are preliminary and do not establish grammar-complete parsing",
     "timeAtMost1_5x": "measured-pass-on-Juliet-only",
     "julietCrossFileRecall60Percent": "fail",
     "independentAuthorHoldout": "not-measured",
     "realRepositoryPrecision": "not-measured",
     "safeDotnetFalsePositiveRegression": "not-measured"
   },
-  "interpretation": "The reported parser coverage is preliminary and based on the bounded parser's completeness detector; it is not evidence of full C# grammar coverage. This scanner still runs the existing regex rules for parser-complete and fallback files. Juliet is a seen third-party synthetic corpus and is retired to development after scoring. Phase 2 and Phase 3 remain gated and are not enabled by these results."
+  "interpretation": "The reported parser coverage counts are preliminary output from the bounded parser's completeness detector; because grammar validation is incomplete, they do not satisfy the 95% parse-coverage gate or evidence full C# grammar coverage. This scanner still runs the existing regex rules for parser-complete and fallback files. Juliet is a seen third-party synthetic corpus and is retired to development after scoring. Phase 2 and Phase 3 remain gated and are not enabled by these results."
 }
