@@ -17,6 +17,9 @@ const { javaOutputFilter } = require('./java-sanitizers');
 const { buildScriptProject, scriptSinkFilter } = require('./script-helpers');
 const { pathSinkFilter } = require('./path-proofs');
 const { goFunctionTaint } = require('./go-scopes');
+const { analyzeCSharpFile } = require('./parsers/csharp/coverage');
+const { analyzeDotnetSummaries } = require('./dotnet/analysis');
+const { buildDotnetRoutes, middlewareOrder } = require('./dotnet/authorization');
 
 const MAX_LINE = 2000;
 const WRAPPED = new RegExp('^\\s*(?:await\\s+)?' + SANITIZERS.source.replace(/^\\\\b/, '') + '[\\s\\S]*\\)\\s*$', 'i');
@@ -69,7 +72,7 @@ function sinksOf(rule) {
   return [];
 }
 
-function applyCodeRules(file, lang, raw, codeLines, taint, javaProject, scriptProject) {
+function applyCodeRules(file, lang, raw, codeLines, taint, javaProject, scriptProject, options = {}) {
   const out = [];
   const rawLines = raw.split(/\r?\n/);
   const code = codeLines.join('\n');
@@ -91,7 +94,7 @@ function applyCodeRules(file, lang, raw, codeLines, taint, javaProject, scriptPr
     const contextualJavaOutput = lang === 'java' && rule.id === 'JAVA-XSS-001';
     const ruleTaint = contextualJavaOutput ? javaStrictTaint : javaNonHtmlTaint || taint;
     if (rule.checkCode) {
-      for (const hit of rule.checkCode({ file, lang, raw, code, codeLines, maskedLines, taint })) {
+      for (const hit of rule.checkCode({ file, lang, raw, code, codeLines, maskedLines, taint, options })) {
         out.push({ ...hit, ruleId: rule.id, file, source: 'sast' });
       }
       continue;
@@ -214,6 +217,9 @@ async function scan(root, opts = {}) {
   const projFiles = [];
   const langCount = {};
   const warnings = [];
+  const csharpCoverage = { eligibleFiles: 0, completeFiles: 0, fallbackFiles: 0, discoveredMethods: 0, completeMethods: 0 };
+  const csharpSources = [];
+  let csharpProjectBytes = 0, csharpProjectInputTruncated = false;
   const javaSources = [];
   let javaBytes = 0, javaComplete = !truncated && !javaIncomplete;
   for (const f of files) {
@@ -237,6 +243,18 @@ async function scan(root, opts = {}) {
     const rawLines = text.split(/\r?\n/);
     const relLogical = f.rel.replace(/\.appsec-quarantined$/, '');
     const lang = detectLanguage(relLogical);
+    if (lang === 'csharp' && /\.cs$/i.test(relLogical)) {
+      csharpCoverage.eligibleFiles++;
+      const parsed = analyzeCSharpFile(relLogical, text);
+      if (opts.dotnetProjectAnalysis) {
+        const sourceBytes = Buffer.byteLength(text);
+        if (csharpProjectBytes + sourceBytes <= 100 * 1024 * 1024) { csharpSources.push({ file: relLogical, source: text, ast: parsed.ast }); csharpProjectBytes += sourceBytes; }
+        else csharpProjectInputTruncated = true;
+      }
+      csharpCoverage.discoveredMethods += parsed.coverage.discoveredMethods;
+      if (parsed.complete) { csharpCoverage.completeFiles++; csharpCoverage.completeMethods += parsed.coverage.parsedMethods; }
+      else csharpCoverage.fallbackFiles++;
+    }
     if (lang) langCount[lang] = (langCount[lang] || 0) + 1;
     const code = lang ? stripComments(text, lang) : text;
     const codeLines = code.split(/\r?\n/);
@@ -245,7 +263,7 @@ async function scan(root, opts = {}) {
     if (isManifest(f.rel)) manifestFiles.push({ rel: f.rel, raw: text });
     const vendored = !opts.includeVendored && isVendoredAsset(f.rel, text);
 
-    const isLock = /(?:package-lock\.json|yarn\.lock|pnpm-lock\.yaml|composer\.lock|Gemfile\.lock|poetry\.lock|go\.sum|Cargo\.lock|uv\.lock|bun\.lock)$/.test(f.rel);
+    const isLock = /(?:package-lock\.json|yarn\.lock|pnpm-lock\.yaml|composer\.lock|Gemfile\.lock|poetry\.lock|go\.sum|Cargo\.lock|uv\.lock|bun\.lock|packages\.lock\.json|project\.assets\.json)$/.test(f.rel);
     if (!isLock) {
       const secrets = scanSecrets(f.rel, text, rawLines);
       fileData.get(f.rel).hasSecrets = secrets.length > 0;
@@ -257,7 +275,7 @@ async function scan(root, opts = {}) {
     raw.push(...applyConfigRules(f.rel, lang, text, rawLines, codeLines));
     if (lang && !isLock && !vendored) {
       const taint = analyzeTaint(codeLines, lang);
-      raw.push(...applyCodeRules(f.rel, lang, text, codeLines, taint, javaProject, scriptProject));
+      raw.push(...applyCodeRules(f.rel, lang, text, codeLines, taint, javaProject, scriptProject, opts));
       const r = extractRoutes(f.rel, lang, codeLines, text);
       routes.push(...r);
       if (['javascript', 'typescript', 'python', 'php', 'java', 'kotlin', 'go', 'ruby', 'csharp'].includes(lang)) projFiles.push({ rel: f.rel, code, lang });
@@ -280,6 +298,8 @@ async function scan(root, opts = {}) {
   for (const rule of PROJECT_RULES) {
     try { for (const h of rule.check(ctx)) raw.push({ ruleId: rule.id, file: h.file, line: h.line || 1, col: 1, detail: h.detail, source: 'project' }); } catch { /* ignore */ }
   }
+  const dotnetProject = opts.dotnetProjectAnalysis ? analyzeDotnetSummaries(csharpSources, opts.dotnetProjectAnalysisLimits) : null;
+  if (dotnetProject) raw.push(...dotnetProject.findings);
 
   // ---------- enrich ----------
   const lineText = (f) => { const d = fileData.get(f.file); return d ? (d.rawLines[f.line - 1] || '') : ''; };
@@ -304,7 +324,7 @@ async function scan(root, opts = {}) {
       cwe: f.cwe || rule.cwe || [], cves: f.cves, tags: rule.tags,
       file: f.file, line: f.line || 1, col: f.col || 1, snippet,
       message: f.message || rule.message || '', fix: f.fix || rule.fix || '', refs: f.refs || rule.refs || [],
-      detail: f.detail, taint: f.taint, package: f.package,
+      detail: f.detail, taint: f.taint, sourceLocation: f.sourceLocation, package: f.package, callPath: f.callPath, summaryVersion: f.callPath ? 1 : undefined,
       kind: f.kind || 'vulnerability',
       context: testCtx ? 'test' : 'app', source: f.source, status: 'open',
     };
@@ -313,7 +333,8 @@ async function scan(root, opts = {}) {
   // dedupe: same file+line+primary CWE → keep strongest
   const best = new Map();
   for (const f of findings) {
-    const k = `${f.file}:${f.line}:${f.cwe[0]}:${f.source === 'supply' || f.source === 'osv' ? f.detail + (f.cves || []).join() : ''}`;
+    const separateStoredFlow = ['CS-STORED-XSS-001', 'CS-SECONDARY-SQL-001'].includes(f.ruleId) ? `:${f.ruleId}` : '';
+    const k = `${f.file}:${f.line}:${f.cwe[0]}:${f.source === 'supply' || f.source === 'osv' ? f.detail + (f.cves || []).join() : ''}${separateStoredFlow}`;
     const prev = best.get(k);
     if (!prev || sevRank(f.severity) * 10 + confRank(f.confidence) > sevRank(prev.severity) * 10 + confRank(prev.confidence)) best.set(k, f);
   }
@@ -361,14 +382,26 @@ async function scan(root, opts = {}) {
   findings.forEach((f, i) => { f.id = `F${String(i + 1).padStart(4, '0')}`; });
 
   const summary = summarize(findings);
+  const dotnetRoutes = opts.dotnetProjectAnalysis ? buildDotnetRoutes(csharpSources) : null;
+  const dotnetMiddleware = opts.dotnetProjectAnalysis ? csharpSources.map(x => middlewareOrder(x.source)) : null;
   return {
     schema: 'appsec-harness/findings@1',
     tool: { name: 'kayfabe', version: pkg.version },
     target: { root, name: opts.name || path.basename(root), ...(opts.targetMeta || {}) },
     scannedAt: new Date().toISOString(),
     durationMs: Date.now() - started,
-    options: { includeTests: !!opts.includeTests, minConfidence: opts.minConfidence || 'low', trustSuppressions: !!opts.trustSuppressions, osv: !!opts.osv },
-    stats: { files: files.length, languages: langCount, skipped: { large: skipped.large, binary: skipped.binaryExt, vendoredDirs: skipped.dirs, symlinks: skipped.symlinks.length }, truncated, dependencies: supply.inventory.length, routes: routes.length },
+    options: { includeTests: !!opts.includeTests, minConfidence: opts.minConfidence || 'low', trustSuppressions: !!opts.trustSuppressions, osv: !!opts.osv, dotnetStoredData: !!opts.dotnetStoredData, dotnetProjectAnalysis: !!opts.dotnetProjectAnalysis, dotnetProjectAnalysisLimits: opts.dotnetProjectAnalysis ? (opts.dotnetProjectAnalysisLimits || { maxIterations: 32, maxEdges: 100000 }) : undefined },
+    stats: { files: files.length, languages: langCount, skipped: { large: skipped.large, binary: skipped.binaryExt, vendoredDirs: skipped.dirs, symlinks: skipped.symlinks.length }, truncated, dependencies: supply.inventory.length, routes: routes.length,
+      csharpParser: { ...csharpCoverage, fileRatio: csharpCoverage.eligibleFiles ? csharpCoverage.completeFiles / csharpCoverage.eligibleFiles : null,
+        methodRatio: csharpCoverage.discoveredMethods ? csharpCoverage.completeMethods / csharpCoverage.discoveredMethods : null },
+      dotnetProject: dotnetProject ? { summaryVersion: dotnetProject.summaryVersion, summarySchema: dotnetProject.summarySchema, ...dotnetProject.diagnostics,
+        inputTruncated: csharpProjectInputTruncated } : null,
+      dotnetRoutes: dotnetRoutes ? { routes: dotnetRoutes.length, mvc: dotnetRoutes.filter(x => x.framework === 'mvc').length,
+        minimalApi: dotnetRoutes.filter(x => x.framework === 'minimal-api').length,
+        authorized: dotnetRoutes.filter(x => x.effectivePolicy === true).length,
+        noEffectivePolicy: dotnetRoutes.filter(x => x.effectivePolicy === false).length,
+        unresolved: dotnetRoutes.filter(x => x.effectivePolicy === null).length,
+        middleware: { ordered: dotnetMiddleware.filter(x => x.status === 'ordered').length, misordered: dotnetMiddleware.filter(x => x.status === 'misordered').length, unresolved: dotnetMiddleware.filter(x => x.status === 'unresolved').length } } : null },
     summary,
     warnings,
     surface: routes,

@@ -56,4 +56,15 @@ module.exports = [
     fix: 'Log auth successes/failures (user id, source IP, outcome — never passwords) to a monitored sink and alert on anomalies.',
     refs: ['https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html#which-events-to-log'],
   },
+  ...[
+    ['sql','A05',[89],'high'], ['command','A05',[78],'high'], ['ssrf','A01',[918],'high'],
+    ['path','A01',[22],'high'], ['xss','A05',[79],'medium'],
+  ].map(([category,owasp,cwe,severity]) => ({
+    id: 'DOTNET-PROJECT-TAINT-'+category.toUpperCase(),
+    title: 'Request data reaches a '+category+' sink across project calls',
+    owasp, cwe, severity, confidence: 'high', check: () => [],
+    message: 'Request data reaches a supported sink through resolved C# project calls. Review the source, every call edge, and sink context.',
+    fix: 'Validate or encode the value for the sink context, or use a structured API that separates data from commands.',
+    refs: ['https://owasp.org/www-project-top-ten/'],
+  })),
 ];

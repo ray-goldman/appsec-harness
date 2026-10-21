@@ -9,6 +9,7 @@ const LOCKFILES = {
   composer: ['composer.lock'],
   rubygems: ['Gemfile.lock'],
   go: ['go.sum'],
+  nuget: ['packages.lock.json', 'project.assets.json'],
 };
 
 const normPy = (n) => n.toLowerCase().replace(/[-_.]+/g, '-');
@@ -210,6 +211,53 @@ function parseComposerLock(rel, raw) {
   return { deps, hygiene: [] };
 }
 
+function parseCsproj(rel, raw) {
+  const deps = [];
+  for (const m of raw.matchAll(/<PackageReference\b([^>]*?)(?:\/>|>([\s\S]*?)<\/PackageReference>)/gi)) {
+    const attrs = m[1] || '', body = m[2] || '';
+    const name = attrs.match(/\bInclude\s*=\s*["']([^"']+)["']/i)?.[1];
+    const version = attrs.match(/\bVersion\s*=\s*["']([^"']+)["']/i)?.[1] || body.match(/<Version>\s*([^<]+)\s*<\/Version>/i)?.[1];
+    if (name) deps.push({ eco: 'nuget', name: name.toLowerCase(), spec: version || '*', version: /^\d/.test(version || '') ? version : null,
+      line: lineOf(raw, m[0]), file: rel, direct: true });
+  }
+  return { deps, hygiene: [] };
+}
+
+function parseNugetLock(rel, raw) {
+  const json = safeJson(raw), packages = new Map();
+  if (!json || !json.dependencies || typeof json.dependencies !== 'object') return { deps: [], hygiene: [] };
+  for (const framework of Object.values(json.dependencies)) {
+    if (!framework || typeof framework !== 'object') continue;
+    for (const [name, data] of Object.entries(framework)) {
+      if (!data || typeof data.resolved !== 'string' || !/^[0-9][\w.+-]*$/.test(data.resolved)) continue;
+      const normalizedName = name.toLowerCase(), key = `${normalizedName}@${data.resolved}`;
+      const prior = packages.get(key);
+      if (prior) prior.direct ||= data.type === 'Direct';
+      else packages.set(key, { eco: 'nuget', name: normalizedName, version: data.resolved, line: lineOf(raw, `"${name}"`), file: rel, direct: data.type === 'Direct' });
+    }
+  }
+  return { deps: [...packages.values()], hygiene: [] };
+}
+
+function parseProjectAssets(rel, raw) {
+  const json = safeJson(raw), deps = [];
+  if (!json || !json.targets || !json.libraries) return { deps, hygiene: [] };
+  const direct = new Set();
+  for (const group of Object.values(json.project?.frameworks || {})) for (const name of Object.keys(group.dependencies || {})) direct.add(name.toLowerCase());
+  const seen = new Set();
+  for (const [target, libs] of Object.entries(json.targets)) {
+    if (!libs || typeof libs !== 'object') continue;
+    for (const key of Object.keys(libs)) {
+      const match = key.match(/^(.+)\/([0-9][^/]*)$/);
+      if (!match) continue;
+      const name = match[1].toLowerCase(), version = match[2], unique = `${name}@${version}`;
+      if (seen.has(unique)) continue; seen.add(unique);
+      deps.push({ eco: 'nuget', name, version, line: lineOf(raw, `"${key}"`), file: rel, direct: direct.has(name), targetFramework: target });
+    }
+  }
+  return { deps, hygiene: [] };
+}
+
 const PARSERS = [
   { re: /(^|\/)package\.json$/, fn: parsePackageJson, manifestFor: 'npm' },
   { re: /(^|\/)(?:package-lock|npm-shrinkwrap)\.json$/, fn: parsePackageLock },
@@ -224,6 +272,9 @@ const PARSERS = [
   { re: /(^|\/)go\.mod$/, fn: parseGoMod },
   { re: /(^|\/)Gemfile\.lock$/, fn: parseGemfileLock },
   { re: /(^|\/)composer\.lock$/, fn: parseComposerLock },
+  { re: /\.csproj$/, fn: parseCsproj, manifestFor: 'nuget' },
+  { re: /(^|\/)packages\.lock\.json$/, fn: parseNugetLock },
+  { re: /(^|\/)project\.assets\.json$/, fn: parseProjectAssets },
 ];
 
 function isManifest(rel) { return PARSERS.some((p) => p.re.test(rel)); }

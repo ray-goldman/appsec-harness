@@ -13,6 +13,24 @@ function hit(code, offset, confidence = 'medium') {
   const before = code.slice(0, offset);
   return { line: before.split('\n').length, col: offset - before.lastIndexOf('\n'), confidence };
 }
+function storedDataFindings({ file, code, options = {} }) {
+  if (!options.dotnetStoredData || code.length > 100000) return [];
+  const mask = context(code);
+  if (!mask) return [];
+  const reads = new Map(), safe = new Set(), out = [];
+  for (const m of mask.matchAll(/\b(?:var|string)\s+(\w+)\s*=\s*(?:System\.IO\.)?File\.ReadAll(?:Text|Bytes|Lines)\s*\(/g)) reads.set(m[1], m.index);
+  for (const m of mask.matchAll(/\b(\w+)\s*=\s*(?:HtmlEncoder\.Default\.Encode|WebUtility\.HtmlEncode|HttpUtility\.HtmlEncode)\s*\(\s*(\w+)\s*\)/g)) if (reads.has(m[2])) safe.add(m[1]);
+  for (const m of mask.matchAll(/\bHtml\.Raw\s*\(\s*(\w+)\s*\)/g)) {
+    if (reads.has(m[1]) && !safe.has(m[1])) out.push({ ruleId: 'CS-STORED-XSS-001', title: 'Stored data rendered as trusted HTML', owasp: 'A05', cwe: [79], severity: 'medium', confidence: 'low', file, line: hit(code, m.index).line, col: hit(code, m.index).col, source: 'sast', detail: 'Same-file file-read value reaches Html.Raw without a recognized HTML encoder.' });
+  }
+  for (const m of mask.matchAll(/\b(?:ExecuteSqlRaw|FromSqlRaw)\s*\(\s*(?:\$"([^"]*)"|(\w+))/g)) {
+    const expression = m[1] || m[2] || '';
+    if ([...reads.keys()].some(name => new RegExp(`\\b${name}\\b`).test(expression)) && !/FromSqlInterpolated/.test(mask.slice(Math.max(0, m.index - 40), m.index + 100))) {
+      out.push({ ruleId: 'CS-SECONDARY-SQL-001', title: 'Stored data used to construct raw SQL', owasp: 'A05', cwe: [89], severity: 'high', confidence: 'low', file, line: hit(code, m.index).line, col: hit(code, m.index).col, source: 'sast', detail: 'Same-file file-read value reaches a raw SQL API; confirm whether the stored value is attacker-controlled.' });
+    }
+  }
+  return out;
+}
 function controllerRanges(mask) {
   const blocks = new Map(), stack = [];
   for (let i = 0; i < mask.length; i++) {
@@ -114,4 +132,4 @@ function obsoleteTls({ code }) {
   }
   return out;
 }
-module.exports = { requestReturns, passwordMd5, unsignedJwt, obsoleteTls };
+module.exports = { requestReturns, passwordMd5, unsignedJwt, obsoleteTls, storedDataFindings };

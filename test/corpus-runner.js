@@ -46,7 +46,7 @@ async function runCase(dir) {
   for (const kind of ['vuln', 'fixed']) {
     const tmp = stage(path.join(dir, kind), meta.generate);
     try {
-      const r = await scan(tmp, { includeTests: true, minConfidence: 'low', name: `${meta.id}/${kind}` });
+      const r = await scan(tmp, { includeTests: true, minConfidence: 'low', ...(meta.options || {}), name: `${meta.id}/${kind}` });
       const ids = new Set(r.findings.map((f) => f.ruleId));
       if (kind === 'vuln') out.missing = meta.expect.filter((e) => !ids.has(e));
       else {

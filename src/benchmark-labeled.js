@@ -90,6 +90,13 @@ function markdown(report) {
     `Matching: ${report.policy.match}.`,
     'All labeled CWEs remain in the denominator. Duplicate findings count once per labeled unit.',
     'Scan: tests included; all severities; low confidence and above; suppressions disabled; OSV disabled.', '',
+    ...(report.scan.stats.csharpParser ? [
+      `C# parser coverage: ${report.scan.stats.csharpParser.completeFiles}/${report.scan.stats.csharpParser.eligibleFiles} files (${pct(report.scan.stats.csharpParser.fileRatio)}); ${report.scan.stats.csharpParser.completeMethods}/${report.scan.stats.csharpParser.discoveredMethods} methods (${pct(report.scan.stats.csharpParser.methodRatio)}); ${report.scan.stats.csharpParser.fallbackFiles} fallback files.`, '',
+    ] : []),
+    ...(report.scan.stats.dotnetProject ? [
+      `Project analysis: ${report.scan.stats.dotnetProject.summarizedMethods}/${report.scan.stats.dotnetProject.methods} methods summarized; ${report.scan.stats.dotnetProject.calls} calls, ${report.scan.stats.dotnetProject.resolvedCalls} resolved; ${report.scan.stats.dotnetProject.iterations}/${report.scan.stats.dotnetProject.maxIterations} iterations; edge cap ${report.scan.stats.dotnetProject.maxEdges}; truncated ${report.scan.stats.dotnetProject.truncated}.`,
+      ...(report.scan.stats.dotnetProject.truncated ? ['This partial analysis is diagnostic only and cannot satisfy a full-dataset phase gate.'] : []), '',
+    ] : []),
     '| CWE | Cases | TP | FP | TN | FN | Recall | FPR | Precision |',
     '|---|---:|---:|---:|---:|---:|---:|---:|---:|',
     ...report.byCwe.map((x) => row(`CWE-${x.cwe}`, x)), row('Total (micro)', report.totals), '',
@@ -121,7 +128,12 @@ async function runLabeled(root, opts, definition) {
   }
   const inputSha256 = hashInputs(root, definition.inputFiles);
   const sourceSha256 = toolHash();
-  const result = await scan(root, { ...SCAN_OPTIONS, name: definition.name });
+  const scanOptions = { ...SCAN_OPTIONS, name: definition.name };
+  if (opts.dotnetProjectAnalysis === true) {
+    scanOptions.dotnetProjectAnalysis = true;
+    scanOptions.dotnetProjectAnalysisLimits = opts.dotnetProjectAnalysisLimits || { maxIterations: 8, maxEdges: 10000 };
+  }
+  const result = await scan(root, scanOptions);
   if (result.stats.truncated) throw new Error('benchmark scan coverage is truncated');
   if (toolHash() !== sourceSha256 || hashInputs(root, definition.inputFiles) !== inputSha256) throw new Error('benchmark inputs or harness source changed during measurement');
   const report = {
@@ -131,8 +143,8 @@ async function runLabeled(root, opts, definition) {
     dataset: { name: definition.name, source: definition.source, version: definition.version || null,
       revision: opts.revision || null, revisionSource: 'user-supplied, not verified',
       inputSha256, expectedSha256: hashInputs(root, definition.manifestFiles), ...definition.metadata },
-    policy: { ...definition.policy, excludesUnsupportedCwes: false, cweAliases: false, duplicateDetections: 'one prediction per labeled unit' },
-    scan: { options: { ...SCAN_OPTIONS }, stats: result.stats, warnings: result.warnings, durationMs: result.durationMs },
+    policy: { ...definition.policy, limitations: [...(definition.policy.limitations || []), ...(result.stats.dotnetProject?.truncated ? ['Project-wide .NET analysis was truncated by its bounded method, edge, or fixpoint limits; this score is diagnostic and cannot satisfy a full-dataset phase gate.'] : [])], excludesUnsupportedCwes: false, cweAliases: false, duplicateDetections: 'one prediction per labeled unit' },
+    scan: { options: scanOptions, stats: result.stats, warnings: result.warnings, durationMs: result.durationMs },
     ...scoreRegions(definition.labels, result.findings),
   };
   fs.mkdirSync(out, { recursive: true });

@@ -1,5 +1,67 @@
 # .NET coverage: reviewed labels and bounded detection
 
+## Dataset independence and status
+
+Evaluation tiers are defined in the [dataset policy](benchmarks/dotnet-evaluation-policy.md)
+and tracked in the [dataset registry](benchmarks/dotnet-datasets.json). Own .NET
+apps, including prior `HELD-OUT.sha256` entries, are **self-authored regression**
+data; their earlier held-out numbers are not blind or independent. Juliet C# 1.3
+is **third-party real code, seen**. The held half is retired as a holdout because
+it informed the CWE-329 scoping fix. dotnet/eShop and OWASP/WebGoat.NET are also
+seen third-party data and are excluded from the public-repository sample.
+
+No independently authored ASP.NET set or adjudicated public-repository sample
+is currently available, so those gates are **not measured**. Do not treat the
+existing app results as satisfying either gate. The older tables below preserve
+historical counts and must be read with these tier labels.
+
+The verified NIST Juliet C# 1.3 source and frozen cross-file scoring policy are
+available in [the unit manifest](benchmarks/dotnet-juliet-cross-file-units.json).
+Its Phase 2 baseline is 1,036 TP, 1,036 FP, 28,565 TN and 28,645 FN across
+59,282 units: 3.49% recall, 3.50% false-positive rate and 50% precision. CWE-78
+has a 97.37% false-positive rate and CWE-89 has 64.91%. This is synthetic,
+seen third-party test code; the observed set is now development data. See the
+[baseline report](benchmarks/dotnet-juliet-phase2-baseline.json).
+
+The initial bounded parser pass's completeness detector reported 100% on this
+Juliet input and a 1.35× scan-time ratio; grammar validation is incomplete, so
+the 95% parser-coverage gate is **not measured**. The scan continues to run the
+existing regex rules on all files. The Juliet cross-file recall gate fails, and
+the independent and real-repository gates remain not measured. See the
+[parser phase report](benchmarks/dotnet-parser-phase-report.json).
+
+The versioned summary and authorization modules are analysis foundations,
+not default finding sources. The summary index refuses ambiguous name/arity
+calls and records unresolved cases. The route prototype currently handles
+visible MVC attributes and simple minimal API groups; Razor Pages, hubs,
+global filters, fallback policy, and object-level authorization are not yet
+modeled. It does not emit authorization findings. Neither module has been
+evaluated on the missing adjudicated repository sample.
+
+With `--dotnet-project-analysis`, the scanner now runs the version 1 summary
+modules together for direct static calls with exact receiver identities and
+parameter or literal arguments. A self-authored three-file controller/service/
+repository test propagates a SQL sink through two helper calls; its constant
+twin does not propagate a parameter flow. Discarded helper results do not create
+return flows. These diagnostics emit **no findings** and establish no improvement
+in benchmark recall or false positives.
+
+The transfer layer tokenizes comments and strings, rejects unsupported control
+flow and parameter writes, and reports unresolved calls. It does not yet model
+local aliases, dependency injection, field flow, source confidence, or call paths.
+Sanitizer spelling alone is no longer accepted as proof of safety. Equal-arity
+overloads, optional parameters, virtual dispatch and ambiguous type declarations
+remain unresolved. Propagation uses synchronous rounds with an iteration limit;
+limits and unresolved cases appear in diagnostics. Method bodies over 2,048 tokens
+are excluded from this transfer layer. The existing parser and evaluation gates
+remain unchanged; the Phase 2 implementation is incomplete.
+
+Stored-data checks are available only with `--dotnet-stored-data`. They cover
+same-file `File.ReadAll*` values reaching `Html.Raw` or raw SQL APIs, use low
+confidence, and have self-authored vulnerable/safe pairs. They do not yet
+follow data across methods, files, or database reads. Do not interpret them as
+stored-data coverage or as evaluated precision.
+
 This pass reviews all 11 previously missed labels in the supplied `dotnet-hr`
 app. It adds five narrow detections and five vulnerable/safe regression pairs.
 The supplied files, labels and scoring policy are unchanged. A benchmark label

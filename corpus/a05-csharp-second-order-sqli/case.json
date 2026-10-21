@@ -1,0 +1,8 @@
+{
+  "id": "a05-csharp-second-order-sqli",
+  "owasp": "A05",
+  "cwe": [89],
+  "description": "Opt-in same-file stored value reaches a raw SQL expression.",
+  "expect": ["CS-SECONDARY-SQL-001"],
+  "options": { "dotnetStoredData": true }
+}
