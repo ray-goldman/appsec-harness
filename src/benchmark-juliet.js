@@ -54,8 +54,9 @@ function parseManifest(text, allowJuliet13Defects = false) {
   return cases;
 }
 
-function methodRegions(raw, file) {
-  const text = maskStrings(stripComments(raw, 'java'), 'java');
+function methodRegions(raw, file, language = 'java') {
+  if (!['java', 'csharp'].includes(language)) throw new Error(`unsupported Juliet method language: ${language}`);
+  const text = maskStrings(stripComments(raw, language), language);
   const lineStarts = [0];
   for (let i = 0; i < text.length; i++) if (text[i] === '\n') lineStarts.push(i + 1);
   const lineAt = (offset) => {
@@ -72,7 +73,9 @@ function methodRegions(raw, file) {
     }
   }
   if (braces.length) throw new Error(`unbalanced Java source: ${file}`);
-  const re = /^[ \t]*(?:(?:public|protected|private|static|final|synchronized|strictfp)\s+)*(?:[\w$]+(?:<[^;{}]{0,300}>)?(?:\[\])?\s+)?([\w$]+)\s*\([^;{}]{0,2000}\)\s*(?:throws[^;{}]{0,500})?\s*\{/gm;
+  const re = language === 'csharp'
+    ? /^[ \t]*(?:(?:public|protected|private|internal|static|virtual|override|sealed|async|new|extern|unsafe|partial|abstract|readonly|ref)\s+)+(?:[\w@.<>?,\[\]\s]+?)\s+(@?[A-Za-z_]\w*)\s*\([^;{}]{0,2000}\)\s*(?:where\s+[\w\s,:<>.]{1,300})?\s*\{/gm
+    : /^[ \t]*(?:(?:public|protected|private|static|final|synchronized|strictfp)\s+)*(?:[\w$]+(?:<[^;{}]{0,300}>)?(?:\[\])?\s+)?([\w$]+)\s*\([^;{}]{0,2000}\)\s*(?:throws[^;{}]{0,500})?\s*\{/gm;
   const regions = [];
   for (let match; (match = re.exec(text));) {
     if (['if', 'while', 'for', 'switch', 'catch', 'synchronized'].includes(match[1])) continue;

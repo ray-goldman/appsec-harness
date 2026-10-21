@@ -90,6 +90,9 @@ function markdown(report) {
     `Matching: ${report.policy.match}.`,
     'All labeled CWEs remain in the denominator. Duplicate findings count once per labeled unit.',
     'Scan: tests included; all severities; low confidence and above; suppressions disabled; OSV disabled.', '',
+    ...(report.scan.stats.csharpParser ? [
+      `C# parser coverage: ${report.scan.stats.csharpParser.completeFiles}/${report.scan.stats.csharpParser.eligibleFiles} files (${pct(report.scan.stats.csharpParser.fileRatio)}); ${report.scan.stats.csharpParser.completeMethods}/${report.scan.stats.csharpParser.discoveredMethods} methods (${pct(report.scan.stats.csharpParser.methodRatio)}); ${report.scan.stats.csharpParser.fallbackFiles} fallback files.`, '',
+    ] : []),
     '| CWE | Cases | TP | FP | TN | FN | Recall | FPR | Precision |',
     '|---|---:|---:|---:|---:|---:|---:|---:|---:|',
     ...report.byCwe.map((x) => row(`CWE-${x.cwe}`, x)), row('Total (micro)', report.totals), '',

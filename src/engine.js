@@ -17,6 +17,7 @@ const { javaOutputFilter } = require('./java-sanitizers');
 const { buildScriptProject, scriptSinkFilter } = require('./script-helpers');
 const { pathSinkFilter } = require('./path-proofs');
 const { goFunctionTaint } = require('./go-scopes');
+const { analyzeCSharpFile } = require('./parsers/csharp/coverage');
 
 const MAX_LINE = 2000;
 const WRAPPED = new RegExp('^\\s*(?:await\\s+)?' + SANITIZERS.source.replace(/^\\\\b/, '') + '[\\s\\S]*\\)\\s*$', 'i');
@@ -214,6 +215,7 @@ async function scan(root, opts = {}) {
   const projFiles = [];
   const langCount = {};
   const warnings = [];
+  const csharpCoverage = { eligibleFiles: 0, completeFiles: 0, fallbackFiles: 0, discoveredMethods: 0, completeMethods: 0 };
   const javaSources = [];
   let javaBytes = 0, javaComplete = !truncated && !javaIncomplete;
   for (const f of files) {
@@ -237,6 +239,13 @@ async function scan(root, opts = {}) {
     const rawLines = text.split(/\r?\n/);
     const relLogical = f.rel.replace(/\.appsec-quarantined$/, '');
     const lang = detectLanguage(relLogical);
+    if (lang === 'csharp' && /\.cs$/i.test(relLogical)) {
+      csharpCoverage.eligibleFiles++;
+      const parsed = analyzeCSharpFile(relLogical, text);
+      csharpCoverage.discoveredMethods += parsed.coverage.discoveredMethods;
+      if (parsed.complete) { csharpCoverage.completeFiles++; csharpCoverage.completeMethods += parsed.coverage.parsedMethods; }
+      else csharpCoverage.fallbackFiles++;
+    }
     if (lang) langCount[lang] = (langCount[lang] || 0) + 1;
     const code = lang ? stripComments(text, lang) : text;
     const codeLines = code.split(/\r?\n/);
@@ -368,7 +377,9 @@ async function scan(root, opts = {}) {
     scannedAt: new Date().toISOString(),
     durationMs: Date.now() - started,
     options: { includeTests: !!opts.includeTests, minConfidence: opts.minConfidence || 'low', trustSuppressions: !!opts.trustSuppressions, osv: !!opts.osv },
-    stats: { files: files.length, languages: langCount, skipped: { large: skipped.large, binary: skipped.binaryExt, vendoredDirs: skipped.dirs, symlinks: skipped.symlinks.length }, truncated, dependencies: supply.inventory.length, routes: routes.length },
+    stats: { files: files.length, languages: langCount, skipped: { large: skipped.large, binary: skipped.binaryExt, vendoredDirs: skipped.dirs, symlinks: skipped.symlinks.length }, truncated, dependencies: supply.inventory.length, routes: routes.length,
+      csharpParser: { ...csharpCoverage, fileRatio: csharpCoverage.eligibleFiles ? csharpCoverage.completeFiles / csharpCoverage.eligibleFiles : null,
+        methodRatio: csharpCoverage.discoveredMethods ? csharpCoverage.completeMethods / csharpCoverage.discoveredMethods : null } },
     summary,
     warnings,
     surface: routes,
