@@ -6,6 +6,7 @@
   "source": "https://samate.nist.gov/SARD/test-suites/110",
   "measuredAt": "2026-10-21T02:46:17.998Z",
   "engineCommit": "1a8affc8bf04e53adbbf0c0bd7c1d65ece209906",
+  "engineSourceSha256": "e580d7e24dfb39baba5e8b7f968a92ec01b725189d944eafb8d3305c671657ee",
   "scorer": "kayfabe-dotnet-juliet-units@1",
   "archiveSha256": "2e6dbac4741fb020a0b1c2db69e98aed165987df2bd70bd51f7c8c5302c8e8f8",
   "inputManifestSha256": "5489075e42d7854c204ce437423e0b34f056700e3d078b79644115aa6d500414",

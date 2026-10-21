@@ -24,10 +24,24 @@ seen third-party test code; the observed set is now development data. See the
 [baseline report](benchmarks/dotnet-juliet-phase2-baseline.json).
 
 The initial bounded parser pass recorded 100% file/method completeness on this
-Juliet input and a 1.39× scan-time ratio; these numbers do not establish full
+Juliet input and a 1.35× scan-time ratio; these numbers do not establish full
 C# grammar coverage. The scan continues to run the existing regex rules on all
 files. The project/cross-file recall gate fails, and the independent and
 real-repository gates remain not measured. See the [parser phase report](benchmarks/dotnet-parser-phase-report.json).
+
+The versioned summary and authorization modules are analysis foundations,
+not default finding sources. The summary index refuses ambiguous name/arity
+calls and records unresolved cases. The route prototype currently handles
+visible MVC attributes and simple minimal API groups; Razor Pages, hubs,
+global filters, fallback policy, and object-level authorization are not yet
+modeled. It does not emit authorization findings. Neither module has been
+evaluated on the missing adjudicated repository sample.
+
+Stored-data checks are available only with `--dotnet-stored-data`. They cover
+same-file `File.ReadAll*` values reaching `Html.Raw` or raw SQL APIs, use low
+confidence, and have self-authored vulnerable/safe pairs. They do not yet
+follow data across methods, files, or database reads. Do not interpret them as
+stored-data coverage or as evaluated precision.
 
 This pass reviews all 11 previously missed labels in the supplied `dotnet-hr`
 app. It adds five narrow detections and five vulnerable/safe regression pairs.

@@ -1,6 +1,10 @@
 'use strict';
-const { requestReturns, passwordMd5, unsignedJwt, obsoleteTls } = require('../csharp-checks');
+const { requestReturns, passwordMd5, unsignedJwt, obsoleteTls, storedDataFindings } = require('../csharp-checks');
 module.exports = [
+  { id: 'CS-STORED-XSS-001', title: 'Stored data rendered as trusted HTML', owasp: 'A05', cwe: [79], severity: 'medium', confidence: 'low', languages: ['csharp'], checkCode: ctx => storedDataFindings(ctx).filter(hit => hit.ruleId === 'CS-STORED-XSS-001'),
+    message: 'A same-file file-read value reaches Html.Raw without a recognized HTML encoder; enable the stored-data option and review data provenance.', fix: 'Encode for HTML at the output context or use a framework template that encodes by default.', refs: ['https://learn.microsoft.com/en-us/aspnet/core/security/cross-site-scripting'] },
+  { id: 'CS-SECONDARY-SQL-001', title: 'Stored data used to construct raw SQL', owasp: 'A05', cwe: [89], severity: 'high', confidence: 'low', languages: ['csharp'], checkCode: ctx => storedDataFindings(ctx).filter(hit => hit.ruleId === 'CS-SECONDARY-SQL-001'),
+    message: 'A same-file file-read value reaches a raw SQL API; confirm the stored value is attacker-controlled.', fix: 'Use parameterized SQL or an interpolated API that binds values as parameters.', refs: ['https://learn.microsoft.com/en-us/ef/core/querying/sql-queries'] },
   {
     id: 'CS-TLS-002', title: 'Obsolete SSL/TLS protocol explicitly selected',
     owasp: 'A04', cwe: [327, 326], severity: 'medium', confidence: 'medium', languages: ['csharp'],

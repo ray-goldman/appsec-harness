@@ -70,7 +70,7 @@ function sinksOf(rule) {
   return [];
 }
 
-function applyCodeRules(file, lang, raw, codeLines, taint, javaProject, scriptProject) {
+function applyCodeRules(file, lang, raw, codeLines, taint, javaProject, scriptProject, options = {}) {
   const out = [];
   const rawLines = raw.split(/\r?\n/);
   const code = codeLines.join('\n');
@@ -92,7 +92,7 @@ function applyCodeRules(file, lang, raw, codeLines, taint, javaProject, scriptPr
     const contextualJavaOutput = lang === 'java' && rule.id === 'JAVA-XSS-001';
     const ruleTaint = contextualJavaOutput ? javaStrictTaint : javaNonHtmlTaint || taint;
     if (rule.checkCode) {
-      for (const hit of rule.checkCode({ file, lang, raw, code, codeLines, maskedLines, taint })) {
+      for (const hit of rule.checkCode({ file, lang, raw, code, codeLines, maskedLines, taint, options })) {
         out.push({ ...hit, ruleId: rule.id, file, source: 'sast' });
       }
       continue;
@@ -266,7 +266,7 @@ async function scan(root, opts = {}) {
     raw.push(...applyConfigRules(f.rel, lang, text, rawLines, codeLines));
     if (lang && !isLock && !vendored) {
       const taint = analyzeTaint(codeLines, lang);
-      raw.push(...applyCodeRules(f.rel, lang, text, codeLines, taint, javaProject, scriptProject));
+      raw.push(...applyCodeRules(f.rel, lang, text, codeLines, taint, javaProject, scriptProject, opts));
       const r = extractRoutes(f.rel, lang, codeLines, text);
       routes.push(...r);
       if (['javascript', 'typescript', 'python', 'php', 'java', 'kotlin', 'go', 'ruby', 'csharp'].includes(lang)) projFiles.push({ rel: f.rel, code, lang });
@@ -322,7 +322,8 @@ async function scan(root, opts = {}) {
   // dedupe: same file+line+primary CWE → keep strongest
   const best = new Map();
   for (const f of findings) {
-    const k = `${f.file}:${f.line}:${f.cwe[0]}:${f.source === 'supply' || f.source === 'osv' ? f.detail + (f.cves || []).join() : ''}`;
+    const separateStoredFlow = ['CS-STORED-XSS-001', 'CS-SECONDARY-SQL-001'].includes(f.ruleId) ? `:${f.ruleId}` : '';
+    const k = `${f.file}:${f.line}:${f.cwe[0]}:${f.source === 'supply' || f.source === 'osv' ? f.detail + (f.cves || []).join() : ''}${separateStoredFlow}`;
     const prev = best.get(k);
     if (!prev || sevRank(f.severity) * 10 + confRank(f.confidence) > sevRank(prev.severity) * 10 + confRank(prev.confidence)) best.set(k, f);
   }
@@ -376,7 +377,7 @@ async function scan(root, opts = {}) {
     target: { root, name: opts.name || path.basename(root), ...(opts.targetMeta || {}) },
     scannedAt: new Date().toISOString(),
     durationMs: Date.now() - started,
-    options: { includeTests: !!opts.includeTests, minConfidence: opts.minConfidence || 'low', trustSuppressions: !!opts.trustSuppressions, osv: !!opts.osv },
+    options: { includeTests: !!opts.includeTests, minConfidence: opts.minConfidence || 'low', trustSuppressions: !!opts.trustSuppressions, osv: !!opts.osv, dotnetStoredData: !!opts.dotnetStoredData },
     stats: { files: files.length, languages: langCount, skipped: { large: skipped.large, binary: skipped.binaryExt, vendoredDirs: skipped.dirs, symlinks: skipped.symlinks.length }, truncated, dependencies: supply.inventory.length, routes: routes.length,
       csharpParser: { ...csharpCoverage, fileRatio: csharpCoverage.eligibleFiles ? csharpCoverage.completeFiles / csharpCoverage.eligibleFiles : null,
         methodRatio: csharpCoverage.discoveredMethods ? csharpCoverage.completeMethods / csharpCoverage.discoveredMethods : null } },

@@ -161,3 +161,38 @@ remaining catalog CVEs have not yet been curated into this corpus.
    improvement generalizes.
 
 This PR adds measurement and evidence. It does not close these detection gaps.
+
+## .NET coverage limits
+
+Juliet C# 1.3 is a seen third-party synthetic corpus. The frozen cross-file
+baseline is in [the .NET coverage report](DOTNET-COVERAGE.md), with the complete
+unit, label and input hashes in the [Phase 2 artifact](benchmarks/dotnet-juliet-phase2-baseline.json).
+Its weak overall score and the CWE-78/CWE-89 safe-twin false positives show that
+the current regex analysis does not yet generalize to these testcase idioms.
+The preliminary C# parser metrics are not a grammar-completeness claim; regex
+checks remain active for all parser-complete and fallback files.
+
+The following behaviors are deliberate non-detections until context can be
+modeled with paired safe examples:
+
+- **CWE-209, sensitive error detail:** an exception message or stack trace is
+  not enough to establish exposure. A finding needs a response/log boundary and
+  evidence that sensitive data can reach an externally observable channel.
+- **`new Random()`:** a PRNG is not automatically a cryptographic weakness.
+  Detection needs evidence that its output is used for tokens, keys, reset
+  links, or another security-sensitive value; general simulation and sampling
+  uses should not be reported as crypto failures. Microsoft directs callers
+  that need cryptographic randomness to `RandomNumberGenerator` ([System.Random
+  guidance](https://learn.microsoft.com/en-us/dotnet/fundamentals/runtime-libraries/system-random)).
+- **Plain HTTP / CWE-319:** a URL string alone does not show that sensitive
+  traffic traverses an untrusted network. Deployment termination, internal
+  transport, and upgrade behavior matter. Configuration checks should be
+  narrowly scoped and report that missing context. ASP.NET Core guidance also
+  recognizes proxy-side TLS termination ([enforce HTTPS](https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl)).
+- **CWE-506, malicious code:** suspicious behavior cannot establish malicious
+  intent or package provenance by itself. Keep this in verified package or
+  source-provenance data; do not label ordinary code patterns as backdoors.
+
+These exclusions are not passed accuracy gates. The project still lacks an
+independently authored .NET holdout and a two-adjudicator public-repository
+sample, so those precision and recall gates remain not measured.

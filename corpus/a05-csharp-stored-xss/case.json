@@ -1,0 +1,8 @@
+{
+  "id": "a05-csharp-stored-xss",
+  "owasp": "A05",
+  "cwe": [79],
+  "description": "Opt-in same-file stored HTML content reaches an explicitly trusted HTML sink.",
+  "expect": ["CS-STORED-XSS-001"],
+  "options": { "dotnetStoredData": true }
+}
