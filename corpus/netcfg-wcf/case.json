@@ -1,0 +1,11 @@
+{
+  "id": "netcfg-wcf",
+  "owasp": "A02",
+  "cwe": [
+    319
+  ],
+  "description": "netcfg wcf",
+  "expect": [
+    "NETCFG-WCF-001"
+  ]
+}

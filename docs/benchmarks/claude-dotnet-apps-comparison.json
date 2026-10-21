@@ -1,0 +1,369 @@
+{
+  "schema": "kayfabe/dotnet-proposal-apps-comparison@1",
+  "archiveSha256": "389c0a4433748bfd9078c9c06f75ebd645351a45ef82af5834815a15abec51ee",
+  "proposalCommit": "854097a84c944d7deb22991797ba7c1142928890",
+  "proposalBase": "12ea56f8c7c9ddba5caba4b663521e2f2fef8c3b",
+  "baselineCommit": "3e0b67fe21d606e9b11f014eb6d660b6cffa0848",
+  "baselineVerification": {
+    "gitCommit": "3e0b67fe21d606e9b11f014eb6d660b6cffa0848",
+    "sourceSha256": "3f64530eeebf7085f0e4bc967ebdac79528933579d7d9ac4c1a5b25cafae69ee",
+    "normalizedSourceSha256": "584583cfc3af7d0cebb65297314eb901850832d8aa670435b6bb10b3aacdc981",
+    "sourceFiles": 54,
+    "verification": "Every source file checked against the pinned Git blob after LF normalization; original byte hash reproduced using LF/CRLF variants; identical scorer rerun."
+  },
+  "policy": {
+    "labels": "User-supplied, unadjudicated; not independent accuracy evidence",
+    "matching": "Exact file+CWE; finding at first line after marker or next two lines; nearest marker; one label per finding",
+    "manifestLabels": "Unscored: package/CVE identity requires a separate adapter",
+    "unmatched": "Unmatched findings are not assumed to be false positives"
+  },
+  "limitations": "Author-written apps and rules from the same proposal; no independent held-out claim. Manifest labels remain unscored. Unmatched findings are unclassified.",
+  "before": {
+    "measuredAt": "2026-10-21T00:31:53.515Z",
+    "sourceSha256": "3f64530eeebf7085f0e4bc967ebdac79528933579d7d9ac4c1a5b25cafae69ee",
+    "inputSha256": "e5b514512a82a4ce023d7eff8d07876a33ec6a896e0ed420c309183863aa4289",
+    "evaluatorSha256": "1670468b1459bc91f20eb5b12d104537ed16328017512df619fa5c0cac07a9f8",
+    "totals": {
+      "cases": 230,
+      "tp": 23,
+      "fp": 1,
+      "tn": 90,
+      "fn": 116
+    },
+    "apps": [
+      {
+        "app": "heldout-orders-api",
+        "totals": {
+          "cases": 31,
+          "tp": 3,
+          "fp": 0,
+          "tn": 12,
+          "fn": 16
+        },
+        "findings": 5,
+        "unscoredManifestLabels": 3,
+        "unmatchedFindings": 2
+      },
+      {
+        "app": "heldout-supplychain",
+        "totals": {
+          "cases": 11,
+          "tp": 3,
+          "fp": 0,
+          "tn": 2,
+          "fn": 6
+        },
+        "findings": 5,
+        "unscoredManifestLabels": 18,
+        "unmatchedFindings": 2
+      },
+      {
+        "app": "heldout-wcf-asmx",
+        "totals": {
+          "cases": 29,
+          "tp": 5,
+          "fp": 0,
+          "tn": 8,
+          "fn": 16
+        },
+        "findings": 5,
+        "unscoredManifestLabels": 0,
+        "unmatchedFindings": 0
+      },
+      {
+        "app": "minimal-api",
+        "totals": {
+          "cases": 27,
+          "tp": 2,
+          "fp": 0,
+          "tn": 13,
+          "fn": 12
+        },
+        "findings": 3,
+        "unscoredManifestLabels": 0,
+        "unmatchedFindings": 1
+      },
+      {
+        "app": "mvc-shop",
+        "totals": {
+          "cases": 35,
+          "tp": 4,
+          "fp": 1,
+          "tn": 16,
+          "fn": 14
+        },
+        "findings": 5,
+        "unscoredManifestLabels": 2,
+        "unmatchedFindings": 0
+      },
+      {
+        "app": "razor-blazor",
+        "totals": {
+          "cases": 24,
+          "tp": 2,
+          "fp": 0,
+          "tn": 10,
+          "fn": 12
+        },
+        "findings": 2,
+        "unscoredManifestLabels": 0,
+        "unmatchedFindings": 0
+      },
+      {
+        "app": "webforms-legacy",
+        "totals": {
+          "cases": 37,
+          "tp": 3,
+          "fp": 0,
+          "tn": 17,
+          "fn": 17
+        },
+        "findings": 3,
+        "unscoredManifestLabels": 0,
+        "unmatchedFindings": 0
+      },
+      {
+        "app": "worker-cli",
+        "totals": {
+          "cases": 36,
+          "tp": 1,
+          "fp": 0,
+          "tn": 12,
+          "fn": 23
+        },
+        "findings": 1,
+        "unscoredManifestLabels": 0,
+        "unmatchedFindings": 0
+      }
+    ]
+  },
+  "after": {
+    "measuredAt": "2026-10-21T00:39:20.619Z",
+    "sourceSha256": "08eaa10d4fc7ebe403f514b7d5f87e0cd36158c3b02a869f72ccc8a80e5111d0",
+    "inputSha256": "e5b514512a82a4ce023d7eff8d07876a33ec6a896e0ed420c309183863aa4289",
+    "evaluatorSha256": "1670468b1459bc91f20eb5b12d104537ed16328017512df619fa5c0cac07a9f8",
+    "totals": {
+      "cases": 230,
+      "tp": 32,
+      "fp": 1,
+      "tn": 90,
+      "fn": 107
+    },
+    "apps": [
+      {
+        "app": "heldout-orders-api",
+        "totals": {
+          "cases": 31,
+          "tp": 3,
+          "fp": 0,
+          "tn": 12,
+          "fn": 16
+        },
+        "findings": 5,
+        "unscoredManifestLabels": 3,
+        "unmatchedFindings": 2
+      },
+      {
+        "app": "heldout-supplychain",
+        "totals": {
+          "cases": 11,
+          "tp": 3,
+          "fp": 0,
+          "tn": 2,
+          "fn": 6
+        },
+        "findings": 5,
+        "unscoredManifestLabels": 18,
+        "unmatchedFindings": 2
+      },
+      {
+        "app": "heldout-wcf-asmx",
+        "totals": {
+          "cases": 29,
+          "tp": 8,
+          "fp": 0,
+          "tn": 8,
+          "fn": 13
+        },
+        "findings": 9,
+        "unscoredManifestLabels": 0,
+        "unmatchedFindings": 1
+      },
+      {
+        "app": "minimal-api",
+        "totals": {
+          "cases": 27,
+          "tp": 2,
+          "fp": 0,
+          "tn": 13,
+          "fn": 12
+        },
+        "findings": 3,
+        "unscoredManifestLabels": 0,
+        "unmatchedFindings": 1
+      },
+      {
+        "app": "mvc-shop",
+        "totals": {
+          "cases": 35,
+          "tp": 4,
+          "fp": 1,
+          "tn": 16,
+          "fn": 14
+        },
+        "findings": 5,
+        "unscoredManifestLabels": 2,
+        "unmatchedFindings": 0
+      },
+      {
+        "app": "razor-blazor",
+        "totals": {
+          "cases": 24,
+          "tp": 2,
+          "fp": 0,
+          "tn": 10,
+          "fn": 12
+        },
+        "findings": 2,
+        "unscoredManifestLabels": 0,
+        "unmatchedFindings": 0
+      },
+      {
+        "app": "webforms-legacy",
+        "totals": {
+          "cases": 37,
+          "tp": 8,
+          "fp": 0,
+          "tn": 17,
+          "fn": 12
+        },
+        "findings": 8,
+        "unscoredManifestLabels": 0,
+        "unmatchedFindings": 0
+      },
+      {
+        "app": "worker-cli",
+        "totals": {
+          "cases": 36,
+          "tp": 2,
+          "fp": 0,
+          "tn": 12,
+          "fn": 22
+        },
+        "findings": 2,
+        "unscoredManifestLabels": 0,
+        "unmatchedFindings": 0
+      }
+    ]
+  },
+  "comparison": {
+    "transitions": {
+      "fn->fn": 107,
+      "tn->tn": 90,
+      "tp->tp": 23,
+      "fn->tp": 9,
+      "fp->fp": 1
+    },
+    "changes": [
+      {
+        "app": "heldout-wcf-asmx",
+        "id": "Web.config:12:wcf-include-exception-details",
+        "transition": "fn->tp",
+        "matches": [
+          {
+            "line": 13,
+            "ruleId": "NETCFG-ERR-001"
+          }
+        ]
+      },
+      {
+        "app": "heldout-wcf-asmx",
+        "id": "Web.config:33:wcf-binding-security-none",
+        "transition": "fn->tp",
+        "matches": [
+          {
+            "line": 34,
+            "ruleId": "NETCFG-WCF-001"
+          }
+        ]
+      },
+      {
+        "app": "heldout-wcf-asmx",
+        "id": "Web.config:46:wcf-compilation-debug",
+        "transition": "fn->tp",
+        "matches": [
+          {
+            "line": 47,
+            "ruleId": "NETCFG-DEBUG-001"
+          }
+        ]
+      },
+      {
+        "app": "webforms-legacy",
+        "id": "Web.config:8:webforms-compilation-debug-true",
+        "transition": "fn->tp",
+        "matches": [
+          {
+            "line": 9,
+            "ruleId": "NETCFG-DEBUG-001"
+          }
+        ]
+      },
+      {
+        "app": "webforms-legacy",
+        "id": "Web.config:10:webforms-customerrors-off",
+        "transition": "fn->tp",
+        "matches": [
+          {
+            "line": 11,
+            "ruleId": "NETCFG-ERR-001"
+          }
+        ]
+      },
+      {
+        "app": "webforms-legacy",
+        "id": "Web.config:12:webforms-cookies-httponly-false",
+        "transition": "fn->tp",
+        "matches": [
+          {
+            "line": 13,
+            "ruleId": "NETCFG-COOKIE-001"
+          }
+        ]
+      },
+      {
+        "app": "webforms-legacy",
+        "id": "Web.config:16:webforms-trace-enabled",
+        "transition": "fn->tp",
+        "matches": [
+          {
+            "line": 17,
+            "ruleId": "NETCFG-DEBUG-001"
+          }
+        ]
+      },
+      {
+        "app": "webforms-legacy",
+        "id": "Web.config:21:webforms-forms-auth-no-requiressl",
+        "transition": "fn->tp",
+        "matches": [
+          {
+            "line": 22,
+            "ruleId": "NETCFG-FORMS-001"
+          }
+        ]
+      },
+      {
+        "app": "worker-cli",
+        "id": "Crypto.cs:102:worker-weak-tls-protocols",
+        "transition": "fn->tp",
+        "matches": [
+          {
+            "line": 103,
+            "ruleId": "CS-TLS-002"
+          }
+        ]
+      }
+    ]
+  }
+}

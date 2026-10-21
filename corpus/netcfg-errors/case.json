@@ -1,0 +1,11 @@
+{
+  "id": "netcfg-errors",
+  "owasp": "A10",
+  "cwe": [
+    209
+  ],
+  "description": "netcfg errors",
+  "expect": [
+    "NETCFG-ERR-001"
+  ]
+}

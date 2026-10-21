@@ -1,0 +1,11 @@
+{
+  "id": "netcfg-debug",
+  "owasp": "A02",
+  "cwe": [
+    489
+  ],
+  "description": "netcfg debug",
+  "expect": [
+    "NETCFG-DEBUG-001"
+  ]
+}

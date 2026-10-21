@@ -1,6 +1,14 @@
 'use strict';
-const { requestReturns, passwordMd5, unsignedJwt } = require('../csharp-checks');
+const { requestReturns, passwordMd5, unsignedJwt, obsoleteTls } = require('../csharp-checks');
 module.exports = [
+  {
+    id: 'CS-TLS-002', title: 'Obsolete SSL/TLS protocol explicitly selected',
+    owasp: 'A04', cwe: [327, 326], severity: 'medium', confidence: 'medium', languages: ['csharp'],
+    checkCode: obsoleteTls,
+    message: 'ServicePointManager.SecurityProtocol explicitly selects SSL 3.0, TLS 1.0 or TLS 1.1. Verify the target framework and effective network stack.',
+    fix: 'Use the OS security defaults on supported frameworks, or enable only supported modern TLS versions.',
+    refs: ['https://learn.microsoft.com/en-us/dotnet/framework/network-programming/tls'],
+  },
   {
     id: 'CS-CMDI-002', title: 'Request parameter concatenated into a shell command in a controller action',
     owasp: 'A05', cwe: [78], severity: 'high', confidence: 'medium', languages: ['csharp'],

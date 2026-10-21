@@ -1,5 +1,11 @@
 # Planned improvements
 
+Latest .NET work: [review of the supplied detection proposal](DOTNET-PROPOSAL-REVIEW.md).
+Six configuration/TLS checks add nine detections on its author-written apps,
+with no new labeled false positives. Next steps are method-local framework
+sources, context-specific sanitizers and a NuGet adapter backed by verified
+advisory ranges. Razor suppression remains deferred after a review counterexample.
+
 The existing corpus was written alongside the rules. Its precision and recall describe regression coverage, not independent detection accuracy. Keep that suite, and measure detection on external labels before expanding the engine.
 
 ## 1. Independent accuracy measurements — in progress

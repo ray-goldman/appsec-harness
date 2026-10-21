@@ -1,0 +1,11 @@
+{
+  "id": "csharp-obsolete-tls",
+  "owasp": "A04",
+  "cwe": [
+    327
+  ],
+  "description": "csharp obsolete tls",
+  "expect": [
+    "CS-TLS-002"
+  ]
+}

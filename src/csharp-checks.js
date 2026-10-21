@@ -103,4 +103,15 @@ function unsignedJwt({ code }) {
   }
   return out;
 }
-module.exports = { requestReturns, passwordMd5, unsignedJwt };
+function obsoleteTls({ code }) {
+  const mask = context(code);
+  if (!mask || !/\busing\s+System\.Net\s*;/.test(mask) ||
+      /\b(?:class|struct|record|enum)\s+(?:ServicePointManager|SecurityProtocolType)\b/.test(mask) ||
+      /\b[\w<>[\].?,]+\s+(?:ServicePointManager|SecurityProtocolType)\b/.test(mask)) return [];
+  const out = [];
+  for (const m of mask.matchAll(/(?<![\w.])ServicePointManager\.SecurityProtocol\s*(?:=|\|=)\s*((?:SecurityProtocolType\.\w+\s*(?:\|\s*)?){1,16});/g)) {
+    if (/\bSecurityProtocolType\.(?:Ssl3|Tls|Tls11)\b/.test(m[1])) out.push(hit(code, m.index));
+  }
+  return out;
+}
+module.exports = { requestReturns, passwordMd5, unsignedJwt, obsoleteTls };

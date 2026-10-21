@@ -176,6 +176,12 @@ flagged. It adds a literal legacy ASP.NET machine-key exposure check informed by
 recent attack reporting, and hardens snippets, report metadata and triage context
 against detected-secret disclosure. Overall supplied FPs remain **11**.
 
+The [supplied .NET proposal review](docs/DOTNET-PROPOSAL-REVIEW.md) adds six
+configuration/TLS checks. On its eight author-written apps, detections increase
+from **23/139 to 32/139**, with labeled false positives unchanged at **1/91**.
+The review documents the broader changes deferred for precision or redaction
+work; these apps do not establish independent detection accuracy.
+
 General taint tracking remains intra-file; Java's bounded helper proofs do not provide a whole-program call graph. Other cross-file flows may appear as lower-confidence pattern findings or in the attack-surface map for a reviewer to follow. This is a fast static first pass, not a replacement for whole-program tools such as CodeQL or Semgrep Pro, or for dynamic application testing.
 
 See [the prioritized roadmap](docs/ROADMAP.md) for independent datasets, parsing, supply-chain data, triage evaluation, and PR integration.

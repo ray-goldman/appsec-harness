@@ -1,0 +1,12 @@
+{
+  "id": "netcfg-cookies",
+  "owasp": "A02",
+  "cwe": [
+    1004,
+    614
+  ],
+  "description": "netcfg cookies",
+  "expect": [
+    "NETCFG-COOKIE-001"
+  ]
+}
