@@ -1,0 +1,100 @@
+{
+  "schema": "kayfabe-dotnet-datasets@1",
+  "datasets": [
+    {
+      "id": "own-dotnet-apps",
+      "name": "Kayfabe .NET proposal and supplied applications",
+      "tier": "self-authored-regression",
+      "status": "development",
+      "independent": false,
+      "source": "Maintainer-authored applications and labels; includes files previously listed in HELD-OUT.sha256.",
+      "revision": null,
+      "seenChanges": [".NET detection rules", "CWE-329 scoping analysis"],
+      "retiredAsHoldout": true,
+      "manifestPath": null,
+      "labelPolicy": "Self-authored regression only; prior held-out scores are not blind or independent."
+    },
+    {
+      "id": "juliet-csharp-dev",
+      "name": "Juliet C# 1.3 development half",
+      "tier": "third-party-real-code",
+      "status": "seen-development",
+      "independent": false,
+      "source": "NIST Juliet Test Suite for C/C++/Java/C#; C# 1.3 subset.",
+      "revision": null,
+      "seenChanges": ["C# rules and CWE-329 scoping analysis"],
+      "retiredAsHoldout": false,
+      "manifestPath": null,
+      "labelPolicy": "Third-party benchmark; development use, never an independently authored app set."
+    },
+    {
+      "id": "juliet-csharp-held",
+      "name": "Juliet C# 1.3 held half",
+      "tier": "third-party-real-code",
+      "status": "seen-development",
+      "independent": false,
+      "source": "NIST Juliet Test Suite for C/C++/Java/C#; C# 1.3 subset.",
+      "revision": null,
+      "seenChanges": ["CWE-329 scoping fix"],
+      "retiredAsHoldout": true,
+      "manifestPath": null,
+      "labelPolicy": "Seen and spent; use for development only after the CWE-329 fix."
+    },
+    {
+      "id": "eshop",
+      "name": "dotnet/eShop",
+      "tier": "third-party-real-code",
+      "status": "seen",
+      "independent": false,
+      "source": "Public ASP.NET sample application.",
+      "revision": null,
+      "seenChanges": [".NET rule changes"],
+      "retiredAsHoldout": false,
+      "eligibleForPublicRepositorySample": false,
+      "manifestPath": null,
+      "labelPolicy": "Seen third-party code; excluded from the public-repository sample."
+    },
+    {
+      "id": "webgoat-dotnet",
+      "name": "OWASP/WebGoat.NET",
+      "tier": "third-party-real-code",
+      "status": "seen",
+      "independent": false,
+      "source": "OWASP WebGoat.NET vulnerable training application.",
+      "revision": null,
+      "seenChanges": [".NET rule changes"],
+      "retiredAsHoldout": false,
+      "eligibleForPublicRepositorySample": false,
+      "adjudication": "not-started",
+      "manifestPath": null,
+      "labelPolicy": "Seen third-party code; adjudicate current findings before using scores; excluded from the public-repository sample."
+    },
+    {
+      "id": "independent-dotnet-apps",
+      "name": "Independently authored ASP.NET holdout",
+      "tier": "independently-authored",
+      "status": "not-measured",
+      "independent": null,
+      "source": null,
+      "revision": null,
+      "seenChanges": [],
+      "retiredAsHoldout": false,
+      "manifestPath": null,
+      "labelPolicy": "Requires an isolated author and custodian; do not substitute maintainer-authored apps."
+    },
+    {
+      "id": "public-dotnet-repositories",
+      "name": "Sampled public .NET repositories",
+      "tier": "third-party-real-code",
+      "status": "not-measured",
+      "independent": false,
+      "source": null,
+      "revision": null,
+      "seenChanges": [],
+      "retiredAsHoldout": false,
+      "excludedDatasetIds": ["eshop", "webgoat-dotnet"],
+      "manifestPath": null,
+      "labelPolicy": "Requires a frozen eligible repository list, revisions, stratified findings, and two adjudicators per finding."
+    }
+  ]
+}

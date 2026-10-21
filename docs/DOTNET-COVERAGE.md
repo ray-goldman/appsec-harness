@@ -1,5 +1,20 @@
 # .NET coverage: reviewed labels and bounded detection
 
+## Dataset independence and status
+
+Evaluation tiers are defined in the [dataset policy](benchmarks/dotnet-evaluation-policy.md)
+and tracked in the [dataset registry](benchmarks/dotnet-datasets.json). Own .NET
+apps, including prior `HELD-OUT.sha256` entries, are **self-authored regression**
+data; their earlier held-out numbers are not blind or independent. Juliet C# 1.3
+is **third-party real code, seen**. The held half is retired as a holdout because
+it informed the CWE-329 scoping fix. dotnet/eShop and OWASP/WebGoat.NET are also
+seen third-party data and are excluded from the public-repository sample.
+
+No independently authored ASP.NET set or adjudicated public-repository sample
+is currently available, so those gates are **not measured**. Do not treat the
+existing app results as satisfying either gate. The older tables below preserve
+historical counts and must be read with these tier labels.
+
 This pass reviews all 11 previously missed labels in the supplied `dotnet-hr`
 app. It adds five narrow detections and five vulnerable/safe regression pairs.
 The supplied files, labels and scoring policy are unchanged. A benchmark label
