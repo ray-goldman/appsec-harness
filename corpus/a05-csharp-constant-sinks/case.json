@@ -1,0 +1,7 @@
+{
+  "id": "a05-csharp-constant-sinks",
+  "owasp": "A05",
+  "cwe": [78, 89],
+  "description": "Dynamic SQL and command arguments remain findings while the corresponding literal-only forms are safe.",
+  "expect": ["CS-SQLI-001", "CS-CMDI-001"]
+}

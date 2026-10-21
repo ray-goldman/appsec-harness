@@ -12,6 +12,7 @@ const { CATEGORIES } = require('./owasp');
 const { sha256, sevRank, confRank, isProbablyBinary, isTestPath, truncate } = require('./util');
 const pkg = require('../package.json');
 const { constantSinkFilter } = require('./java-constants');
+const { isConstantCSharpSink } = require('./csharp-constant-sinks');
 const { buildJavaProjectIndex } = require('./java-project');
 const { javaOutputFilter } = require('./java-sanitizers');
 const { buildScriptProject, scriptSinkFilter } = require('./script-helpers');
@@ -151,6 +152,8 @@ function applyCodeRules(file, lang, raw, codeLines, taint, javaProject, scriptPr
         }
       }
       if (hit) {
+        if (lang === 'csharp' && ['CS-SQLI-001', 'CS-CMDI-001'].includes(rule.id) &&
+            isConstantCSharpSink({ code, line: i, ruleId: rule.id })) continue;
         if (pathProof && pathProof(rule.id, i)) continue;
         if (scriptProof && scriptProof(rule.id, i, W)) continue;
         if (contextualJavaOutput && javaOutput(i, W)) continue;

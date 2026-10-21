@@ -1,10 +1,13 @@
 # Planned improvements
 
-Latest .NET work: [review of the supplied detection proposal](DOTNET-PROPOSAL-REVIEW.md).
-Six configuration/TLS checks add nine detections on its author-written apps,
-with no new labeled false positives. Next steps are method-local framework
-sources, context-specific sanitizers and a NuGet adapter backed by verified
-advisory ranges. Razor suppression remains deferred after a review counterexample.
+Latest .NET false-positive work: [method-local constant SQL and command
+proofs](DOTNET-CONSTANT-SINKS.md) remove 476 Juliet C# safe-labeled units with
+no lost true-positive units. Juliet is seen synthetic data, not an independent
+application estimate. The [supplied detection proposal review](DOTNET-PROPOSAL-REVIEW.md)
+still records six configuration/TLS checks and nine detections on its
+author-written apps. Next steps are method-local framework sources,
+context-specific sanitizers and a NuGet adapter backed by verified advisory
+ranges. Razor suppression remains deferred after a review counterexample.
 
 The existing corpus was written alongside the rules. Its precision and recall describe regression coverage, not independent detection accuracy. Keep that suite, and measure detection on external labels before expanding the engine.
 
