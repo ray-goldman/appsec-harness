@@ -1,34 +1,72 @@
 'use strict';
 const { createMethodSummary } = require('./summary-schema');
+const { tokenizeCSharp } = require('../parsers/csharp/lexer');
 
-const SINKS = Object.freeze({
-  sql: /\b(?:ExecuteSqlRaw|FromSqlRaw|ExecuteSqlCommand|SqlCommand|ExecuteNonQuery|ExecuteReader)\s*\(([^)]{0,2000})\)/g,
-  command: /\b(?:Process\.Start|ShellExecute)\s*\(([^)]{0,2000})\)/g,
-  xss: /\b(?:Html\.Raw|Response\.Write|WriteAsync)\s*\(([^)]{0,2000})\)/g,
-  path: /\b(?:File\.(?:Read|Write|Delete)|PhysicalFile|FileStream)\s*\(([^)]{0,2000})\)/g,
-  ssrf: /\b(?:HttpClient|WebRequest|GetAsync|PostAsync)\s*\(([^)]{0,2000})\)/g,
-});
-const SANITIZERS = Object.freeze({ xss: /\b(?:HtmlEncode|HtmlEncoder\.Default\.Encode|Encode\.forHtml)\s*\(/,
-  sql: /\b(?:SqlParameter|AddWithValue|FromSqlInterpolated|ExecuteSqlInterpolated)\b/,
-  path: /\b(?:GetFullPath|IsPathRooted|StartsWith)\s*\(/,
-  command: /\b(?:ArgumentList|EscapeArgument)\b/ });
-const SOURCES = Object.freeze({ request: /\bRequest\.(?:Query|Form|Headers|Cookies|QueryString)\b|\[From(?:Query|Body|Route|Form|Header)\]/,
-  environment: /\bEnvironment\.(?:GetEnvironmentVariable|GetCommandLineArgs)\s*\(/,
-  file: /\bFile\.(?:ReadAllText|ReadAllBytes|ReadLines)\s*\(/ });
-
+// Straight-line diagnostic transfer only. Unsupported syntax is explicit;
+// API spelling alone never proves that an argument is sanitized.
 function summarizeMethod(method) {
-  const body = method.body || '', parameters = method.parameters || [];
-  const parameterToReturn = parameters.flatMap((p,i) => new RegExp(`\\breturn\\s+[^;]*\\b${p.name.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&')}\\b`).test(body) ? [i] : []);
-  const parameterToSinks = [];
-  for (const [category, pattern] of Object.entries(SINKS)) {
-    for (const match of body.matchAll(new RegExp(pattern.source, pattern.flags))) parameters.forEach((p,i) => {
-      if (new RegExp(`\\b${p.name.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&')}\\b`).test(match[1])) parameterToSinks.push({ parameter:i, category, sanitized:!!SANITIZERS[category]?.test(match[1]) });
-    });
+  const parameters=method.parameters||[], body=method.body||'';
+  const summary=createMethodSummary({methodId:method.id,parameters});
+  const unresolved=reason=>summary.unresolvedCallSites.push({reason});
+  if (body.length>1024*1024) {unresolved('body-limit');return summary;}
+  const lex=tokenizeCSharp(body), ts=lex.tokens;
+  if(ts.length>2048) {unresolved('token-limit');return summary;}
+  const param=t=>t?.kind==='identifier'?parameters.findIndex(p=>p.name===t.text.replace(/^@/,'')):-1;
+  if (lex.errors.length || ts.some(t=>['if','else','switch','for','foreach','while','do','try','catch','finally','goto','throw','=>','{','}'].includes(t.text))) {
+    unresolved('unsupported-control-flow');return summary;
   }
-  const returns = [...body.matchAll(/\breturn\s+([^;]+);/g)].map(match => match[1]);
-  const sourcesToReturn = Object.entries(SOURCES).filter(([,re]) => returns.some(expression => re.test(expression))).map(([category]) => category);
-  return createMethodSummary({ methodId:method.id, parameters, parameterToReturn, parameterToSinks, sourcesToReturn,
-    sanitizersBySink:Object.fromEntries([...new Set(parameterToSinks.map(x=>x.category))].map(category=>[category,parameterToSinks.filter(x=>x.category===category).every(x=>x.sanitized)])) });
+  if (ts.some((t,i)=>param(t)>=0 && (['=','+=','-=','*=','/=','++','--','??='].includes(ts[i+1]?.text)||['++','--','ref','out'].includes(ts[i-1]?.text)))) {
+    unresolved('parameter-write');return summary;
+  }
+  function matching(tokens,start) {
+    let depth=0;
+    for(let i=start;i<tokens.length;i++) {
+      if(tokens[i].text==='(') depth++;
+      if(tokens[i].text===')' && --depth===0) return i;
+    }
+    return -1;
+  }
+  function terms(tokens) {
+    while(tokens[0]?.text==='(' && matching(tokens,0)===tokens.length-1) tokens=tokens.slice(1,-1);
+    let depth=0,start=0;const parts=[];
+    for(let i=0;i<tokens.length;i++) {
+      if(['(','['].includes(tokens[i].text)) depth++;
+      if([')',']'].includes(tokens[i].text)) depth--;
+      if(tokens[i].text==='+' && depth===0) {parts.push(tokens.slice(start,i));start=i+1;}
+    }
+    if(parts.length) return [...parts,tokens.slice(start)].flatMap(terms);
+    return tokens.length===1 && param(tokens[0])>=0?[param(tokens[0])]:[];
+  }
+  const firstReturn=ts.findIndex(t=>t.text==='return');let end=ts.length;
+  if(firstReturn>=0) {
+    const semi=ts.findIndex((t,i)=>i>firstReturn && t.text===';');end=semi<0?ts.length:semi;
+    const expression=ts.slice(firstReturn+1,end);
+    summary.parameterToReturn=[...new Set(terms(expression))];
+    if(expression[0]?.text==='Request' && expression[1]?.text==='.' && ['Query','Form','Headers','Cookies','QueryString'].includes(expression[2]?.text) && expression[3]?.text==='[' && expression.at(-1)?.text===']') summary.sourcesToReturn.push('request');
+    if(!summary.parameterToReturn.length && !summary.sourcesToReturn.length && expression.some(t=>t.kind==='identifier'&&!['true','false','null'].includes(t.text))) unresolved('unsupported-return-expression');
+  }
+  for(let i=0;i<end;i++) {
+    if(ts[i].text!=='(') continue;
+    let j=i-1;if(ts[j]?.kind!=='identifier') continue;
+    while(j>=2 && ts[j-1].text==='.' && ts[j-2].kind==='identifier') j-=2;
+    const name=ts.slice(j,i).map(t=>t.text).join('');
+    const category=/(?:^|\.)(?:ExecuteSqlRaw|FromSqlRaw|ExecuteSqlCommand|SqlCommand)$/.test(name)?'sql':
+      ['Html.Raw','Response.Write'].includes(name)?'xss':name==='Process.Start'?'command':
+      ['File.ReadAllText','File.ReadAllBytes','File.Delete','File.WriteAllText','PhysicalFile'].includes(name)?'path':null;
+    const close=matching(ts,i);
+    if(close<0) {unresolved('unbalanced-call');continue;}
+    if(!category) {unresolved('unmodeled-call');continue;}
+    let depth=0,argEnd=close;
+    for(let k=i+1;k<close;k++) {
+      if(['(','['].includes(ts[k].text)) depth++;
+      if([')',']'].includes(ts[k].text)) depth--;
+      if(ts[k].text===',' && depth===0) {argEnd=k;break;}
+    }
+    for(const parameter of new Set(terms(ts.slice(i+1,argEnd)))) {
+      summary.parameterToSinks.push({parameter,category,sanitized:false});
+      summary.sanitizersBySink[category]=false;
+    }
+  }
+  return summary;
 }
-
-module.exports = { summarizeMethod, SINKS, SANITIZERS, SOURCES };
+module.exports={summarizeMethod};

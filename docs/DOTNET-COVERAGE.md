@@ -38,6 +38,24 @@ global filters, fallback policy, and object-level authorization are not yet
 modeled. It does not emit authorization findings. Neither module has been
 evaluated on the missing adjudicated repository sample.
 
+With `--dotnet-project-analysis`, the scanner now runs the version 1 summary
+modules together for direct static calls with exact receiver identities and
+parameter or literal arguments. A self-authored three-file controller/service/
+repository test propagates a SQL sink through two helper calls; its constant
+twin does not propagate a parameter flow. Discarded helper results do not create
+return flows. These diagnostics emit **no findings** and establish no improvement
+in benchmark recall or false positives.
+
+The transfer layer tokenizes comments and strings, rejects unsupported control
+flow and parameter writes, and reports unresolved calls. It does not yet model
+local aliases, dependency injection, field flow, source confidence, or call paths.
+Sanitizer spelling alone is no longer accepted as proof of safety. Equal-arity
+overloads, optional parameters, virtual dispatch and ambiguous type declarations
+remain unresolved. Propagation uses synchronous rounds with an iteration limit;
+limits and unresolved cases appear in diagnostics. Method bodies over 2,048 tokens
+are excluded from this transfer layer. The existing parser and evaluation gates
+remain unchanged; the Phase 2 implementation is incomplete.
+
 Stored-data checks are available only with `--dotnet-stored-data`. They cover
 same-file `File.ReadAll*` values reaching `Html.Raw` or raw SQL APIs, use low
 confidence, and have self-authored vulnerable/safe pairs. They do not yet

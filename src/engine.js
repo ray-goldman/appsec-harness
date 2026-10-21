@@ -18,7 +18,7 @@ const { buildScriptProject, scriptSinkFilter } = require('./script-helpers');
 const { pathSinkFilter } = require('./path-proofs');
 const { goFunctionTaint } = require('./go-scopes');
 const { analyzeCSharpFile } = require('./parsers/csharp/coverage');
-const { buildDotnetProjectIndex } = require('./dotnet/project');
+const { analyzeDotnetSummaries } = require('./dotnet/analysis');
 const { buildDotnetRoutes, middlewareOrder } = require('./dotnet/authorization');
 
 const MAX_LINE = 2000;
@@ -380,7 +380,7 @@ async function scan(root, opts = {}) {
   findings.forEach((f, i) => { f.id = `F${String(i + 1).padStart(4, '0')}`; });
 
   const summary = summarize(findings);
-  const dotnetProject = opts.dotnetProjectAnalysis ? buildDotnetProjectIndex(csharpSources) : null;
+  const dotnetProject = opts.dotnetProjectAnalysis ? analyzeDotnetSummaries(csharpSources) : null;
   const dotnetRoutes = opts.dotnetProjectAnalysis ? buildDotnetRoutes(csharpSources) : null;
   const dotnetMiddleware = opts.dotnetProjectAnalysis ? csharpSources.map(x => middlewareOrder(x.source)) : null;
   return {

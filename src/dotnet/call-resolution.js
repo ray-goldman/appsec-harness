@@ -1,14 +1,16 @@
 'use strict';
-
-function resolveCall(call, index) {
-  const unsupported = ['namedArguments','optionalArguments','paramsArguments','extension','delegate','lambda','virtualDispatch','higherOrder'].some(key => call[key]);
-  if (unsupported || !call || typeof call.name !== 'string' || !Number.isInteger(call.arity)) return { targets: [], status: 'unresolved', reason: unsupported ? 'unsupported-call-form' : 'incomplete-call' };
-  let candidates = index.methods.filter(method => method.name === call.name && method.arity === call.arity);
-  if (call.receiverType) candidates = candidates.filter(method => method.typeId === call.receiverType || method.typeId.endsWith(`.${call.receiverType}`));
-  if (Array.isArray(call.argumentTypes)) candidates = candidates.filter(method => method.parameterTypes.every((type, i) => !type || type.replace(/\s+/g,'') === call.argumentTypes[i]));
-  if (candidates.length === 1 && call.receiverType && Array.isArray(call.argumentTypes)) return { targets: [candidates[0].id], status: 'resolved', reason: null };
-  if (candidates.length > 1) return { targets: [], status: 'ambiguous', reason: 'multiple-compatible-targets' };
-  return { targets: [], status: 'unresolved', reason: candidates.length === 1 ? 'insufficient-type-evidence' : 'no-compatible-target' };
+function resolveCall(call,index) {
+  const unresolved=reason=>({targets:[],status:'unresolved',reason});
+  if(!call||typeof call.name!=='string'||!Number.isInteger(call.arity)||call.arity<0) return unresolved('incomplete-call');
+  if(['namedArguments','optionalArguments','paramsArguments','extension','delegate','lambda','virtualDispatch','higherOrder'].some(key=>call[key])) return unresolved('unsupported-call-form');
+  if(typeof call.receiverType!=='string'||!call.receiverType) return unresolved('insufficient-type-evidence');
+  const candidates=index.methodLookup ? (index.methodLookup.get(JSON.stringify([call.receiverType,call.name,call.arity]))||[]) : index.methods.filter(m=>m.name===call.name&&m.arity===call.arity&&m.typeId===call.receiverType);
+  if(candidates.length>1||candidates.some(m=>m.ambiguous)) return {targets:[],status:'ambiguous',reason:'multiple-compatible-targets'};
+  const target=candidates[0];
+  if(!target) return unresolved('no-compatible-target');
+  if(target.unsupported) return unresolved('unsupported-declaration');
+  if(!Array.isArray(call.argumentTypes)||call.argumentTypes.length!==call.arity||call.argumentTypes.some(t=>typeof t!=='string'||!t)) return unresolved('insufficient-type-evidence');
+  if(!target.parameterTypes.every((type,i)=>typeof type==='string'&&type.replace(/\s+/g,'')===call.argumentTypes[i])) return unresolved('no-compatible-target');
+  return {targets:[target.id],status:'resolved',reason:null};
 }
-
-module.exports = { resolveCall };
+module.exports={resolveCall};
