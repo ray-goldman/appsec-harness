@@ -391,4 +391,4 @@ const RULES = [
   },
 ];
 
-module.exports = { RULES };
+module.exports = { RULES: [...RULES, ...require('./dotnet-config')] };

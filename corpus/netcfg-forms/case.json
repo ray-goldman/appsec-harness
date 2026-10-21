@@ -1,0 +1,12 @@
+{
+  "id": "netcfg-forms",
+  "owasp": "A02",
+  "cwe": [
+    614,
+    384
+  ],
+  "description": "netcfg forms",
+  "expect": [
+    "NETCFG-FORMS-001"
+  ]
+}
