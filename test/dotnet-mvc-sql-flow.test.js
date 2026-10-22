@@ -30,7 +30,7 @@ async function findings(t,source,extra={}){
 }
 const hits=rows=>rows.filter(f=>f.ruleId==='CS-SQLI-002');
 test('MVC string parameters flow through local SQL into typed EF raw SQL',async t=>{
- for(const body of [flow,'if (!IsAuthenticated()) return RedirectToAction("Login");\n'+flow,'if (string.IsNullOrEmpty(q)) return RedirectToAction("Index");\n'+flow,flow.replace('string sql =','var term = q;\n string sql =').replace('{q}','{term}'),flow.replace('$"SELECT * FROM Listings WHERE Name LIKE \'%{q}%\'"','"SELECT * FROM Listings WHERE Name = \'" + q + "\'"'),flow.replace('FromSqlRaw(sql)','FromSqlRaw(\n sql\n)')]){
+ for(const body of [flow,'if (!IsAuthenticated()) return RedirectToAction("Login");\n'+flow,'if (string.IsNullOrEmpty(q)) return RedirectToAction("Index");\n'+flow,flow.replace('string sql =','var term = q;\n string sql =').replace('{q}','{term}'),flow.replace('$"SELECT * FROM Listings WHERE Name LIKE \'%{q}%\'"','"SELECT * FROM Listings WHERE Name = \'" + q + "\'"'),flow.replace('FromSqlRaw(sql)','FromSqlRaw(\n sql\n)'),flow.replace('return View(rows);','ViewBag.Query = q; return View(rows);')]){
   const got=hits(await findings(t,controller(action(body))));assert.equal(got.length,1,body);assert.equal(got[0].severity,'high');assert.equal(got[0].confidence,'high');assert.deepEqual(got[0].cwe,[89]);
  }
 });

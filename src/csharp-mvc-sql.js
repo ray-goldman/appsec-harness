@@ -136,10 +136,10 @@ function methodFindings(method, data, fields, file) {
     if (!statement.length) continue;
     const terminal = ['return', 'throw'].includes(statement[0].text);
     const assignments = statement.filter(t => t.text === '=');
-    if (assignments.length > 1) return [];
+    if (assignments.length > 1) return out;
     if (assignments.length) {
       const left = statement.slice(0, statement.indexOf(assignments[0]));
-      if (!(left.length === 1 && name(left[0]) || left.length === 2 && ['string','var','int','bool'].includes(left[0].text) && name(left[1]))) return [];
+      if (!(left.length === 1 && name(left[0]) || left.length === 2 && ['string','var','int','bool'].includes(left[0].text) && name(left[1]))) return out;
     }
     for (let i = 0; i + 6 < statement.length; i++) {
       const root = name(statement[i]), set = name(statement[i + 2]);
