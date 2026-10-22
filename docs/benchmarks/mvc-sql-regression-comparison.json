@@ -1,0 +1,96 @@
+{
+  "schema": "kayfabe/mvc-sql-regressions@1",
+  "tier": "self-authored regression coverage; excluded from benchmark totals",
+  "before": {
+    "commit": "cbecf6d5ba6579783063e5ef298d37301b867c98",
+    "sourceSha256": "d166c151c0a4f2f005db7d52bf16dcb66f94da0643b0a953837d142c075afdcf"
+  },
+  "after": {
+    "sourceCommit": "33a0611f2c9a71769ce74128f8d03e25c4f75ded",
+    "sourceSha256": "895c25f38fbd06e8808cb4627d71d09be87796da2ba2da65e3bec339e2965e6a"
+  },
+  "cases": [
+    {
+      "id": "a05-mvc-sql-local-interpolation",
+      "variants": [
+        {
+          "variant": "vuln",
+          "inputs": [
+            {
+              "file": "Controller.cs",
+              "sha256": "eed33a1c3efaa56c26e6664a26424ae6a497951e5dd2880192dd3af7fc140ce9"
+            },
+            {
+              "file": "Data.cs",
+              "sha256": "f7b7debb96971172c19e9283c2b55227e363c2d169247e378cf1b37f20d5e973"
+            }
+          ],
+          "before": [],
+          "after": [
+            {
+              "ruleId": "CS-SQLI-002",
+              "file": "Controller.cs",
+              "line": 12
+            }
+          ]
+        },
+        {
+          "variant": "fixed",
+          "inputs": [
+            {
+              "file": "Controller.cs",
+              "sha256": "d110e5adc81e961f20bd38f7bfb1b0d555ea5c4663cfeed6a526c49b647130c6"
+            },
+            {
+              "file": "Data.cs",
+              "sha256": "f7b7debb96971172c19e9283c2b55227e363c2d169247e378cf1b37f20d5e973"
+            }
+          ],
+          "before": [],
+          "after": []
+        }
+      ]
+    },
+    {
+      "id": "a05-mvc-sql-local-concatenation",
+      "variants": [
+        {
+          "variant": "vuln",
+          "inputs": [
+            {
+              "file": "Controller.cs",
+              "sha256": "f7460c78b35cffceb3581170b2043ff34fadcac6ec9a8002bee700d10859486e"
+            },
+            {
+              "file": "Data.cs",
+              "sha256": "f7b7debb96971172c19e9283c2b55227e363c2d169247e378cf1b37f20d5e973"
+            }
+          ],
+          "before": [],
+          "after": [
+            {
+              "ruleId": "CS-SQLI-002",
+              "file": "Controller.cs",
+              "line": 12
+            }
+          ]
+        },
+        {
+          "variant": "fixed",
+          "inputs": [
+            {
+              "file": "Controller.cs",
+              "sha256": "d44075b37ceb80feaf2392740c7d2711b9ac31bfa6b3993ae5f8e5c3ac015fd4"
+            },
+            {
+              "file": "Data.cs",
+              "sha256": "f7b7debb96971172c19e9283c2b55227e363c2d169247e378cf1b37f20d5e973"
+            }
+          ],
+          "before": [],
+          "after": []
+        }
+      ]
+    }
+  ]
+}
