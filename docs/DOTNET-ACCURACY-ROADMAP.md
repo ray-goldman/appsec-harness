@@ -1,5 +1,7 @@
 # .NET accuracy roadmap execution
 
+The subsequent [command-proof follow-up](DOTNET-COMMAND-PRECISION.md) records the next investigation, bounded proof changes and remaining type-resolution gaps. Results below belong to the earlier four-step execution.
+
 This work follows the [four-step plan](superpowers/plans/2026-10-21-dotnet-accuracy-next-four-steps.md) and the existing evaluation policy. Benchmark results are development evidence; neither the regression apps nor the observed Juliet cases are an independent holdout.
 
 ## Measurement and classification
