@@ -132,3 +132,111 @@ test('vendored parser bytes match provenance and unsupported input fails closed'
     assert.equal(computedDataOnly(project('const n = 1;')), false);
   } finally { Module._load = original; }
 });
+
+async function domFindings(t, source, name = 'client.js') {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'kayfabe-js-dom-'));
+  t.after(() => {
+    const real = fs.realpathSync(root);
+    assert.equal(path.dirname(real), fs.realpathSync(os.tmpdir()));
+    assert.ok(path.basename(real).startsWith('kayfabe-js-dom-'));
+    fs.rmSync(real, { recursive: true, force: true });
+  });
+  fs.writeFileSync(path.join(root, name), source);
+  return (await scan(root, { includeTests: true })).findings.filter(f => f.ruleId === 'JS-XSS-001');
+}
+
+test('DOM literal proof removes quoted attributes and bounded constant expression noise', async t => {
+  for (const source of [
+    `panel.innerHTML = '<span class="ready">Ready</span>';`,
+    `panel.innerHTML = '<span class="ready">Ready</span>';\r\n`,
+    'panel.outerHTML = `<span class="ready">${ready ? "Ready" : "Waiting"}</span>`;',
+    'panel.innerHTML = `<b>${3 + 4}</b>`;',
+    'panel.innerHTML = `<b>${"ready" || "waiting"}</b>`;',
+    'panel.innerHTML = `<b>${null ?? "waiting"}</b>`;',
+    `panel.insertAdjacentHTML('beforeend', '<span class="ready">Ready</span>');`,
+    `document.write('<span class="ready">Ready</span>');`,
+    `document.writeln('<b class="ready">Ready</b>', '<i class="ready">Now</i>');`,
+    '$("#panel").html(`<b>${ready ? "Ready" : "Waiting"}</b>`);',
+    `panel.innerHTML = '<b class="ready">A</b>'; other.outerHTML = '<b class="ready">B</b>';`,
+  ]) assert.equal((await domFindings(t, source)).length, 0, source);
+});
+
+test('DOM proof retains dynamic twins and every unsafe sink sharing a line', async t => {
+  for (const source of [
+    'panel.innerHTML = `<b>${ready ? location.hash : "Waiting"}</b>`;',
+    'panel.innerHTML = `<b>${location.hash || "waiting"}</b>`;',
+    'panel.innerHTML = `<b>${({toString(){ return location.hash; }})}</b>`;',
+    `panel.innerHTML = '<b class="ready">Ready</b>'; other.innerHTML = location.hash;`,
+    `panel.innerHTML = '<b class="ready">Ready</b>'; document.write(location.hash);`,
+    `panel.innerHTML = '<b class="ready">Ready</b>'; $("#other").append(location.hash);`,
+    `panel.innerHTML = '<b class="ready">Ready</b>'; other.innerHTML =\n location.hash;`,
+    `panel.innerHTML = '<b class="ready">Ready</b>' +\n location.hash;`,
+    `panel.innerHTML += '<b class="ready">Ready</b>';`,
+    `document.write('<b class="ready">Ready</b>', location.hash);`,
+    `const html = '<b class="ready">Ready</b>'; panel.innerHTML = html;`,
+    'panel.innerHTML = commandEscape(location.hash);',
+    'panel.innerHTML = encodeURIComponent(location.hash);',
+    `panel.innerHTML = '<b class="ready">Ready</b>';\ninvalid !!! javascript`,
+  ]) assert.ok((await domFindings(t, source)).length, source);
+});
+
+test('DOM literal proof fails closed for parser limits and unsupported file syntax', async t => {
+  const source = `panel.innerHTML = '<b class="ready">Ready</b>';`;
+  assert.ok((await domFindings(t, source + '\n' + ' '.repeat(200001))).length);
+  assert.ok((await domFindings(t, source + '\n' + '0;'.repeat(25000))).length);
+  assert.ok((await domFindings(t, source + '\n' + '['.repeat(170) + '0' + ']'.repeat(170) + ';')).length);
+  assert.ok((await domFindings(t, source + '\nconst element = <Panel/>;', 'client.jsx')).length);
+  assert.ok((await domFindings(t, source + '\nconst n: number = 1;', 'client.ts')).length);
+  const Module = require('node:module'), original = Module._load;
+  try {
+    Module._load = function (id, ...args) {
+      if (id === './parsers/acorn') throw Error('Parser unavailable');
+      return original.call(this, id, ...args);
+    };
+    assert.ok((await domFindings(t, source)).length);
+  } finally { Module._load = original; }
+});
+
+test('a fixed DOM sink cannot hide computed or unknown member sinks on its line', async t => {
+  for (const later of [
+    `other['innerHTML'] = location.hash;`,
+    `document['write'](location.hash);`,
+    `other['insertAdjacentHTML']('beforeend', location.hash);`,
+    `other[field] = location.hash;`,
+    `other[method](location.hash);`,
+  ]) {
+    const source = `panel.innerHTML = '<b class="ready">Ready</b>'; ` + later;
+    assert.ok((await domFindings(t, source)).length, source);
+  }
+});
+
+test('a fixed DOM sink cannot hide write calls through document member chains', async t => {
+  for (const sink of ['window.document.write', 'self.document.writeln']) {
+    const source = `panel.innerHTML = '<b class="ready">Ready</b>'; ${sink}(location.hash);`;
+    assert.ok((await domFindings(t, source)).length, source);
+  }
+});
+
+test('DOM literal proof fails closed on line terminators the regex engine does not split', async t => {
+  for (const separator of ['\r', '\u2028', '\u2029']) {
+    const source = `panel.innerHTML = '<b class="ready">Ready</b>';${separator}other.innerHTML = location.hash;`;
+    assert.ok((await domFindings(t, source)).length, JSON.stringify(separator));
+  }
+});
+
+test('a fixed DOM sink cannot hide writes through assignment patterns or loop targets', async t => {
+  for (const later of [
+    '({x: other.innerHTML = location.hash} = {});',
+    '[other.innerHTML = location.hash] = [];',
+    `({x: other['innerHTML'] = location.hash} = {});`,
+    '({x: other[field] = location.hash} = {});',
+    '({x: other.innerHTML} = input);',
+    '[other.innerHTML] = inputs;',
+    'for (other.innerHTML of inputs) {}',
+    'for (other[field] in input) {}',
+    'for ({x: other.innerHTML} of inputs) {}',
+  ]) {
+    const source = `panel.innerHTML = '<b class="ready">Ready</b>'; ` + later;
+    assert.ok((await domFindings(t, source)).length, source);
+  }
+});

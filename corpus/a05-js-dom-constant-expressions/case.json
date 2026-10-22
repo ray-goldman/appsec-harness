@@ -1,0 +1,7 @@
+{
+  "id": "a05-js-dom-constant-expressions",
+  "owasp": "A05",
+  "cwe": [79],
+  "description": "DOM template branches distinguish fixed status markup from request-controlled HTML.",
+  "expect": ["JS-XSS-001"]
+}
