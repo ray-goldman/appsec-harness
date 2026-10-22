@@ -1,0 +1,1 @@
+{"id":"a05-python-local-sql-map","owasp":"A05","cwe":[89],"description":"A function-local literal ORDER BY map with a literal fallback bounds SQL choices; a request-controlled fallback remains injectable.","expect":["PY-SQLI-002"]}

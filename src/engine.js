@@ -15,6 +15,7 @@ const { constantSinkFilter } = require('./java-constants');
 const { createCSharpConstantSinkProof } = require('./csharp-constant-sinks');
 const { createDomConstantProof } = require('./js-dom-constants');
 const { createPythonLoggingProof } = require('./python-log-evidence');
+const { pythonSqlConstantLine, pythonTemplateConstantLine } = require('./python-value-proofs');
 const { buildJavaProjectIndex } = require('./java-project');
 const { javaOutputFilter } = require('./java-sanitizers');
 const { buildScriptProject, scriptSinkFilter } = require('./script-helpers');
@@ -158,6 +159,7 @@ function applyCodeRules(file, lang, raw, codeLines, taint, javaProject, scriptPr
       }
       if (hit) {
         if (rule.id === 'PY-LOG-001' && pythonLogging && pythonLogging(i)) continue;
+        if (/^PY-SQLI-00[123]$/.test(rule.id) && pythonSqlConstantLine(file, scriptProject, i)) continue;
         if (rule.id === 'JS-XSS-001' && domConstantSink && domConstantSink(i)) continue;
         if (lang === 'csharp' && ['CS-SQLI-001', 'CS-CMDI-001'].includes(rule.id) &&
             csharpConstantSink(i, rule.id)) continue;
@@ -178,7 +180,7 @@ function applyCodeRules(file, lang, raw, codeLines, taint, javaProject, scriptPr
   return out;
 }
 
-function applyConfigRules(file, lang, raw, rawLines, codeLines) {
+function applyConfigRules(file, lang, raw, rawLines, codeLines, scriptProject) {
   const out = [];
   for (const rule of CONFIG_RULES) {
     let applies = false;
@@ -186,7 +188,10 @@ function applyConfigRules(file, lang, raw, rawLines, codeLines) {
     if (!applies) continue;
     let hits = [];
     try { hits = rule.check({ rel: file, raw, lines: rawLines, code: codeLines, lang }) || []; } catch (e) { hits = []; }
-    for (const h of hits) out.push({ ruleId: rule.id, file, line: h.line, col: h.col || 1, detail: h.detail, severity: h.severityOverride, source: 'config' });
+    for (const h of hits) {
+      if (rule.id === 'TPL-XSS-001' && pythonTemplateConstantLine(file, raw, h.line - 1, scriptProject)) continue;
+      out.push({ ruleId: rule.id, file, line: h.line, col: h.col || 1, detail: h.detail, severity: h.severityOverride, source: 'config' });
+    }
   }
   return out;
 }
@@ -282,7 +287,7 @@ async function scan(root, opts = {}) {
         raw.push({ ruleId: s.ruleId, file: f.rel, line: s.line, col: s.col, severity: s.severity, confidence: s.confidence || 'high', detail: s.key ? `key: ${s.key}` : undefined, source: 'secrets' });
       }
     }
-    raw.push(...applyConfigRules(f.rel, lang, text, rawLines, codeLines));
+    raw.push(...applyConfigRules(f.rel, lang, text, rawLines, codeLines, scriptProject));
     if (lang && !isLock && !vendored) {
       const taint = analyzeTaint(codeLines, lang);
       raw.push(...applyCodeRules(f.rel, lang, text, codeLines, taint, javaProject, scriptProject, opts));

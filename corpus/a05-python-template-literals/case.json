@@ -1,0 +1,1 @@
+{"id":"a05-python-template-literals","owasp":"A05","cwe":[79],"description":"Jinja safe output receives only fixed markup in the safe variant; the vulnerable variant includes a request-controlled branch.","expect":["TPL-XSS-001"]}
