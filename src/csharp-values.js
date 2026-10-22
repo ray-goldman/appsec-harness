@@ -39,8 +39,12 @@ function createCSharpValueProof(code, ast) {
   // Keep its scope closed: namespaces, bases and generic owners can shadow it.
   const stringAliases = tokens.filter((t,i) => t.text === 'using' && id(tokens[i+1]) === 'String' && tokens[i+2]?.text === '=');
   const aliasIndex = stringAliases.length === 1 ? positions.get(stringAliases[0].start) : -1;
+  const ownerStart = positions.get(owner.declarations[0]?.start);
+  const ownerOpen = ownerStart === undefined ? -1 : tokens.findIndex((t,i) => i > ownerStart && t.text === '{');
+  // The project index can omit unsupported base names; inspect the raw header.
+  const closedOwner = ownerOpen > ownerStart && !tokens.slice(ownerStart, ownerOpen).some(t => t.text === ':');
   const keywordStringAlias = aliasIndex >= 0 && tokens[aliasIndex+3]?.text === 'string' && tokens[aliasIndex+4]?.text === ';' &&
-    !tokens.some(t => ['namespace', '<'].includes(t.text)) && !owner.bases?.length;
+    closedOwner && !tokens.some(t => ['namespace', '<'].includes(t.text));
   const scalar = type => SCALARS.has(type) || type === 'String' && keywordStringAlias;
   const models = new Map(), fields = new Map();
   for (const field of owner.fields) {

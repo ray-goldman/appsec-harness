@@ -239,6 +239,10 @@ class Sample : ExternalBase<int> {
  }
 }`;
   assert.equal(isConstantCSharpSink({code,line:3,ruleId:'CS-CMDI-001'}),false);
+  for(const base of ['global::ExternalBase','@ExternalBase','Alias::ExternalBase']) {
+    const qualified=code.replace('ExternalBase<int>',base);
+    assert.equal(isConstantCSharpSink({code:qualified,line:3,ruleId:'CS-CMDI-001'}),false,base);
+  }
 });
 
 test('scanner retains unsafe twins of multi-argument and branch-only command calls', async t => {
