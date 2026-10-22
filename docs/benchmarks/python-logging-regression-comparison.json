@@ -1,0 +1,154 @@
+{
+  "schema": "kayfabe-python-logging-regression-comparison@1",
+  "tier": "self-authored regression; authored after inspecting scanner and development datasets",
+  "policy": "Finding sites in two invented pairs; excluded from existing seven-dataset totals",
+  "pairs": {
+    "a09-python-audit-messages": {
+      "rule": "PY-LOG-001",
+      "before": {
+        "sourceSha256": "3942c65d6c05e10f0ccfe9ef2c7eb43ff5335759c3102aa910813d03be0eedd9",
+        "vuln": {
+          "files": [
+            {
+              "file": "events.py",
+              "sha256": "8d43df223ebde2bda1f901a53e9ec1ceeefd088745bd870999ac19c6117eac34"
+            }
+          ],
+          "findings": [
+            {
+              "ruleId": "PY-LOG-001",
+              "file": "events.py",
+              "line": 4
+            }
+          ]
+        },
+        "fixed": {
+          "files": [
+            {
+              "file": "events.py",
+              "sha256": "6fc29ddf4207f52d1ab2369875468d1b00aa35c688da641e9a17ec1fa648c22b"
+            }
+          ],
+          "findings": [
+            {
+              "ruleId": "PY-LOG-001",
+              "file": "events.py",
+              "line": 4
+            }
+          ]
+        }
+      },
+      "after": {
+        "sourceSha256": "e6c7fc2806cff151f758f2a2f28a0e66aab1fb3bc68b7777a260d5cccb7c01f7",
+        "vuln": {
+          "files": [
+            {
+              "file": "events.py",
+              "sha256": "8d43df223ebde2bda1f901a53e9ec1ceeefd088745bd870999ac19c6117eac34"
+            }
+          ],
+          "findings": [
+            {
+              "ruleId": "PY-LOG-001",
+              "file": "events.py",
+              "line": 4
+            }
+          ]
+        },
+        "fixed": {
+          "files": [
+            {
+              "file": "events.py",
+              "sha256": "6fc29ddf4207f52d1ab2369875468d1b00aa35c688da641e9a17ec1fa648c22b"
+            }
+          ],
+          "findings": []
+        }
+      }
+    },
+    "a09-python-docstring-auth": {
+      "rule": "PROJ-LOGGING-001",
+      "before": {
+        "sourceSha256": "3942c65d6c05e10f0ccfe9ef2c7eb43ff5335759c3102aa910813d03be0eedd9",
+        "vuln": {
+          "files": [
+            {
+              "file": "auth.py",
+              "sha256": "4790e2c5b06134749da586bb3fafe40fca2c88320f45c8ea7166395b939f717a"
+            },
+            {
+              "file": "utility.py",
+              "sha256": "305ca761574a7f9c02e58930e35b088d064b228413f5fff73bef0dfaf859b769"
+            }
+          ],
+          "findings": [
+            {
+              "ruleId": "PROJ-LOGGING-001",
+              "file": "auth.py",
+              "line": 1
+            },
+            {
+              "ruleId": "PROJ-LOGGING-001",
+              "file": "utility.py",
+              "line": 2
+            }
+          ]
+        },
+        "fixed": {
+          "files": [
+            {
+              "file": "auth.py",
+              "sha256": "403016e4a568d769fecb2192c752e81a936f3facf7e9e5550be20638067b38b0"
+            },
+            {
+              "file": "utility.py",
+              "sha256": "305ca761574a7f9c02e58930e35b088d064b228413f5fff73bef0dfaf859b769"
+            }
+          ],
+          "findings": [
+            {
+              "ruleId": "PROJ-LOGGING-001",
+              "file": "utility.py",
+              "line": 2
+            }
+          ]
+        }
+      },
+      "after": {
+        "sourceSha256": "e6c7fc2806cff151f758f2a2f28a0e66aab1fb3bc68b7777a260d5cccb7c01f7",
+        "vuln": {
+          "files": [
+            {
+              "file": "auth.py",
+              "sha256": "4790e2c5b06134749da586bb3fafe40fca2c88320f45c8ea7166395b939f717a"
+            },
+            {
+              "file": "utility.py",
+              "sha256": "305ca761574a7f9c02e58930e35b088d064b228413f5fff73bef0dfaf859b769"
+            }
+          ],
+          "findings": [
+            {
+              "ruleId": "PROJ-LOGGING-001",
+              "file": "auth.py",
+              "line": 1
+            }
+          ]
+        },
+        "fixed": {
+          "files": [
+            {
+              "file": "auth.py",
+              "sha256": "403016e4a568d769fecb2192c752e81a936f3facf7e9e5550be20638067b38b0"
+            },
+            {
+              "file": "utility.py",
+              "sha256": "305ca761574a7f9c02e58930e35b088d064b228413f5fff73bef0dfaf859b769"
+            }
+          ],
+          "findings": []
+        }
+      }
+    }
+  }
+}
