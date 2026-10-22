@@ -1,0 +1,60 @@
+{
+  "schema": "kayfabe-command-regression-comparison@1",
+  "tier": "self-authored regression; authored after examining rules and benchmarks",
+  "policy": "CS-CMDI-001 finding sites in the new vulnerable/safe corpus pair; not included in existing benchmark totals",
+  "before": {
+    "sourceSha256": "67fa657fcfc6b71be93c80934f0f9b885e9567364f051dae0bb5f5a5f47d9cc6",
+    "vuln": {
+      "inputSha256": "60091acc7edd20ba53cdfcfd98247d94028b7fca4de90d17823a0d4f1b5577b9",
+      "findings": [
+        {
+          "ruleId": "CS-CMDI-001",
+          "file": "Example.cs",
+          "line": 8
+        },
+        {
+          "ruleId": "CS-CMDI-001",
+          "file": "Example.cs",
+          "line": 5
+        }
+      ]
+    },
+    "fixed": {
+      "inputSha256": "084b8ba53ab7da1c3112000da3ef87c713bfd5bb91a0b4601916ebd038848e72",
+      "findings": [
+        {
+          "ruleId": "CS-CMDI-001",
+          "file": "Example.cs",
+          "line": 5
+        },
+        {
+          "ruleId": "CS-CMDI-001",
+          "file": "Example.cs",
+          "line": 8
+        }
+      ]
+    }
+  },
+  "after": {
+    "sourceSha256": "d06f45a31aa1e839ff96f8d436e1e8daf3dc8e0d6f1d17cb30b4869285009c5f",
+    "vuln": {
+      "inputSha256": "60091acc7edd20ba53cdfcfd98247d94028b7fca4de90d17823a0d4f1b5577b9",
+      "findings": [
+        {
+          "ruleId": "CS-CMDI-001",
+          "file": "Example.cs",
+          "line": 8
+        },
+        {
+          "ruleId": "CS-CMDI-001",
+          "file": "Example.cs",
+          "line": 5
+        }
+      ]
+    },
+    "fixed": {
+      "inputSha256": "084b8ba53ab7da1c3112000da3ef87c713bfd5bb91a0b4601916ebd038848e72",
+      "findings": []
+    }
+  }
+}

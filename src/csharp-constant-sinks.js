@@ -35,23 +35,25 @@ function consumeExpression(tokens, start, end) {
 function sinkExpression(tokens, ruleId, lineStart, lineEnd) {
   const line = tokens.filter(token => token.start >= lineStart && token.start < lineEnd);
   if (ruleId === 'CS-CMDI-001') {
+    const expressions = [];
     for (let i = 0; i + 3 < line.length; i++) {
       if (line[i].text === 'Process' && line[i + 1].text === '.' && line[i + 2].text === 'Start' && line[i + 3].text === '(') {
         let depth = 1, end = i + 4;
         for (; end < line.length && depth; end++) { if (line[end].text === '(') depth++; else if (line[end].text === ')') depth--; }
         if (depth) return null;
         const args = splitAtTopLevel(line.slice(i + 4, end - 1), ',');
-        return args.length === 1 ? args[0] : null;
+        if (args.length < 1 || args.length > 2 || args.some(arg => !arg.length)) return null;
+        expressions.push(...args);
       }
     }
     for (let i = 0; i + 2 < line.length; i++) {
-      if (line[i].text === '.' && line[i + 1].text === 'Arguments' && line[i + 2].text === '=') return consumeExpression(line, i + 3, line.length);
+      if (line[i].text === '.' && line[i + 1].text === 'Arguments' && line[i + 2].text === '=') expressions.push(consumeExpression(line, i + 3, line.length));
     }
-    return null;
+    return expressions.length ? expressions : null;
   }
   if (ruleId === 'CS-SQLI-001') {
     for (let i = 0; i + 2 < line.length; i++) {
-      if (line[i].text === '.' && line[i + 1].text === 'CommandText' && line[i + 2].text === '=') return consumeExpression(line, i + 3, line.length);
+      if (line[i].text === '.' && line[i + 1].text === 'CommandText' && line[i + 2].text === '=') return [consumeExpression(line, i + 3, line.length)];
     }
     for (let i = 0; i + 1 < line.length; i++) {
       const methodCall = ['FromSqlRaw', 'ExecuteSqlRaw', 'ExecuteSqlRawAsync', 'SqlQueryRaw'].includes(line[i].text);
@@ -63,7 +65,7 @@ function sinkExpression(tokens, ruleId, lineStart, lineEnd) {
       let depth = 1, end = open + 1;
       for (; end < line.length && depth; end++) { if (line[end].text === '(') depth++; else if (line[end].text === ')') depth--; }
       if (depth) return null;
-      return splitAtTopLevel(line.slice(open + 1, end - 1), ',')[0];
+      return [splitAtTopLevel(line.slice(open + 1, end - 1), ',')[0]];
     }
   }
   return null;
@@ -148,8 +150,11 @@ function directConstantSink({ code, line, ruleId, parsed: suppliedParse }) {
   }
   const expression = sinkExpression(tokens, ruleId, lineStart - method.start, lineEnd - method.start);
   if (!expression) return false;
+  // Newly supported overloads/multiple sinks use the stricter scoped proof;
+  // do not expand the legacy proof's acceptance of unresolved named types.
+  if (expression.length > 1) return false;
   const relevant = new Set();
-  const pending = expression.filter(token => token.kind === 'identifier').map(token => token.text.replace(/^@/, ''));
+  const pending = expression.flat().filter(token => token.kind === 'identifier').map(token => token.text.replace(/^@/, ''));
   while (pending.length) {
     const name = pending.pop();
     if (relevant.has(name)) continue;
@@ -173,7 +178,7 @@ function directConstantSink({ code, line, ruleId, parsed: suppliedParse }) {
       if(open!==undefined&&tokens[i+1]?.text==='='&&tokens.slice(open+1,i).some(token=>token.kind==='identifier'&&relevant.has(token.text.replace(/^@/,''))))return false;
     }
   }
-  return !!expression && proveExpression(expression, declarations, assignments, methodParams);
+  return expression.every(value => proveExpression(value, declarations, assignments, methodParams));
 }
 
 function createCSharpConstantSinkProof(code) {
@@ -191,7 +196,7 @@ function createCSharpConstantSinkProof(code) {
     const expression = sinkExpression(tokens, ruleId, start, start + lines[line].length);
     if (!expression?.length) return false;
     proveValue ||= createCSharpValueProof(code, parsed);
-    return proveValue(expression);
+    return expression.every(value => proveValue(value));
   };
 }
 

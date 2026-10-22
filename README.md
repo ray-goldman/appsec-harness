@@ -120,7 +120,9 @@ Follow [the repository instructions](AGENTS.md) when reviewing a target: treat i
 
 ## Accuracy and limits
 
-The regression corpus contains 175 vulnerable/fixed pairs written alongside the rules. Its 100% precision and recall detect regressions against those expectations; they do not establish independent detection accuracy.
+The regression corpus contains 176 vulnerable/fixed pairs written alongside the rules. Its 100% precision and recall detect regressions against those expectations; they do not establish independent detection accuracy.
+
+The [.NET command-proof follow-up](docs/DOTNET-COMMAND-PRECISION.md) covers additional constant command forms, unsafe counterparts and the type-resolution blockers behind the remaining Juliet command alerts.
 
 The first independent run on **OWASP Benchmark Java 1.2** scored all 2,740 labeled cases: **40.35% recall, 23.70% false-positive rate, and 64.52% precision**. These are micro-averaged case metrics using exact file/CWE matching, with no omitted CWEs. They describe this synthetic Java benchmark, not arbitrary applications. See [the measurement and reproduction guide](docs/BENCHMARKS.md) for per-CWE counts, input hashes, and scoring limits.
 

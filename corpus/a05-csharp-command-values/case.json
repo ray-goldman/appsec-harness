@@ -1,0 +1,7 @@
+{
+  "id": "a05-csharp-command-values",
+  "owasp": "A05",
+  "cwe": [78],
+  "description": "Separate command arguments and conditional values are safe only when every possible value is constant; an exact built-in string alias can be resolved in a closed class scope.",
+  "expect": ["CS-CMDI-001"]
+}

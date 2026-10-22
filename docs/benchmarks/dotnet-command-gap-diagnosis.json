@@ -1,0 +1,39 @@
+{
+  "provenance": {
+    "baselineSourceSha256": "67fa657fcfc6b71be93c80934f0f9b885e9567364f051dae0bb5f5a5f47d9cc6",
+    "proofSourceSha256": "d06f45a31aa1e839ff96f8d436e1e8daf3dc8e0d6f1d17cb30b4869285009c5f",
+    "inputSha256": "6fde14e0e66fbd5fa2f6a58dae4299e6d92f6951b74b9a8ce9b061be5f515c9b",
+    "labelsSha256": "dfae8f9c30ba7c001c5ef2a2c6bd807ed477d48b42de1063b5f1eb5e09b6d77a",
+    "unitManifestSha256": "797b13b9fcc9d754379f220003a06193ba9ddbf67f1eadeb85f0ca78bdb74dfa"
+  },
+  "counterfactual": "For each original same-file FP unit: normalize comments and CRLF as the engine does, replace String osCommand with string osCommand only in memory, require constant proof for every original matched site; no target files are written",
+  "kind": "static counterfactual diagnosis only; not an accuracy result; original inputs unchanged",
+  "falsePositiveUnits": 200,
+  "sameFileUnits": 50,
+  "crossFileUnits": 150,
+  "matchedSites": 220,
+  "sitesInFilesContainingNamedPrefix": 220,
+  "variantCounts": {
+    "21": 10,
+    "31": 10,
+    "41": 10,
+    "42": 10,
+    "45": 10,
+    "51": 10,
+    "52": 10,
+    "53": 10,
+    "54": 10,
+    "61": 10,
+    "66": 10,
+    "67": 10,
+    "68": 10,
+    "71": 10,
+    "72": 10,
+    "73": 10,
+    "74": 10,
+    "75": 10,
+    "81": 10,
+    "22a/b": 10
+  },
+  "sameFileUnitsProvedAfterHypotheticalKeywordTypeChange": 50
+}
