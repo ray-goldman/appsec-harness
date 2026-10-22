@@ -217,4 +217,4 @@ function createPythonLoggingProof(code, project) {
   };
 }
 
-module.exports = { pythonAuthCode, createPythonLoggingProof };
+module.exports = { pythonAuthCode, createPythonLoggingProof, tokenize, logicalStatements, sourceLines };
