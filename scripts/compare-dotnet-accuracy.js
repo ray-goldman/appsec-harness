@@ -56,9 +56,9 @@ function compare(before,after) {
     transitions:Object.fromEntries(Object.entries(transitions).map(([key,ids])=>[key,{count:ids.length,ids}]))};
 }
 function main() {
-  const [beforeDir,afterDir,outFile]=process.argv.slice(2);
-  if(!beforeDir||!afterDir||!outFile)throw new Error('Usage: node scripts/compare-dotnet-accuracy.js <before> <after> <output.json>');
-  const result={schema:'kayfabe-dotnet-accuracy-comparison@1',datasets:{}};
+  const [beforeDir,afterDir,outFile,beforeEngineCommit,afterEngineCommit]=process.argv.slice(2);
+  if(!beforeDir||!afterDir||!outFile||![beforeEngineCommit,afterEngineCommit].every(value=>/^[a-f0-9]{40}$/.test(value||'')))throw new Error('Usage: node scripts/compare-dotnet-accuracy.js <before> <after> <output.json> <before-engine-commit> <after-engine-commit>');
+  const result={schema:'kayfabe-dotnet-accuracy-comparison@1',provenance:{beforeEngineCommit,afterEngineCommit,commitVerification:'Declared commits; scanner byte hashes and separate evaluator hashes identify the measured code.'},datasets:{}};
   for(const name of ['csharp','owasp-java','juliet-java','sard','cve-fixes','supplied','dotnet-apps']) {
     const rel=['supplied','dotnet-apps'].includes(name)?name+'.json':name+'/benchmark.json';
     const read=dir=>JSON.parse(fs.readFileSync(path.join(dir,rel),'utf8'));
