@@ -1,0 +1,65 @@
+{
+  "schema": "kayfabe-dom-regression-comparison@1",
+  "tier": "self-authored regression; authored after examining rules and benchmarks",
+  "policy": "JS-XSS-001 sites in the new pair only; excluded from existing benchmark totals",
+  "before": {
+    "sourceSha256": "7eff043bc7f506fb2c43d4ec0a3825949cc0c9283eaec8835e497a81c4493c87",
+    "vuln": {
+      "files": [
+        {
+          "file": "status.js",
+          "sha256": "b1b2bcd1cd6a29f2d83a46298e80d55070424afcd7f07584899875765a19bcd2"
+        }
+      ],
+      "findings": [
+        {
+          "ruleId": "JS-XSS-001",
+          "file": "status.js",
+          "line": 2
+        }
+      ]
+    },
+    "fixed": {
+      "files": [
+        {
+          "file": "status.js",
+          "sha256": "7ba7ca2565c7db299b0d3fd005c1c3a2d4a4c73eb329319aac7acb4e7a16eb5c"
+        }
+      ],
+      "findings": [
+        {
+          "ruleId": "JS-XSS-001",
+          "file": "status.js",
+          "line": 2
+        }
+      ]
+    }
+  },
+  "after": {
+    "sourceSha256": "fa16edc300ff0cc28199d12c9a26f37f5dfc40c8056f480aea28923b3c7dbcda",
+    "vuln": {
+      "files": [
+        {
+          "file": "status.js",
+          "sha256": "b1b2bcd1cd6a29f2d83a46298e80d55070424afcd7f07584899875765a19bcd2"
+        }
+      ],
+      "findings": [
+        {
+          "ruleId": "JS-XSS-001",
+          "file": "status.js",
+          "line": 2
+        }
+      ]
+    },
+    "fixed": {
+      "files": [
+        {
+          "file": "status.js",
+          "sha256": "7ba7ca2565c7db299b0d3fd005c1c3a2d4a4c73eb329319aac7acb4e7a16eb5c"
+        }
+      ],
+      "findings": []
+    }
+  }
+}
