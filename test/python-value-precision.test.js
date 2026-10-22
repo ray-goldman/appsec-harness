@@ -60,6 +60,7 @@ test('Python SQL retains unsafe map defaults, mutations, escapes and formatting 
 });
 test('Python template literal branches retain no user-controlled markup',async t=>{
  assert.equal(htmlHits(await findings(t,imports+html,{'templates/index.html':template})).length,0);
+ assert.equal(htmlHits(await findings(t,imports+html.replace('<b>Gold</b>','<b>Góld — 金</b>'),{'templates/index.html':template})).length,0);
  assert.equal(htmlHits(await findings(t,imports+html+'\ndef other():\n    return render_template("index.html", badge="<i>Fixed</i>")\n',{'templates/index.html':template})).length,0);
 });
 test('Python template proofs retain user data, missing definitions and alternate callers',async t=>{

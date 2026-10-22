@@ -1,0 +1,127 @@
+{
+  "schema": "kayfabe/python-value-regressions@1",
+  "tier": "self-authored regression coverage; excluded from benchmark totals",
+  "before": {
+    "commit": "9d30fabeeed44e6a94293460b0a497cac15cfeb9",
+    "sourceSha256": "2e76b1f1dd07ff22cccff0dc07ab7ac0febcfb39cd0e246e45a97747b49b21de"
+  },
+  "after": {
+    "sourceCommit": "268ab3a6c822e80d41a63e35f1197edeb0b60b58",
+    "sourceSha256": "84f9b352ef3691cfa69ac6de9a3e866cfe044df89621215d9b68dc289237ac69"
+  },
+  "cases": [
+    {
+      "id": "a05-python-local-sql-map",
+      "variants": [
+        {
+          "variant": "vuln",
+          "inputs": [
+            {
+              "file": "app.py",
+              "sha256": "2092143e6e20ee3631aec04a13c25f173dab63f3b230d4ab5dd3176573c2ecd2"
+            }
+          ],
+          "before": [
+            {
+              "ruleId": "PY-SQLI-002",
+              "file": "app.py",
+              "line": 9
+            },
+            {
+              "ruleId": "PY-SQLI-001",
+              "file": "app.py",
+              "line": 10
+            }
+          ],
+          "after": [
+            {
+              "ruleId": "PY-SQLI-002",
+              "file": "app.py",
+              "line": 9
+            },
+            {
+              "ruleId": "PY-SQLI-001",
+              "file": "app.py",
+              "line": 10
+            }
+          ]
+        },
+        {
+          "variant": "fixed",
+          "inputs": [
+            {
+              "file": "app.py",
+              "sha256": "32e3ad6aa4fc32c6da2ea07b2c9ceb27729fc17809e79165001499617a5846dd"
+            }
+          ],
+          "before": [
+            {
+              "ruleId": "PY-SQLI-002",
+              "file": "app.py",
+              "line": 9
+            },
+            {
+              "ruleId": "PY-SQLI-001",
+              "file": "app.py",
+              "line": 10
+            }
+          ],
+          "after": []
+        }
+      ]
+    },
+    {
+      "id": "a05-python-template-literals",
+      "variants": [
+        {
+          "variant": "vuln",
+          "inputs": [
+            {
+              "file": "app.py",
+              "sha256": "0b1210d8272a8c03e2efdbc61374092e5e9cd19c52663b041c8d16784b71555c"
+            },
+            {
+              "file": "templates/catalog.html",
+              "sha256": "33b6b2536d69f8e4c98b672ecb92fba5ca39318b9faf955e95c71e79eb4b740e"
+            }
+          ],
+          "before": [
+            {
+              "ruleId": "TPL-XSS-001",
+              "file": "templates/catalog.html",
+              "line": 1
+            }
+          ],
+          "after": [
+            {
+              "ruleId": "TPL-XSS-001",
+              "file": "templates/catalog.html",
+              "line": 1
+            }
+          ]
+        },
+        {
+          "variant": "fixed",
+          "inputs": [
+            {
+              "file": "app.py",
+              "sha256": "b6cf4f7169e289dbc020b89e2a04f6975006914498a0a6ea318ca4fa8ff61f0e"
+            },
+            {
+              "file": "templates/catalog.html",
+              "sha256": "33b6b2536d69f8e4c98b672ecb92fba5ca39318b9faf955e95c71e79eb4b740e"
+            }
+          ],
+          "before": [
+            {
+              "ruleId": "TPL-XSS-001",
+              "file": "templates/catalog.html",
+              "line": 1
+            }
+          ],
+          "after": []
+        }
+      ]
+    }
+  ]
+}
