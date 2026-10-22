@@ -29,6 +29,35 @@ test('public sink parameter without a visible caller is low confidence', () => {
   assert.equal(result.findings[0].confidence,'low');
 });
 
+test('request aliases reach a cross-file sink and reassigned constants do not', () => {
+  const files = [
+    {file:'Controller.cs',source:'class Controller { public static void Get(){ string value = Request.Query["q"].ToString(); Service.Run(value); } public static void Safe(){ string value = "fixed"; Service.Run(value); } }'},
+    {file:'Service.cs',source:'class Service { public static void Run(string value){ string copy = value; Repository.Save(copy); } }'},
+    {file:'Repository.cs',source:'class Repository { public static void Save(string value){ db.ExecuteSqlRaw(value); } }'},
+  ];
+  const result = analyzeDotnetSummaries(files);
+  assert.ok(result.findings.some(f=>f.confidence==='high'&&f.sourceLocation?.file==='Controller.cs'&&f.callPath.length===3));
+  assert.deepEqual(result.summaries.find(s=>s.methodId.includes('.Safe/')).sourcesToSinks,[]);
+  const safe = analyzeDotnetSummaries(files.map(f=>f.file==='Controller.cs'?{...f,source:'class Controller { public static void Get(){ string value = Request.Query["q"].ToString(); value = "fixed"; Service.Run(value); } }'}:f));
+  assert.equal(safe.findings.some(f=>f.confidence==='high'),false);
+});
+
+test('a public sink retains low-confidence external exposure despite constant visible callers', () => {
+  const result = analyzeDotnetSummaries([{file:'Api.cs',source:'class Api { public static void Run(string value) { db.ExecuteSqlRaw(value); } public void Safe() { Run("fixed"); } }'}]);
+  assert.ok(result.findings.some(f=>f.confidence==='low'&&f.category==='sql'));
+});
+
+test('an argument containing both a parameter and request source retains high source confidence', () => {
+  const result = analyzeDotnetSummaries([{file:'C.cs',source:'class C { public void Get(string prefix) { C.Sink(prefix + Request.Query["q"].ToString()); } public static void Sink(string value) { db.ExecuteSqlRaw(value); } }'}]);
+  assert.ok(result.findings.some(f=>f.confidence==='high'));
+});
+
+test('recursive calls with argument permutation still propagate request taint', () => {
+  const result = analyzeDotnetSummaries([{file:'C.cs',source:'class C { public void Get() { C.A("fixed",Request.Query["q"].ToString()); } public static void A(string x,string y){db.ExecuteSqlRaw(x); C.B(y,x);} public static void B(string x,string y){C.A(x,y);} }'}]);
+  assert.equal(result.diagnostics.truncated,false);
+  assert.ok(result.findings.some(f=>f.confidence==='high'));
+});
+
 test('private helper sinks called only with constants are suppressed from transfer summaries', () => {
   const result=analyzeDotnetSummaries([
     {file:'Util.cs',source:'class Util { private static void Run(string sql){ db.ExecuteSqlRaw(sql); } public static void Safe(){ Run("fixed"); } }'},

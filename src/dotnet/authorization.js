@@ -26,13 +26,13 @@ function buildDotnetRoutes(files) {
       groups.set(m[1], { path: m[3], authorized: /\.RequireAuthorization\s*\(/.test(m[4]) });
     }
     const masked = source.replace(/\/\*[\s\S]*?\*\/|\/\/[^\r\n]*|@?"(?:""|\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/g, m => ' '.repeat(m.length));
-    const classRe = /((?:\s*\[[^\]]+\]\s*)*)(?:(?:public|internal|abstract|partial|sealed)\s+)*class\s+(\w+)([^{};]{0,500})\{/g;
+    const classRe = /((?:\[[^\]]+\]\s*)*)(?:(?:public|internal|abstract|partial|sealed)\s+)*class\s+(\w+)([^{};]{0,500})\{/g;
     for (let cm; (cm = classRe.exec(masked));) {
       const open = classRe.lastIndex - 1, end = balancedEnd(masked, open);
       if (end < 0 || !(/Controller\b/.test(cm[2]) || /:\s*[^\n{]*\bController(?:Base)?\b/.test(cm[3]))) continue;
       const classAuth = /\[\s*Authorize(?:Attribute)?\b/.test(cm[1]);
       const body = source.slice(open + 1, end), baseOffset = open + 1;
-      const actionRe = /((?:\s*\[[^\]]+\]\s*)+)(?:(?:public|protected|internal|virtual|override|async|static|new)\s+)+[\w<>,.?\[\]]+\s+(\w+)\s*\([^(){};]{0,1000}\)\s*\{/g;
+      const actionRe = /((?:\[[^\]]+\]\s*)+)(?:(?:public|protected|internal|virtual|override|async|static|new)\s+)+[\w<>,.?\[\]]+\s+(\w+)\s*\([^(){};]{0,1000}\)\s*\{/g;
       for (let am; (am = actionRe.exec(body));) {
         const http = am[1].match(/\[\s*Http(Get|Post|Put|Patch|Delete|Head|Options)(?:Attribute)?(?:\s*\(\s*"([^"]*)")?/i);
         if (!http) continue;

@@ -37,7 +37,9 @@ function findOwners(source,ast,tokens) {
           segment=k+1;
         }
       }
-      types.push({name:tokens[i+1].text.replace(/^@/,''),start:tokens[i].start,bodyStart:tokens[open].start,bodyEnd:tokens[close].end,partial:prefix(i).includes('partial'),unsupported:tokens[i+2]?.text==='<',fields});
+      const header=tokens.slice(i+2,open),colon=header.findIndex(t=>t.text===':');
+      const bases=colon<0?[]:header.slice(colon+1).map(t=>t.text).join('').split(',').filter(name=>/^[A-Za-z_][\w.]*$/.test(name));
+      types.push({kind:tokens[i].text,bases,name:tokens[i+1].text.replace(/^@/,''),start:tokens[i].start,bodyStart:tokens[open].start,bodyEnd:tokens[close].end,partial:prefix(i).includes('partial'),unsupported:tokens[i+2]?.text==='<',fields});
     }
   }
   const parsedMethods=ast.methods.map(method=>{
@@ -74,7 +76,7 @@ function buildDotnetProjectIndex(files) {
     const parsed=findOwners(source,ast,tokens);
     for(const declaration of parsed.types) {
       const typeId=[declaration.namespace,declaration.typeName].filter(Boolean).join('.');
-      if(!types.has(typeId)) types.set(typeId,{id:typeId,namespace:declaration.namespace,name:declaration.typeName,declarations:new Map()});
+      if(!types.has(typeId)) types.set(typeId,{id:typeId,kind:declaration.kind,bases:declaration.bases,namespace:declaration.namespace,name:declaration.typeName,declarations:new Map()});
       types.get(typeId).declarations.set(file+':'+declaration.start,{file,start:declaration.start,partial:declaration.partial,fields:declaration.fields||[]});
     }
     for(const m of parsed.methods) {
@@ -130,23 +132,42 @@ function buildDotnetProjectIndex(files) {
       if(!registrations.has(iface))registrations.set(iface,new Set());registrations.get(iface).add(impl);
     }
   }
+  const typeIdsBySuffix=new Map();
+  for(const typeId of types.keys()) {
+    const parts=typeId.split('.');
+    for(let i=0;i<parts.length;i++) {
+      const suffix=parts.slice(i).join('.');
+      if(!typeIdsBySuffix.has(suffix))typeIdsBySuffix.set(suffix,[]);
+      typeIdsBySuffix.get(suffix).push(typeId);
+    }
+  }
   const resolveType=(name,namespace)=>{
     if(types.has(name)) return name;
     const local=namespace?namespace+'.'+name:null;
     if(local&&types.has(local)) return local;
-    const matches=[...types.keys()].filter(id=>id.endsWith('.'+name)||id===name);
+    const matches=typeIdsBySuffix.get(name)||[];
     return matches.length===1?matches[0]:null;
   };
   const resolvedRegistrations=new Map();
   for(const [iface,implementations] of registrations) {
-    const resolved=[...implementations].map(implementation=>resolveType(implementation,'')).filter(Boolean);
+    const resolved=[...implementations].map(implementation=>resolveType(implementation,'')||'unresolved:'+implementation);
     const target=resolveType(iface,'');
     if(target&&resolved.length) resolvedRegistrations.set(target,[...new Set(resolved)].sort());
   }
+  const implementers=new Map();
+  for(const type of types.values()) {
+    if(type.ambiguous||type.kind!=='class')continue;
+    for(const base of type.bases||[]) {
+      const target=resolveType(base,type.namespace);
+      if(!target||types.get(target).kind!=='interface')continue;
+      if(!implementers.has(target))implementers.set(target,[]);
+      implementers.get(target).push(type.id);
+    }
+  }
   for(const type of types.values()) for(const field of type.fields) {
     const declared=type.constructorFieldTypes[field.name];if(!declared) continue;
-    const iface=resolveType(declared,type.namespace),implementations=iface&&resolvedRegistrations.get(iface);
-    if(implementations?.length===1) field.resolvedType=implementations[0];
+    const iface=resolveType(declared,type.namespace),implementations=iface&&(resolvedRegistrations.get(iface)||implementers.get(iface));
+    if(implementations?.length===1&&types.has(implementations[0])) field.resolvedType=implementations[0];
     else if(iface) field.ambiguousRegistration=(implementations?.length||0)>1;
   }
   return {schemaVersion:1,types:[...types.values()].sort((a,b)=>a.id.localeCompare(b.id)),methods:methods.sort((a,b)=>a.id.localeCompare(b.id)||a.file.localeCompare(b.file)),methodLookup,registrations:resolvedRegistrations,diagnostics:{fallbackFiles,truncated}};

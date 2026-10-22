@@ -1,6 +1,7 @@
 'use strict';
 const { createMethodSummary } = require('./summary-schema');
 const { tokenizeCSharp } = require('../parsers/csharp/lexer');
+const { methodValues } = require('./value-flow');
 
 // Straight-line diagnostic transfer only. Unsupported syntax is explicit;
 // API spelling alone never proves that an argument is sanitized.
@@ -18,6 +19,7 @@ function summarizeMethod(method) {
   if (ts.some((t,i)=>param(t)>=0 && (['=','+=','-=','*=','/=','++','--','??='].includes(ts[i+1]?.text)||['++','--','ref','out'].includes(ts[i-1]?.text)))) {
     unresolved('parameter-write');return summary;
   }
+  const values=methodValues(method);
   function matching(tokens,start) {
     let depth=0;
     for(let i=start;i<tokens.length;i++) {
@@ -27,6 +29,8 @@ function summarizeMethod(method) {
     return -1;
   }
   function terms(tokens) {
+    const value=values.valueAt(tokens);
+    if(value.known) return value.parameters;
     while(tokens[0]?.text==='(' && matching(tokens,0)===tokens.length-1) tokens=tokens.slice(1,-1);
     let depth=0,start=0;const parts=[];
     for(let i=0;i<tokens.length;i++) {
@@ -38,6 +42,8 @@ function summarizeMethod(method) {
     return tokens.length===1 && param(tokens[0])>=0?[param(tokens[0])]:[];
   }
   function sourceCategory(tokens) {
+    const value=values.valueAt(tokens);
+    if(value.source) return value.source.source;
     for(let i=0;i+2<tokens.length;i++) if(tokens[i].text==='Request'&&tokens[i+1].text==='.'&&['Query','Form','Headers','Cookies','QueryString'].includes(tokens[i+2].text)) return 'request';
     return null;
   }

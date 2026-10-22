@@ -120,7 +120,7 @@ Follow [the repository instructions](AGENTS.md) when reviewing a target: treat i
 
 ## Accuracy and limits
 
-The regression corpus contains 150 vulnerable/fixed pairs written alongside the rules. Its 100% precision and recall detect regressions against those expectations; they do not establish independent detection accuracy.
+The regression corpus contains 175 vulnerable/fixed pairs written alongside the rules. Its 100% precision and recall detect regressions against those expectations; they do not establish independent detection accuracy.
 
 The first independent run on **OWASP Benchmark Java 1.2** scored all 2,740 labeled cases: **40.35% recall, 23.70% false-positive rate, and 64.52% precision**. These are micro-averaged case metrics using exact file/CWE matching, with no omitted CWEs. They describe this synthetic Java benchmark, not arbitrary applications. See [the measurement and reproduction guide](docs/BENCHMARKS.md) for per-CWE counts, input hashes, and scoring limits.
 
@@ -181,6 +181,13 @@ configuration/TLS checks. On its eight author-written apps, detections increase
 from **23/139 to 32/139**, with labeled false positives unchanged at **1/91**.
 The review documents the broader changes deferred for precision or redaction
 work; these apps do not establish independent detection accuracy.
+
+The [.NET value-proof pass](docs/DOTNET-ACCURACY-ROADMAP.md) reduces Juliet C#
+false positives **560 → 470 (16.07%)**, retaining all **1,036** existing true
+positives with no newly flagged safe units. Full-suite recall remains **3.49%**;
+the 25% FP-reduction target was missed. The opt-in project scan now finishes,
+but its graph remains truncated and adds no labeled detections. Its cross-file
+recall gate fails, and the independent application gates remain unmeasured.
 
 General taint tracking remains intra-file; Java's bounded helper proofs do not provide a whole-program call graph. Other cross-file flows may appear as lower-confidence pattern findings or in the attack-surface map for a reviewer to follow. This is a fast static first pass, not a replacement for whole-program tools such as CodeQL or Semgrep Pro, or for dynamic application testing.
 
