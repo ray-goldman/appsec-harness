@@ -4,6 +4,7 @@
 // Unsupported files/parses keep the original evidence. Never execute source.
 function authLoggingEvidence(file) {
   const original = { authCode: file.code, loggingCode: file.code };
+  if (file.lang === 'python') return { ...original, authCode: require('./python-log-evidence').pythonAuthCode(file.code) };
   if (file.lang !== 'javascript' || !/\.(?:js|mjs|cjs)$/i.test(file.rel) ||
       Buffer.byteLength(file.code, 'utf8') > 200000) return original;
   try {

@@ -1,0 +1,1 @@
+{"id":"a09-python-audit-messages","owasp":"A09","cwe":[532],"description":"Lifecycle audit format text distinguishes source address metadata from credential values.","expect":["PY-LOG-001"]}
