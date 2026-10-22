@@ -309,7 +309,8 @@ async function scan(root, opts = {}) {
 
   // Surface + project rules
   raw.push(...routeFindings(routes));
-  const ctx = { files: projFiles, allCode: projFiles.map((f) => f.code), routes, manifests: manifestFiles.map((m) => ({ rel: m.rel, raw: m.raw, lock: /lock|shrinkwrap|\.sum$/i.test(m.rel) })) };
+  const ctx = { files: projFiles, complete: !truncated && !javaIncomplete && !skipped.large,
+    allCode: projFiles.map((f) => f.code), routes, manifests: manifestFiles.map((m) => ({ rel: m.rel, raw: m.raw, lock: /lock|shrinkwrap|\.sum$/i.test(m.rel) })) };
   for (const rule of PROJECT_RULES) {
     try { for (const h of rule.check(ctx)) raw.push({ ruleId: rule.id, file: h.file, line: h.line || 1, col: 1, detail: h.detail, source: 'project' }); } catch { /* ignore */ }
   }
