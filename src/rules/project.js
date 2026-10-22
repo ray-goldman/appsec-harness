@@ -1,5 +1,6 @@
 'use strict';
 // Repository-wide checks that need more than one file of context.
+const { authLoggingEvidence } = require('../auth-logging-evidence');
 
 module.exports = [
   {
@@ -47,10 +48,11 @@ module.exports = [
     id: 'PROJ-LOGGING-001', title: 'Authentication code with no security event logging',
     owasp: 'A09', cwe: [778, 223], severity: 'low', confidence: 'low',
     check: (ctx) => {
-      const authFiles = ctx.files.filter((f) => /\b(?:login|authenticate|signIn|verifyPassword|password_verify|check_password|bcrypt\.compare|compare_digest)\b/.test(f.code));
+      const hint = /\b(?:login|authenticate|signIn|verifyPassword|password_verify|check_password|bcrypt\.compare|compare_digest)\b/;
+      const authFiles = ctx.files.filter((f) => hint.test(f.code)).map((f) => ({ ...f, ...authLoggingEvidence(f) })).filter((f) => hint.test(f.authCode));
       if (!authFiles.length) return [];
       const logs = /\b(?:logger|log|logging|winston|pino|bunyan|console)\.(?:warn|error|info|warning|critical|audit)\b|audit[_-]?log|securityLog|Log\.(?:w|e|i)\(|slog\.|zap\.|logrus\./;
-      return authFiles.filter((f) => !logs.test(f.code)).slice(0, 5).map((f) => ({ file: f.rel, line: f.code.split('\n').findIndex((l) => /login|authenticate|signIn|password/i.test(l)) + 1 || 1 }));
+      return authFiles.filter((f) => !logs.test(f.loggingCode)).slice(0, 5).map((f) => ({ file: f.rel, line: f.code.split('\n').findIndex((l) => /login|authenticate|signIn|password/i.test(l)) + 1 || 1 }));
     },
     message: 'Login failures, lockouts and privilege changes are not logged here, so brute force and account takeover go unnoticed.',
     fix: 'Log auth successes/failures (user id, source IP, outcome — never passwords) to a monitored sink and alert on anomalies.',

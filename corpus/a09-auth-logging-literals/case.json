@@ -1,0 +1,7 @@
+{
+  "id": "a09-auth-logging-literals",
+  "owasp": "A09",
+  "cwe": [778, 223],
+  "description": "Real credential verification requires event logging; browser labels and navigation strings do not establish a missing server audit trail.",
+  "expect": ["PROJ-LOGGING-001"]
+}
