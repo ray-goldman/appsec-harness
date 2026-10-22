@@ -14,6 +14,7 @@ const pkg = require('../package.json');
 const { constantSinkFilter } = require('./java-constants');
 const { createCSharpConstantSinkProof } = require('./csharp-constant-sinks');
 const { createDomConstantProof } = require('./js-dom-constants');
+const { createPythonLoggingProof } = require('./python-log-evidence');
 const { buildJavaProjectIndex } = require('./java-project');
 const { javaOutputFilter } = require('./java-sanitizers');
 const { buildScriptProject, scriptSinkFilter } = require('./script-helpers');
@@ -89,6 +90,7 @@ function applyCodeRules(file, lang, raw, codeLines, taint, javaProject, scriptPr
   const goTaint = lang === 'go' ? goFunctionTaint(code, raw, taint) : null;
   const csharpConstantSink = lang === 'csharp' ? createCSharpConstantSinkProof(code) : null;
   const domConstantSink = lang === 'javascript' ? createDomConstantProof(raw, file) : null;
+  const pythonLogging = lang === 'python' ? createPythonLoggingProof(code, scriptProject) : null;
   const win = (i) => (windows[i] === undefined ? (windows[i] = windowAt(codeLines, i)) : windows[i]);
   for (const rule of CODE_RULES) {
     if (!rule.languages.includes(lang)) continue;
@@ -155,6 +157,7 @@ function applyCodeRules(file, lang, raw, codeLines, taint, javaProject, scriptPr
         }
       }
       if (hit) {
+        if (rule.id === 'PY-LOG-001' && pythonLogging && pythonLogging(i)) continue;
         if (rule.id === 'JS-XSS-001' && domConstantSink && domConstantSink(i)) continue;
         if (lang === 'csharp' && ['CS-SQLI-001', 'CS-CMDI-001'].includes(rule.id) &&
             csharpConstantSink(i, rule.id)) continue;

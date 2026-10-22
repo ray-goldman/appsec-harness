@@ -1,0 +1,1 @@
+{"id":"a09-python-docstring-auth","owasp":"A09","cwe":[778,223],"description":"An undocumented authentication decision needs audit logging, while a utility docstring is data.","expect":["PROJ-LOGGING-001"]}

@@ -29,12 +29,13 @@ function buildScriptProject(files, complete) {
     } catch { complete = false; }
   }
   const sources = [...entries.values()];
+  const indexedComplete = complete;
   // Dynamic namespace edits can invalidate either built-in or module identity.
   if (sources.some(s => /\b(?:eval|setattr|getattr|globals|locals|vars|__dict__|__builtins__|builtins|globalThis|Reflect)\b|\bObject\s*\.\s*(?:defineProperty|assign)|\bglobal\s*\.|\bFunction\s*\(|\brequire\s*\.\s*(?:cache|extensions)|\bModule\s*\.\s*_load|\bmodule\s*\.\s*constructor|\bfrom\b[^\n]*\bimport\s*\*/.test(s.code) ||
       (s.lang === 'python' && (/\bexec\s*\(/.test(s.code) || /[^\x00-\x7f]|\f|\v/.test(s.mask))) ||
       (s.lang === 'javascript' && (/\bwith\s*\(|\.\s*constructor\b|\b(?:global|window|self)\b/.test(s.mask) ||
         [...s.mask.matchAll(/\bthis\b/g)].some(m => !/^\s*\.\s*[A-Za-z_$]/.test(s.mask.slice(m.index + 4))))))) complete = false;
-  return { entries, complete, sources, proofs: 0 };
+  return { entries, complete, indexedComplete, sources, proofs: 0 };
 }
 
 function builtin(entry, name, project) {

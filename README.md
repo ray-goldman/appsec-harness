@@ -120,7 +120,7 @@ Follow [the repository instructions](AGENTS.md) when reviewing a target: treat i
 
 ## Accuracy and limits
 
-The regression corpus contains 178 vulnerable/fixed pairs written alongside the rules. Its 100% precision and recall detect regressions against those expectations; they do not establish independent detection accuracy.
+The regression corpus contains 180 vulnerable/fixed pairs written alongside the rules. Its 100% precision and recall detect regressions against those expectations; they do not establish independent detection accuracy.
 
 The [.NET command-proof follow-up](docs/DOTNET-COMMAND-PRECISION.md) covers additional constant command forms, unsafe counterparts and the type-resolution blockers behind the remaining Juliet command alerts.
 
@@ -203,6 +203,11 @@ The [authentication logging refinement](docs/AUTH-LOGGING-PRECISION.md)
 distinguishes supported literal browser redirects from authentication-code
 evidence. Dynamic dispatch, executable URLs and detected owner mutations
 retain the original heuristic behavior.
+
+The [Python audit-message pass](docs/PYTHON-LOGGING-PRECISION.md) checks a
+bounded lifecycle-message grammar and standard source-address arguments,
+and separates supported plain docstrings from authentication-name evidence.
+Dynamic expressions, detected mutations and unknown syntax retain warnings.
 
 ## Development
 

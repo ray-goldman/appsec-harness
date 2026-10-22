@@ -75,6 +75,6 @@ test('parser absence and structural budgets retain auth literal hints',async t=>
   assert.ok((await findings(t,source)).length);
  } finally {Module._load=original;}
 });
-test('other-language auth evidence is unchanged including docstrings',async t=>{
- assert.ok((await findings(t,'def probe():\n    """Never authenticate in this diagnostic."""\n    return 1\n','probe.py')).length);
+test('Python documentation-only auth hints are refined',async t=>{
+ assert.equal((await findings(t,'def probe():\n    """Never authenticate in this diagnostic."""\n    return 1\n','probe.py')).length,0);
 });
