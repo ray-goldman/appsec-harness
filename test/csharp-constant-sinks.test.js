@@ -185,3 +185,82 @@ test('direct local proofs reject deconstruction writes and aliased scalar conver
   const code='using String = External.AttackerText;\nclass Sample { private string Value() { String text = "fixed"; return text; }\nvoid Run() {\n Process.Start("cmd /c " + Value());\n} }';
   assert.equal(isConstantCSharpSink({code,line:3,ruleId:'CS-CMDI-001'}),false);
 });
+
+test('command proofs check every executable and argument expression on a line', () => {
+  assert.equal(constantProof('void Run() { string arg = "status";\n Process.Start("cmd.exe", "/c " + arg);\n}'), true);
+  assert.equal(constantProof('void Run(string input) {\n Process.Start("cmd.exe", "/c " + input);\n}'), false);
+  assert.equal(constantProof('void Run(string input) {\n Process.Start("fixed"); Process.Start("cmd /c " + input);\n}'), false);
+  assert.equal(constantProof('void Run(string input) {\n Process.Start("fixed"); info.Arguments = "/c " + input;\n}'), false);
+  assert.equal(constantProof('void Run(string input) {\n Process.Start("cmd.exe", "/c " + input); Process.Start("fixed");\n}'), false);
+  assert.equal(constantProof('void Run() {\n Process.Start("tool", "--version"); Process.Start("other", "--help");\n}'), true);
+  assert.equal(constantProof('void Run() { String arg = "status";\n Process.Start("cmd.exe", "/c " + arg);\n}'),false);
+  assert.equal(constantProof('void Run() { var arg = "status";\n Process.Start("cmd.exe", "/c " + arg);\n}'),false);
+});
+
+test('command proofs accept constant-only conditional and null-coalescing values', () => {
+  assert.equal(constantProof('void Run(bool flag) { string data = flag ? "status" : "help";\n Process.Start("cmd /c " + data);\n}'), true);
+  assert.equal(constantProof('void Run(bool flag, bool other) { string data = flag ? (other ? "status" : "help") : null;\n Process.Start("cmd /c " + (data ?? "version"));\n}'), true);
+  assert.equal(constantProof('void Run(string input, bool flag) { string data = flag ? "status" : input;\n Process.Start("cmd /c " + data);\n}'), false);
+  assert.equal(constantProof('void Run(string input) { string data = input ?? "status";\n Process.Start("cmd /c " + data);\n}'), false);
+  assert.equal(constantProof('void Run(string input, bool flag) { string data = "status"; bool other = flag && ((data = input) != null);\n Process.Start("cmd /c " + (other ? data : "help"));\n}'), false);
+});
+
+test('conditional proofs never confuse reordered named helper arguments with conditions', () => {
+  const members='private string Value(string command, string unused) { return command; }';
+  assert.equal(constantProof('void Run(string input, bool flag) { string shell = "cmd /c ";\n Process.Start(shell + Value(unused: flag ? "fixed" : "fixed", command: input));\n}',members),false);
+  assert.equal(constantProof('void Run(string input, bool flag) { string shell = "cmd /c ";\n Process.Start(shell + Value(unused: flag ? "fixed" : "fixed", command: input ?? "fixed"));\n}',members),false);
+});
+
+test('explicit built-in string aliases support closed private helper proofs', () => {
+  const code = `using String = string;
+class Sample {
+ private String Value() { String text = "status"; return text; }
+ void Run() {
+  Process.Start("cmd /c " + Value());
+ }
+}`;
+  assert.equal(isConstantCSharpSink({code,line:4,ruleId:'CS-CMDI-001'}),true);
+  for(const unsafe of [
+    code.replace('using String = string;', 'using String = External.Text;'),
+    code.replace('using String = string;', 'using System;'),
+    code.replace('class Sample {','class Sample : ExternalBase {'),
+    code.replace('class Sample {','namespace External { class Sample {')+'}',
+    code.replace('class Sample {','class Sample<String> {'),
+    code.replace('class Sample {','class Sample : ExternalBase<int> {').replace('String text', 'int a=1; int b=2; int c=3; int d=4; int e=5; String text'),
+    code.replace('String text = "status"', 'String text = Request.Query["cmd"]'),
+  ]) assert.equal(isConstantCSharpSink({code:unsafe,line:4,ruleId:'CS-CMDI-001'}),false,unsafe);
+});
+
+test('generic inherited String types cannot bypass alias rejection through padding', () => {
+  const code=`using String = string;
+class Sample : ExternalBase<int> {
+ void Run() { int a=1; int b=2; int c=3; int d=4; int e=5; String text = "status";
+  Process.Start(text + "");
+ }
+}`;
+  assert.equal(isConstantCSharpSink({code,line:3,ruleId:'CS-CMDI-001'}),false);
+});
+
+test('scanner retains unsafe twins of multi-argument and branch-only command calls', async t => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'kayfabe-command-proofs-'));
+  t.after(() => fs.rmSync(root, { recursive:true, force:true }));
+  fs.writeFileSync(path.join(root,'Safe.cs'), `using String = string;
+class Safe {
+ private String Argument() { String value = "status"; return value; }
+ void Run(bool flag) { string shell = "cmd /c ";
+  Process.Start("cmd.exe", "/c " + Argument());
+  Process.Start(shell + (flag ? "status" : "help"));
+ }
+}`);
+  fs.writeFileSync(path.join(root,'Unsafe.cs'), `class Unsafe {
+ void Run(string input, bool flag) { string shell = "cmd /c ";
+  Process.Start("cmd.exe", "/c " + input);
+  Process.Start(shell + (flag ? "status" : input));
+  Process.Start("fixed"); Process.Start(shell + input);
+ }
+}`);
+  const result = await scan(root,{includeTests:true});
+  assert.deepEqual(result.findings.filter(f=>f.ruleId==='CS-CMDI-001').map(f=>[f.file,f.line]),[
+    ['Unsafe.cs',3],['Unsafe.cs',4],['Unsafe.cs',5],
+  ]);
+});

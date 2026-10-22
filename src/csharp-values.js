@@ -16,6 +16,8 @@ function split(tokens, separator) {
   return result;
 }
 
+const namedArgument = tokens => tokens[0]?.kind === 'identifier' && tokens[1]?.text === ':';
+
 // This proof deliberately accepts a small subset. All syntactic writes count,
 // including branches not selected by the current caller or build configuration.
 function createCSharpValueProof(code, ast) {
@@ -33,10 +35,17 @@ function createCSharpValueProof(code, ast) {
   // Partial, nested and multiple types need a project-wide ownership proof.
   if (index.types.length !== 1 || index.types[0].partial || index.methods.length > 256 || index.diagnostics.truncated) return () => false;
   const owner = index.types[0], methods = index.methods;
+  // An exact keyword alias avoids guessing what an imported String denotes.
+  // Keep its scope closed: namespaces, bases and generic owners can shadow it.
+  const stringAliases = tokens.filter((t,i) => t.text === 'using' && id(tokens[i+1]) === 'String' && tokens[i+2]?.text === '=');
+  const aliasIndex = stringAliases.length === 1 ? positions.get(stringAliases[0].start) : -1;
+  const keywordStringAlias = aliasIndex >= 0 && tokens[aliasIndex+3]?.text === 'string' && tokens[aliasIndex+4]?.text === ';' &&
+    !tokens.some(t => ['namespace', '<'].includes(t.text)) && !owner.bases?.length;
+  const scalar = type => SCALARS.has(type) || type === 'String' && keywordStringAlias;
   const models = new Map(), fields = new Map();
   for (const field of owner.fields) {
     const position = tokens.findIndex((token, i) => id(token) === field.name && tokens[i + 1]?.text === ';');
-    if (position < 0 || !SCALARS.has(field.type) || ['String','var'].includes(field.type)) continue;
+    if (position < 0 || !scalar(field.type)) continue;
     let start = position - 1;
     while (start >= 0 && ![';', '{', '}'].includes(tokens[start].text)) start--;
     const prefix = tokens.slice(start + 1, position).map(t => t.text);
@@ -71,7 +80,7 @@ function createCSharpValueProof(code, ast) {
       const declaration=previous?.kind==='identifier'&&!['return','throw','await','yield'].includes(previous.text)||['>','?',']'].includes(previous?.text);
       if (token.kind === 'identifier' && declaration && ['=', ';'].includes(ts[i + 1]?.text)) {
         const name = id(token), duplicate = scope.bindings.has(name);
-        const binding = { key: method.id + ':' + token.start, name, writes: [], invalid: duplicate || !SCALARS.has(previous.text) };
+        const binding = { key: method.id + ':' + token.start, name, writes: [], invalid: duplicate || !scalar(previous.text) };
         if (duplicate) scope.bindings.get(name).invalid = true;
         scope.bindings.set(name, binding); allBindings.push(binding);
       }
@@ -148,7 +157,7 @@ function createCSharpValueProof(code, ast) {
     if (!binding || binding.invalid || visiting.has(binding.key)) return false;
     const next = new Set(visiting); next.add(binding.key);
     if (binding.parameter !== undefined) {
-      if (!['string','char','int','long','short','byte','bool','float','double','decimal'].includes(binding.method.parameterTypes[binding.parameter])) return false;
+      if (!scalar(binding.method.parameterTypes[binding.parameter])) return false;
       const target = helper(binding.method.name);
       if (!target) return false;
       let sites = 0;
@@ -160,7 +169,7 @@ function createCSharpValueProof(code, ast) {
         const caller = modelAt(tokens[i]);
         if (!caller || caller.invalid) return false;
         const args = split(tokens.slice(i + 2, pairs.get(i + 1)), ',');
-        if (args.length !== target.method.arity || !prove(args[binding.parameter], caller, next, depth + 1)) return false;
+        if (args.length !== target.method.arity || args.some(namedArgument) || !prove(args[binding.parameter], caller, next, depth + 1)) return false;
         sites++;
       }
       return sites > 0;
@@ -171,6 +180,22 @@ function createCSharpValueProof(code, ast) {
     if (!model || model.invalid || !expression?.length || expression.length > 256 || depth > 24) return false;
     while (expression[0]?.text === '(' && expression.at(-1)?.text === ')' &&
         pairs.get(positions.get(expression[0].start)) === positions.get(expression.at(-1).start)) expression = expression.slice(1, -1);
+    // The condition may be unknown; both possible values must be proved safe.
+    let level = 0, question = -1, nested = 0;
+    for (let i = 0; i < expression.length; i++) {
+      const text = expression[i].text;
+      if (['(', '[', '{'].includes(text)) level++;
+      else if ([')', ']', '}'].includes(text)) level--;
+      else if (!level && text === '?') { if (question < 0) question = i; else nested++; }
+      else if (!level && text === ':' && question >= 0) {
+        if (nested) { nested--; continue; }
+        return question > 0 && prove(expression.slice(question + 1, i), model, visiting, depth + 1) &&
+          prove(expression.slice(i + 1), model, visiting, depth + 1);
+      }
+    }
+    if (question >= 0) return false;
+    const coalesced = split(expression, '??');
+    if (coalesced.length > 1) return coalesced.every(part => prove(part, model, visiting, depth + 1));
     const parts = split(expression, '+');
     if (parts.length > 1) return parts.every(part => prove(part, model, visiting, depth + 1));
     if (expression.length === 1) {
@@ -186,9 +211,9 @@ function createCSharpValueProof(code, ast) {
     if (prefix.length === 3 && id(prefix[0]) !== 'this' && shadowedName(id(prefix[0]))) return false;
     const callee = helper(id(prefix.at(-1)));
     const args = expression.length === open + 2 ? [] : split(expression.slice(open + 1, -1), ',');
-    if (!callee || callee.method.arity !== args.length || !callee.returns.length || visiting.has(callee.method.id)) return false;
+    if (!callee || callee.method.arity !== args.length || args.some(namedArgument) || !callee.returns.length || visiting.has(callee.method.id)) return false;
     const nameIndex=positions.get(callee.method.start);
-    if (!['string','char','int','long','short','byte','bool','float','double','decimal'].includes(tokens[nameIndex-1]?.text)) return false;
+    if (!scalar(tokens[nameIndex-1]?.text)) return false;
     const next = new Set(visiting); next.add(callee.method.id);
     return callee.returns.every(result => prove(result, callee, next, depth + 1));
   }
