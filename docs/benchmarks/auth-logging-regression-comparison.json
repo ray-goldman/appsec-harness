@@ -1,0 +1,86 @@
+{
+  "schema": "kayfabe-auth-logging-regression-comparison@1",
+  "tier": "self-authored regression; authored after examining rules and development datasets",
+  "policy": "PROJ-LOGGING-001 sites in invented paired fixtures only; excluded from existing benchmark totals",
+  "before": {
+    "sourceSha256": "fa16edc300ff0cc28199d12c9a26f37f5dfc40c8056f480aea28923b3c7dbcda",
+    "vuln": {
+      "files": [
+        {
+          "file": "client.js",
+          "sha256": "1b3b8166d197ebbf6286744148ae6649d965d12496c9456adb4227ed1e53384c"
+        },
+        {
+          "file": "server.js",
+          "sha256": "c9a39846fea7488f6bf540204031c84780145fd90febbf4cdce140d7f421dba7"
+        }
+      ],
+      "findings": [
+        {
+          "ruleId": "PROJ-LOGGING-001",
+          "file": "client.js",
+          "line": 2
+        },
+        {
+          "ruleId": "PROJ-LOGGING-001",
+          "file": "server.js",
+          "line": 1
+        }
+      ]
+    },
+    "fixed": {
+      "files": [
+        {
+          "file": "client.js",
+          "sha256": "1b3b8166d197ebbf6286744148ae6649d965d12496c9456adb4227ed1e53384c"
+        },
+        {
+          "file": "server.js",
+          "sha256": "0c6871aea714caa90f3efb595842dbf28fc9f79a77afe7e2ed230dcf2258bf28"
+        }
+      ],
+      "findings": [
+        {
+          "ruleId": "PROJ-LOGGING-001",
+          "file": "client.js",
+          "line": 2
+        }
+      ]
+    }
+  },
+  "after": {
+    "sourceSha256": "3942c65d6c05e10f0ccfe9ef2c7eb43ff5335759c3102aa910813d03be0eedd9",
+    "vuln": {
+      "files": [
+        {
+          "file": "client.js",
+          "sha256": "1b3b8166d197ebbf6286744148ae6649d965d12496c9456adb4227ed1e53384c"
+        },
+        {
+          "file": "server.js",
+          "sha256": "c9a39846fea7488f6bf540204031c84780145fd90febbf4cdce140d7f421dba7"
+        }
+      ],
+      "findings": [
+        {
+          "ruleId": "PROJ-LOGGING-001",
+          "file": "server.js",
+          "line": 1
+        }
+      ]
+    },
+    "fixed": {
+      "files": [
+        {
+          "file": "client.js",
+          "sha256": "1b3b8166d197ebbf6286744148ae6649d965d12496c9456adb4227ed1e53384c"
+        },
+        {
+          "file": "server.js",
+          "sha256": "0c6871aea714caa90f3efb595842dbf28fc9f79a77afe7e2ed230dcf2258bf28"
+        }
+      ],
+      "findings": []
+    }
+  }
+}
