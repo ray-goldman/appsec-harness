@@ -120,7 +120,7 @@ Follow [the repository instructions](AGENTS.md) when reviewing a target: treat i
 
 ## Accuracy and limits
 
-The regression corpus contains 176 vulnerable/fixed pairs written alongside the rules. Its 100% precision and recall detect regressions against those expectations; they do not establish independent detection accuracy.
+The regression corpus contains 177 vulnerable/fixed pairs written alongside the rules. Its 100% precision and recall detect regressions against those expectations; they do not establish independent detection accuracy.
 
 The [.NET command-proof follow-up](docs/DOTNET-COMMAND-PRECISION.md) covers additional constant command forms, unsafe counterparts and the type-resolution blockers behind the remaining Juliet command alerts.
 
@@ -194,6 +194,10 @@ recall gate fails, and the independent application gates remain unmeasured.
 General taint tracking remains intra-file; Java's bounded helper proofs do not provide a whole-program call graph. Other cross-file flows may appear as lower-confidence pattern findings or in the attack-surface map for a reviewer to follow. This is a fast static first pass, not a replacement for whole-program tools such as CodeQL or Semgrep Pro, or for dynamic application testing.
 
 See [the prioritized roadmap](docs/ROADMAP.md) for independent datasets, parsing, supply-chain data, triage evaluation, and PR integration.
+
+The [JavaScript fixed-markup proof](docs/DOM-CONSTANT-PRECISION.md) checks
+primitive DOM output without trusting helper names. It retains alerts for
+dynamic values, unsupported syntax and ambiguous overlapping writes.
 
 ## Development
 
