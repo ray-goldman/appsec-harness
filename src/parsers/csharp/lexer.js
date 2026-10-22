@@ -76,7 +76,7 @@ function tokenizeCSharp(source) {
       i += c === '@' ? 2 : 1; while (isId(source[i])) i++; push('identifier', start, i); continue;
     }
     if (/\d/.test(c)) { i++; while (/[\w.]/.test(source[i] || '')) i++; push('number', start, i); continue; }
-    const op = ['=>','==','!=','<=','>=','??','?.','::','&&','||','++','--','+=','-=','*=','/=','??=','?.','<<','>>'].find(x => source.startsWith(x, i));
+    const op = ['??=','=>','==','!=','<=','>=','??','?.','::','&&','||','++','--','+=','-=','*=','/=','?.','<<','>>'].find(x => source.startsWith(x, i));
     i += op ? op.length : 1; push('punctuation', start, i);
   }
   for (const open of directives) error('unterminated preprocessor conditional', open.start);

@@ -18,6 +18,8 @@ function propagateSummaries(inputSummaries,calls,{maxIterations=32,maxEdges=1000
     .sort((a,b)=>a.key.localeCompare(b.key)).slice(0,maxEdges).map(item=>item.call);
   let iterations=0,changed=false;
   const truncated=calls.filter(valid).length>maxEdges||inputSummaries.length>50000;
+  const sinkKey = sink => JSON.stringify([sink.parameter,sink.category,sink.sanitized,sink.sinkLocation||null]);
+  const flowKey = flow => JSON.stringify([flow.source,flow.category,flow.sourceLocation,flow.sinkLocation]);
   do {
     const previous=new Map(summaries.map(s=>[s.methodId,s]));
     summaries=summaries.map(clone);
@@ -25,15 +27,18 @@ function propagateSummaries(inputSummaries,calls,{maxIterations=32,maxEdges=1000
     changed=false;iterations++;
     for(const call of edges) {
       const caller=next.get(call.callerId),callee=previous.get(call.calleeId);
+      const sinkKeys=new Set(caller.parameterToSinks.map(sinkKey)),flowKeys=new Set(caller.sourcesToSinks.map(flowKey));
       for(const input of call.sourceArguments||[]) {
-        for(const sink of callee.parameterToSinks.filter(s=>s.parameter===input.argument)) {
+        for(const sink of callee.parameterToSinks.filter(s=>s.parameter===input.argument&&!s.sanitized)) {
           const flow={source:input.source,category:sink.category,sourceLocation:input.sourceLocation,sinkLocation:sink.sinkLocation||call.location,callPath:[call.callerId,...(sink.callPath||[call.calleeId])]};
-          if(!caller.sourcesToSinks.some(s=>JSON.stringify(s)===JSON.stringify(flow))) {caller.sourcesToSinks.push(flow);changed=true;}
+          const key=flowKey(flow);
+          if(!flowKeys.has(key)) {flowKeys.add(key);caller.sourcesToSinks.push(flow);changed=true;}
         }
       }
       for(const flow of callee.sourcesToSinks||[]) {
         const wrapped={...flow,callPath:[call.callerId,...flow.callPath]};
-        if(!caller.sourcesToSinks.some(s=>JSON.stringify(s)===JSON.stringify(wrapped))) {caller.sourcesToSinks.push(wrapped);changed=true;}
+        const key=flowKey(wrapped);
+        if(!flowKeys.has(key)) {flowKeys.add(key);caller.sourcesToSinks.push(wrapped);changed=true;}
       }
       if(call.returnsResult===true) for(const parameter of callee.parameterToReturn) {
         const p=call.argumentToCallerParameter[parameter];
@@ -42,10 +47,10 @@ function propagateSummaries(inputSummaries,calls,{maxIterations=32,maxEdges=1000
       for(const sink of callee.parameterToSinks) {
         const p=call.argumentToCallerParameter[sink.parameter];
         if(!Number.isInteger(p)) continue;
-        const existing=caller.parameterToSinks.find(s=>s.parameter===p&&s.category===sink.category&&s.sanitized===sink.sanitized);
         const callPath=[call.callerId,...(sink.callPath||[call.calleeId])];
-        if(existing && callPath.length>(existing.callPath||[]).length) {existing.callPath=callPath;existing.sinkLocation=sink.sinkLocation;changed=true;}
-        else if(!existing) {
+        const key=sinkKey({...sink,parameter:p});
+        if(!sinkKeys.has(key)) {
+          sinkKeys.add(key);
           caller.parameterToSinks.push({...sink,parameter:p,callPath});changed=true;
         }
       }

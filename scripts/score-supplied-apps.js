@@ -56,10 +56,13 @@ function scoreLines(files, findings) {
 
 async function evaluate(root) {
   const files = inventory(root), apps = [];
+  const sourceSha256=toolHash(),evaluatorSha256=hash(fs.readFileSync(__filename));
+  const inputHash=items=>hash(JSON.stringify(items.map(({file,sha256})=>({file,sha256}))));
+  const inputSha256=inputHash(files),options={includeTests:true};
   for (const name of fs.readdirSync(root).sort()) {
     if (!fs.statSync(path.join(root, name)).isDirectory()) continue;
     const appFiles = files.filter(f => f.file.startsWith(name + '/')).map(f => ({ ...f, file: f.file.slice(name.length + 1) }));
-    const result = await scan(path.join(root, name), { includeTests: true });
+    const result = await scan(path.join(root, name), options);
     const scored = scoreLines(appFiles, result.findings);
     const extra = appFiles.find(f => f.file === 'bench.extra.json');
     apps.push({ app: name, findings: result.findings.length, ...scored,
@@ -67,9 +70,9 @@ async function evaluate(root) {
   }
   const totals = { cases: 0, tp: 0, fp: 0, tn: 0, fn: 0 };
   for (const app of apps) for (const key of Object.keys(totals)) totals[key] += app.totals[key];
+  if(sourceSha256!==toolHash()||evaluatorSha256!==hash(fs.readFileSync(__filename))||inputSha256!==inputHash(inventory(root)))throw new Error('benchmark engine, evaluator or inputs changed during scanning');
   return { schema: 'appsec-harness/supplied-apps@1', measuredAt: new Date().toISOString(),
-    sourceSha256: toolHash(), evaluatorSha256: hash(fs.readFileSync(__filename)),
-    inputSha256: hash(JSON.stringify(files.map(({ file, sha256 }) => ({ file, sha256 })))),
+    sourceSha256,evaluatorSha256,inputSha256,scan:{options},
     policy: { labels: 'User-supplied, unadjudicated; not independent accuracy evidence',
       matching: 'Exact file+CWE; finding at first line after marker or next two lines; nearest marker; one label per finding',
       manifestLabels: 'Unscored: package/CVE identity requires a separate adapter',

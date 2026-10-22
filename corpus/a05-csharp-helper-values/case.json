@@ -1,0 +1,7 @@
+{
+  "id": "a05-csharp-helper-values",
+  "owasp": "A05",
+  "cwe": [78, 89],
+  "description": "Private helper returns and private fields suppress SQL/command alerts only when every relevant value and write is proved constant.",
+  "expect": ["CS-SQLI-001", "CS-CMDI-001"]
+}

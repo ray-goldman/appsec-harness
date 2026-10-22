@@ -57,3 +57,24 @@ test('keeps unsupported call forms unresolved', () => {
     assert.equal(resolveCall(call, index).status, 'unresolved');
   }
 });
+
+test('unique interface implementer resolves across namespaces without a registration', () => {
+  const { analyzeDotnetSummaries } = require('../src/dotnet/analysis');
+  const files = [
+    {file:'Controller.cs',source:'class Controller { private readonly IData _data; public Controller(IData data) { _data = data; } public void Get(){ _data.Save(Request.Query["q"].ToString()); } }'},
+    {file:'Data.cs',source:'namespace Storage { interface IData { void Save(string value); } class Data : IData { public void Save(string value) { db.ExecuteSqlRaw(value); } } }'},
+  ];
+  assert.ok(analyzeDotnetSummaries(files).findings.some(f=>f.confidence==='high'));
+  files.push({file:'Other.cs',source:'namespace Storage { class Other : IData { public void Save(string value) { db.ExecuteSqlRaw(value); } } }'});
+  assert.equal(analyzeDotnetSummaries(files).findings.some(f=>f.confidence==='high'),false);
+});
+
+test('a registration with an unresolved alternative cannot establish a unique implementation', () => {
+  const { analyzeDotnetSummaries } = require('../src/dotnet/analysis');
+  const files = [
+    {file:'Controller.cs',source:'namespace App { class Controller { private readonly IData _data; public Controller(IData data){ _data=data; } public void Get(){ _data.Save(Request.Query["q"].ToString()); } } }'},
+    {file:'Data.cs',source:'namespace App { interface IData { void Save(string value); } class Data : IData { public void Save(string value){ db.ExecuteSqlRaw(value); } } }'},
+    {file:'Program.cs',source:'namespace App { class Program { void Setup(){ services.AddScoped<IData, Data>(); services.AddScoped<IData, Missing>(); } } }'},
+  ];
+  assert.equal(analyzeDotnetSummaries(files).findings.some(f=>f.confidence==='high'),false);
+});

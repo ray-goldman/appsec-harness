@@ -4,6 +4,7 @@ const { summarizeMethod }=require('./method-summaries');
 const { propagateSummaries }=require('./summary-fixpoint');
 const { resolveCall }=require('./call-resolution');
 const { tokenizeCSharp }=require('../parsers/csharp/lexer');
+const { methodValues }=require('./value-flow');
 
 function analyzeDotnetSummaries(files, limits = {}) {
   const index=buildDotnetProjectIndex(files),calls=[];
@@ -19,7 +20,7 @@ function analyzeDotnetSummaries(files, limits = {}) {
     if(typeIds.has(name))return name;
     const local=namespace?namespace+'.'+name:null;if(local&&typeIds.has(local))return local;
     const found=(typeIdsByShortName.get(name.split('.').at(-1))||[]).filter(id=>id.endsWith('.'+name)||id===name);
-    return found.length===1?found[0].id:null;
+    return found.length===1?found[0]:null;
   };
   let truncated=index.diagnostics.truncated;
   const requestSource=tokens=>{
@@ -28,7 +29,7 @@ function analyzeDotnetSummaries(files, limits = {}) {
   };
   for(const summary of direct) {
     if(summary.unresolvedCallSites.some(s=>['body-limit','token-limit','unsupported-control-flow','parameter-write'].includes(s.reason))) continue;
-    const method=byId.get(summary.methodId),ts=tokenizeCSharp(method.body).tokens;
+    const method=byId.get(summary.methodId),values=methodValues(method),ts=values.tokens;
     const ret=ts.findIndex(t=>t.text==='return'),semi=ret<0?-1:ts.findIndex((t,i)=>i>ret&&t.text===';');
     const limit=semi<0?ts.length:semi;
     for(let i=0;i<limit;i++) {
@@ -58,13 +59,15 @@ function analyzeDotnetSummaries(files, limits = {}) {
       }
       const mapping=[],argumentTypes=[],sourceArguments=[];let unknown=close>=ts.length;
       for(let n=0;n<args.length;n++) {
-        const arg=args[n],p=arg.length===1&&arg[0].kind==='identifier'?method.parameters.findIndex(x=>x.name===arg[0].text.replace(/^@/,'')):-1;
-        if(p>=0) {mapping.push(p);argumentTypes.push(method.parameterTypes[p]);}
-        else if(arg.length===1&&arg[0].kind==='string') {mapping.push(null);argumentTypes.push('string');}
-        else if(arg.length===1&&arg[0].kind==='number'&&/^\d+$/.test(arg[0].text)) {mapping.push(null);argumentTypes.push('int');}
+        const arg=args[n],flow=values.valueAt(arg,ts[i].start),p=flow.known&&flow.parameters.length===1?flow.parameters[0]:-1;
+        if(p>=0) {
+          mapping.push(p);argumentTypes.push(flow.type||method.parameterTypes[p]);
+          if(flow.source&&flow.type==='string') sourceArguments.push({argument:n,source:flow.source.source,sourceLocation:{file:method.file,line:method.bodyLine+method.body.slice(0,flow.source.offset).split(/\r?\n/).length-1}});
+        }
+        else if(flow.known&&flow.constant&&flow.type) {mapping.push(null);argumentTypes.push(flow.type);}
         else {
-          const source=requestSource(arg);
-          const toString=arg.some((token,j)=>token.text==='ToString'&&arg[j+1]?.text==='(');
+          const source=flow.source||requestSource(arg);
+          const toString=flow.type==='string'||arg.some((token,j)=>token.text==='ToString'&&arg[j+1]?.text==='(');
           if(source&&toString) {mapping.push(null);argumentTypes.push('string');sourceArguments.push({argument:n,source:source.source,sourceLocation:{file:method.file,line:method.bodyLine+method.body.slice(0,source.offset).split(/\r?\n/).length-1}});}
           else {unknown=true;mapping.push(null);argumentTypes.push(null);}
         }
@@ -122,13 +125,12 @@ function analyzeDotnetSummaries(files, limits = {}) {
   for(const method of methods.filter(m=>['public','protected'].includes(m.visibility))) {
     const summary=summariesById.get(method.id);
     const hasVisibleCaller=visibleCallTargets.has(method.id);
-    if(hasVisibleCaller) continue;
     for(const sink of summary.parameterToSinks) {
       const loc=sink.sinkLocation;if(!loc?.file)continue;
       const ruleId='DOTNET-PROJECT-TAINT-'+sink.category.toUpperCase(),key=[loc.file,loc.line,ruleId].join(':');
       if(highSinkLocations.has(key)||flowFindings.has(key))continue;
       flowFindings.set(key,{ruleId,file:loc.file,line:loc.line,category:sink.category,severity:severity[sink.category]||'medium',confidence:'low',cwe:cwe[sink.category]||[],
-        title:'Public method parameter reaches a '+sink.category+' sink',detail:'No caller was visible in the analyzed project; verify external call sites and input validation.',
+        title:'Public method parameter reaches a '+sink.category+' sink',detail:hasVisibleCaller?'Visible callers do not establish request taint; verify external call sites and input validation.':'No caller was visible in the analyzed project; verify external call sites and input validation.',
         callPath:sink.callPath||[method.id],taint:{source:'unresolved public parameter',line:method.startLine||1},source:'sast',owasp:owasp[sink.category]||'A05'});
     }
   }

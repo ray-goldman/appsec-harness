@@ -2,6 +2,7 @@
 
 const { parseCSharp } = require('./parsers/csharp/parser');
 const { tokenizeCSharp } = require('./parsers/csharp/lexer');
+const { createCSharpValueProof } = require('./csharp-values');
 
 const CONSTANT_TYPES = new Set(['string', 'String', 'char', 'int', 'long', 'short', 'byte', 'bool', 'float', 'double', 'decimal', 'var']);
 const MAX_METHOD = 50000;
@@ -110,14 +111,15 @@ function proveExpression(tokens, declarations, assignments, parameters, visiting
   return false;
 }
 
-function isConstantCSharpSink({ code, line, ruleId }) {
+function directConstantSink({ code, line, ruleId, parsed: suppliedParse }) {
   if (typeof code !== 'string' || !Number.isInteger(line) || line < 0 || code.length > 2 * 1024 * 1024 ||
       !['CS-CMDI-001', 'CS-SQLI-001'].includes(ruleId)) return false;
+  if (/\busing\s+(?:String|var)\s*=/.test(code)) return false;
   const lines = code.split(/\r?\n/);
   if (line >= lines.length) return false;
   const lineStart = lines.slice(0, line).reduce((sum, value) => sum + value.length + 1, 0);
   const lineEnd = lineStart + lines[line].length;
-  const parsed = parseCSharp(code);
+  const parsed = suppliedParse || parseCSharp(code);
   if (!parsed.complete) return false;
   const methods = parsed.methods.filter(method => method.start <= lineStart && method.end >= lineEnd);
   if (methods.length !== 1) return false;
@@ -163,7 +165,38 @@ function isConstantCSharpSink({ code, line, ruleId }) {
         ['ref', 'out'].includes(tokens[i - 1]?.text)) return false;
     if (tokens[i + 1]?.text === '=>' && tokens.slice(i + 2).some(token => token.kind === 'identifier' && relevant.has(token.text.replace(/^@/, '')))) return false;
   }
+  const opens=[];
+  for(let i=0;i<tokens.length;i++) {
+    if(tokens[i].text==='(')opens.push(i);
+    else if(tokens[i].text===')') {
+      const open=opens.pop();
+      if(open!==undefined&&tokens[i+1]?.text==='='&&tokens.slice(open+1,i).some(token=>token.kind==='identifier'&&relevant.has(token.text.replace(/^@/,''))))return false;
+    }
+  }
   return !!expression && proveExpression(expression, declarations, assignments, methodParams);
 }
 
-module.exports = { isConstantCSharpSink };
+function createCSharpConstantSinkProof(code) {
+  let parsed, tokens, proveValue;
+  return (line, ruleId) => {
+    if (typeof code !== 'string' || code.length > 2 * 1024 * 1024 || !Number.isInteger(line) || line < 0 ||
+        !['CS-CMDI-001', 'CS-SQLI-001'].includes(ruleId)) return false;
+    parsed ||= parseCSharp(code);
+    if (directConstantSink({ code, line, ruleId, parsed })) return true;
+    if (!parsed.complete) return false;
+    const lines = code.split(/\r?\n/);
+    if (line >= lines.length) return false;
+    const start = lines.slice(0, line).reduce((sum, text) => sum + text.length + 1, 0);
+    tokens ||= tokenizeCSharp(code).tokens;
+    const expression = sinkExpression(tokens, ruleId, start, start + lines[line].length);
+    if (!expression?.length) return false;
+    proveValue ||= createCSharpValueProof(code, parsed);
+    return proveValue(expression);
+  };
+}
+
+function isConstantCSharpSink({ code, line, ruleId }) {
+  return createCSharpConstantSinkProof(code)(line, ruleId);
+}
+
+module.exports = { isConstantCSharpSink, createCSharpConstantSinkProof };

@@ -43,3 +43,18 @@ test('labeled benchmarks record the opt-in project-analysis scan mode', async t 
   assert.deepEqual(report.scan.options.dotnetProjectAnalysisLimits, { maxIterations: 8, maxEdges: 10000 });
   assert.equal(report.scan.stats.dotnetProject.summaryVersion, 1);
 });
+
+test('accuracy comparisons reject changed labels, provenance and incoherent outcomes', () => {
+  const {compare}=require('../scripts/compare-dotnet-accuracy');
+  const before={dataset:{inputSha256:'a'.repeat(64)},tool:{sourceSha256:'b'.repeat(64)},policy:{id:'test@1'},
+    totals:{cases:1,tp:0,fp:1,tn:0,fn:0},cases:[{id:'safe',cwe:89,vulnerable:false,outcome:'fp'}]};
+  const after=structuredClone(before);after.cases[0].outcome='tn';after.totals={cases:1,tp:0,fp:0,tn:1,fn:0};
+  assert.equal(compare(before,after).transitions.fpToTn.count,1);
+  const label=structuredClone(after);label.cases[0].cwe=78;assert.throws(()=>compare(before,label),/label/);
+  const missing=structuredClone(after);delete missing.tool.sourceSha256;assert.throws(()=>compare(before,missing),/source/);
+  const invalid=structuredClone(before);invalid.cases[0].outcome='tp';invalid.totals={cases:1,tp:1,fp:0,tn:0,fn:0};
+  assert.throws(()=>compare(invalid,invalid),/polarity/);
+  const policy=structuredClone(after);policy.policy.id='different';assert.throws(()=>compare(before,policy),/policy/);
+  const options=structuredClone(after);options.scan={options:{dotnetProjectAnalysis:true}};
+  assert.throws(()=>compare(before,options),/options/);
+});

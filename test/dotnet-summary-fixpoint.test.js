@@ -65,3 +65,28 @@ test('a propagated unsanitized sink invalidates an aggregate sanitizer claim', (
   ],[{callerId:'A',calleeId:'B',argumentToCallerParameter:[0]}]);
   assert.equal(result.summaries[0].sanitizersBySink.xss,false);
 });
+
+test('recursive sink and source paths converge without cycling or multiplying evidence', () => {
+  const sink = { parameter:0,category:'sql',sanitized:false,sinkLocation:{file:'B.cs',line:8},callPath:['B'] };
+  const result = propagateSummaries([
+    {methodId:'A',parameters:[{}],parameterToReturn:[],parameterToSinks:[],sourcesToSinks:[]},
+    {methodId:'B',parameters:[{}],parameterToReturn:[],parameterToSinks:[sink],sourcesToSinks:[{source:'request',category:'sql',sourceLocation:{file:'B.cs',line:2},sinkLocation:sink.sinkLocation,callPath:['B']}]},
+  ],[
+    {callerId:'A',calleeId:'B',argumentToCallerParameter:[0]},
+    {callerId:'B',calleeId:'A',argumentToCallerParameter:[0]},
+  ]);
+  assert.equal(result.truncated,false);
+  for (const summary of result.summaries) {
+    assert.equal(summary.parameterToSinks.length,1);
+    assert.equal(summary.sourcesToSinks.length,1);
+    assert.equal(new Set(summary.parameterToSinks[0].callPath).size, summary.parameterToSinks[0].callPath.length);
+  }
+});
+
+test('propagation retains distinct sinks instead of substituting another location', () => {
+  const result = propagateSummaries([
+    {methodId:'A',parameters:[{}],parameterToReturn:[],parameterToSinks:[{parameter:0,category:'sql',sanitized:false,sinkLocation:{file:'A.cs',line:3},callPath:['A']}]},
+    {methodId:'B',parameters:[{}],parameterToReturn:[],parameterToSinks:[{parameter:0,category:'sql',sanitized:false,sinkLocation:{file:'B.cs',line:7},callPath:['B']}]},
+  ],[{callerId:'A',calleeId:'B',argumentToCallerParameter:[0]}]);
+  assert.deepEqual(result.summaries.find(s=>s.methodId==='A').parameterToSinks.map(s=>s.sinkLocation.file).sort(),['A.cs','B.cs']);
+});

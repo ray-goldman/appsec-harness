@@ -106,3 +106,82 @@ test('scanner suppresses only the proven literal C# SQL and command construction
     ['CS-CMDI-001', 'Unsafe.cs'], ['CS-CMDI-001', 'Unsafe.cs'], ['CS-SQLI-001', 'Unsafe.cs'],
   ]);
 });
+
+function constantProof(body, members = '', ruleId = 'CS-CMDI-001') {
+  const code = `class Sample {\n${members}\n${body}\n}`;
+  const line = code.split('\n').findIndex(text => text.includes('Process.Start(') || text.includes('command.CommandText ='));
+  return isConstantCSharpSink({ code, line, ruleId });
+}
+
+test('constant proofs follow uniquely resolved private helper returns on every branch', () => {
+  assert.equal(constantProof('void Run() {\n Process.Start("cmd /c " + Value());\n}',
+    'private string Value() { string value; if (flag) { value = "status"; } else { value = null; } return value; }'), true);
+  assert.equal(constantProof('void Run() {\n Process.Start("cmd /c " + Value());\n}',
+    'private string Value() { if (flag) { return Request.Query["cmd"]; } return "status"; }'), false);
+  assert.equal(constantProof('void Run(string input) {\n Process.Start("cmd /c " + Value(input));\n}',
+    'private string Value(string unused) { return "status"; }'), true);
+  assert.equal(constantProof('void Run(string input) {\n Process.Start("cmd /c " + Value(input));\n}',
+    'private string Value(string value) { return value; }'), false);
+});
+
+test('constant proofs distinguish locals with the same name in disjoint scopes', () => {
+  assert.equal(constantProof('void Run() { string copy; { string value = "fixed"; copy = value; } { string value = copy;\n Process.Start("cmd /c " + value);\n} }'), true);
+  assert.equal(constantProof('void Run(string input) { string copy; { string value = input; copy = value; } { string value = copy;\n Process.Start("cmd /c " + value);\n} }'), false);
+});
+
+test('private helper parameters require all visible callers to supply proven constants', () => {
+  const sink = 'private static void Sink(string value) {\n Process.Start("cmd /c " + value);\n}';
+  assert.equal(constantProof(sink, 'void Run() { string value = "fixed"; Sink(value); }'), true);
+  assert.equal(constantProof(sink, 'void Run(string input) { Sink("fixed"); Sink(input); }'), false);
+  assert.equal(constantProof(sink.replace('private', 'public'), 'void Run() { Sink("fixed"); }'), false);
+  assert.equal(constantProof(sink, 'void Run() { Sink("fixed"); var callback = Sink; }'), false);
+  assert.equal(constantProof(sink.replace('Process.Start(', 'value = Request.Query["cmd"]; Process.Start('), 'void Run() { Sink("fixed"); }'), false);
+});
+
+test('private fields are safe only if every write and alias is proved constant', () => {
+  const sink = 'void Run() { string value = saved;\n Process.Start("cmd /c " + value);\n}';
+  assert.equal(constantProof(sink, 'private string saved; void Set() { string value = "fixed"; saved = value; }'), true);
+  assert.equal(constantProof(sink, 'private string saved; void Set(string input) { saved = input; }'), false);
+  assert.equal(constantProof(sink, 'public string saved; void Set() { saved = "fixed"; }'), false);
+  assert.equal(constantProof(sink, 'private string saved; void Set() { saved = "fixed"; Mutate(ref saved); }'), false);
+  assert.equal(constantProof(sink, 'private string saved; void Set(string input) => saved = input;'), false);
+  assert.equal(constantProof(sink, 'private string saved; string Setter { set { saved = value; } }'), false);
+  assert.equal(constantProof(sink, 'private string saved; void Set(string input) { var text = $"{saved = input}"; }'), false);
+  assert.equal(constantProof(sink, 'private string saved; void Set(string input) { string other = ""; (saved, other) = (input, ""); }'), false);
+  assert.equal(constantProof(sink, 'private string saved; void Set(string input) { saved ??= input; }'), false);
+  assert.equal(constantProof('void Run(object input) { if (input is string saved) {\n Process.Start("cmd /c " + saved);\n} }', 'private string saved;'), false);
+  assert.equal(constantProof('void Run(string input) { if (input is { } saved) {\n Process.Start("cmd /c " + saved);\n} }', 'private string saved;'), false);
+  assert.equal(constantProof('void Run() { try { Work(); } catch (System.Exception saved) {\n Process.Start("cmd /c " + saved);\n} }', 'private string saved;'), false);
+  assert.equal(constantProof('void Run() { try { Work(); } catch (CustomException<string> saved) {\n Process.Start("cmd /c " + saved);\n} }', 'private string saved;'), false);
+  assert.equal(constantProof(sink, 'private String saved;'), false);
+  assert.equal(constantProof(sink, 'private string saved; void Set(string input) { try { Work(); } catch(CustomException<string> saved) { } saved = input; }'), false);
+});
+
+test('helper proofs reject recursion, ambiguous overloads, virtual dispatch and mutation', () => {
+  const body = 'void Run() {\n Process.Start("cmd /c " + Value());\n}';
+  for (const members of [
+    'private string Value() { return Value(); }',
+    'private string Value() { return "fixed"; } private string Value(int n = 0) { return Request.Query["cmd"]; }',
+    'protected virtual string Value() { return "fixed"; }',
+    'private string Value() { string value = "fixed"; Mutate(ref value); return value; }',
+    'private string Value() { return "fixed"; } void Other() { var Value = ReadDelegate(); Value(); }',
+  ]) assert.equal(constantProof(body, members), false, members);
+  assert.equal(constantProof('void Run(System.Func<string> Value) {\n Process.Start("cmd /c " + Value());\n}', 'private string Value() { return "fixed"; }'), false);
+  assert.equal(constantProof('void Run() { System.Func<string> Value = ReadDelegate();\n Process.Start("cmd /c " + Value());\n}', 'private string Value() { return "fixed"; }'), false);
+  assert.equal(constantProof('void Run(dynamic Sample) {\n Process.Start("cmd /c " + Sample.Value());\n}', 'private string Value() { return "fixed"; }'), false);
+  assert.equal(constantProof(body, 'private AttackerText Value() { return "fixed"; }'), false);
+  assert.equal(constantProof('private void Sink(String value) {\n Process.Start("cmd /c " + value);\n}', 'void Run() { Sink("fixed"); }'), false);
+});
+
+test('sanitizer names and encoding for the wrong sink category never prove safety', () => {
+  assert.equal(constantProof('void Run(string input) {\n Process.Start("cmd /c " + EscapeArgument(input));\n}',
+    'private string EscapeArgument(string input) { return input; }'), false);
+  assert.equal(constantProof('void Run(string input) {\n command.CommandText = "select " + HtmlEncode(input);\n}',
+    'private string HtmlEncode(string input) { return input; }', 'CS-SQLI-001'), false);
+});
+
+test('direct local proofs reject deconstruction writes and aliased scalar conversions', () => {
+  assert.equal(constantProof('void Run(string input) { string value = "fixed"; string other = ""; (value, other) = (input, "");\n Process.Start("cmd /c " + value);\n}'),false);
+  const code='using String = External.AttackerText;\nclass Sample { private string Value() { String text = "fixed"; return text; }\nvoid Run() {\n Process.Start("cmd /c " + Value());\n} }';
+  assert.equal(isConstantCSharpSink({code,line:3,ruleId:'CS-CMDI-001'}),false);
+});
