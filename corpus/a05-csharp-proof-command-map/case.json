@@ -1,0 +1,11 @@
+{
+  "id": "a05-csharp-proof-command-map",
+  "owasp": "A05",
+  "cwe": [
+    78
+  ],
+  "description": "Invented regression pair for bounded command-map proof; unsupported producers retain warnings.",
+  "expect": [
+    "CS-CMDI-001"
+  ]
+}

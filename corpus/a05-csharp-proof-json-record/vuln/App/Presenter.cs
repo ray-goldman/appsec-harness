@@ -1,0 +1,1 @@
+using System.Text.Encodings.Web; using System.Text.Json; namespace Example; public sealed record Card(string Text); public interface IPresenter { Card Build(string value); } public sealed class Presenter : IPresenter { public Card Build(string value) { return new Card(value); } }

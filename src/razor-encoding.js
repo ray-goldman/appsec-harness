@@ -1,5 +1,6 @@
 'use strict';
 const {tokenizeCSharp}=require('./parsers/csharp/lexer');
+const {createRazorModelFacts}=require('./razor-model-proofs');
 const id=t=>t?.kind==='identifier'?t.text.replace(/^@/,''):null;
 const TEXT_TAGS=new Set('html head body div span p section article header footer main aside h1 h2 h3 h4 h5 h6 ul ol li dl dt dd strong em b i u s pre code a label button form'.split(' '));
 const VOID_TAGS=new Set(['br','hr','input','meta','link']);
@@ -112,7 +113,24 @@ function viewProof(raw) {
   }
   return safe;
 }
-function createRazorEncodingProof(sources,{complete=true}={}) {
+function modelViewProof(raw,fact){
+ const model=raw.match(/^@model\s+([A-Za-z_][\w.]*)\s*\r?\n/);if(!model||model[1]!==fact.model)return new Set();
+ const target=`@Html.Raw(Model.${fact.property})`;
+ if(raw.split(target).length!==2||raw.replace(model[0],'').replace(target,'').includes('@'))return new Set();
+ let transformed=raw.replace(/<title>[A-Za-z0-9 ._-]*<\/title>/g,'');
+ const replacement=`@Html.Raw(System.Net.WebUtility.HtmlEncode(Model.${fact.property}))`;
+ if(fact.kind==='html')transformed=transformed.replace(target,replacement);
+ else{
+  const start=transformed.indexOf('<script>'),end=transformed.indexOf('</script>');
+  if(start<0||end<start||transformed.indexOf('<script>',start+1)>=0)return new Set();
+  const script=transformed.slice(start+8,end);
+  const escaped=target.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  if(!new RegExp('^window\\.[A-Za-z_]\\w* = '+escaped+';$').test(script)||script.includes('\n'))return new Set();
+  transformed=transformed.slice(0,start)+'<div>'+replacement+'</div>'+transformed.slice(end+9);
+ }
+ return viewProof(transformed);
+}
+function createRazorEncodingProof(sources,{complete=true,projects=[],projectComplete=true}={}) {
   const proofs=new Map(),none=()=>false;
   if(!complete||sources.length>1000||sources.reduce((n,s)=>n+Buffer.byteLength(s.raw),0)>8*1024*1024)return none;
   if(!sources.some(s=>/\.cshtml$/i.test(s.file)))return none;
@@ -125,11 +143,16 @@ function createRazorEncodingProof(sources,{complete=true}={}) {
       const lex=tokenizeCSharp(s.raw),ts=lex.tokens;
       if(lex.errors.length||ts.length>20000||lex.regions.some(r=>r.kind==='directive')||ts.some(t=>t.kind==='punctuation'&&/[^\x00-\x7f]|\\/.test(t.text)))return none;
       if(ts.some(t=>['PartialView','RenderBody','RenderSection','RenderAsync','IRazorViewEngine','ViewLocationExpanders','Layout','IHtmlHelper','IHtmlHelperFactory','HtmlHelper','Raw'].includes(id(t))))return none;
-      if(ts.some((t,i)=>['System','WebUtility','Html'].includes(id(t))&&!(id(t)==='System'&&ts[i-1]?.text==='using'&&ts[i+1]?.text===';')&&(ts[i+1]?.text!=='.'||ts[i-1]?.text==='namespace'))||
+      if(ts.some((t,i)=>['System','WebUtility','Html'].includes(id(t))&&!(id(t)==='System'&&ts[i-1]?.text==='using'&&ts[i+1]?.text===';')&&!(id(t)==='System'&&ts.slice(i-4,i).map(x=>x.text).join('')==='Environment.SpecialFolder.')&&(ts[i+1]?.text!=='.'||ts[i-1]?.text==='namespace'))||
          ts.some((t,i)=>id(t)==='HtmlEncode'&&ts[i-1]?.text!=='.'))return none;
     }
   }
-  for(const s of sources)if(/\.cshtml$/i.test(s.file)&&s.raw.includes('Html.Raw'))proofs.set(s.file,viewProof(s.raw));
+  const models=createRazorModelFacts(sources,{complete:complete&&projectComplete,projects});
+  for(const s of sources)if(/\.cshtml$/i.test(s.file)&&s.raw.includes('Html.Raw')){
+    const direct=viewProof(s.raw),model=models.get(s.file);
+    if(model)for(const line of modelViewProof(s.raw,model))direct.add(line);
+    proofs.set(s.file,direct);
+  }
   return (file,line)=>proofs.get(file)?.has(line)||false;
 }
 module.exports={createRazorEncodingProof};

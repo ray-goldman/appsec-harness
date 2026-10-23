@@ -1,0 +1,1 @@
+using Microsoft.AspNetCore.Mvc; namespace Example; public sealed class NotesController(IPresenter presenter) : Controller { [HttpGet("preview")] public IActionResult Preview(string value) => View("Preview", presenter.Build(value)); }
