@@ -1,0 +1,1991 @@
+{
+  "schema": "kayfabe-frozen-fp-comparison@1",
+  "tier": "self-authored-development; inspected during tuning, not independent or blind",
+  "beforeEngineCommit": "051f3a9dae193d62b3f92ee09fe84909be011971",
+  "afterEngineCommit": "171b10fd387cf0c3ac9c5d0d0d831502a131bdb1",
+  "afterSourceSha256": "180a3e2bc12368ac06aea8f8aaa1c983d679eb44dd08de1994dd6f99d42ecd8c",
+  "keySha256": "cb041b6c7c951c954e1e6d589cd1a971db9719b125e79b1cbaf84b5db1e357d5",
+  "policySha256": "b21ee3d15e602bfe88ac25cac9f8a9d81d6f131040647cec729d7396b644703e",
+  "adjudicationsSha256": "f878ad74a37879fce5be5fd9ec57d518595b8befd86c214e9eaa41c4763f53c5",
+  "provenance": {
+    "schema": "kayfabe-frozen-fp-provenance@1",
+    "verifiedAt": "2026-10-23T19:51:55.180Z",
+    "scannerTrees": [
+      {
+        "commit": "051f3a9dae193d62b3f92ee09fe84909be011971",
+        "scannerFilesVerified": 79,
+        "lineEndingNormalization": "CRLF -> LF only"
+      },
+      {
+        "commit": "171b10fd387cf0c3ac9c5d0d0d831502a131bdb1",
+        "scannerFilesVerified": 82,
+        "lineEndingNormalization": "CRLF -> LF only"
+      }
+    ],
+    "exactTargetInventories": true,
+    "keyAndPolicyUnchanged": true,
+    "baselineReportManifestUnchanged": true,
+    "sourceHash": "180a3e2bc12368ac06aea8f8aaa1c983d679eb44dd08de1994dd6f99d42ecd8c",
+    "targetExecution": false
+  },
+  "targetExecution": false,
+  "unmatchedFindingsAreNotDiscarded": true,
+  "manualFindingsExcluded": true,
+  "nativeC": "18 unsupported; no accuracy credit",
+  "exposure": "First-run results and all three false-positive cases informed these changes. Six provisional scans were developer probes; these are not holdout results.",
+  "results": [
+    {
+      "configuration": "default",
+      "before": {
+        "csharp": {
+          "TP": 2,
+          "FN": 8,
+          "FP": 3,
+          "TN": 17,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 30,
+          "supportedAndScanned": 30,
+          "recall": 0.2,
+          "falsePositiveRate": 0.15,
+          "precision": 0.4,
+          "coverage": 1
+        },
+        "c": {
+          "TP": 0,
+          "FN": 0,
+          "FP": 0,
+          "TN": 0,
+          "unsupported": 18,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 18,
+          "supportedAndScanned": 0,
+          "recall": null,
+          "falsePositiveRate": null,
+          "precision": null,
+          "coverage": 0
+        }
+      },
+      "after": {
+        "csharp": {
+          "TP": 2,
+          "FN": 8,
+          "FP": 0,
+          "TN": 20,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 30,
+          "recall": 0.2,
+          "falsePositiveRate": 0,
+          "precision": 1,
+          "supportedAndScanned": 30,
+          "coverage": 1
+        },
+        "c": {
+          "TP": 0,
+          "FN": 0,
+          "FP": 0,
+          "TN": 0,
+          "unsupported": 18,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 18,
+          "recall": null,
+          "falsePositiveRate": null,
+          "precision": null,
+          "supportedAndScanned": 0,
+          "coverage": 0
+        }
+      },
+      "rawCandidates": {
+        "before": 5,
+        "after": 2
+      },
+      "unmatched": 0,
+      "cases": [
+        {
+          "caseId": "D01-r41",
+          "familyId": "D01",
+          "language": "csharp",
+          "primaryCwe": 89,
+          "before": "FN",
+          "after": "FN"
+        },
+        {
+          "caseId": "D01-r17",
+          "familyId": "D01",
+          "language": "csharp",
+          "primaryCwe": 89,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D01-r68",
+          "familyId": "D01",
+          "language": "csharp",
+          "primaryCwe": 89,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D02-r83",
+          "familyId": "D02",
+          "language": "csharp",
+          "primaryCwe": 89,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D02-r29",
+          "familyId": "D02",
+          "language": "csharp",
+          "primaryCwe": 89,
+          "before": "FN",
+          "after": "FN"
+        },
+        {
+          "caseId": "D02-r46",
+          "familyId": "D02",
+          "language": "csharp",
+          "primaryCwe": 89,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D03-r24",
+          "familyId": "D03",
+          "language": "csharp",
+          "primaryCwe": 22,
+          "before": "FN",
+          "after": "FN"
+        },
+        {
+          "caseId": "D03-r73",
+          "familyId": "D03",
+          "language": "csharp",
+          "primaryCwe": 22,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D03-r35",
+          "familyId": "D03",
+          "language": "csharp",
+          "primaryCwe": 22,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D04-r52",
+          "familyId": "D04",
+          "language": "csharp",
+          "primaryCwe": 639,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D04-r09",
+          "familyId": "D04",
+          "language": "csharp",
+          "primaryCwe": 639,
+          "before": "FN",
+          "after": "FN"
+        },
+        {
+          "caseId": "D04-r81",
+          "familyId": "D04",
+          "language": "csharp",
+          "primaryCwe": 639,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D05-r32",
+          "familyId": "D05",
+          "language": "csharp",
+          "primaryCwe": 78,
+          "before": "TP",
+          "after": "TP"
+        },
+        {
+          "caseId": "D05-r74",
+          "familyId": "D05",
+          "language": "csharp",
+          "primaryCwe": 78,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D05-r05",
+          "familyId": "D05",
+          "language": "csharp",
+          "primaryCwe": 78,
+          "before": "FP",
+          "after": "TN"
+        },
+        {
+          "caseId": "D06-r66",
+          "familyId": "D06",
+          "language": "csharp",
+          "primaryCwe": 88,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D06-r18",
+          "familyId": "D06",
+          "language": "csharp",
+          "primaryCwe": 88,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D06-r43",
+          "familyId": "D06",
+          "language": "csharp",
+          "primaryCwe": 88,
+          "before": "FN",
+          "after": "FN"
+        },
+        {
+          "caseId": "D07-r58",
+          "familyId": "D07",
+          "language": "csharp",
+          "primaryCwe": 22,
+          "before": "FN",
+          "after": "FN"
+        },
+        {
+          "caseId": "D07-r12",
+          "familyId": "D07",
+          "language": "csharp",
+          "primaryCwe": 22,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D07-r90",
+          "familyId": "D07",
+          "language": "csharp",
+          "primaryCwe": 22,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D08-r71",
+          "familyId": "D08",
+          "language": "csharp",
+          "primaryCwe": 79,
+          "before": "FP",
+          "after": "TN"
+        },
+        {
+          "caseId": "D08-r22",
+          "familyId": "D08",
+          "language": "csharp",
+          "primaryCwe": 79,
+          "before": "TP",
+          "after": "TP"
+        },
+        {
+          "caseId": "D08-r84",
+          "familyId": "D08",
+          "language": "csharp",
+          "primaryCwe": 79,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D09-r26",
+          "familyId": "D09",
+          "language": "csharp",
+          "primaryCwe": 79,
+          "before": "FN",
+          "after": "FN"
+        },
+        {
+          "caseId": "D09-r63",
+          "familyId": "D09",
+          "language": "csharp",
+          "primaryCwe": 79,
+          "before": "FP",
+          "after": "TN"
+        },
+        {
+          "caseId": "D09-r15",
+          "familyId": "D09",
+          "language": "csharp",
+          "primaryCwe": 79,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D10-r07",
+          "familyId": "D10",
+          "language": "csharp",
+          "primaryCwe": 639,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D10-r61",
+          "familyId": "D10",
+          "language": "csharp",
+          "primaryCwe": 639,
+          "before": "FN",
+          "after": "FN"
+        },
+        {
+          "caseId": "D10-r49",
+          "familyId": "D10",
+          "language": "csharp",
+          "primaryCwe": 639,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "N01-R01",
+          "familyId": "N01",
+          "language": "c",
+          "primaryCwe": 122,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N01-R02",
+          "familyId": "N01",
+          "language": "c",
+          "primaryCwe": 122,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N01-R03",
+          "familyId": "N01",
+          "language": "c",
+          "primaryCwe": 122,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N02-R01",
+          "familyId": "N02",
+          "language": "c",
+          "primaryCwe": 190,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N02-R02",
+          "familyId": "N02",
+          "language": "c",
+          "primaryCwe": 190,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N02-R03",
+          "familyId": "N02",
+          "language": "c",
+          "primaryCwe": 190,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N03-R01",
+          "familyId": "N03",
+          "language": "c",
+          "primaryCwe": 129,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N03-R02",
+          "familyId": "N03",
+          "language": "c",
+          "primaryCwe": 129,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N03-R03",
+          "familyId": "N03",
+          "language": "c",
+          "primaryCwe": 129,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N04-R01",
+          "familyId": "N04",
+          "language": "c",
+          "primaryCwe": 416,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N04-R02",
+          "familyId": "N04",
+          "language": "c",
+          "primaryCwe": 416,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N04-R03",
+          "familyId": "N04",
+          "language": "c",
+          "primaryCwe": 416,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N05-R01",
+          "familyId": "N05",
+          "language": "c",
+          "primaryCwe": 134,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N05-R02",
+          "familyId": "N05",
+          "language": "c",
+          "primaryCwe": 134,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N05-R03",
+          "familyId": "N05",
+          "language": "c",
+          "primaryCwe": 134,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N06-R01",
+          "familyId": "N06",
+          "language": "c",
+          "primaryCwe": 22,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N06-R02",
+          "familyId": "N06",
+          "language": "c",
+          "primaryCwe": 22,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N06-R03",
+          "familyId": "N06",
+          "language": "c",
+          "primaryCwe": 22,
+          "before": "unsupported",
+          "after": "unsupported"
+        }
+      ],
+      "families": {
+        "D01": {
+          "TP": 0,
+          "FN": 1,
+          "FP": 0,
+          "TN": 2,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": 0,
+          "falsePositiveRate": 0,
+          "precision": null
+        },
+        "D02": {
+          "TP": 0,
+          "FN": 1,
+          "FP": 0,
+          "TN": 2,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": 0,
+          "falsePositiveRate": 0,
+          "precision": null
+        },
+        "D03": {
+          "TP": 0,
+          "FN": 1,
+          "FP": 0,
+          "TN": 2,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": 0,
+          "falsePositiveRate": 0,
+          "precision": null
+        },
+        "D04": {
+          "TP": 0,
+          "FN": 1,
+          "FP": 0,
+          "TN": 2,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": 0,
+          "falsePositiveRate": 0,
+          "precision": null
+        },
+        "D05": {
+          "TP": 1,
+          "FN": 0,
+          "FP": 0,
+          "TN": 2,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": 1,
+          "falsePositiveRate": 0,
+          "precision": 1
+        },
+        "D06": {
+          "TP": 0,
+          "FN": 1,
+          "FP": 0,
+          "TN": 2,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": 0,
+          "falsePositiveRate": 0,
+          "precision": null
+        },
+        "D07": {
+          "TP": 0,
+          "FN": 1,
+          "FP": 0,
+          "TN": 2,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": 0,
+          "falsePositiveRate": 0,
+          "precision": null
+        },
+        "D08": {
+          "TP": 1,
+          "FN": 0,
+          "FP": 0,
+          "TN": 2,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": 1,
+          "falsePositiveRate": 0,
+          "precision": 1
+        },
+        "D09": {
+          "TP": 0,
+          "FN": 1,
+          "FP": 0,
+          "TN": 2,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": 0,
+          "falsePositiveRate": 0,
+          "precision": null
+        },
+        "D10": {
+          "TP": 0,
+          "FN": 1,
+          "FP": 0,
+          "TN": 2,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": 0,
+          "falsePositiveRate": 0,
+          "precision": null
+        },
+        "N01": {
+          "TP": 0,
+          "FN": 0,
+          "FP": 0,
+          "TN": 0,
+          "unsupported": 3,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": null,
+          "falsePositiveRate": null,
+          "precision": null
+        },
+        "N02": {
+          "TP": 0,
+          "FN": 0,
+          "FP": 0,
+          "TN": 0,
+          "unsupported": 3,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": null,
+          "falsePositiveRate": null,
+          "precision": null
+        },
+        "N03": {
+          "TP": 0,
+          "FN": 0,
+          "FP": 0,
+          "TN": 0,
+          "unsupported": 3,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": null,
+          "falsePositiveRate": null,
+          "precision": null
+        },
+        "N04": {
+          "TP": 0,
+          "FN": 0,
+          "FP": 0,
+          "TN": 0,
+          "unsupported": 3,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": null,
+          "falsePositiveRate": null,
+          "precision": null
+        },
+        "N05": {
+          "TP": 0,
+          "FN": 0,
+          "FP": 0,
+          "TN": 0,
+          "unsupported": 3,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": null,
+          "falsePositiveRate": null,
+          "precision": null
+        },
+        "N06": {
+          "TP": 0,
+          "FN": 0,
+          "FP": 0,
+          "TN": 0,
+          "unsupported": 3,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": null,
+          "falsePositiveRate": null,
+          "precision": null
+        }
+      },
+      "primaryCwes": {
+        "before": {
+          "csharp": {
+            "22": {
+              "TP": 0,
+              "FN": 2,
+              "FP": 0,
+              "TN": 4,
+              "unsupported": 0,
+              "unscanned": 0,
+              "unresolved": 0,
+              "total": 6,
+              "supportedAndScanned": 6,
+              "recall": 0,
+              "falsePositiveRate": 0,
+              "precision": null,
+              "coverage": 1
+            },
+            "78": {
+              "TP": 1,
+              "FN": 0,
+              "FP": 1,
+              "TN": 1,
+              "unsupported": 0,
+              "unscanned": 0,
+              "unresolved": 0,
+              "total": 3,
+              "supportedAndScanned": 3,
+              "recall": 1,
+              "falsePositiveRate": 0.5,
+              "precision": 0.5,
+              "coverage": 1
+            },
+            "79": {
+              "TP": 1,
+              "FN": 1,
+              "FP": 2,
+              "TN": 2,
+              "unsupported": 0,
+              "unscanned": 0,
+              "unresolved": 0,
+              "total": 6,
+              "supportedAndScanned": 6,
+              "recall": 0.5,
+              "falsePositiveRate": 0.5,
+              "precision": 0.3333333333333333,
+              "coverage": 1
+            },
+            "88": {
+              "TP": 0,
+              "FN": 1,
+              "FP": 0,
+              "TN": 2,
+              "unsupported": 0,
+              "unscanned": 0,
+              "unresolved": 0,
+              "total": 3,
+              "supportedAndScanned": 3,
+              "recall": 0,
+              "falsePositiveRate": 0,
+              "precision": null,
+              "coverage": 1
+            },
+            "89": {
+              "TP": 0,
+              "FN": 2,
+              "FP": 0,
+              "TN": 4,
+              "unsupported": 0,
+              "unscanned": 0,
+              "unresolved": 0,
+              "total": 6,
+              "supportedAndScanned": 6,
+              "recall": 0,
+              "falsePositiveRate": 0,
+              "precision": null,
+              "coverage": 1
+            },
+            "639": {
+              "TP": 0,
+              "FN": 2,
+              "FP": 0,
+              "TN": 4,
+              "unsupported": 0,
+              "unscanned": 0,
+              "unresolved": 0,
+              "total": 6,
+              "supportedAndScanned": 6,
+              "recall": 0,
+              "falsePositiveRate": 0,
+              "precision": null,
+              "coverage": 1
+            }
+          },
+          "c": {
+            "22": {
+              "TP": 0,
+              "FN": 0,
+              "FP": 0,
+              "TN": 0,
+              "unsupported": 3,
+              "unscanned": 0,
+              "unresolved": 0,
+              "total": 3,
+              "supportedAndScanned": 0,
+              "recall": null,
+              "falsePositiveRate": null,
+              "precision": null,
+              "coverage": 0
+            },
+            "122": {
+              "TP": 0,
+              "FN": 0,
+              "FP": 0,
+              "TN": 0,
+              "unsupported": 3,
+              "unscanned": 0,
+              "unresolved": 0,
+              "total": 3,
+              "supportedAndScanned": 0,
+              "recall": null,
+              "falsePositiveRate": null,
+              "precision": null,
+              "coverage": 0
+            },
+            "129": {
+              "TP": 0,
+              "FN": 0,
+              "FP": 0,
+              "TN": 0,
+              "unsupported": 3,
+              "unscanned": 0,
+              "unresolved": 0,
+              "total": 3,
+              "supportedAndScanned": 0,
+              "recall": null,
+              "falsePositiveRate": null,
+              "precision": null,
+              "coverage": 0
+            },
+            "134": {
+              "TP": 0,
+              "FN": 0,
+              "FP": 0,
+              "TN": 0,
+              "unsupported": 3,
+              "unscanned": 0,
+              "unresolved": 0,
+              "total": 3,
+              "supportedAndScanned": 0,
+              "recall": null,
+              "falsePositiveRate": null,
+              "precision": null,
+              "coverage": 0
+            },
+            "190": {
+              "TP": 0,
+              "FN": 0,
+              "FP": 0,
+              "TN": 0,
+              "unsupported": 3,
+              "unscanned": 0,
+              "unresolved": 0,
+              "total": 3,
+              "supportedAndScanned": 0,
+              "recall": null,
+              "falsePositiveRate": null,
+              "precision": null,
+              "coverage": 0
+            },
+            "416": {
+              "TP": 0,
+              "FN": 0,
+              "FP": 0,
+              "TN": 0,
+              "unsupported": 3,
+              "unscanned": 0,
+              "unresolved": 0,
+              "total": 3,
+              "supportedAndScanned": 0,
+              "recall": null,
+              "falsePositiveRate": null,
+              "precision": null,
+              "coverage": 0
+            }
+          }
+        },
+        "after": {
+          "csharp": {
+            "22": {
+              "TP": 0,
+              "FN": 2,
+              "FP": 0,
+              "TN": 4,
+              "unsupported": 0,
+              "unscanned": 0,
+              "unresolved": 0
+            },
+            "78": {
+              "TP": 1,
+              "FN": 0,
+              "FP": 0,
+              "TN": 2,
+              "unsupported": 0,
+              "unscanned": 0,
+              "unresolved": 0
+            },
+            "79": {
+              "TP": 1,
+              "FN": 1,
+              "FP": 0,
+              "TN": 4,
+              "unsupported": 0,
+              "unscanned": 0,
+              "unresolved": 0
+            },
+            "88": {
+              "TP": 0,
+              "FN": 1,
+              "FP": 0,
+              "TN": 2,
+              "unsupported": 0,
+              "unscanned": 0,
+              "unresolved": 0
+            },
+            "89": {
+              "TP": 0,
+              "FN": 2,
+              "FP": 0,
+              "TN": 4,
+              "unsupported": 0,
+              "unscanned": 0,
+              "unresolved": 0
+            },
+            "639": {
+              "TP": 0,
+              "FN": 2,
+              "FP": 0,
+              "TN": 4,
+              "unsupported": 0,
+              "unscanned": 0,
+              "unresolved": 0
+            }
+          },
+          "c": {
+            "22": {
+              "TP": 0,
+              "FN": 0,
+              "FP": 0,
+              "TN": 0,
+              "unsupported": 3,
+              "unscanned": 0,
+              "unresolved": 0
+            },
+            "122": {
+              "TP": 0,
+              "FN": 0,
+              "FP": 0,
+              "TN": 0,
+              "unsupported": 3,
+              "unscanned": 0,
+              "unresolved": 0
+            },
+            "129": {
+              "TP": 0,
+              "FN": 0,
+              "FP": 0,
+              "TN": 0,
+              "unsupported": 3,
+              "unscanned": 0,
+              "unresolved": 0
+            },
+            "134": {
+              "TP": 0,
+              "FN": 0,
+              "FP": 0,
+              "TN": 0,
+              "unsupported": 3,
+              "unscanned": 0,
+              "unresolved": 0
+            },
+            "190": {
+              "TP": 0,
+              "FN": 0,
+              "FP": 0,
+              "TN": 0,
+              "unsupported": 3,
+              "unscanned": 0,
+              "unresolved": 0
+            },
+            "416": {
+              "TP": 0,
+              "FN": 0,
+              "FP": 0,
+              "TN": 0,
+              "unsupported": 3,
+              "unscanned": 0,
+              "unresolved": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "configuration": "project",
+      "before": {
+        "csharp": {
+          "TP": 2,
+          "FN": 8,
+          "FP": 3,
+          "TN": 17,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 30,
+          "supportedAndScanned": 30,
+          "recall": 0.2,
+          "falsePositiveRate": 0.15,
+          "precision": 0.4,
+          "coverage": 1
+        },
+        "c": {
+          "TP": 0,
+          "FN": 0,
+          "FP": 0,
+          "TN": 0,
+          "unsupported": 18,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 18,
+          "supportedAndScanned": 0,
+          "recall": null,
+          "falsePositiveRate": null,
+          "precision": null,
+          "coverage": 0
+        }
+      },
+      "after": {
+        "csharp": {
+          "TP": 2,
+          "FN": 8,
+          "FP": 0,
+          "TN": 20,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 30,
+          "recall": 0.2,
+          "falsePositiveRate": 0,
+          "precision": 1,
+          "supportedAndScanned": 30,
+          "coverage": 1
+        },
+        "c": {
+          "TP": 0,
+          "FN": 0,
+          "FP": 0,
+          "TN": 0,
+          "unsupported": 18,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 18,
+          "recall": null,
+          "falsePositiveRate": null,
+          "precision": null,
+          "supportedAndScanned": 0,
+          "coverage": 0
+        }
+      },
+      "rawCandidates": {
+        "before": 5,
+        "after": 2
+      },
+      "unmatched": 0,
+      "cases": [
+        {
+          "caseId": "D01-r41",
+          "familyId": "D01",
+          "language": "csharp",
+          "primaryCwe": 89,
+          "before": "FN",
+          "after": "FN"
+        },
+        {
+          "caseId": "D01-r17",
+          "familyId": "D01",
+          "language": "csharp",
+          "primaryCwe": 89,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D01-r68",
+          "familyId": "D01",
+          "language": "csharp",
+          "primaryCwe": 89,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D02-r83",
+          "familyId": "D02",
+          "language": "csharp",
+          "primaryCwe": 89,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D02-r29",
+          "familyId": "D02",
+          "language": "csharp",
+          "primaryCwe": 89,
+          "before": "FN",
+          "after": "FN"
+        },
+        {
+          "caseId": "D02-r46",
+          "familyId": "D02",
+          "language": "csharp",
+          "primaryCwe": 89,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D03-r24",
+          "familyId": "D03",
+          "language": "csharp",
+          "primaryCwe": 22,
+          "before": "FN",
+          "after": "FN"
+        },
+        {
+          "caseId": "D03-r73",
+          "familyId": "D03",
+          "language": "csharp",
+          "primaryCwe": 22,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D03-r35",
+          "familyId": "D03",
+          "language": "csharp",
+          "primaryCwe": 22,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D04-r52",
+          "familyId": "D04",
+          "language": "csharp",
+          "primaryCwe": 639,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D04-r09",
+          "familyId": "D04",
+          "language": "csharp",
+          "primaryCwe": 639,
+          "before": "FN",
+          "after": "FN"
+        },
+        {
+          "caseId": "D04-r81",
+          "familyId": "D04",
+          "language": "csharp",
+          "primaryCwe": 639,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D05-r32",
+          "familyId": "D05",
+          "language": "csharp",
+          "primaryCwe": 78,
+          "before": "TP",
+          "after": "TP"
+        },
+        {
+          "caseId": "D05-r74",
+          "familyId": "D05",
+          "language": "csharp",
+          "primaryCwe": 78,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D05-r05",
+          "familyId": "D05",
+          "language": "csharp",
+          "primaryCwe": 78,
+          "before": "FP",
+          "after": "TN"
+        },
+        {
+          "caseId": "D06-r66",
+          "familyId": "D06",
+          "language": "csharp",
+          "primaryCwe": 88,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D06-r18",
+          "familyId": "D06",
+          "language": "csharp",
+          "primaryCwe": 88,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D06-r43",
+          "familyId": "D06",
+          "language": "csharp",
+          "primaryCwe": 88,
+          "before": "FN",
+          "after": "FN"
+        },
+        {
+          "caseId": "D07-r58",
+          "familyId": "D07",
+          "language": "csharp",
+          "primaryCwe": 22,
+          "before": "FN",
+          "after": "FN"
+        },
+        {
+          "caseId": "D07-r12",
+          "familyId": "D07",
+          "language": "csharp",
+          "primaryCwe": 22,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D07-r90",
+          "familyId": "D07",
+          "language": "csharp",
+          "primaryCwe": 22,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D08-r71",
+          "familyId": "D08",
+          "language": "csharp",
+          "primaryCwe": 79,
+          "before": "FP",
+          "after": "TN"
+        },
+        {
+          "caseId": "D08-r22",
+          "familyId": "D08",
+          "language": "csharp",
+          "primaryCwe": 79,
+          "before": "TP",
+          "after": "TP"
+        },
+        {
+          "caseId": "D08-r84",
+          "familyId": "D08",
+          "language": "csharp",
+          "primaryCwe": 79,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D09-r26",
+          "familyId": "D09",
+          "language": "csharp",
+          "primaryCwe": 79,
+          "before": "FN",
+          "after": "FN"
+        },
+        {
+          "caseId": "D09-r63",
+          "familyId": "D09",
+          "language": "csharp",
+          "primaryCwe": 79,
+          "before": "FP",
+          "after": "TN"
+        },
+        {
+          "caseId": "D09-r15",
+          "familyId": "D09",
+          "language": "csharp",
+          "primaryCwe": 79,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D10-r07",
+          "familyId": "D10",
+          "language": "csharp",
+          "primaryCwe": 639,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "D10-r61",
+          "familyId": "D10",
+          "language": "csharp",
+          "primaryCwe": 639,
+          "before": "FN",
+          "after": "FN"
+        },
+        {
+          "caseId": "D10-r49",
+          "familyId": "D10",
+          "language": "csharp",
+          "primaryCwe": 639,
+          "before": "TN",
+          "after": "TN"
+        },
+        {
+          "caseId": "N01-R01",
+          "familyId": "N01",
+          "language": "c",
+          "primaryCwe": 122,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N01-R02",
+          "familyId": "N01",
+          "language": "c",
+          "primaryCwe": 122,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N01-R03",
+          "familyId": "N01",
+          "language": "c",
+          "primaryCwe": 122,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N02-R01",
+          "familyId": "N02",
+          "language": "c",
+          "primaryCwe": 190,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N02-R02",
+          "familyId": "N02",
+          "language": "c",
+          "primaryCwe": 190,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N02-R03",
+          "familyId": "N02",
+          "language": "c",
+          "primaryCwe": 190,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N03-R01",
+          "familyId": "N03",
+          "language": "c",
+          "primaryCwe": 129,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N03-R02",
+          "familyId": "N03",
+          "language": "c",
+          "primaryCwe": 129,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N03-R03",
+          "familyId": "N03",
+          "language": "c",
+          "primaryCwe": 129,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N04-R01",
+          "familyId": "N04",
+          "language": "c",
+          "primaryCwe": 416,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N04-R02",
+          "familyId": "N04",
+          "language": "c",
+          "primaryCwe": 416,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N04-R03",
+          "familyId": "N04",
+          "language": "c",
+          "primaryCwe": 416,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N05-R01",
+          "familyId": "N05",
+          "language": "c",
+          "primaryCwe": 134,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N05-R02",
+          "familyId": "N05",
+          "language": "c",
+          "primaryCwe": 134,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N05-R03",
+          "familyId": "N05",
+          "language": "c",
+          "primaryCwe": 134,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N06-R01",
+          "familyId": "N06",
+          "language": "c",
+          "primaryCwe": 22,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N06-R02",
+          "familyId": "N06",
+          "language": "c",
+          "primaryCwe": 22,
+          "before": "unsupported",
+          "after": "unsupported"
+        },
+        {
+          "caseId": "N06-R03",
+          "familyId": "N06",
+          "language": "c",
+          "primaryCwe": 22,
+          "before": "unsupported",
+          "after": "unsupported"
+        }
+      ],
+      "families": {
+        "D01": {
+          "TP": 0,
+          "FN": 1,
+          "FP": 0,
+          "TN": 2,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": 0,
+          "falsePositiveRate": 0,
+          "precision": null
+        },
+        "D02": {
+          "TP": 0,
+          "FN": 1,
+          "FP": 0,
+          "TN": 2,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": 0,
+          "falsePositiveRate": 0,
+          "precision": null
+        },
+        "D03": {
+          "TP": 0,
+          "FN": 1,
+          "FP": 0,
+          "TN": 2,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": 0,
+          "falsePositiveRate": 0,
+          "precision": null
+        },
+        "D04": {
+          "TP": 0,
+          "FN": 1,
+          "FP": 0,
+          "TN": 2,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": 0,
+          "falsePositiveRate": 0,
+          "precision": null
+        },
+        "D05": {
+          "TP": 1,
+          "FN": 0,
+          "FP": 0,
+          "TN": 2,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": 1,
+          "falsePositiveRate": 0,
+          "precision": 1
+        },
+        "D06": {
+          "TP": 0,
+          "FN": 1,
+          "FP": 0,
+          "TN": 2,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": 0,
+          "falsePositiveRate": 0,
+          "precision": null
+        },
+        "D07": {
+          "TP": 0,
+          "FN": 1,
+          "FP": 0,
+          "TN": 2,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": 0,
+          "falsePositiveRate": 0,
+          "precision": null
+        },
+        "D08": {
+          "TP": 1,
+          "FN": 0,
+          "FP": 0,
+          "TN": 2,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": 1,
+          "falsePositiveRate": 0,
+          "precision": 1
+        },
+        "D09": {
+          "TP": 0,
+          "FN": 1,
+          "FP": 0,
+          "TN": 2,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": 0,
+          "falsePositiveRate": 0,
+          "precision": null
+        },
+        "D10": {
+          "TP": 0,
+          "FN": 1,
+          "FP": 0,
+          "TN": 2,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": 0,
+          "falsePositiveRate": 0,
+          "precision": null
+        },
+        "N01": {
+          "TP": 0,
+          "FN": 0,
+          "FP": 0,
+          "TN": 0,
+          "unsupported": 3,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": null,
+          "falsePositiveRate": null,
+          "precision": null
+        },
+        "N02": {
+          "TP": 0,
+          "FN": 0,
+          "FP": 0,
+          "TN": 0,
+          "unsupported": 3,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": null,
+          "falsePositiveRate": null,
+          "precision": null
+        },
+        "N03": {
+          "TP": 0,
+          "FN": 0,
+          "FP": 0,
+          "TN": 0,
+          "unsupported": 3,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": null,
+          "falsePositiveRate": null,
+          "precision": null
+        },
+        "N04": {
+          "TP": 0,
+          "FN": 0,
+          "FP": 0,
+          "TN": 0,
+          "unsupported": 3,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": null,
+          "falsePositiveRate": null,
+          "precision": null
+        },
+        "N05": {
+          "TP": 0,
+          "FN": 0,
+          "FP": 0,
+          "TN": 0,
+          "unsupported": 3,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": null,
+          "falsePositiveRate": null,
+          "precision": null
+        },
+        "N06": {
+          "TP": 0,
+          "FN": 0,
+          "FP": 0,
+          "TN": 0,
+          "unsupported": 3,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 3,
+          "recall": null,
+          "falsePositiveRate": null,
+          "precision": null
+        }
+      },
+      "primaryCwes": {
+        "before": {
+          "csharp": {
+            "22": {
+              "TP": 0,
+              "FN": 2,
+              "FP": 0,
+              "TN": 4,
+              "unsupported": 0,
+              "unscanned": 0,
+              "unresolved": 0,
+              "total": 6,
+              "supportedAndScanned": 6,
+              "recall": 0,
+              "falsePositiveRate": 0,
+              "precision": null,
+              "coverage": 1
+            },
+            "78": {
+              "TP": 1,
+              "FN": 0,
+              "FP": 1,
+              "TN": 1,
+              "unsupported": 0,
+              "unscanned": 0,
+              "unresolved": 0,
+              "total": 3,
+              "supportedAndScanned": 3,
+              "recall": 1,
+              "falsePositiveRate": 0.5,
+              "precision": 0.5,
+              "coverage": 1
+            },
+            "79": {
+              "TP": 1,
+              "FN": 1,
+              "FP": 2,
+              "TN": 2,
+              "unsupported": 0,
+              "unscanned": 0,
+              "unresolved": 0,
+              "total": 6,
+              "supportedAndScanned": 6,
+              "recall": 0.5,
+              "falsePositiveRate": 0.5,
+              "precision": 0.3333333333333333,
+              "coverage": 1
+            },
+            "88": {
+              "TP": 0,
+              "FN": 1,
+              "FP": 0,
+              "TN": 2,
+              "unsupported": 0,
+              "unscanned": 0,
+              "unresolved": 0,
+              "total": 3,
+              "supportedAndScanned": 3,
+              "recall": 0,
+              "falsePositiveRate": 0,
+              "precision": null,
+              "coverage": 1
+            },
+            "89": {
+              "TP": 0,
+              "FN": 2,
+              "FP": 0,
+              "TN": 4,
+              "unsupported": 0,
+              "unscanned": 0,
+              "unresolved": 0,
+              "total": 6,
+              "supportedAndScanned": 6,
+              "recall": 0,
+              "falsePositiveRate": 0,
+              "precision": null,
+              "coverage": 1
+            },
+            "639": {
+              "TP": 0,
+              "FN": 2,
+              "FP": 0,
+              "TN": 4,
+              "unsupported": 0,
+              "unscanned": 0,
+              "unresolved": 0,
+              "total": 6,
+              "supportedAndScanned": 6,
+              "recall": 0,
+              "falsePositiveRate": 0,
+              "precision": null,
+              "coverage": 1
+            }
+          },
+          "c": {
+            "22": {
+              "TP": 0,
+              "FN": 0,
+              "FP": 0,
+              "TN": 0,
+              "unsupported": 3,
+              "unscanned": 0,
+              "unresolved": 0,
+              "total": 3,
+              "supportedAndScanned": 0,
+              "recall": null,
+              "falsePositiveRate": null,
+              "precision": null,
+              "coverage": 0
+            },
+            "122": {
+              "TP": 0,
+              "FN": 0,
+              "FP": 0,
+              "TN": 0,
+              "unsupported": 3,
+              "unscanned": 0,
+              "unresolved": 0,
+              "total": 3,
+              "supportedAndScanned": 0,
+              "recall": null,
+              "falsePositiveRate": null,
+              "precision": null,
+              "coverage": 0
+            },
+            "129": {
+              "TP": 0,
+              "FN": 0,
+              "FP": 0,
+              "TN": 0,
+              "unsupported": 3,
+              "unscanned": 0,
+              "unresolved": 0,
+              "total": 3,
+              "supportedAndScanned": 0,
+              "recall": null,
+              "falsePositiveRate": null,
+              "precision": null,
+              "coverage": 0
+            },
+            "134": {
+              "TP": 0,
+              "FN": 0,
+              "FP": 0,
+              "TN": 0,
+              "unsupported": 3,
+              "unscanned": 0,
+              "unresolved": 0,
+              "total": 3,
+              "supportedAndScanned": 0,
+              "recall": null,
+              "falsePositiveRate": null,
+              "precision": null,
+              "coverage": 0
+            },
+            "190": {
+              "TP": 0,
+              "FN": 0,
+              "FP": 0,
+              "TN": 0,
+              "unsupported": 3,
+              "unscanned": 0,
+              "unresolved": 0,
+              "total": 3,
+              "supportedAndScanned": 0,
+              "recall": null,
+              "falsePositiveRate": null,
+              "precision": null,
+              "coverage": 0
+            },
+            "416": {
+              "TP": 0,
+              "FN": 0,
+              "FP": 0,
+              "TN": 0,
+              "unsupported": 3,
+              "unscanned": 0,
+              "unresolved": 0,
+              "total": 3,
+              "supportedAndScanned": 0,
+              "recall": null,
+              "falsePositiveRate": null,
+              "precision": null,
+              "coverage": 0
+            }
+          }
+        },
+        "after": {
+          "csharp": {
+            "22": {
+              "TP": 0,
+              "FN": 2,
+              "FP": 0,
+              "TN": 4,
+              "unsupported": 0,
+              "unscanned": 0,
+              "unresolved": 0
+            },
+            "78": {
+              "TP": 1,
+              "FN": 0,
+              "FP": 0,
+              "TN": 2,
+              "unsupported": 0,
+              "unscanned": 0,
+              "unresolved": 0
+            },
+            "79": {
+              "TP": 1,
+              "FN": 1,
+              "FP": 0,
+              "TN": 4,
+              "unsupported": 0,
+              "unscanned": 0,
+              "unresolved": 0
+            },
+            "88": {
+              "TP": 0,
+              "FN": 1,
+              "FP": 0,
+              "TN": 2,
+              "unsupported": 0,
+              "unscanned": 0,
+              "unresolved": 0
+            },
+            "89": {
+              "TP": 0,
+              "FN": 2,
+              "FP": 0,
+              "TN": 4,
+              "unsupported": 0,
+              "unscanned": 0,
+              "unresolved": 0
+            },
+            "639": {
+              "TP": 0,
+              "FN": 2,
+              "FP": 0,
+              "TN": 4,
+              "unsupported": 0,
+              "unscanned": 0,
+              "unresolved": 0
+            }
+          },
+          "c": {
+            "22": {
+              "TP": 0,
+              "FN": 0,
+              "FP": 0,
+              "TN": 0,
+              "unsupported": 3,
+              "unscanned": 0,
+              "unresolved": 0
+            },
+            "122": {
+              "TP": 0,
+              "FN": 0,
+              "FP": 0,
+              "TN": 0,
+              "unsupported": 3,
+              "unscanned": 0,
+              "unresolved": 0
+            },
+            "129": {
+              "TP": 0,
+              "FN": 0,
+              "FP": 0,
+              "TN": 0,
+              "unsupported": 3,
+              "unscanned": 0,
+              "unresolved": 0
+            },
+            "134": {
+              "TP": 0,
+              "FN": 0,
+              "FP": 0,
+              "TN": 0,
+              "unsupported": 3,
+              "unscanned": 0,
+              "unresolved": 0
+            },
+            "190": {
+              "TP": 0,
+              "FN": 0,
+              "FP": 0,
+              "TN": 0,
+              "unsupported": 3,
+              "unscanned": 0,
+              "unresolved": 0
+            },
+            "416": {
+              "TP": 0,
+              "FN": 0,
+              "FP": 0,
+              "TN": 0,
+              "unsupported": 3,
+              "unscanned": 0,
+              "unresolved": 0
+            }
+          }
+        }
+      }
+    }
+  ],
+  "finsuite": {
+    "tier": "user-supplied-unlabeled",
+    "defaultCandidates": {
+      "before": 0,
+      "after": 0
+    },
+    "projectCandidates": {
+      "before": 0,
+      "after": 0
+    },
+    "manualMediumFindings": 1,
+    "accuracy": "unmeasured"
+  }
+}
