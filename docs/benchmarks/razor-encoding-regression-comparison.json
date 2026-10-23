@@ -1,0 +1,98 @@
+{
+  "schema": "kayfabe/razor-encoding-regressions@1",
+  "tier": "self-authored regression coverage; excluded from benchmark totals",
+  "before": {
+    "commit": "704369c2dd34aeaa62b03179eac7abf1f5cac184",
+    "sourceSha256": "09a0b15a493442fe6d76036e92d3d70467743be11b2c08287228e511d333b565"
+  },
+  "after": {
+    "sourceCommit": "e597f5d39d3408c4218e9188ad6fcdab90261fea",
+    "sourceSha256": "e3018f76db053604fb80de1f3b3919fedbc94b7b5a835b7d549def1b4be57f73"
+  },
+  "cases": [
+    {
+      "id": "a05-razor-encoded-text",
+      "variants": [
+        {
+          "variant": "vuln",
+          "inputs": [
+            {
+              "file": "Details.cshtml",
+              "sha256": "7020beef033b37f3b3d2013dc79e845e67812abd697e88b5b17340f5e3f3c6e5"
+            }
+          ],
+          "before": [
+            {
+              "ruleId": "CS-XSS-001",
+              "file": "Details.cshtml",
+              "line": 2
+            }
+          ],
+          "after": [
+            {
+              "ruleId": "CS-XSS-001",
+              "file": "Details.cshtml",
+              "line": 2
+            }
+          ]
+        },
+        {
+          "variant": "fixed",
+          "inputs": [
+            {
+              "file": "Details.cshtml",
+              "sha256": "2c1b6b387c7d9baa2dda0e4bb4800cfbfd63aecd408c592474eb714c80377b90"
+            }
+          ],
+          "before": [
+            {
+              "ruleId": "CS-XSS-001",
+              "file": "Details.cshtml",
+              "line": 2
+            }
+          ],
+          "after": []
+        }
+      ]
+    },
+    {
+      "id": "a05-razor-script-encoding",
+      "variants": [
+        {
+          "variant": "vuln",
+          "inputs": [
+            {
+              "file": "Details.cshtml",
+              "sha256": "e9c268252e6f1761e0ab5502665c84cf399a7242c45223a00e7684ce9c141008"
+            }
+          ],
+          "before": [
+            {
+              "ruleId": "CS-XSS-001",
+              "file": "Details.cshtml",
+              "line": 2
+            }
+          ],
+          "after": [
+            {
+              "ruleId": "CS-XSS-001",
+              "file": "Details.cshtml",
+              "line": 2
+            }
+          ]
+        },
+        {
+          "variant": "fixed",
+          "inputs": [
+            {
+              "file": "Details.cshtml",
+              "sha256": "6a9b3c9bd4a3b153c62c3ea2d5db52ec346250696d181a7f2488bf3c063a3b0f"
+            }
+          ],
+          "before": [],
+          "after": []
+        }
+      ]
+    }
+  ]
+}
