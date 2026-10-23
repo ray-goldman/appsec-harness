@@ -33,6 +33,7 @@ test('Razor unknown code, aliases and visible framework shadows retain warnings'
   [`<div>${encoded}</div>`,{'Other.cs':'public class CustomView { public CustomHelper Html { get; set; } }'}],
   [`<div>${encoded}</div>`,{'Views/_ViewImports.cshtml':'@addTagHelper *, CustomComponents'}],
   [`<div>${encoded}</div>`,{'Other.cs':'class C { object Get() { return PartialView("Details"); } }'}],
+  [`@using Demo.Extensions\n<div>${encoded}</div>`,{'Other.cs':'namespace Demo.Extensions { public static class Extensions { public static object Raw(this Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper helper, string value) { return Unknown(value); } } }'}],
  ])assert.ok((await hits(t,source,extra)).length>0,source);
 });
 test('Razor malformed and unsupported markup never earns an encoding proof',async t=>{
