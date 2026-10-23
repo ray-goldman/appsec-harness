@@ -8,9 +8,10 @@ const { validateTriage, mergeTriage, gate, TRIAGE_SCHEMA } = require('./triage')
 const { ALL, BY_ID, validateRules } = require('./rules');
 const { CATEGORIES, cweLabel } = require('./owasp');
 const ADVISORIES = require('./supply/advisories');
+const { checkForUpdate, installRelease, promptForUpdate } = require('./update');
 const pkg = require('../package.json');
 
-const BOOL = new Set(['md', 'apply', 'claude', 'codex', 'include-tests', 'trust-suppressions', 'osv', 'include-vendored', 'dotnet-stored-data', 'dotnet-project-analysis', 'quiet', 'json', 'allow-ssh', 'allow-http', 'use-git-credentials', 'no-quarantine', 'new-only', 'verbose', 'help', 'no-gate']);
+const BOOL = new Set(['md', 'apply', 'claude', 'codex', 'include-tests', 'trust-suppressions', 'osv', 'include-vendored', 'dotnet-stored-data', 'dotnet-project-analysis', 'quiet', 'json', 'allow-ssh', 'allow-http', 'use-git-credentials', 'no-quarantine', 'new-only', 'verbose', 'help', 'no-gate', 'check', 'yes']);
 
 function parseArgs(argv) {
   const args = { _: [] };
@@ -32,6 +33,67 @@ function parseArgs(argv) {
 const C = process.stdout.isTTY && !process.env.NO_COLOR ? { r: '\x1b[31m', y: '\x1b[33m', b: '\x1b[34m', g: '\x1b[32m', d: '\x1b[2m', B: '\x1b[1m', x: '\x1b[0m', m: '\x1b[35m' } : { r: '', y: '', b: '', g: '', d: '', B: '', x: '', m: '' };
 const SEVC = { critical: C.r + C.B, high: C.r, medium: C.y, low: C.b, info: C.d };
 const log = (...a) => process.stderr.write(a.join(' ') + '\n');
+
+function updatesDisabled() {
+  const value = String(process.env.KAYFABE_NO_UPDATE_CHECK || '').trim();
+  return !!value && !/^(?:0|false|no)$/i.test(value);
+}
+
+async function maybePromptForUpdate(cmd, a) {
+  if (!process.stdin.isTTY || !process.stderr.isTTY || updatesDisabled() || a.quiet ||
+      ['help', 'version', 'update', 'mcp', 'selftest'].includes(cmd)) return;
+  try {
+    const result = await checkForUpdate();
+    if (result.status !== 'available') return;
+    log(`${C.y}Kayfabe ${result.release.version} is available (current: ${pkg.version}).${C.x}`);
+    log(`Release notes: ${result.release.url}`);
+    const choice = await promptForUpdate(result.release, { stdoutToStderr: true });
+    if (!choice.accepted) return;
+    if (choice.ok) log(`${C.g}${choice.message}${C.x}`);
+    else log(`${C.y}${choice.message} Continuing with the current command.${C.x}`);
+  } catch {
+    // Update discovery and prompting must never prevent a normal scanner command.
+  }
+}
+
+async function cmdUpdate(a) {
+  if ((a.check && a.yes) || a._.length > 1) throw new Error('usage: kayfabe update [--check | --yes]');
+  const result = await checkForUpdate({ force: true });
+  if (result.status === 'unavailable') {
+    if (result.reason === 'no-release') {
+      log('No stable GitHub release is available yet.');
+      return 0;
+    }
+    log(`Could not check GitHub for updates (${result.reason}).`);
+    return 2;
+  }
+  if (result.status === 'current') {
+    log(`Kayfabe ${pkg.version} is up to date.`);
+    return 0;
+  }
+  if (result.status !== 'available') {
+    log('GitHub update check did not return a current release.');
+    return 2;
+  }
+
+  log(`Kayfabe ${result.release.version} is available (current: ${pkg.version}).`);
+  log(`Release notes: ${result.release.url}`);
+  if (a.check) return 0;
+
+  let outcome;
+  if (a.yes) outcome = { accepted: true, ...installRelease(result.release) };
+  else if (process.stdin.isTTY && process.stderr.isTTY) outcome = await promptForUpdate(result.release);
+  else {
+    log('Run kayfabe update --yes to install this release.');
+    return 0;
+  }
+  if (!outcome.accepted) {
+    log('Update cancelled.');
+    return 0;
+  }
+  log(outcome.message);
+  return outcome.ok ? 0 : 2;
+}
 
 function stamp() { return new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19); }
 
@@ -75,9 +137,12 @@ async function main(argv) {
   const a = parseArgs(argv);
   const cmd = a._[0];
   if (!cmd || a.help || cmd === 'help') return usage();
+  await maybePromptForUpdate(cmd, a);
 
   switch (cmd) {
     case 'version': console.log(pkg.version); return 0;
+
+    case 'update': return cmdUpdate(a);
 
     case 'scan': {
       const { gate: g } = await cmdScan(a, a._[1]);
@@ -261,6 +326,7 @@ function usage() {
   kayfabe surface <path> [--json]                       list HTTP entry points + auth evidence
   kayfabe rules [--owasp A05] [--lang python] [--json]  list rules
   kayfabe explain <RULE-ID|CVE-ID|A01..A10>
+  kayfabe update [--check | --yes]                      check for or install a GitHub release
   kayfabe selftest [--verbose]                          run vulnerable/fixed regression corpus
   kayfabe benchmark owasp-java <directory>             measure independently labeled Java cases
   kayfabe benchmark juliet-java <directory>            measure Juliet Java good/bad regions
@@ -288,6 +354,10 @@ scan/audit options:
   --include-vendored      also scan node_modules/vendor/dist
   --exclude GLOBS         comma-separated paths/globs to skip (e.g. "docs,**/fixtures")
   --no-gate               always exit 0
+update options:
+  --check                 report the latest release without installing it
+  --yes                   install the latest release without a prompt (explicit update command only)
+  KAYFABE_NO_UPDATE_CHECK=1 disables automatic interactive checks
 benchmark options:
   --expected FILE         label file relative to dataset (adapter-specific default)
   --manifest FILE         CVE corpus manifest (default bundled benchmarks/cve-fixes.json)
