@@ -1,8 +1,16 @@
 'use strict';
 // Repository-wide checks that need more than one file of context.
 const { authLoggingEvidence } = require('../auth-logging-evidence');
+const { mvcSqlFindings } = require('../csharp-mvc-sql');
 
 module.exports = [
+  {
+    id: 'CS-SQLI-002', title: 'MVC request string reaches EF raw SQL through a local variable',
+    owasp: 'A05', cwe: [89], severity: 'high', confidence: 'high', check: mvcSqlFindings,
+    message: 'A visible MVC-bound string is formatted into a local query passed to a recognized EF DbSet.FromSqlRaw call.',
+    fix: 'Use FromSql/FromSqlInterpolated with interpolated arguments, or keep FromSqlRaw SQL constant and pass separate parameters.',
+    refs: ['https://learn.microsoft.com/en-us/ef/core/querying/sql-queries'],
+  },
   {
     id: 'PROJ-HEADERS-001', title: 'Express app without security headers middleware (helmet)',
     owasp: 'A02', cwe: [693, 1021], severity: 'low', confidence: 'medium',

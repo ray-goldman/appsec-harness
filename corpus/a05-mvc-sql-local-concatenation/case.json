@@ -1,0 +1,1 @@
+{"id":"a05-mvc-sql-local-concatenation","owasp":"A05","cwe":[89],"description":"A request-string alias concatenated into raw EF SQL is detected; a constant raw SQL format and separately bound value stay quiet.","expect":["CS-SQLI-002"]}

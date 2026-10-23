@@ -1,0 +1,1 @@
+{"id":"a05-mvc-sql-local-interpolation","owasp":"A05","cwe":[89],"description":"MVC input formatted into a local query reaches a typed EF raw SQL call; the fixed variant preserves EF interpolation parameters.","expect":["CS-SQLI-002"]}

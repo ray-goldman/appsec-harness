@@ -120,7 +120,7 @@ Follow [the repository instructions](AGENTS.md) when reviewing a target: treat i
 
 ## Accuracy and limits
 
-The regression corpus contains 182 vulnerable/fixed pairs written alongside the rules. Its 100% precision and recall detect regressions against those expectations; they do not establish independent detection accuracy.
+The regression corpus contains 184 vulnerable/fixed pairs written alongside the rules. Its 100% precision and recall detect regressions against those expectations; they do not establish independent detection accuracy.
 
 The [.NET command-proof follow-up](docs/DOTNET-COMMAND-PRECISION.md) covers additional constant command forms, unsafe counterparts and the type-resolution blockers behind the remaining Juliet command alerts.
 
@@ -213,6 +213,10 @@ The [Python value-proof pass](docs/PYTHON-VALUE-PRECISION.md) recognizes
 bounded local SQL choice maps and literal markup passed to supported Flask
 templates. Unsafe fallbacks, map mutation, alternate rendering paths and
 unknown bindings retain findings. Its paired fixtures are regression coverage.
+
+The [MVC SQL flow pass](docs/DOTNET-MVC-SQL.md) adds source-to-sink evidence
+for supported MVC string parameters formatted into local SQL and passed to
+a typed EF `FromSqlRaw` call. Parameterized APIs remain quiet in the new rule.
 
 ## Development
 
