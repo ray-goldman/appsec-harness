@@ -26,6 +26,19 @@ node bin/kayfabe.js audit https://github.com/org/app --ref v2.4.0
 
 To install the optional `kayfabe` command globally for your user, run `npm link` from this directory.
 
+## Updates
+
+On interactive runs, Kayfabe checks GitHub Releases at most once per day. If a newer stable release is available, it shows the release notes link and asks before installing. The check is best-effort and does not block scans when GitHub is unavailable. Set `KAYFABE_NO_UPDATE_CHECK=1` to disable automatic checks.
+
+Check for or install an update manually:
+
+```sh
+kayfabe update
+kayfabe update --check
+```
+
+`kayfabe update --yes` installs the latest stable release without prompting. Installation uses npm and Git to install the exact GitHub release tag globally; no npm registry publishing is required. This applies to the global Kayfabe command. If you run Kayfabe directly from a source checkout, the checkout itself is not modified.
+
 ## Coverage
 
 The harness checks source code, dependency manifests, infrastructure configuration, and CI workflows. Supported languages include JavaScript and TypeScript, Python, PHP, Java and Kotlin, Go, Ruby, and C#. NuGet dependencies are read from `packages.lock.json`, `project.assets.json`, and direct `PackageReference` entries; OSV lookup for resolved NuGet versions is available with `--osv`. It also recognizes Docker, Compose, Kubernetes, nginx, Terraform, Spring properties, GitHub Actions, and HTML or template files. See [the rule reference](docs/RULES.md) for the complete list.
