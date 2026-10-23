@@ -16,3 +16,11 @@ Final review: the rest of the branch has no Critical or Important findings. Npm-
 Ruling: Route automatic prompts and npm output to stderr, and skip prompts for `--quiet` — this preserves JSON/structured stdout and quiet-mode expectations — cost if wrong: users who expect update notices in stdout will instead see them on stderr, while command output remains parseable.
 
 Post-fix verification: `node --check src/update.js`, `node --check src/cli.js`, and `git diff --check` passed. The modified cache fallback was reviewed statically; no Kayfabe commands or tests were executed.
+
+## Merge compatibility review and installer hardening
+
+The user's subsequent request to check compatibility and merge PR #28 authorizes scanner verification. PR #27 was merged first; the combined tree passed 391 tests and all 189 regression pairs. A fresh reviewer found that npm inherited the scanner's working directory and Git overrides, permitting a hostile local Git configuration to redirect the confirmed update. A local `git ls-remote --get-url` probe established URL expansion without any remote, helper or install execution.
+
+The installer now uses a private temporary directory, an empty private Git config, a parent discovery ceiling, HTTPS-only transports, disabled hooks/fsmonitor/credential helpers and no inherited Git overrides. npm prefix settings remain unchanged. Cleanup runs after success and failure. Tests reproduced the isolation failure before the fix, then passed; further red/green tests caught the Windows null-device config and current-directory ceiling mistakes. Real Git URL expansion now preserves the canonical URL even beneath a hostile ancestor and with inherited `GIT_DIR`.
+
+Final verification: 400/400 scanner tests and 189/189 regression pairs pass. Nine updater tests use mocked networking/installers; the Git integration check only expands a URL locally. The reviewer independently repeated the hardened-context probe on Git for Windows and found no remaining merge blocker. No real update installation, release endpoint request, target application or target test was run. README and AGENTS.md now document the updater network boundary. Real npm global installation and enterprise proxy/credential configurations remain untested; the original recommendation for an installation timeout remains deferred.

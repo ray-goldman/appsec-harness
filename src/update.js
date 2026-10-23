@@ -161,11 +161,35 @@ function installRelease(release, { stdoutToStderr = false } = {}) {
   ]);
   if (!invocation) return { ok: false, message: 'Could not locate npm. Install npm and Git, then run kayfabe update again.' };
 
-  const stdio = stdoutToStderr ? ['inherit', process.stderr, 'inherit'] : 'inherit';
-  const result = spawnSync(invocation.command, invocation.args, { stdio, windowsHide: true });
-  if (result.error) return { ok: false, message: `Could not run npm: ${result.error.message}` };
-  if (result.status !== 0) return { ok: false, message: `npm update failed${result.status === null ? '' : ` (exit ${result.status})`}.` };
-  return { ok: true, message: `Installed Kayfabe ${release.version}. Restart Kayfabe to use the new version.` };
+  let directory;
+  try {
+    // npm resolves Git-backed packages before cloning. Never let that lookup
+    // read the repository being scanned or caller-supplied Git configuration.
+    directory = fs.mkdtempSync(path.join(os.tmpdir(), 'kayfabe-update-'));
+    const config = path.join(directory, 'empty-git-config');
+    fs.writeFileSync(config, '', { mode: 0o600, flag: 'wx' });
+    const env = { ...process.env };
+    for (const key of Object.keys(env)) if (/^GIT_|^SSH_ASKPASS$/i.test(key)) delete env[key];
+    Object.assign(env, {
+      GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_SYSTEM: config, GIT_CONFIG_GLOBAL: config,
+      GIT_ALLOW_PROTOCOL: 'https', GIT_TERMINAL_PROMPT: '0',
+      GIT_CEILING_DIRECTORIES: path.dirname(directory),
+      GIT_ASKPASS: path.join(directory, 'no-askpass'), GIT_CONFIG_COUNT: '4',
+      GIT_CONFIG_KEY_0: 'core.hooksPath', GIT_CONFIG_VALUE_0: path.join(directory, 'no-hooks'),
+      GIT_CONFIG_KEY_1: 'core.fsmonitor', GIT_CONFIG_VALUE_1: 'false',
+      GIT_CONFIG_KEY_2: 'submodule.recurse', GIT_CONFIG_VALUE_2: 'false',
+      GIT_CONFIG_KEY_3: 'credential.helper', GIT_CONFIG_VALUE_3: '',
+    });
+    const stdio = stdoutToStderr ? ['inherit', process.stderr, 'inherit'] : 'inherit';
+    const result = spawnSync(invocation.command, invocation.args, { stdio, windowsHide: true, cwd: directory, env });
+    if (result.error) return { ok: false, message: `Could not run npm: ${result.error.message}` };
+    if (result.status !== 0) return { ok: false, message: `npm update failed${result.status === null ? '' : ` (exit ${result.status})`}.` };
+    return { ok: true, message: `Installed Kayfabe ${release.version}. Restart Kayfabe to use the new version.` };
+  } catch (error) {
+    return { ok: false, message: `Could not prepare or run the isolated installer: ${error.message}` };
+  } finally {
+    if (directory) try { fs.rmSync(directory, { recursive: true, force: true }); } catch { /* best effort */ }
+  }
 }
 
 async function promptForUpdate(release, options = {}) {
