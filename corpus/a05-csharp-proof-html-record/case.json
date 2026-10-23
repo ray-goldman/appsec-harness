@@ -1,0 +1,11 @@
+{
+  "id": "a05-csharp-proof-html-record",
+  "owasp": "A05",
+  "cwe": [
+    79
+  ],
+  "description": "Invented regression pair for bounded html-record proof; unsupported producers retain warnings.",
+  "expect": [
+    "CS-XSS-001"
+  ]
+}

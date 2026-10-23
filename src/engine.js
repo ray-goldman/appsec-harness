@@ -14,6 +14,7 @@ const pkg = require('../package.json');
 const { constantSinkFilter } = require('./java-constants');
 const { createCSharpConstantSinkProof } = require('./csharp-constant-sinks');
 const { createRazorEncodingProof } = require('./razor-encoding');
+const { createCSharpMapProof } = require('./csharp-map-proof');
 const { createDomConstantProof } = require('./js-dom-constants');
 const { createPythonLoggingProof } = require('./python-log-evidence');
 const { pythonSqlConstantLine, pythonTemplateConstantLine } = require('./python-value-proofs');
@@ -236,6 +237,7 @@ async function scan(root, opts = {}) {
   const csharpCoverage = { eligibleFiles: 0, completeFiles: 0, fallbackFiles: 0, discoveredMethods: 0, completeMethods: 0 };
   const csharpSources = [];
   const razorSources = [];
+  const proofProjects = [];let proofProjectsComplete=true,proofProjectBytes=0;
   let razorComplete = !truncated && !javaIncomplete && !skipped.large, razorBytes = 0;
   let csharpProjectBytes = 0, csharpProjectInputTruncated = false;
   const javaSources = [];
@@ -255,12 +257,16 @@ async function scan(root, opts = {}) {
 
   for (const f of files) {
     let buf;
-    try { buf = fs.readFileSync(f.abs); } catch { if (/\.cs(?:html)?(?:\.appsec-quarantined)?$/i.test(f.rel)) razorComplete = false; continue; }
-    if (isProbablyBinary(buf)) { if (/\.cs(?:html)?(?:\.appsec-quarantined)?$/i.test(f.rel)) razorComplete = false; continue; }
+    try { buf = fs.readFileSync(f.abs); } catch { if (/\.cs(?:html)?(?:\.appsec-quarantined)?$/i.test(f.rel)) razorComplete = false; if(/\.(?:csproj|props|targets)$/i.test(f.rel))proofProjectsComplete=false; continue; }
+    if (isProbablyBinary(buf)) { if (/\.cs(?:html)?(?:\.appsec-quarantined)?$/i.test(f.rel)) razorComplete = false; if(/\.(?:csproj|props|targets)$/i.test(f.rel))proofProjectsComplete=false; continue; }
     const text = buf.toString('utf8');
     const rawLines = text.split(/\r?\n/);
     const relLogical = f.rel.replace(/\.appsec-quarantined$/, '');
     const lang = detectLanguage(relLogical);
+    if(/\.(?:csproj|props|targets)$/i.test(relLogical)){
+      if(proofProjects.length>=1000||(proofProjectBytes+=buf.length)>1024*1024)proofProjectsComplete=false;
+      else proofProjects.push({file:relLogical,raw:text});
+    }
     if (lang === 'csharp') {
       if (razorSources.length >= 1000 || text.length > 100000 || (razorBytes += Buffer.byteLength(text)) > 8 * 1024 * 1024) razorComplete = false;
       else razorSources.push({ file: f.rel, raw: text });
@@ -326,8 +332,9 @@ async function scan(root, opts = {}) {
 
   // ---------- enrich ----------
   const lineText = (f) => { const d = fileData.get(f.file); return d ? (d.rawLines[f.line - 1] || '') : ''; };
-  const razorEncoded = createRazorEncodingProof(razorSources, { complete: razorComplete });
-  let findings = raw.filter(f => f.ruleId !== 'CS-XSS-001' || !razorEncoded(f.file, f.line)).map((f) => {
+  const razorEncoded = createRazorEncodingProof(razorSources, { complete: razorComplete,projects:proofProjects,projectComplete:proofProjectsComplete });
+  const closedMap = createCSharpMapProof(razorSources,{complete:razorComplete&&proofProjectsComplete,projects:proofProjects});
+  let findings = raw.filter(f => (f.ruleId !== 'CS-XSS-001' || !razorEncoded(f.file, f.line))&&(f.ruleId!=='CS-CMDI-001'||!closedMap(f.file,f.line))).map((f) => {
     const rule = BY_ID.get(f.ruleId) || {};
     const logicalFile = f.file.replace(/\.appsec-quarantined$/, '');
     const testCtx = isTestPath(logicalFile);
