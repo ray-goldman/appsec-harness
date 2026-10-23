@@ -89,8 +89,9 @@ test('obsolete TLS selection is distinct from safe defaults, removal and lookali
 });
 test('Razor encoding does not establish safety in unknown or dynamically produced contexts', async t => {
   const safe = '<div class="description">@Html.Raw(System.Net.WebUtility.HtmlEncode(Model.Description))</div>';
-  // The existing standalone false positive remains until Razor context is modeled.
-  assert.ok((await findings(t, safe, 'Details.cshtml')).some(f => f.ruleId === 'CS-XSS-001'));
+  // A bounded standalone HTML-text proof is now available. Unknown and
+  // dynamically produced contexts below must still retain their findings.
+  assert.ok(!(await findings(t, safe, 'Details.cshtml')).some(f => f.ruleId === 'CS-XSS-001'));
   for (const text of [
     safe.replace('HtmlEncode(Model.Description)', 'HtmlEncode(Model.Description) + Model.Other'),
     safe.replace('System.Net.WebUtility.HtmlEncode', 'Custom.HtmlEncode'),

@@ -1,0 +1,11 @@
+{
+  "id": "a05-razor-encoded-text",
+  "owasp": "A05",
+  "cwe": [
+    79
+  ],
+  "description": "Html.Raw of model text is unsafe; direct framework HTML encoding is safe in ordinary HTML text.",
+  "expect": [
+    "CS-XSS-001"
+  ]
+}

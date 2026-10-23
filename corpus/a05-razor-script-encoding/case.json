@@ -1,0 +1,11 @@
+{
+  "id": "a05-razor-script-encoding",
+  "owasp": "A05",
+  "cwe": [
+    79
+  ],
+  "description": "HTML encoding does not establish JavaScript safety; JSON serialization preserves a JavaScript value.",
+  "expect": [
+    "CS-XSS-001"
+  ]
+}
