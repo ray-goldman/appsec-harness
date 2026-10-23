@@ -32,10 +32,10 @@
 
 **Interface:** `readConfinedText(root, relativeFile)` returns UTF-8 source text or throws on unsupported/unsafe/unreadable input. Callers decide whether failure is an MCP error, invalid evidence or unavailable context.
 
-- [ ] Add public-API regressions for the original escape and ordinary reads, all evidence channels, context/search behavior, leaf and ancestor links, prefix/absolute inputs and root aliases. Observe failures before implementation.
-- [ ] Implement canonical/component checks and descriptor reads with bounded bytes, identity/mutation checks and cleanup; integrate all four consumers.
-- [ ] Add deterministic swap, oversized-file and descriptor-cleanup regressions; run focused tests, full tests and selftest.
-- [ ] Complete fresh review pass 1, fix important findings with red/green evidence, and repeat verification.
-- [ ] Freeze the implementation; rerun production and full-default self-audits plus the original controlled boundary probe, retaining all old artifacts.
-- [ ] Complete fresh review pass 2, verify claims and remaining limitations, fix findings and repeat affected checks.
+- [x] Add public-API regressions for the original escape and ordinary reads, all evidence channels, context/search behavior, leaf and ancestor links, prefix/absolute inputs and root aliases. Observe failures before implementation.
+- [x] Implement canonical/component checks and descriptor reads with bounded bytes, identity/mutation checks and cleanup; integrate all four consumers.
+- [x] Add deterministic swap, oversized-file and descriptor-cleanup regressions; run focused tests, full tests and selftest.
+- [x] Complete fresh review pass 1, fix important findings with red/green evidence, and repeat verification.
+- [x] Freeze the implementation; rerun production and full-default self-audits plus the original controlled boundary probe, retaining all old artifacts.
+- [x] Complete fresh review pass 2, verify claims and remaining limitations, fix findings and repeat affected checks.
 - [ ] Commit evidence/documentation, push the branch, open and attach the PR, and confirm CI. Do not merge without a later request.
