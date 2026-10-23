@@ -1,0 +1,1 @@
+using Example; var builder = WebApplication.CreateBuilder(args); builder.Services.AddScoped<IPresenter, Presenter>(); builder.Services.AddControllersWithViews(); var app = builder.Build(); app.MapControllers(); app.Run();
