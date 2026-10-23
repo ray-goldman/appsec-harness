@@ -6,7 +6,7 @@ async function hits(t,source,extra={}){
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'kayfabe-razor-'));
  t.after(()=>{assert.equal(path.dirname(fs.realpathSync(root)),fs.realpathSync(os.tmpdir()));assert.ok(path.basename(root).startsWith('kayfabe-razor-'));fs.rmSync(root,{recursive:true,force:true});});
  for(const [name,text]of Object.entries({'Views/Details.cshtml':source,...extra})){const dest=path.join(root,name);fs.mkdirSync(path.dirname(dest),{recursive:true});fs.writeFileSync(dest,text);}
- return (await scan(root,{includeTests:true})).findings.filter(f=>f.ruleId==='CS-XSS-001');
+ return (await scan(root,{includeTests:true})).findings.filter(f=>f.ruleId==='CS-XSS-001'&&f.file==='Views/Details.cshtml');
 }
 test('Razor direct framework encoding is quiet only in supported HTML text',async t=>{
  for(const source of [encoded,`@model Product\n<div class="description">${encoded}</div>`,`<section>\n<p>${encoded}</p>\n</section>`,`<!-- static comment -->\n<div>${encoded}</div>`,`<div>${encoded} ${encoded}</div>`,`<h1>Details</h1>\n<div>${encoded}</div>`])
@@ -34,6 +34,8 @@ test('Razor unknown code, aliases and visible framework shadows retain warnings'
   [`<div>${encoded}</div>`,{'Views/_ViewImports.cshtml':'@addTagHelper *, CustomComponents'}],
   [`<div>${encoded}</div>`,{'Other.cs':'class C { object Get() { return PartialView("Details"); } }'}],
   [`@using Demo.Extensions\n<div>${encoded}</div>`,{'Other.cs':'namespace Demo.Extensions { public static class Extensions { public static object Raw(this Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper helper, string value) { return Unknown(value); } } }'}],
+  [`<div>${encoded}</div>`,{'Other.cs':'class CustomHelper { Microsoft.AspNetCore.Html.IHtmlContent IHtmlHelper.Raw(string value) => Unknown(value); }'}],
+  [`<div>${encoded}</div>`,{'Other.cs':'class Startup { void Configure(IServiceCollection services) { services.AddTransient<IHtmlHelper, ExternalCustomHelper>(); } }'}],
  ])assert.ok((await hits(t,source,extra)).length>0,source);
 });
 test('Razor malformed and unsupported markup never earns an encoding proof',async t=>{

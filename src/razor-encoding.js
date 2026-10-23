@@ -124,9 +124,9 @@ function createRazorEncodingProof(sources,{complete=true}={}) {
     }else{
       const lex=tokenizeCSharp(s.raw),ts=lex.tokens;
       if(lex.errors.length||ts.length>20000||lex.regions.some(r=>r.kind==='directive')||ts.some(t=>t.kind==='punctuation'&&/[^\x00-\x7f]|\\/.test(t.text)))return none;
-      if(ts.some(t=>['PartialView','RenderBody','RenderSection','RenderAsync','IRazorViewEngine','ViewLocationExpanders','Layout'].includes(id(t))))return none;
+      if(ts.some(t=>['PartialView','RenderBody','RenderSection','RenderAsync','IRazorViewEngine','ViewLocationExpanders','Layout','IHtmlHelper','IHtmlHelperFactory','HtmlHelper','Raw'].includes(id(t))))return none;
       if(ts.some((t,i)=>['System','WebUtility','Html'].includes(id(t))&&!(id(t)==='System'&&ts[i-1]?.text==='using'&&ts[i+1]?.text===';')&&(ts[i+1]?.text!=='.'||ts[i-1]?.text==='namespace'))||
-         ts.some((t,i)=>['Raw','HtmlEncode'].includes(id(t))&&ts[i-1]?.text!=='.'))return none;
+         ts.some((t,i)=>id(t)==='HtmlEncode'&&ts[i-1]?.text!=='.'))return none;
     }
   }
   for(const s of sources)if(/\.cshtml$/i.test(s.file)&&s.raw.includes('Html.Raw'))proofs.set(s.file,viewProof(s.raw));
