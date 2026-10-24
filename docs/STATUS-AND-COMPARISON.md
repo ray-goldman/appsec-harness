@@ -15,6 +15,8 @@ The established results below were measured before this console-logging precisio
 
 Full Juliet C# recall includes unsupported weakness families. Within the two detected families, command-injection recall is 97.37% with a 52.63% false-positive rate; SQL-injection recall is 64.91% with a 26.32% false-positive rate. The low aggregate false-positive rate must not hide that noise. These are synthetic benchmark rates, not estimates of production performance.
 
+There has been measurable precision progress: the [earlier frozen Juliet C# baseline](benchmarks/dotnet-juliet-phase2-baseline.json) recorded 1,036 false positives and 1,036 true positives. On the same input, label and unit-manifest hashes, the current baseline has 470 false positives and the same 1,036 true positives: 566 fewer false positives, a 54.63% reduction. Precision rose from 50.00% to 68.79%; overall recall stayed at 3.49%. These are historical improvements, not gains from this console-logging change.
+
 The original real-CVE corpus still scores **0/8 parent/fix pairs**. The separate localized scoring policy scores 1/8 and must not replace the original number. Native C is unsupported; an empty C scan earns no true-negative credit. None of the supplied application results is a fresh independent holdout.
 
 The corpus selftest is regression coverage written alongside the rules. Its passing score does not measure independent detection accuracy. See [benchmark methodology](BENCHMARKS.md), [the previous frozen aggregate](benchmarks/mvc-constant-sql-results.json), and [the .NET evaluation policy](benchmarks/dotnet-evaluation-policy.md).

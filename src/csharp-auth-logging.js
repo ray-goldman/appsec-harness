@@ -10,7 +10,9 @@ const exactAuthName = /^(?:login|authenticate|signin|verifyPassword|password_ver
 // delivery. Only ordinary structured paths are modeled; exceptions and sink
 // collection/retention require human review.
 function csharpConsoleAuthEvidence(code, context) {
-  if (typeof code !== 'string' || code.length > 200000) return false;
+  // The lexer does not implement Unicode identifier equivalence. Formatting
+  // characters (including those treated as whitespace) can hide owner names.
+  if (typeof code !== 'string' || code.length > 200000 || /\p{Cf}/u.test(code)) return false;
   const lex = tokenizeCSharp(code), ast = parseCSharp(code), ts = lex.tokens;
   if (!ast.complete || lex.errors.length || lex.regions.some(r => r.kind === 'directive') || ts.length > 20000) return false;
   const pairs = new Map(), stack = [];
@@ -23,7 +25,8 @@ function csharpConsoleAuthEvidence(code, context) {
   // owners can change the meaning of Console. Decline those source shapes.
   const name=t=>t?.text.replace(/^@/,'');
   function ownersClosed(tokens) {
-    return !tokens.some((t,i) => t.text==='\\' || t.text==='using' && tokens[i+2]?.text==='=' ||
+    return !tokens.some((t,i) => t.text==='\\' || t.kind==='punctuation' && /[^\x00-\x7f]/.test(t.text) ||
+      t.text==='using' && tokens[i+2]?.text==='=' ||
       name(t)==='Console' && !(tokens[i+1]?.text==='.' && name(tokens[i+2])==='WriteLine' && tokens[i+3]?.text==='(') ||
       t.text==='namespace' && name(tokens[i+1])==='System' ||
       ['class','struct','record','interface'].includes(t.text) && name(tokens[i+1])==='System');
@@ -160,7 +163,7 @@ function csharpConsoleAuthEvidence(code, context) {
   if(context.complete!==true || files.length>1000 || files.reduce((sum,f)=>sum+f.code.length,0)>8*1024*1024) return false;
   const closed=files.every(file=>{
     const lexed=tokenizeCSharp(file.code);
-    return file.code.length<=200000 && !lexed.errors.length && !lexed.regions.some(r=>r.kind==='directive') && ownersClosed(lexed.tokens);
+    return file.code.length<=200000 && !/\p{Cf}/u.test(file.code) && !lexed.errors.length && !lexed.regions.some(r=>r.kind==='directive') && ownersClosed(lexed.tokens);
   });
   ownerCache.set(context,closed);
   return closed;

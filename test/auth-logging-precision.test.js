@@ -159,10 +159,14 @@ test('C# console evidence retains incomplete, unrelated and unsupported logging 
  for(const shadow of [
   'class Console { public static void WriteLine(string message) {} }',
   'class @Console { public static void WriteLine(string message) {} }',
+  'class Conso\u200cle { public static void WriteLine(string message) {} }',
+  'class Conso\ufeffle { public static void WriteLine(string message) {} }',
   'global using Console = Sink; class Sink { public static void WriteLine(string message) {} }',
  ]) {
   assert.ok((await findings(t,complete,'Server.cs',{'Other.cs':shadow})).length,shadow);
   assert.ok((await findings(t,complete+' '+shadow,'Server.cs')).length,shadow);
  }
  assert.ok((await findings(t,complete.replace('string password','dynamic @Console, string password'),'Server.cs')).length);
+ assert.ok((await findings(t,complete.replace('string password','dynamic Conso\u200cle, string password'),'Server.cs')).length);
+ assert.ok((await findings(t,complete.replace('string password','dynamic Conso\ufeffle, string password'),'Server.cs')).length);
 });

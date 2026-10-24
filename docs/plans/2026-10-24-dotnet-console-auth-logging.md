@@ -10,6 +10,8 @@ Supported predicates are Boolean parameters and string/null equality checks on p
 
 The existing Razor warning remains: earlier raw output can alter browser context. Do not change frozen labels or suppress it based on the label alone.
 
+Review also requires retaining the warning on unsupported Unicode identifier tokens and formatting characters throughout source ownership context. This includes characters the bounded lexer treats as whitespace. The first final measurement candidate was retired after this review finding; the replacement freeze must rerun all suites.
+
 ## Execution and gates
 
 1. Freeze main 4c79e3ccb5861744c5391ce210b1bb2336edb753. Add failing scanner-owned safe/unsafe regression tests, then implement bounded evidence extraction and a paired corpus case.
