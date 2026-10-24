@@ -94,6 +94,7 @@ function createCSharpConstMemberProof(sources, { complete = true, projects = [],
   // External imports/build extensions cannot supply a competing source binding.
   if(files.some(f=>f.imports.some(ns=>!namespaces.has(ns)&&!/^System(?:\.|$)|^Microsoft\.(?:AspNetCore|Extensions|Data\.Sqlite)(?:\.|$)/.test(ns)))) return decline;
   const byName=new Map(); for(const type of types) { if(!byName.has(type.name))byName.set(type.name,[]);byName.get(type.name).push(type); }
+  const mvcOwner=require('./csharp-mvc-binding').createMvcConstOwnerProof(projects,types);
   const shadowCache=new Map();
   function shadowed(typeName) {
     if(shadowCache.has(typeName)) return shadowCache.get(typeName);
@@ -133,14 +134,16 @@ function createCSharpConstMemberProof(sources, { complete = true, projects = [],
       const header=owner[0].header;
       // Only a flat list of simple interface identifiers is supported. Do not
       // reinterpret namespace components or primary-constructor expressions.
-      if(header.length && (header[0].text!==':' || header.length%2!==0 ||
-        header.slice(1).some((t,j)=>j%2?t.text!==',':!name(t)||RESERVED.has(t.text)))) continue;
-      const bases=header.filter((t,j)=>j%2===1);
-      if(header.some(t=>t.text===':') && bases.some(t=>{
-        const declared=types.filter(type=>type.name===name(t));
-        return declared.length!==1 || declared[0].kind!=='interface' || declared[0].unsupported ||
-          !(declared[0].namespace===file.namespace || file.imports.includes(declared[0].namespace));
-      })) continue;
+      if(!mvcOwner(owner[0],references)) {
+        if(header.length && (header[0].text!==':' || header.length%2!==0 ||
+          header.slice(1).some((t,j)=>j%2?t.text!==',':!name(t)||RESERVED.has(t.text)))) continue;
+        const bases=header.filter((t,j)=>j%2===1);
+        if(header.some(t=>t.text===':') && bases.some(t=>{
+          const declared=types.filter(type=>type.name===name(t));
+          return declared.length!==1 || declared[0].kind!=='interface' || declared[0].unsupported ||
+            !(declared[0].namespace===file.namespace || file.imports.includes(declared[0].namespace));
+        })) continue;
+      }
       if(!references.every(ref=>{
         const candidates=byName.get(ref.type)||[]; if(candidates.length!==1 || shadowed(ref.type)) return false;
         const type=candidates[0];
