@@ -62,4 +62,6 @@ Files: `src/coverage.js`, `src/engine.js`, `src/walker.js`, `src/cli.js`, `src/m
 - [x] Replay all frozen C#/C/FinSuite apps, nine app sets, adversarial fixtures and both Hermes variants. Preserve true positives and no new adjudicated false positives.
 - [x] Fresh review pass one: code, parser/source privacy and fail-closed boundaries. Fix issues and repeat affected verification.
 - [x] Fresh review pass two: code plus measured evidence, unchanged keys/scorers, report consistency and documentation claims. If code changes after measurement, freeze a new candidate and repeat the suite.
-- [ ] Publish sanitized result/limits documentation, push the branch and open/attach a PR after both passes. No merge or release in this task.
+- [x] Publish sanitized result/limits documentation, push the branch and open/attach a PR after both passes. No merge or release in this task.
+
+Published PR: https://github.com/ray-goldman/kayfabe/pull/34. Measured implementation remains 3485ac6; subsequent commits contain documentation only.
