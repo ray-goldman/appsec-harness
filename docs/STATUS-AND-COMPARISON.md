@@ -4,7 +4,7 @@ Assessment date: 2026-10-24. Use Kayfabe as an additional static review tool wit
 
 ## What the measurements say
 
-The established results below were measured before this console-logging precision change. Its final rerun is reported separately in the accompanying precision results. Keep these datasets separate; they measure different things.
+The final console-logging precision rerun preserved the established results below. The separate development-app warning reduction and exact provenance are recorded in [the precision report](CSHARP-CONSOLE-AUTH-PRECISION.md). Keep these datasets separate; they measure different things.
 
 | Dataset | True positives | False positives | True negatives | Misses | Interpretation |
 |---|---:|---:|---:|---:|---|
