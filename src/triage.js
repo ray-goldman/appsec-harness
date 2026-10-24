@@ -1,8 +1,7 @@
 'use strict';
 // Model-agnostic triage protocol. The scanner emits triage-request.json; any agent (Claude Code, Codex,
 // a human) writes triage.json; the harness validates it strictly and merges it into the final report.
-const fs = require('fs');
-const path = require('path');
+const { readConfinedText } = require('./confined-read');
 const { CATEGORIES } = require('./owasp');
 const { sevRank, confRank } = require('./util');
 const { summarize } = require('./engine');
@@ -49,27 +48,11 @@ const TRIAGE_SCHEMA = {
   },
 };
 
-function within(root, rel) {
-  if (typeof rel !== 'string' || !rel || path.isAbsolute(rel) || rel.includes('\0')) return null;
-  const abs = path.resolve(root, rel);
-  if (abs !== root && !abs.startsWith(root + path.sep)) return null;
-  return abs;
-}
-
-function lineCount(abs, cache) {
-  if (cache.has(abs)) return cache.get(abs);
-  let n = -1;
-  try { const st = fs.lstatSync(abs); if (st.isFile()) n = fs.readFileSync(abs, 'utf8').split('\n').length; } catch { n = -1; }
-  cache.set(abs, n);
-  return n;
-}
-
 function validateTriage(result, triage) {
   const errors = [];
   const warnings = [];
   const root = result.target.root;
   const byFp = new Map(result.findings.map((f) => [f.fingerprint, f]));
-  const cache = new Map();
   if (!triage || typeof triage !== 'object') return { ok: false, errors: ['triage is not an object'], warnings, coverage: null };
   if (triage.schema !== 'appsec-harness/triage@1') errors.push('schema must be "appsec-harness/triage@1"');
   if (typeof triage.reviewer !== 'string' || !triage.reviewer.trim()) errors.push('reviewer is required');
@@ -79,11 +62,10 @@ function validateTriage(result, triage) {
     if (ev == null) return;
     if (!Array.isArray(ev)) { errors.push(`${where}: evidence must be an array`); return; }
     ev.forEach((e, j) => {
-      const abs = within(root, e && e.file);
-      if (!abs) { errors.push(`${where}.evidence[${j}]: file must be a relative path inside the target`); return; }
-      const n = lineCount(abs, cache);
-      if (n < 0) errors.push(`${where}.evidence[${j}]: ${e.file} does not exist`);
-      else if (!Number.isInteger(e.line) || e.line < 1 || e.line > n) errors.push(`${where}.evidence[${j}]: line ${e.line} out of range for ${e.file} (${n} lines)`);
+      let n;
+      try { n = readConfinedText(root, e && e.file).split('\n').length; }
+      catch { errors.push(`${where}.evidence[${j}]: file must be a readable regular relative path inside the target, without links (maximum 1 MiB)`); return; }
+      if (!Number.isInteger(e.line) || e.line < 1 || e.line > n) errors.push(`${where}.evidence[${j}]: line ${e.line} out of range for ${e.file} (${n} lines)`);
     });
   };
 
@@ -181,9 +163,8 @@ function buildTriageRequest(result, { contextLines = 8, max = 400 } = {}) {
   const fileCache = new Map();
   const getLines = (rel) => {
     if (!fileCache.has(rel)) {
-      const abs = within(root, rel);
       let lines = null;
-      try { if (abs) { const raw = fs.readFileSync(abs, 'utf8'); lines = redactSecretLines(rel, raw, raw.split(/\r?\n/)); } } catch { lines = null; }
+      try { const raw = readConfinedText(root, rel); lines = redactSecretLines(rel, raw, raw.split(/\r?\n/)); } catch { lines = null; }
       fileCache.set(rel, lines);
     }
     return fileCache.get(rel);

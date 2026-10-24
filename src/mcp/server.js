@@ -14,6 +14,7 @@ const { BY_ID, ALL } = require('../rules');
 const { CATEGORIES, cweLabel } = require('../owasp');
 const ADVISORIES = require('../supply/advisories');
 const pkg = require('../../package.json');
+const { readConfinedText } = require('../confined-read');
 
 const SUPPORTED = ['2025-06-18', '2025-03-26', '2024-11-05'];
 const REPORT_ROOT = process.env.KAYFABE_REPORT_ROOT || process.env.APPSEC_REPORT_ROOT || path.join(process.cwd(), 'appsec-reports');
@@ -45,13 +46,6 @@ function readFindings(dir) {
   const p = path.join(dir, 'findings.json');
   if (!fs.existsSync(p)) throw new Error(`no findings.json in ${dir}`);
   return JSON.parse(fs.readFileSync(p, 'utf8'));
-}
-function confine(root, rel) {
-  const abs = path.resolve(root, rel);
-  if (abs !== root && !abs.startsWith(root + path.sep)) throw new Error('path escapes target root');
-  const st = fs.lstatSync(abs);
-  if (st.isSymbolicLink()) throw new Error('refusing to follow symlink');
-  return abs;
 }
 const SEV = { info: 0, low: 1, medium: 2, high: 3, critical: 4 };
 
@@ -85,8 +79,7 @@ async function callTool(name, a) {
     }
     case 'appsec_read_code': {
       const result = readFindings(a.report_dir);
-      const abs = confine(result.target.root, a.file);
-      const lines = fs.readFileSync(abs, 'utf8').split(/\r?\n/);
+      const lines = readConfinedText(result.target.root, a.file).split(/\r?\n/);
       const s = Math.max(1, a.start || 1), e = Math.min(lines.length, a.end || s + 79, s + 299);
       return { file: a.file, start: s, end: e, total_lines: lines.length, code: lines.slice(s - 1, e).map((l, k) => `${String(s + k).padStart(5)}  ${l.length > 500 ? l.slice(0, 500) + '…' : l}`).join('\n') };
     }
@@ -99,7 +92,7 @@ async function callTool(name, a) {
       const hits = [];
       for (const f of walk(root, { maxFileSize: 512 * 1024 }).files) {
         if (a.glob && !f.rel.endsWith(a.glob)) continue;
-        let text; try { text = fs.readFileSync(f.abs, 'utf8'); } catch { continue; }
+        let text; try { text = readConfinedText(root, f.rel); } catch { continue; }
         const lines = text.split(/\r?\n/);
         for (let i = 0; i < lines.length && hits.length < 100; i++) if (lines[i].length < 2000 && re.test(lines[i])) hits.push(`${f.rel}:${i + 1}: ${lines[i].trim().slice(0, 200)}`);
         if (hits.length >= 100) break;

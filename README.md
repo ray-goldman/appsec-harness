@@ -94,6 +94,8 @@ The review process uses files and a CLI, so it works with Codex, Claude Code, or
 
 The MCP server exposes tools for scanning, paging through findings, reading and searching files in the clone, validating triage, generating reports, and explaining rules.
 
+Source reads and triage evidence reject descendant symlinks and directory junctions. Files must be relative, regular files no larger than 1 MiB, within 40 path components of the selected root. See [source-file boundaries](docs/FILE-CONFINEMENT.md) for supported paths and filesystem race limits.
+
 ## Reports and exit codes
 
 The output directory contains:
