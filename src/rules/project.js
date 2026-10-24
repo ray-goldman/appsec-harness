@@ -57,7 +57,7 @@ module.exports = [
     owasp: 'A09', cwe: [778, 223], severity: 'low', confidence: 'low',
     check: (ctx) => {
       const hint = /\b(?:login|authenticate|signIn|verifyPassword|password_verify|check_password|bcrypt\.compare|compare_digest)\b/;
-      const authFiles = ctx.files.filter((f) => hint.test(f.code)).map((f) => ({ ...f, ...authLoggingEvidence(f) })).filter((f) => hint.test(f.authCode));
+      const authFiles = ctx.files.filter((f) => hint.test(f.code)).map((f) => ({ ...f, ...authLoggingEvidence(f, ctx) })).filter((f) => hint.test(f.authCode));
       if (!authFiles.length) return [];
       const logs = /\b(?:logger|log|logging|winston|pino|bunyan|console)\.(?:warn|error|info|warning|critical|audit)\b|audit[_-]?log|securityLog|Log\.(?:w|e|i)\(|slog\.|zap\.|logrus\./;
       return authFiles.filter((f) => !logs.test(f.loggingCode)).slice(0, 5).map((f) => ({ file: f.rel, line: f.code.split('\n').findIndex((l) => /login|authenticate|signIn|password/i.test(l)) + 1 || 1 }));

@@ -2,8 +2,13 @@
 
 // Refine a low-confidence project heuristic, not an authentication proof.
 // Unsupported files/parses keep the original evidence. Never execute source.
-function authLoggingEvidence(file) {
+function authLoggingEvidence(file, context) {
   const original = { authCode: file.code, loggingCode: file.code };
+  if (file.lang === 'csharp') {
+    try {
+      if (require('./csharp-auth-logging').csharpConsoleAuthEvidence(file.code, context)) return { ...original, loggingCode: 'securityLog' };
+    } catch { return original; }
+  }
   if (file.lang === 'python') return { ...original, authCode: require('./python-log-evidence').pythonAuthCode(file.code) };
   if (file.lang !== 'javascript' || !/\.(?:js|mjs|cjs)$/i.test(file.rel) ||
       Buffer.byteLength(file.code, 'utf8') > 200000) return original;

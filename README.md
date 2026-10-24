@@ -12,6 +12,8 @@ benchmark reports retain the name and source hash recorded when they ran.
 
 The scanner does not run code from the repository it scans. It is a first-pass review tool; it does not replace whole-program analysis or dynamic testing.
 
+See [current measured limits and comparison](docs/STATUS-AND-COMPARISON.md) for where it is useful today, especially for .NET.
+
 ## Quick start
 
 Requirements: Node.js 20 or later. No `npm install` is needed. A vendored, optional Acorn parser supports the [bounded JavaScript computed-read proof](docs/JAVASCRIPT-OWNERSHIP.md); its MIT license and byte provenance ship with the source.
