@@ -9,7 +9,7 @@ const specOK = s => typeof s === 'string' && s.length <= 256 && /^[0-9A-Za-z.*^~
 function safeSource(source) {
   if (typeof source !== 'string') return null;
   // Keep package provenance, but never echo URL credentials or query/fragment values.
-  return source.replace(/([a-z][a-z0-9+.-]*:\/\/)[^/@\s]+@/gi,'$1[REDACTED]@').replace(/[?#].*$/, m => m.startsWith('#') && /^#[a-f0-9]{40}$/i.test(m) ? m : '#[REDACTED]');
+  return source.replace(/([a-z][a-z0-9+.-]*:\/\/)[^/?#\s]*@/gi,'$1[REDACTED]@').replace(/[?#].*$/, m => m.startsWith('#') && /^#[a-f0-9]{40}$/i.test(m) ? m : '#[REDACTED]');
 }
 const table = obj => obj && typeof obj === 'object' && !Array.isArray(obj);
 function validDeclaration(data) {
@@ -72,7 +72,8 @@ function analyzeCargo(files) {
     const parsed=overBudget?{deps:[],diagnostics:[{line:1,code:'cargo-budget-exceeded',message:'Cargo inventory input count or byte budget exceeded'}],cargoDocument:{root:null}}:parseCargo(f.rel,f.raw);
     return {rel:f.rel,parsed};
   });
-  const manifests = inputs.filter(f=>path.basename(f.rel)==='Cargo.toml');
+  const manifests = inputs.filter(f=>path.basename(f.rel)==='Cargo.toml'&&f.parsed.cargoDocument.root);
+  const locksByRel=new Map(inputs.filter(f=>path.basename(f.rel)==='Cargo.lock').map(f=>[f.rel,f]));
   const byRel=new Map(manifests.map(m=>[m.rel,m])),memberships=new Map();let work=0;
   const tick=()=>{if(++work>1000000)throw Error('Cargo workspace analysis budget exceeded');};
   const incomplete=(f,message)=>f.parsed.diagnostics.push({line:1,code:'cargo-workspace-incomplete',message});
@@ -92,8 +93,10 @@ function analyzeCargo(files) {
       const m=queue[k],root=m.parsed.cargoDocument.root;
       if(!root)continue;
       const groups=[root.dependencies,root['dev-dependencies'],root['build-dependencies'],...Object.values(root.target||{}).flatMap(t=>[t.dependencies,t['dev-dependencies'],t['build-dependencies']])];
-      for(const group of groups)for(const data of Object.values(group||{}))if(table(data)&&typeof data.path==='string') {
-        const rel=path.normalize(path.join(path.dirname(m.rel),data.path,'Cargo.toml'));
+      for(const group of groups)for(const [alias,local] of Object.entries(group||{})) {
+        const inherited=table(local)&&local.workspace===true,data=inherited?w.dependencies?.[alias]:local;
+        if(!table(data)||typeof data.path!=='string')continue;
+        const rel=path.normalize(path.join(inherited?dir:path.dirname(m.rel),data.path,'Cargo.toml'));
         tick();const member=byRel.get(rel);
         if(!member)incomplete(m,'Path dependency has no visible package manifest');
         if(member&&(dir==='.'?!rel.startsWith('../')&&!path.isAbsolute(rel):rel.startsWith(dir+'/'))&&!match(excluded,member)&&!members.has(member)) {members.add(member);queue.push(member);}
@@ -115,6 +118,7 @@ function analyzeCargo(files) {
   };
   const inventory=[];
   for(const f of inputs) {
+    if(!f.parsed.cargoDocument.root)continue;
     if(path.basename(f.rel)==='Cargo.lock') {
       for(const dep of f.parsed.deps) {
         if(dep.origin==='local') {
@@ -125,7 +129,7 @@ function analyzeCargo(files) {
       }
       continue;
     }
-    const owner=workspaceRoot(f),dir=path.dirname(owner?.rel||f.rel),locked=inputs.find(l=>l.rel===path.join(dir,'Cargo.lock'));
+    const owner=workspaceRoot(f),dir=path.dirname(owner?.rel||f.rel),locked=locksByRel.get(path.join(dir,'Cargo.lock'));
     for(const dep of f.parsed.deps) {
       if(dep.workspace) {
         const inherited=owner?.parsed.cargoDocument.root?.workspace?.dependencies?.[dep.alias];

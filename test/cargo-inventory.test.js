@@ -181,3 +181,29 @@ test('Cargo OSV queries deduplicate requests and retain every lockfile location'
 test('false dependency tables and recursive workspace declarations report incomplete metadata', () => {
  for(const raw of ['dependencies=false','[target.foo]\ndependencies=false','workspace=false','[workspace.dependencies]\nh2={workspace=true}\n[dependencies]\nh2={workspace=true}'])assert.equal(analyzeSupplyChain([{rel:'Cargo.toml',raw}]).cargo.inputs[0].status,'incomplete',raw);
 });
+
+test('source redaction removes userinfo through the final authority separator', () => {
+ const marker='SCANNER_ONLY_CREDENTIAL_TAIL';
+ for(const source of [`git+https://user:first@${marker}@private.invalid/repo`,`git+ssh://user:first@${marker}@private.invalid/repo`]) {
+  const p=parseManifest('Cargo.lock',lock(source));
+  assert.ok(!JSON.stringify(p).includes(marker));
+  assert.match(p.deps[0].source,/\[REDACTED\]@private\.invalid/);
+ }
+});
+
+test('Cargo input budget bounds later ownership analysis as well as parsing', () => {
+ const cp=require('node:child_process'),path=require('node:path');
+ const script=`const {analyzeSupplyChain}=require(process.argv[1]);const r=analyzeSupplyChain(Array.from({length:50000},(_,i)=>({rel:'p'+i+'/Cargo.toml',raw:'[dependencies]\\nh2="0.4"'})));if(r.cargo.inputs.length!==50000||r.cargo.inputs.at(-1).status!=='incomplete')process.exit(2);`;
+ const child=cp.spawnSync(process.execPath,['-e',script,path.resolve(__dirname,'../src/supply')],{encoding:'utf8',windowsHide:true,timeout:5000});
+ assert.equal(child.error,undefined);assert.equal(child.status,0,child.stderr);
+});
+
+test('workspace-inherited path dependencies become automatic visible members', () => {
+ const r=analyzeSupplyChain([
+  {rel:'Cargo.toml',raw:'[workspace]\nmembers=["app"]\n[workspace.dependencies]\nhelper={path="helper"}\nh2="0.3"'},
+  {rel:'app/Cargo.toml',raw:'[package]\nname="app"\nversion="1.0.0"\n[dependencies]\nhelper={workspace=true}'},
+  {rel:'helper/Cargo.toml',raw:'[package]\nname="helper"\nversion="1.0.0"\n[dependencies]\nh2={workspace=true}'},
+  {rel:'Cargo.lock',raw:lock()},
+ ]);
+ assert.equal(r.inventory.length,1);assert.ok(r.cargo.inputs.every(f=>f.status==='complete'));
+});
