@@ -1,0 +1,3516 @@
+{
+  "schema": "kayfabe-const-member-results@1",
+  "measuredImplementation": "9e065d04702c835ea0e3b34fe0f9773e50c21f9e",
+  "baselineCommit": "8d3ffb9bf98d50ee28a1667a33f680594001f072",
+  "evidenceTier": "self-authored-development",
+  "independent": false,
+  "blind": false,
+  "vulnerableCasesInNewSet": 0,
+  "suppliedBundles": [
+    {
+      "file": "applications_2.zip",
+      "sha256": "d6978ebe7ed0ecb692d8a7efc88a6fb89e8173a30e209b7bb4c540d016d2f9fb"
+    },
+    {
+      "file": "evaluation_2.zip",
+      "sha256": "957ff14c59f476585cc70ccc3e912217f58a776d0991b283c1ae6b7ee7759be7"
+    }
+  ],
+  "inputs": {
+    "filesVerified": 67,
+    "suppliedManifestEntriesVerified": 66,
+    "unchanged": true,
+    "keySha256": "22bdfdf0926e28ef80b46507e1499cdafb307549b4e17ec277a7703bf8c5e4fa",
+    "scorerSha256": "e2b0613acb75f76bfe81478f03d6b82b43ab7b38b3c00d09c4a43850179c4b31",
+    "policySha256": "8a8cd38a00d7dbd65abaaa5ca14b425cd479ec7f21378b5d518887acc9954fad"
+  },
+  "sourceTrees": [
+    {
+      "commit": "8d3ffb9bf98d50ee28a1667a33f680594001f072",
+      "tree": "c8081e4ebedd0424386a0d5330c50247414f9118",
+      "files": 952,
+      "scannerSourceSha256": "678dc4fcf418ef6705c799fe44310fc57c5e0a367439bafe80f2e9a9019e62cd",
+      "archiveSha256": "d00cfa68b6e7d66a2d93924b0b86fe3ebdfd1d25fba7f4b6138f43b9021b7f71",
+      "inventorySha256": "bb3d940d3debb9c270f5fd52f68932af901950f2788dce1c92e3acbd8f5400f7",
+      "comparison": "Git blob bytes; CRLF to LF only for UTF-8 text when exact blob bytes differ"
+    },
+    {
+      "commit": "9e065d04702c835ea0e3b34fe0f9773e50c21f9e",
+      "tree": "ad128c8bcd8618975f3d1b07cfe8710c903fcdf7",
+      "files": 963,
+      "scannerSourceSha256": "b4a03c4c3bdb8ca387e9b340c3fe659e90c58dd24e571a2025e7d0f00a4cfa62",
+      "archiveSha256": "674d0caa36ebe7c3afa93909b21885855077e2b3ef3ab6901b2b9c85af2047d8",
+      "inventorySha256": "eb49d9110acc05414a21eaf46cd4a39bd1d4ad8f7780ae65108897a5dd1d30fb",
+      "comparison": "Git blob bytes; CRLF to LF only for UTF-8 text when exact blob bytes differ"
+    }
+  ],
+  "newSet": [
+    {
+      "profile": "default",
+      "before": {
+        "rawCandidates": 2,
+        "labeled": {
+          "safeCases": 20,
+          "fpCases": 1,
+          "tnCases": 19,
+          "unresolved": 0,
+          "falsePositiveRate": 0.05,
+          "fpRuleEvents": 1,
+          "suppliedPolicyEventRate": 0.05,
+          "recall": null
+        },
+        "unmatchedAdjudicatedFalsePositives": 1
+      },
+      "after": {
+        "rawCandidates": 1,
+        "labeled": {
+          "safeCases": 20,
+          "fpCases": 1,
+          "tnCases": 19,
+          "unresolved": 0,
+          "falsePositiveRate": 0.05,
+          "fpRuleEvents": 1,
+          "suppliedPolicyEventRate": 0.05,
+          "recall": null
+        },
+        "unmatchedAdjudicatedFalsePositives": 0
+      },
+      "nativeC": {
+        "unsupported": 12,
+        "tn": 0,
+        "falsePositiveRate": null
+      }
+    },
+    {
+      "profile": "project",
+      "before": {
+        "rawCandidates": 2,
+        "labeled": {
+          "safeCases": 20,
+          "fpCases": 1,
+          "tnCases": 19,
+          "unresolved": 0,
+          "falsePositiveRate": 0.05,
+          "fpRuleEvents": 1,
+          "suppliedPolicyEventRate": 0.05,
+          "recall": null
+        },
+        "unmatchedAdjudicatedFalsePositives": 1
+      },
+      "after": {
+        "rawCandidates": 1,
+        "labeled": {
+          "safeCases": 20,
+          "fpCases": 1,
+          "tnCases": 19,
+          "unresolved": 0,
+          "falsePositiveRate": 0.05,
+          "fpRuleEvents": 1,
+          "suppliedPolicyEventRate": 0.05,
+          "recall": null
+        },
+        "unmatchedAdjudicatedFalsePositives": 0
+      },
+      "nativeC": {
+        "unsupported": 12,
+        "tn": 0,
+        "falsePositiveRate": null
+      }
+    }
+  ],
+  "priorFrozen": [
+    {
+      "profile": "default",
+      "languages": {
+        "csharp": {
+          "TP": 2,
+          "FN": 8,
+          "FP": 0,
+          "TN": 20,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 30,
+          "recall": 0.2,
+          "falsePositiveRate": 0,
+          "precision": 1
+        },
+        "c": {
+          "TP": 0,
+          "FN": 0,
+          "FP": 0,
+          "TN": 0,
+          "unsupported": 18,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 18,
+          "recall": null,
+          "falsePositiveRate": null,
+          "precision": null
+        }
+      },
+      "casesUnchanged": true
+    },
+    {
+      "profile": "project",
+      "languages": {
+        "csharp": {
+          "TP": 2,
+          "FN": 8,
+          "FP": 0,
+          "TN": 20,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 30,
+          "recall": 0.2,
+          "falsePositiveRate": 0,
+          "precision": 1
+        },
+        "c": {
+          "TP": 0,
+          "FN": 0,
+          "FP": 0,
+          "TN": 0,
+          "unsupported": 18,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 18,
+          "recall": null,
+          "falsePositiveRate": null,
+          "precision": null
+        }
+      },
+      "casesUnchanged": true
+    }
+  ],
+  "finsuite": [
+    {
+      "target": "finsuite",
+      "profile": "default",
+      "candidates": 0,
+      "unchanged": true
+    },
+    {
+      "target": "finsuite",
+      "profile": "project",
+      "candidates": 0,
+      "unchanged": true
+    }
+  ],
+  "existingComparison": {
+    "schema": "kayfabe-dotnet-accuracy-comparison@1",
+    "provenance": {
+      "beforeEngineCommit": "8d3ffb9bf98d50ee28a1667a33f680594001f072",
+      "afterEngineCommit": "9e065d04702c835ea0e3b34fe0f9773e50c21f9e",
+      "commitVerification": "Declared commits; scanner byte hashes and separate evaluator hashes identify the measured code."
+    },
+    "datasets": {
+      "csharp": {
+        "inputSha256": "6fde14e0e66fbd5fa2f6a58dae4299e6d92f6951b74b9a8ce9b061be5f515c9b",
+        "policy": {
+          "id": "juliet-csharp-testcase-cwe-polarity-regions@1",
+          "unit": "one file × CWE × polarity, except declared multi-file suffix variants (22a/b, 51, 52, 53, 54, 61, 66, 67, 68, 71, 72, 73, 74, 75, 81), which count once per family, variant, CWE, and polarity (including 81 bad/good split)",
+          "match": "open finding with exact CWE and path, with its start line inside a labeled Bad/Good method or explicitly named bad/good class region in any file in the unit",
+          "limitations": [
+            "Ground-truth regions use Juliet C# method names beginning Bad/Good and explicitly named bad/good class files; 81 base/helper files are included in source hashing and scanning but are not polarity labels.",
+            "The public NIST archive does not include a standalone manifest; the archive hash and generated label hash are recorded, and file names plus labeled source regions determine the units.",
+            "This benchmark is synthetic third-party test code, not independent ASP.NET application evidence or a measure of production false-positive rates."
+          ],
+          "excludesUnsupportedCwes": false,
+          "cweAliases": false,
+          "duplicateDetections": "one prediction per labeled unit"
+        },
+        "before": {
+          "sourceSha256": "678dc4fcf418ef6705c799fe44310fc57c5e0a367439bafe80f2e9a9019e62cd",
+          "canonicalReportSha256": "d1962e7daa1e01eabc035072203e82b5b5fa3c2c476bb35bec4492496cdbd81c",
+          "totals": {
+            "cases": 59282,
+            "tp": 1036,
+            "fp": 470,
+            "tn": 29131,
+            "fn": 28645,
+            "recall": 0.03490448435025774,
+            "falsePositiveRate": 0.015877841964798488,
+            "precision": 0.6879150066401063
+          },
+          "scan": {
+            "options": {
+              "includeTests": true,
+              "minConfidence": "low",
+              "minSeverity": "info",
+              "trustSuppressions": false,
+              "osv": false,
+              "name": "Juliet C# 1.3"
+            },
+            "stats": {
+              "files": 47153,
+              "languages": {
+                "python": 4,
+                "csharp": 46597
+              },
+              "skipped": {
+                "large": 12,
+                "binary": 15,
+                "vendoredDirs": 0,
+                "symlinks": 0
+              },
+              "truncated": false,
+              "dependencies": 0,
+              "routes": 0,
+              "csharpParser": {
+                "eligibleFiles": 46597,
+                "completeFiles": 46597,
+                "fallbackFiles": 0,
+                "discoveredMethods": 173779,
+                "completeMethods": 173779,
+                "fileRatio": 1,
+                "methodRatio": 1
+              },
+              "dotnetProject": null,
+              "dotnetRoutes": null
+            },
+            "warnings": [],
+            "durationMs": 97664
+          },
+          "durationMs": 97664
+        },
+        "after": {
+          "sourceSha256": "b4a03c4c3bdb8ca387e9b340c3fe659e90c58dd24e571a2025e7d0f00a4cfa62",
+          "canonicalReportSha256": "9522c4215a24e3d1769afc27c82bb038d29a923e5729e0352770fb5150417577",
+          "totals": {
+            "cases": 59282,
+            "tp": 1036,
+            "fp": 470,
+            "tn": 29131,
+            "fn": 28645,
+            "recall": 0.03490448435025774,
+            "falsePositiveRate": 0.015877841964798488,
+            "precision": 0.6879150066401063
+          },
+          "scan": {
+            "options": {
+              "includeTests": true,
+              "minConfidence": "low",
+              "minSeverity": "info",
+              "trustSuppressions": false,
+              "osv": false,
+              "name": "Juliet C# 1.3"
+            },
+            "stats": {
+              "files": 47153,
+              "languages": {
+                "python": 4,
+                "csharp": 46597
+              },
+              "skipped": {
+                "large": 12,
+                "binary": 15,
+                "vendoredDirs": 0,
+                "symlinks": 0
+              },
+              "truncated": false,
+              "dependencies": 0,
+              "routes": 0,
+              "csharpParser": {
+                "eligibleFiles": 46597,
+                "completeFiles": 46597,
+                "fallbackFiles": 0,
+                "discoveredMethods": 173779,
+                "completeMethods": 173779,
+                "fileRatio": 1,
+                "methodRatio": 1
+              },
+              "dotnetProject": null,
+              "dotnetRoutes": null
+            },
+            "warnings": [],
+            "durationMs": 108382
+          },
+          "durationMs": 108382
+        },
+        "transitions": {
+          "fpToTn": {
+            "count": 0,
+            "ids": []
+          },
+          "tpToFn": {
+            "count": 0,
+            "ids": []
+          },
+          "tnToFp": {
+            "count": 0,
+            "ids": []
+          },
+          "fnToTp": {
+            "count": 0,
+            "ids": []
+          }
+        },
+        "byCwe": {
+          "before": [
+            {
+              "cwe": 15,
+              "cases": 760,
+              "tp": 0,
+              "fp": 0,
+              "tn": 380,
+              "fn": 380,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 23,
+              "cases": 760,
+              "tp": 0,
+              "fp": 0,
+              "tn": 380,
+              "fn": 380,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 36,
+              "cases": 760,
+              "tp": 0,
+              "fp": 0,
+              "tn": 380,
+              "fn": 380,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 78,
+              "cases": 760,
+              "tp": 370,
+              "fp": 200,
+              "tn": 180,
+              "fn": 10,
+              "truePositiveRate": 0.9736842105263158,
+              "falsePositiveRate": 0.5263157894736842,
+              "precision": 0.6491228070175439
+            },
+            {
+              "cwe": 80,
+              "cases": 1368,
+              "tp": 0,
+              "fp": 0,
+              "tn": 684,
+              "fn": 684,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 81,
+              "cases": 684,
+              "tp": 0,
+              "fp": 0,
+              "tn": 342,
+              "fn": 342,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 83,
+              "cases": 684,
+              "tp": 0,
+              "fp": 0,
+              "tn": 342,
+              "fn": 342,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 89,
+              "cases": 2052,
+              "tp": 666,
+              "fp": 270,
+              "tn": 756,
+              "fn": 360,
+              "truePositiveRate": 0.6491228070175439,
+              "falsePositiveRate": 0.2631578947368421,
+              "precision": 0.7115384615384616
+            },
+            {
+              "cwe": 90,
+              "cases": 760,
+              "tp": 0,
+              "fp": 0,
+              "tn": 380,
+              "fn": 380,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 94,
+              "cases": 760,
+              "tp": 0,
+              "fp": 0,
+              "tn": 380,
+              "fn": 380,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 113,
+              "cases": 2052,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1026,
+              "fn": 1026,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 114,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 117,
+              "cases": 760,
+              "tp": 0,
+              "fp": 0,
+              "tn": 380,
+              "fn": 380,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 129,
+              "cases": 4712,
+              "tp": 0,
+              "fp": 0,
+              "tn": 2356,
+              "fn": 2356,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 134,
+              "cases": 1064,
+              "tp": 0,
+              "fp": 0,
+              "tn": 532,
+              "fn": 532,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 190,
+              "cases": 7524,
+              "tp": 0,
+              "fp": 0,
+              "tn": 3762,
+              "fn": 3762,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 191,
+              "cases": 5016,
+              "tp": 0,
+              "fp": 0,
+              "tn": 2508,
+              "fn": 2508,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 193,
+              "cases": 102,
+              "tp": 0,
+              "fp": 0,
+              "tn": 51,
+              "fn": 51,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 197,
+              "cases": 10260,
+              "tp": 0,
+              "fp": 0,
+              "tn": 5130,
+              "fn": 5130,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 209,
+              "cases": 68,
+              "tp": 0,
+              "fp": 0,
+              "tn": 34,
+              "fn": 34,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 226,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 248,
+              "cases": 2,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1,
+              "fn": 1,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 252,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 253,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 256,
+              "cases": 76,
+              "tp": 0,
+              "fp": 0,
+              "tn": 38,
+              "fn": 38,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 259,
+              "cases": 152,
+              "tp": 0,
+              "fp": 0,
+              "tn": 76,
+              "fn": 76,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 261,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 284,
+              "cases": 68,
+              "tp": 0,
+              "fp": 0,
+              "tn": 34,
+              "fn": 34,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 313,
+              "cases": 760,
+              "tp": 0,
+              "fp": 0,
+              "tn": 380,
+              "fn": 380,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 314,
+              "cases": 760,
+              "tp": 0,
+              "fp": 0,
+              "tn": 380,
+              "fn": 380,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 315,
+              "cases": 76,
+              "tp": 0,
+              "fp": 0,
+              "tn": 38,
+              "fn": 38,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 319,
+              "cases": 304,
+              "tp": 0,
+              "fp": 0,
+              "tn": 152,
+              "fn": 152,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 321,
+              "cases": 76,
+              "tp": 0,
+              "fp": 0,
+              "tn": 38,
+              "fn": 38,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 325,
+              "cases": 68,
+              "tp": 0,
+              "fp": 0,
+              "tn": 34,
+              "fn": 34,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 327,
+              "cases": 68,
+              "tp": 0,
+              "fp": 0,
+              "tn": 34,
+              "fn": 34,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 328,
+              "cases": 68,
+              "tp": 0,
+              "fp": 0,
+              "tn": 34,
+              "fn": 34,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 329,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 336,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 338,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 350,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 366,
+              "cases": 2,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1,
+              "fn": 1,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 369,
+              "cases": 3192,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1596,
+              "fn": 1596,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 378,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 379,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 390,
+              "cases": 68,
+              "tp": 0,
+              "fp": 0,
+              "tn": 34,
+              "fn": 34,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 395,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 396,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 397,
+              "cases": 2,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1,
+              "fn": 1,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 398,
+              "cases": 274,
+              "tp": 0,
+              "fp": 0,
+              "tn": 137,
+              "fn": 137,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 400,
+              "cases": 2508,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1254,
+              "fn": 1254,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 404,
+              "cases": 8,
+              "tp": 0,
+              "fp": 0,
+              "tn": 4,
+              "fn": 4,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 426,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 427,
+              "cases": 760,
+              "tp": 0,
+              "fp": 0,
+              "tn": 380,
+              "fn": 380,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 440,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 459,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 470,
+              "cases": 684,
+              "tp": 0,
+              "fp": 0,
+              "tn": 342,
+              "fn": 342,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 476,
+              "cases": 404,
+              "tp": 0,
+              "fp": 0,
+              "tn": 202,
+              "fn": 202,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 477,
+              "cases": 102,
+              "tp": 0,
+              "fp": 0,
+              "tn": 51,
+              "fn": 51,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 478,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 481,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 482,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 483,
+              "cases": 38,
+              "tp": 0,
+              "fp": 0,
+              "tn": 19,
+              "fn": 19,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 486,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 506,
+              "cases": 118,
+              "tp": 0,
+              "fp": 0,
+              "tn": 35,
+              "fn": 83,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 510,
+              "cases": 100,
+              "tp": 0,
+              "fp": 0,
+              "tn": 34,
+              "fn": 66,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 511,
+              "cases": 102,
+              "tp": 0,
+              "fp": 0,
+              "tn": 51,
+              "fn": 51,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 523,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 526,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 532,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 535,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 539,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 546,
+              "cases": 170,
+              "tp": 0,
+              "fp": 0,
+              "tn": 85,
+              "fn": 85,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 549,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 561,
+              "cases": 2,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1,
+              "fn": 1,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 563,
+              "cases": 432,
+              "tp": 0,
+              "fp": 0,
+              "tn": 216,
+              "fn": 216,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 566,
+              "cases": 76,
+              "tp": 0,
+              "fp": 0,
+              "tn": 38,
+              "fn": 38,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 570,
+              "cases": 32,
+              "tp": 0,
+              "fp": 0,
+              "tn": 16,
+              "fn": 16,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 571,
+              "cases": 32,
+              "tp": 0,
+              "fp": 0,
+              "tn": 16,
+              "fn": 16,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 582,
+              "cases": 2,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1,
+              "fn": 1,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 598,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 601,
+              "cases": 684,
+              "tp": 0,
+              "fp": 0,
+              "tn": 342,
+              "fn": 342,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 605,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 606,
+              "cases": 760,
+              "tp": 0,
+              "fp": 0,
+              "tn": 380,
+              "fn": 380,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 609,
+              "cases": 2,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1,
+              "fn": 1,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 613,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 614,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 615,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 617,
+              "cases": 68,
+              "tp": 0,
+              "fp": 0,
+              "tn": 34,
+              "fn": 34,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 643,
+              "cases": 760,
+              "tp": 0,
+              "fp": 0,
+              "tn": 380,
+              "fn": 380,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 667,
+              "cases": 2,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1,
+              "fn": 1,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 674,
+              "cases": 4,
+              "tp": 0,
+              "fp": 0,
+              "tn": 2,
+              "fn": 2,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 675,
+              "cases": 152,
+              "tp": 0,
+              "fp": 0,
+              "tn": 76,
+              "fn": 76,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 681,
+              "cases": 102,
+              "tp": 0,
+              "fp": 0,
+              "tn": 51,
+              "fn": 51,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 690,
+              "cases": 304,
+              "tp": 0,
+              "fp": 0,
+              "tn": 152,
+              "fn": 152,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 698,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 759,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 760,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 764,
+              "cases": 2,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1,
+              "fn": 1,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 765,
+              "cases": 2,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1,
+              "fn": 1,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 772,
+              "cases": 4,
+              "tp": 0,
+              "fp": 0,
+              "tn": 2,
+              "fn": 2,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 775,
+              "cases": 2,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1,
+              "fn": 1,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 789,
+              "cases": 2770,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1385,
+              "fn": 1385,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 832,
+              "cases": 2,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1,
+              "fn": 1,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 833,
+              "cases": 2,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1,
+              "fn": 1,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 835,
+              "cases": 12,
+              "tp": 0,
+              "fp": 0,
+              "tn": 6,
+              "fn": 6,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            }
+          ],
+          "after": [
+            {
+              "cwe": 15,
+              "cases": 760,
+              "tp": 0,
+              "fp": 0,
+              "tn": 380,
+              "fn": 380,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 23,
+              "cases": 760,
+              "tp": 0,
+              "fp": 0,
+              "tn": 380,
+              "fn": 380,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 36,
+              "cases": 760,
+              "tp": 0,
+              "fp": 0,
+              "tn": 380,
+              "fn": 380,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 78,
+              "cases": 760,
+              "tp": 370,
+              "fp": 200,
+              "tn": 180,
+              "fn": 10,
+              "truePositiveRate": 0.9736842105263158,
+              "falsePositiveRate": 0.5263157894736842,
+              "precision": 0.6491228070175439
+            },
+            {
+              "cwe": 80,
+              "cases": 1368,
+              "tp": 0,
+              "fp": 0,
+              "tn": 684,
+              "fn": 684,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 81,
+              "cases": 684,
+              "tp": 0,
+              "fp": 0,
+              "tn": 342,
+              "fn": 342,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 83,
+              "cases": 684,
+              "tp": 0,
+              "fp": 0,
+              "tn": 342,
+              "fn": 342,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 89,
+              "cases": 2052,
+              "tp": 666,
+              "fp": 270,
+              "tn": 756,
+              "fn": 360,
+              "truePositiveRate": 0.6491228070175439,
+              "falsePositiveRate": 0.2631578947368421,
+              "precision": 0.7115384615384616
+            },
+            {
+              "cwe": 90,
+              "cases": 760,
+              "tp": 0,
+              "fp": 0,
+              "tn": 380,
+              "fn": 380,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 94,
+              "cases": 760,
+              "tp": 0,
+              "fp": 0,
+              "tn": 380,
+              "fn": 380,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 113,
+              "cases": 2052,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1026,
+              "fn": 1026,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 114,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 117,
+              "cases": 760,
+              "tp": 0,
+              "fp": 0,
+              "tn": 380,
+              "fn": 380,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 129,
+              "cases": 4712,
+              "tp": 0,
+              "fp": 0,
+              "tn": 2356,
+              "fn": 2356,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 134,
+              "cases": 1064,
+              "tp": 0,
+              "fp": 0,
+              "tn": 532,
+              "fn": 532,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 190,
+              "cases": 7524,
+              "tp": 0,
+              "fp": 0,
+              "tn": 3762,
+              "fn": 3762,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 191,
+              "cases": 5016,
+              "tp": 0,
+              "fp": 0,
+              "tn": 2508,
+              "fn": 2508,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 193,
+              "cases": 102,
+              "tp": 0,
+              "fp": 0,
+              "tn": 51,
+              "fn": 51,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 197,
+              "cases": 10260,
+              "tp": 0,
+              "fp": 0,
+              "tn": 5130,
+              "fn": 5130,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 209,
+              "cases": 68,
+              "tp": 0,
+              "fp": 0,
+              "tn": 34,
+              "fn": 34,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 226,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 248,
+              "cases": 2,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1,
+              "fn": 1,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 252,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 253,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 256,
+              "cases": 76,
+              "tp": 0,
+              "fp": 0,
+              "tn": 38,
+              "fn": 38,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 259,
+              "cases": 152,
+              "tp": 0,
+              "fp": 0,
+              "tn": 76,
+              "fn": 76,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 261,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 284,
+              "cases": 68,
+              "tp": 0,
+              "fp": 0,
+              "tn": 34,
+              "fn": 34,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 313,
+              "cases": 760,
+              "tp": 0,
+              "fp": 0,
+              "tn": 380,
+              "fn": 380,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 314,
+              "cases": 760,
+              "tp": 0,
+              "fp": 0,
+              "tn": 380,
+              "fn": 380,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 315,
+              "cases": 76,
+              "tp": 0,
+              "fp": 0,
+              "tn": 38,
+              "fn": 38,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 319,
+              "cases": 304,
+              "tp": 0,
+              "fp": 0,
+              "tn": 152,
+              "fn": 152,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 321,
+              "cases": 76,
+              "tp": 0,
+              "fp": 0,
+              "tn": 38,
+              "fn": 38,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 325,
+              "cases": 68,
+              "tp": 0,
+              "fp": 0,
+              "tn": 34,
+              "fn": 34,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 327,
+              "cases": 68,
+              "tp": 0,
+              "fp": 0,
+              "tn": 34,
+              "fn": 34,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 328,
+              "cases": 68,
+              "tp": 0,
+              "fp": 0,
+              "tn": 34,
+              "fn": 34,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 329,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 336,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 338,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 350,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 366,
+              "cases": 2,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1,
+              "fn": 1,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 369,
+              "cases": 3192,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1596,
+              "fn": 1596,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 378,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 379,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 390,
+              "cases": 68,
+              "tp": 0,
+              "fp": 0,
+              "tn": 34,
+              "fn": 34,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 395,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 396,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 397,
+              "cases": 2,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1,
+              "fn": 1,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 398,
+              "cases": 274,
+              "tp": 0,
+              "fp": 0,
+              "tn": 137,
+              "fn": 137,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 400,
+              "cases": 2508,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1254,
+              "fn": 1254,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 404,
+              "cases": 8,
+              "tp": 0,
+              "fp": 0,
+              "tn": 4,
+              "fn": 4,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 426,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 427,
+              "cases": 760,
+              "tp": 0,
+              "fp": 0,
+              "tn": 380,
+              "fn": 380,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 440,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 459,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 470,
+              "cases": 684,
+              "tp": 0,
+              "fp": 0,
+              "tn": 342,
+              "fn": 342,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 476,
+              "cases": 404,
+              "tp": 0,
+              "fp": 0,
+              "tn": 202,
+              "fn": 202,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 477,
+              "cases": 102,
+              "tp": 0,
+              "fp": 0,
+              "tn": 51,
+              "fn": 51,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 478,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 481,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 482,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 483,
+              "cases": 38,
+              "tp": 0,
+              "fp": 0,
+              "tn": 19,
+              "fn": 19,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 486,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 506,
+              "cases": 118,
+              "tp": 0,
+              "fp": 0,
+              "tn": 35,
+              "fn": 83,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 510,
+              "cases": 100,
+              "tp": 0,
+              "fp": 0,
+              "tn": 34,
+              "fn": 66,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 511,
+              "cases": 102,
+              "tp": 0,
+              "fp": 0,
+              "tn": 51,
+              "fn": 51,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 523,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 526,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 532,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 535,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 539,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 546,
+              "cases": 170,
+              "tp": 0,
+              "fp": 0,
+              "tn": 85,
+              "fn": 85,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 549,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 561,
+              "cases": 2,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1,
+              "fn": 1,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 563,
+              "cases": 432,
+              "tp": 0,
+              "fp": 0,
+              "tn": 216,
+              "fn": 216,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 566,
+              "cases": 76,
+              "tp": 0,
+              "fp": 0,
+              "tn": 38,
+              "fn": 38,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 570,
+              "cases": 32,
+              "tp": 0,
+              "fp": 0,
+              "tn": 16,
+              "fn": 16,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 571,
+              "cases": 32,
+              "tp": 0,
+              "fp": 0,
+              "tn": 16,
+              "fn": 16,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 582,
+              "cases": 2,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1,
+              "fn": 1,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 598,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 601,
+              "cases": 684,
+              "tp": 0,
+              "fp": 0,
+              "tn": 342,
+              "fn": 342,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 605,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 606,
+              "cases": 760,
+              "tp": 0,
+              "fp": 0,
+              "tn": 380,
+              "fn": 380,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 609,
+              "cases": 2,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1,
+              "fn": 1,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 613,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 614,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 615,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 617,
+              "cases": 68,
+              "tp": 0,
+              "fp": 0,
+              "tn": 34,
+              "fn": 34,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 643,
+              "cases": 760,
+              "tp": 0,
+              "fp": 0,
+              "tn": 380,
+              "fn": 380,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 667,
+              "cases": 2,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1,
+              "fn": 1,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 674,
+              "cases": 4,
+              "tp": 0,
+              "fp": 0,
+              "tn": 2,
+              "fn": 2,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 675,
+              "cases": 152,
+              "tp": 0,
+              "fp": 0,
+              "tn": 76,
+              "fn": 76,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 681,
+              "cases": 102,
+              "tp": 0,
+              "fp": 0,
+              "tn": 51,
+              "fn": 51,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 690,
+              "cases": 304,
+              "tp": 0,
+              "fp": 0,
+              "tn": 152,
+              "fn": 152,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 698,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 759,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 760,
+              "cases": 34,
+              "tp": 0,
+              "fp": 0,
+              "tn": 17,
+              "fn": 17,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 764,
+              "cases": 2,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1,
+              "fn": 1,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 765,
+              "cases": 2,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1,
+              "fn": 1,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 772,
+              "cases": 4,
+              "tp": 0,
+              "fp": 0,
+              "tn": 2,
+              "fn": 2,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 775,
+              "cases": 2,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1,
+              "fn": 1,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 789,
+              "cases": 2770,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1385,
+              "fn": 1385,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 832,
+              "cases": 2,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1,
+              "fn": 1,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 833,
+              "cases": 2,
+              "tp": 0,
+              "fp": 0,
+              "tn": 1,
+              "fn": 1,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            },
+            {
+              "cwe": 835,
+              "cases": 12,
+              "tp": 0,
+              "fp": 0,
+              "tn": 6,
+              "fn": 6,
+              "truePositiveRate": 0,
+              "falsePositiveRate": 0,
+              "precision": null
+            }
+          ]
+        },
+        "crossFile": {
+          "before": {
+            "cases": 22060,
+            "tp": 420,
+            "fp": 420,
+            "tn": 10610,
+            "fn": 10610,
+            "recall": 0.038077969174977334,
+            "falsePositiveRate": 0.038077969174977334,
+            "precision": 0.5
+          },
+          "after": {
+            "cases": 22060,
+            "tp": 420,
+            "fp": 420,
+            "tn": 10610,
+            "fn": 10610,
+            "recall": 0.038077969174977334,
+            "falsePositiveRate": 0.038077969174977334,
+            "precision": 0.5
+          }
+        },
+        "focusedInjection": {
+          "cwes": [
+            78,
+            89
+          ],
+          "interpretation": "Affected diagnostic categories, not all supported CWEs; full-suite totals retain every CWE",
+          "before": {
+            "cases": 2812,
+            "tp": 1036,
+            "fp": 470,
+            "tn": 936,
+            "fn": 370,
+            "recall": 0.7368421052631579,
+            "falsePositiveRate": 0.33428165007112376,
+            "precision": 0.6879150066401063
+          },
+          "after": {
+            "cases": 2812,
+            "tp": 1036,
+            "fp": 470,
+            "tn": 936,
+            "fn": 370,
+            "recall": 0.7368421052631579,
+            "falsePositiveRate": 0.33428165007112376,
+            "precision": 0.6879150066401063
+          }
+        },
+        "confidenceStrata": {
+          "status": "not-measured",
+          "reason": "Frozen benchmark matches omit per-finding confidence; do not infer medium+ or high counts."
+        }
+      },
+      "owasp-java": {
+        "inputSha256": "aa8e0b1bdc78551ba2154ba7b65ee62c054cd576e0cd6f6ef90ec87e060e707d",
+        "policy": {
+          "id": "owasp-java-file-cwe@1",
+          "unit": "labeled servlet",
+          "match": "exact source path and expected CWE in finding.cwe; status=open",
+          "duplicateDetections": "one positive prediction per case",
+          "cweAliases": false,
+          "excludesUnsupportedCwes": false
+        },
+        "before": {
+          "sourceSha256": "678dc4fcf418ef6705c799fe44310fc57c5e0a367439bafe80f2e9a9019e62cd",
+          "canonicalReportSha256": "f16c04ecfb8ece199d93dab3c52e26524ad116b18ea6a9ae3296dbf14e7ce5ca",
+          "totals": {
+            "cases": 2740,
+            "tp": 571,
+            "fp": 289,
+            "tn": 1036,
+            "fn": 844,
+            "recall": 0.40353356890459363,
+            "falsePositiveRate": 0.2181132075471698,
+            "precision": 0.663953488372093
+          },
+          "scan": {
+            "options": {
+              "includeTests": true,
+              "minConfidence": "low",
+              "minSeverity": "info",
+              "trustSuppressions": false,
+              "osv": false
+            },
+            "stats": {
+              "files": 5666,
+              "languages": {
+                "json": 1,
+                "yaml": 6,
+                "xml": 26,
+                "shell": 35,
+                "markdown": 1,
+                "html": 2783,
+                "javascript": 4,
+                "java": 2766,
+                "properties": 5,
+                "dockerfile": 1
+              },
+              "skipped": {
+                "large": 16,
+                "binary": 43,
+                "vendoredDirs": 1,
+                "symlinks": 0
+              },
+              "truncated": false,
+              "dependencies": 44,
+              "routes": 3,
+              "csharpParser": {
+                "eligibleFiles": 0,
+                "completeFiles": 0,
+                "fallbackFiles": 0,
+                "discoveredMethods": 0,
+                "completeMethods": 0,
+                "fileRatio": null,
+                "methodRatio": null
+              },
+              "dotnetProject": null,
+              "dotnetRoutes": null
+            },
+            "warnings": [],
+            "durationMs": 14018
+          },
+          "durationMs": 14018
+        },
+        "after": {
+          "sourceSha256": "b4a03c4c3bdb8ca387e9b340c3fe659e90c58dd24e571a2025e7d0f00a4cfa62",
+          "canonicalReportSha256": "a8f5429a2b1716b90ef14711d8b9bdc0a8533c12f5ba2a7b17e243785c8f49b1",
+          "totals": {
+            "cases": 2740,
+            "tp": 571,
+            "fp": 289,
+            "tn": 1036,
+            "fn": 844,
+            "recall": 0.40353356890459363,
+            "falsePositiveRate": 0.2181132075471698,
+            "precision": 0.663953488372093
+          },
+          "scan": {
+            "options": {
+              "includeTests": true,
+              "minConfidence": "low",
+              "minSeverity": "info",
+              "trustSuppressions": false,
+              "osv": false
+            },
+            "stats": {
+              "files": 5666,
+              "languages": {
+                "json": 1,
+                "yaml": 6,
+                "xml": 26,
+                "shell": 35,
+                "markdown": 1,
+                "html": 2783,
+                "javascript": 4,
+                "java": 2766,
+                "properties": 5,
+                "dockerfile": 1
+              },
+              "skipped": {
+                "large": 16,
+                "binary": 43,
+                "vendoredDirs": 1,
+                "symlinks": 0
+              },
+              "truncated": false,
+              "dependencies": 44,
+              "routes": 3,
+              "csharpParser": {
+                "eligibleFiles": 0,
+                "completeFiles": 0,
+                "fallbackFiles": 0,
+                "discoveredMethods": 0,
+                "completeMethods": 0,
+                "fileRatio": null,
+                "methodRatio": null
+              },
+              "dotnetProject": null,
+              "dotnetRoutes": null
+            },
+            "warnings": [],
+            "durationMs": 23405
+          },
+          "durationMs": 23405
+        },
+        "transitions": {
+          "fpToTn": {
+            "count": 0,
+            "ids": []
+          },
+          "tpToFn": {
+            "count": 0,
+            "ids": []
+          },
+          "tnToFp": {
+            "count": 0,
+            "ids": []
+          },
+          "fnToTp": {
+            "count": 0,
+            "ids": []
+          }
+        }
+      },
+      "juliet-java": {
+        "inputSha256": "a1f620b0525b3c18048cbdfabda2bf18f1fbec59bd34204eb5b3ea9da8d31905",
+        "policy": {
+          "id": "juliet-java-testcase-cwe-polarity-regions@1",
+          "unit": "one manifest testcase × CWE × bad/good polarity; methods and helper classes are aggregated",
+          "match": "open finding with exact CWE and path, with its start line inside a labeled method/class region (or exact manifest flaw line when no method encloses it)",
+          "limitations": [
+            "Manifest flaw labels anchor bad regions. Good regions require explicit Juliet good method/class naming; missing good regions never create a negative.",
+            "The official 1.3 manifest contains redundant closing testcase tags and cases without flaw entries. Redundant closings are counted and ignored; missing-flaw cases use the explicit CWE filename plus bad/good naming convention and remain in the denominator.",
+            "For the exact official 1.3 manifest hash only, an anchor conflicting with an explicitly good region is recorded and the suite good/bad convention takes precedence. This is corrected-label scoring, not pristine manifest scoring.",
+            "All good variants, wrappers, and helpers in a testcase form one negative unit. One matching detection anywhere predicts the aggregate positive; this is not per-method or per-flaw accuracy.",
+            "Neutral methods enclosing manifest flaws are bad regions. Other neutral helper methods, main/support code, and unlabeled source regions are unscored.",
+            "Separate good/bad helper classes use their complete original file regions. No target source is rewritten and scanner taint analysis still sees coexisting good/bad methods.",
+            "No call-graph reachability or cross-file taint is added by the evaluator; an intra-method or helper-class detection can satisfy its testcase unit."
+          ],
+          "excludesUnsupportedCwes": false,
+          "cweAliases": false,
+          "duplicateDetections": "one prediction per labeled unit"
+        },
+        "before": {
+          "sourceSha256": "678dc4fcf418ef6705c799fe44310fc57c5e0a367439bafe80f2e9a9019e62cd",
+          "canonicalReportSha256": "ea79a406f1be10afec390fd9502a934da5c12f67d70017b47fd1f5bddce5b39f",
+          "totals": {
+            "cases": 57649,
+            "tp": 2410,
+            "fp": 1172,
+            "tn": 27596,
+            "fn": 26471,
+            "recall": 0.08344586406287871,
+            "falsePositiveRate": 0.04073971078976641,
+            "precision": 0.6728084868788387
+          },
+          "scan": {
+            "options": {
+              "includeTests": true,
+              "minConfidence": "low",
+              "minSeverity": "info",
+              "trustSuppressions": false,
+              "osv": false,
+              "name": "Juliet Java"
+            },
+            "stats": {
+              "files": 47447,
+              "languages": {
+                "xml": 614,
+                "python": 4,
+                "properties": 2,
+                "java": 46803
+              },
+              "skipped": {
+                "large": 2,
+                "binary": 8,
+                "vendoredDirs": 0,
+                "symlinks": 0
+              },
+              "truncated": false,
+              "dependencies": 0,
+              "routes": 0,
+              "csharpParser": {
+                "eligibleFiles": 0,
+                "completeFiles": 0,
+                "fallbackFiles": 0,
+                "discoveredMethods": 0,
+                "completeMethods": 0,
+                "fileRatio": null,
+                "methodRatio": null
+              },
+              "dotnetProject": null,
+              "dotnetRoutes": null
+            },
+            "warnings": [],
+            "durationMs": 189513
+          },
+          "durationMs": 189513
+        },
+        "after": {
+          "sourceSha256": "b4a03c4c3bdb8ca387e9b340c3fe659e90c58dd24e571a2025e7d0f00a4cfa62",
+          "canonicalReportSha256": "2f81fbb34dbfd8e285aabf7e27833162a8adf6647002786270d959b73c5dfc97",
+          "totals": {
+            "cases": 57649,
+            "tp": 2410,
+            "fp": 1172,
+            "tn": 27596,
+            "fn": 26471,
+            "recall": 0.08344586406287871,
+            "falsePositiveRate": 0.04073971078976641,
+            "precision": 0.6728084868788387
+          },
+          "scan": {
+            "options": {
+              "includeTests": true,
+              "minConfidence": "low",
+              "minSeverity": "info",
+              "trustSuppressions": false,
+              "osv": false,
+              "name": "Juliet Java"
+            },
+            "stats": {
+              "files": 47447,
+              "languages": {
+                "xml": 614,
+                "python": 4,
+                "properties": 2,
+                "java": 46803
+              },
+              "skipped": {
+                "large": 2,
+                "binary": 8,
+                "vendoredDirs": 0,
+                "symlinks": 0
+              },
+              "truncated": false,
+              "dependencies": 0,
+              "routes": 0,
+              "csharpParser": {
+                "eligibleFiles": 0,
+                "completeFiles": 0,
+                "fallbackFiles": 0,
+                "discoveredMethods": 0,
+                "completeMethods": 0,
+                "fileRatio": null,
+                "methodRatio": null
+              },
+              "dotnetProject": null,
+              "dotnetRoutes": null
+            },
+            "warnings": [],
+            "durationMs": 211898
+          },
+          "durationMs": 211898
+        },
+        "transitions": {
+          "fpToTn": {
+            "count": 0,
+            "ids": []
+          },
+          "tpToFn": {
+            "count": 0,
+            "ids": []
+          },
+          "tnToFp": {
+            "count": 0,
+            "ids": []
+          },
+          "fnToTp": {
+            "count": 0,
+            "ids": []
+          }
+        }
+      },
+      "sard": {
+        "inputSha256": "a2a2ce017a0ae7425b3011b275bb70d9cbbeffe258f03bba2b74f975455e07ec",
+        "policy": {
+          "id": "sard-sarif-location-cwe@1",
+          "unit": "one explicit SARIF result location × CWE × polarity",
+          "match": "open finding with exact source path and CWE and start line at the labeled line, or within an explicitly supplied inclusive upstream line range",
+          "limitations": [
+            "A bad/good run state labels its explicit result locations; mixed runs require an explicit result kind fail/pass or properties.state bad/good. Missing or conflicting metadata is rejected.",
+            "No safe locations are inferred from absent results. Datasets with only bad labels have no negative denominator and FPR is n/a.",
+            "Exact labeled locations can miss a valid detection reported at a nearby source or sink; no line tolerance, CWE aliases, or file-level fallback is applied.",
+            "Artifacts are checked against supplied byte length and SHA-256; declared hashes and computed hashes are retained in JSON. Other hash algorithms are preserved but not verified.",
+            "URI base IDs, remote/absolute URIs, parent traversal, symbolic links, ambiguous artifacts, duplicate labels, and missing labeled files are rejected."
+          ],
+          "excludesUnsupportedCwes": false,
+          "cweAliases": false,
+          "duplicateDetections": "one prediction per labeled unit"
+        },
+        "before": {
+          "sourceSha256": "678dc4fcf418ef6705c799fe44310fc57c5e0a367439bafe80f2e9a9019e62cd",
+          "canonicalReportSha256": "2c1784801dd85344ea99ed4a44dc0d385d1f12db05aafddb706e36695cb05565",
+          "totals": {
+            "cases": 20,
+            "tp": 10,
+            "fp": 0,
+            "tn": 0,
+            "fn": 10,
+            "recall": 0.5,
+            "falsePositiveRate": null,
+            "precision": 1
+          },
+          "scan": {
+            "options": {
+              "includeTests": true,
+              "minConfidence": "low",
+              "minSeverity": "info",
+              "trustSuppressions": false,
+              "osv": false,
+              "name": "NIST SARD"
+            },
+            "stats": {
+              "files": 101,
+              "languages": {
+                "dockerfile": 20,
+                "markdown": 20,
+                "php": 20,
+                "json": 1
+              },
+              "skipped": {
+                "large": 0,
+                "binary": 0,
+                "vendoredDirs": 0,
+                "symlinks": 0
+              },
+              "truncated": false,
+              "dependencies": 0,
+              "routes": 20,
+              "csharpParser": {
+                "eligibleFiles": 0,
+                "completeFiles": 0,
+                "fallbackFiles": 0,
+                "discoveredMethods": 0,
+                "completeMethods": 0,
+                "fileRatio": null,
+                "methodRatio": null
+              },
+              "dotnetProject": null,
+              "dotnetRoutes": null
+            },
+            "warnings": [],
+            "durationMs": 152
+          },
+          "durationMs": 152
+        },
+        "after": {
+          "sourceSha256": "b4a03c4c3bdb8ca387e9b340c3fe659e90c58dd24e571a2025e7d0f00a4cfa62",
+          "canonicalReportSha256": "ab70b5c3c2ecce504cdefae55e7971aa05b98b0a925a125c3e98478b1f892223",
+          "totals": {
+            "cases": 20,
+            "tp": 10,
+            "fp": 0,
+            "tn": 0,
+            "fn": 10,
+            "recall": 0.5,
+            "falsePositiveRate": null,
+            "precision": 1
+          },
+          "scan": {
+            "options": {
+              "includeTests": true,
+              "minConfidence": "low",
+              "minSeverity": "info",
+              "trustSuppressions": false,
+              "osv": false,
+              "name": "NIST SARD"
+            },
+            "stats": {
+              "files": 101,
+              "languages": {
+                "dockerfile": 20,
+                "markdown": 20,
+                "php": 20,
+                "json": 1
+              },
+              "skipped": {
+                "large": 0,
+                "binary": 0,
+                "vendoredDirs": 0,
+                "symlinks": 0
+              },
+              "truncated": false,
+              "dependencies": 0,
+              "routes": 20,
+              "csharpParser": {
+                "eligibleFiles": 0,
+                "completeFiles": 0,
+                "fallbackFiles": 0,
+                "discoveredMethods": 0,
+                "completeMethods": 0,
+                "fileRatio": null,
+                "methodRatio": null
+              },
+              "dotnetProject": null,
+              "dotnetRoutes": null
+            },
+            "warnings": [],
+            "durationMs": 198
+          },
+          "durationMs": 198
+        },
+        "transitions": {
+          "fpToTn": {
+            "count": 0,
+            "ids": []
+          },
+          "tpToFn": {
+            "count": 0,
+            "ids": []
+          },
+          "tnToFp": {
+            "count": 0,
+            "ids": []
+          },
+          "fnToTp": {
+            "count": 0,
+            "ids": []
+          }
+        }
+      },
+      "cve-fixes": {
+        "inputSha256": "854acf4a769874fa8cb8b6ace227cc47fd6b5996a8404d649326039e00449734",
+        "policy": {
+          "id": "cve-changed-file-cwe@1",
+          "unit": "one CVE revision snapshot",
+          "match": "open finding in a listed affected file with exact expected CWE; duplicates count once",
+          "parentLabel": "positive",
+          "fixLabel": "negative for the cited CWE in selected affected files only",
+          "cweAliases": false,
+          "excludesUnsupportedCwes": false,
+          "context": "full selected source files, limited repository context; not CVE localization or application-wide safety",
+          "provenance": "first parent verified during curation; immutable source bytes verified offline on every run"
+        },
+        "before": {
+          "sourceSha256": "678dc4fcf418ef6705c799fe44310fc57c5e0a367439bafe80f2e9a9019e62cd",
+          "canonicalReportSha256": "afa66fd2dc3dc8918699b3c08f7346e7c34981b74eed2e5d3d9eff71ae68c991",
+          "totals": {
+            "cases": 16,
+            "tp": 1,
+            "fp": 1,
+            "tn": 7,
+            "fn": 7,
+            "recall": 0.125,
+            "falsePositiveRate": 0.125,
+            "precision": 0.5
+          },
+          "scan": {
+            "options": {
+              "includeTests": true,
+              "minConfidence": "low",
+              "minSeverity": "info",
+              "trustSuppressions": false,
+              "osv": false,
+              "includeVendored": true
+            }
+          },
+          "durationMs": null
+        },
+        "after": {
+          "sourceSha256": "b4a03c4c3bdb8ca387e9b340c3fe659e90c58dd24e571a2025e7d0f00a4cfa62",
+          "canonicalReportSha256": "6afb3708d4d3202b46e64c66675d59411f5f0cc6b9a19113dc9bef9cd0ce5299",
+          "totals": {
+            "cases": 16,
+            "tp": 1,
+            "fp": 1,
+            "tn": 7,
+            "fn": 7,
+            "recall": 0.125,
+            "falsePositiveRate": 0.125,
+            "precision": 0.5
+          },
+          "scan": {
+            "options": {
+              "includeTests": true,
+              "minConfidence": "low",
+              "minSeverity": "info",
+              "trustSuppressions": false,
+              "osv": false,
+              "includeVendored": true
+            }
+          },
+          "durationMs": null
+        },
+        "transitions": {
+          "fpToTn": {
+            "count": 0,
+            "ids": []
+          },
+          "tpToFn": {
+            "count": 0,
+            "ids": []
+          },
+          "tnToFp": {
+            "count": 0,
+            "ids": []
+          },
+          "fnToTp": {
+            "count": 0,
+            "ids": []
+          }
+        },
+        "originalPairs": {
+          "before": {
+            "total": 8,
+            "successful": 0,
+            "rate": 0
+          },
+          "after": {
+            "total": 8,
+            "successful": 0,
+            "rate": 0
+          }
+        },
+        "localized": {
+          "inputSha256": "854acf4a769874fa8cb8b6ace227cc47fd6b5996a8404d649326039e00449734",
+          "policy": {
+            "id": "cve-fix-region@1",
+            "unit": "one CVE revision snapshot",
+            "match": "open vulnerability finding within reviewed inclusive source region; exact advisory CWE and permitted rule/evidence criteria",
+            "parentLabel": "positive for the cited fix-specific mechanism",
+            "fixLabel": "negative for the cited fix-specific mechanism",
+            "missingKind": "vulnerability",
+            "cweAliases": false,
+            "excludesUnsupportedCwes": false,
+            "context": "source localization is a static benchmark proxy; does not prove exploitability or application safety"
+          },
+          "before": {
+            "sourceSha256": "678dc4fcf418ef6705c799fe44310fc57c5e0a367439bafe80f2e9a9019e62cd",
+            "canonicalReportSha256": "d8aa747d3adf5499de31e989f3ae020ba9c47e4ff7367eaacd509d1b11891060",
+            "totals": {
+              "cases": 16,
+              "tp": 1,
+              "fp": 0,
+              "tn": 8,
+              "fn": 7,
+              "recall": 0.125,
+              "falsePositiveRate": 0,
+              "precision": 1
+            },
+            "scan": {
+              "options": {
+                "includeTests": true,
+                "minConfidence": "low",
+                "minSeverity": "info",
+                "trustSuppressions": false,
+                "osv": false,
+                "includeVendored": true
+              }
+            },
+            "durationMs": null
+          },
+          "after": {
+            "sourceSha256": "b4a03c4c3bdb8ca387e9b340c3fe659e90c58dd24e571a2025e7d0f00a4cfa62",
+            "canonicalReportSha256": "c21b36f7c0f5eeaa21bcbad74ee0bb367d7a009f4e659846412b93fa22eebba6",
+            "totals": {
+              "cases": 16,
+              "tp": 1,
+              "fp": 0,
+              "tn": 8,
+              "fn": 7,
+              "recall": 0.125,
+              "falsePositiveRate": 0,
+              "precision": 1
+            },
+            "scan": {
+              "options": {
+                "includeTests": true,
+                "minConfidence": "low",
+                "minSeverity": "info",
+                "trustSuppressions": false,
+                "osv": false,
+                "includeVendored": true
+              }
+            },
+            "durationMs": null
+          },
+          "transitions": {
+            "fpToTn": {
+              "count": 0,
+              "ids": []
+            },
+            "tpToFn": {
+              "count": 0,
+              "ids": []
+            },
+            "tnToFp": {
+              "count": 0,
+              "ids": []
+            },
+            "fnToTp": {
+              "count": 0,
+              "ids": []
+            }
+          }
+        },
+        "localizedPairs": {
+          "before": {
+            "total": 8,
+            "successful": 1,
+            "rate": 0.125
+          },
+          "after": {
+            "total": 8,
+            "successful": 1,
+            "rate": 0.125
+          }
+        }
+      },
+      "supplied": {
+        "inputSha256": "4828e75960d397b6f286519bebd01c684a1042e0a4c385258a2518f491991a2c",
+        "policy": {
+          "labels": "User-supplied, unadjudicated; not independent accuracy evidence",
+          "matching": "Exact file+CWE; finding at first line after marker or next two lines; nearest marker; one label per finding",
+          "manifestLabels": "Unscored: package/CVE identity requires a separate adapter",
+          "unmatched": "Unmatched findings are not assumed to be false positives"
+        },
+        "before": {
+          "sourceSha256": "678dc4fcf418ef6705c799fe44310fc57c5e0a367439bafe80f2e9a9019e62cd",
+          "evaluatorSha256": "ffa8a9a76e75f87ab91721fe5e28d399b883d6dba74df74a66aa39334c6a5078",
+          "canonicalReportSha256": "eb065a01a31f425814c40d0d4988245462c6d7b874bce8327ae07a6d5893a596",
+          "totals": {
+            "cases": 227,
+            "tp": 87,
+            "fp": 11,
+            "tn": 79,
+            "fn": 50,
+            "recall": 0.635036496350365,
+            "falsePositiveRate": 0.12222222222222222,
+            "precision": 0.8877551020408163
+          },
+          "scan": {
+            "options": {
+              "includeTests": true
+            }
+          },
+          "durationMs": null
+        },
+        "after": {
+          "sourceSha256": "b4a03c4c3bdb8ca387e9b340c3fe659e90c58dd24e571a2025e7d0f00a4cfa62",
+          "evaluatorSha256": "ffa8a9a76e75f87ab91721fe5e28d399b883d6dba74df74a66aa39334c6a5078",
+          "canonicalReportSha256": "20ef080457d61981271b9688c911b5f2f4a44f02f34c8a57f0a3cff18758afe4",
+          "totals": {
+            "cases": 227,
+            "tp": 87,
+            "fp": 11,
+            "tn": 79,
+            "fn": 50,
+            "recall": 0.635036496350365,
+            "falsePositiveRate": 0.12222222222222222,
+            "precision": 0.8877551020408163
+          },
+          "scan": {
+            "options": {
+              "includeTests": true
+            }
+          },
+          "durationMs": null
+        },
+        "transitions": {
+          "fpToTn": {
+            "count": 0,
+            "ids": []
+          },
+          "tpToFn": {
+            "count": 0,
+            "ids": []
+          },
+          "tnToFp": {
+            "count": 0,
+            "ids": []
+          },
+          "fnToTp": {
+            "count": 0,
+            "ids": []
+          }
+        }
+      },
+      "dotnet-apps": {
+        "inputSha256": "e5b514512a82a4ce023d7eff8d07876a33ec6a896e0ed420c309183863aa4289",
+        "policy": {
+          "labels": "User-supplied, unadjudicated; not independent accuracy evidence",
+          "matching": "Exact file+CWE; finding at first line after marker or next two lines; nearest marker; one label per finding",
+          "manifestLabels": "Unscored: package/CVE identity requires a separate adapter",
+          "unmatched": "Unmatched findings are not assumed to be false positives"
+        },
+        "before": {
+          "sourceSha256": "678dc4fcf418ef6705c799fe44310fc57c5e0a367439bafe80f2e9a9019e62cd",
+          "evaluatorSha256": "ffa8a9a76e75f87ab91721fe5e28d399b883d6dba74df74a66aa39334c6a5078",
+          "canonicalReportSha256": "2ece6b28701d8a939974cb8ae836b9653aec0fae36734d49525273a8139ed6fe",
+          "totals": {
+            "cases": 230,
+            "tp": 32,
+            "fp": 1,
+            "tn": 90,
+            "fn": 107,
+            "recall": 0.2302158273381295,
+            "falsePositiveRate": 0.01098901098901099,
+            "precision": 0.9696969696969697
+          },
+          "scan": {
+            "options": {
+              "includeTests": true
+            }
+          },
+          "durationMs": null
+        },
+        "after": {
+          "sourceSha256": "b4a03c4c3bdb8ca387e9b340c3fe659e90c58dd24e571a2025e7d0f00a4cfa62",
+          "evaluatorSha256": "ffa8a9a76e75f87ab91721fe5e28d399b883d6dba74df74a66aa39334c6a5078",
+          "canonicalReportSha256": "9edfc0480c00441e556e12684900f67484f1e722cffec2c657cd1f969f1076f9",
+          "totals": {
+            "cases": 230,
+            "tp": 32,
+            "fp": 1,
+            "tn": 90,
+            "fn": 107,
+            "recall": 0.2302158273381295,
+            "falsePositiveRate": 0.01098901098901099,
+            "precision": 0.9696969696969697
+          },
+          "scan": {
+            "options": {
+              "includeTests": true
+            }
+          },
+          "durationMs": null
+        },
+        "transitions": {
+          "fpToTn": {
+            "count": 0,
+            "ids": []
+          },
+          "tpToFn": {
+            "count": 0,
+            "ids": []
+          },
+          "tnToFp": {
+            "count": 0,
+            "ids": []
+          },
+          "fnToTp": {
+            "count": 0,
+            "ids": []
+          }
+        }
+      }
+    }
+  },
+  "tests": {
+    "total": 460,
+    "passed": 460,
+    "failed": 0,
+    "skipped": 0,
+    "focused": 60,
+    "corpusPairs": 190,
+    "exactArchivedScanner": true
+  },
+  "reviewVerification": {
+    "freshPasses": 2,
+    "pass1FindingsFixed": 4,
+    "pass2FindingsFixed": 6,
+    "adversarialFixturesReplayed": 12,
+    "baselineWarningsRetained": true
+  },
+  "remainingGap": "Known controller false positive retains its warning until inherited framework binding can be established.",
+  "targetCodeExecuted": false,
+  "dependenciesInstalled": false
+}

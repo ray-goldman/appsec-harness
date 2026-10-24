@@ -1,0 +1,1 @@
+{"id":"a05-csharp-const-member-sql","owasp":"A05","cwe":[89],"description":"Cross-file literal const string interpolation is fixed SQL; a mutable member remains dynamic SQL.","expect":["CS-SQLI-001"]}
