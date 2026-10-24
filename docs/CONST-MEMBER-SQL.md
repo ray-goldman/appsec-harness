@@ -1,5 +1,7 @@
 # Constant-member SQL precision
 
+Follow-up: [MVC constant-member precision](MVC-CONSTANT-SQL.md) adds a bounded .NET 10 ControllerBase model for the controller warning left by this phase. The results below retain their original measured code and denominators.
+
 ## What the supplied set measures
 
 The supplied bundles contain 32 safe labels: 20 C# and 12 native C. Their provenance records prior exposure to Kayfabe documentation and earlier findings, plus same-session authorship and reviews. These are development cases, not an independent or blind evaluation. There are no vulnerable cases, so this set measures no recall or true-positive performance.

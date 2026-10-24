@@ -33,8 +33,8 @@
 - [x] Reproduce baseline, inspect the remaining SQL path and retain official immutable API source data.
 - [x] Add failing direct/qualified MVC positive regressions and passing inherited-value/custom-base near neighbors.
 - [x] Implement the pinned profile and narrow owner predicate; retain all current proof guards.
-- [ ] Run focused/full tests and the regression corpus; add every review repro as a regression.
+- [x] Run focused/full tests and the regression corpus; add every review repro as a regression.
 - [x] Complete fresh review pass 1 and fix important findings.
-- [ ] Freeze code and rerun all seven suites, new safe set and earlier frozen/FinSuite replays; compare every unit under unchanged policies.
-- [ ] Complete fresh review pass 2, fix findings and rerun affected gates on a new immutable phase if code changes.
+- [x] Freeze code and rerun all seven suites, new safe set and earlier frozen/FinSuite replays; compare every unit under unchanged policies.
+- [x] Complete fresh review pass 2, fix findings and rerun affected gates on a new immutable phase if code changes.
 - [ ] Publish sanitized aggregates, commit, push/open/attach the PR after final verification.
