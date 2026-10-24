@@ -1,0 +1,1 @@
+{"id":"a05-csharp-mvc-const-sql","owasp":"A05","cwe":[89],"description":"MVC SQL text distinguishes literal source constants from request-value interpolation","expect":["CS-SQLI-001"]}
