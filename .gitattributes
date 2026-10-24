@@ -3,3 +3,7 @@ benchmarks/*.json text eol=lf
 # Preserve the exact audited upstream bytes recorded in parser provenance.
 src/parsers/acorn.js -text
 src/parsers/ACORN-LICENSE.txt -text
+# Preserve verified upstream advisory and license bytes on Windows too.
+docs/provenance/rustsec/*.md -text
+docs/provenance/rustsec/*.txt -text
+docs/provenance/rustsec/*.json -text

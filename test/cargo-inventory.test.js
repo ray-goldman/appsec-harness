@@ -7,6 +7,19 @@ const registry = 'registry+https://github.com/rust-lang/crates.io-index';
 const checksum = 'a'.repeat(64);
 const lock = (source = registry, version = '0.3.25') => `version = 4\n[[package]]\nname = "h2"\nversion = "${version}"\n${source == null ? '' : `source = "${source}"\nchecksum = "${checksum}"\n`}`;
 
+test('the offline Cargo snapshot ships the exact pinned upstream advisory bytes', () => {
+  const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),snapshot=require('../src/supply/cargo-advisories.json');
+  const advisory=snapshot.advisories[0],bytes=fs.readFileSync(path.join(__dirname,'../docs/provenance/rustsec/RUSTSEC-2024-0332.md'));
+  assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),advisory.provenance.sha256);
+  assert.ok(bytes.toString('utf8').includes('patched = ["^0.3.26", ">= 0.4.4"]'));
+  const osvBytes=fs.readFileSync(path.join(__dirname,'../docs/provenance/rustsec',advisory.provenance.osv.file)),osv=JSON.parse(osvBytes);
+  assert.equal(crypto.createHash('sha256').update(osvBytes).digest('hex'),advisory.provenance.osv.sha256);
+  assert.equal(osv.id,advisory.ids[0]);assert.equal(osv.withdrawn,undefined);
+  const events=osv.affected.find(a=>a.package.name===advisory.name&&a.package.ecosystem==='crates.io').ranges[0].events;
+  assert.deepEqual(advisory.ranges,events.flatMap((e,i)=>e.introduced?[{introduced:e.introduced,fixed:events[i+1].fixed}]:[]));
+  assert.equal(snapshot.advisories.length,1);assert.equal(snapshot.license,'CC0-1.0');
+});
+
 test('Cargo lock retains exact identity, provenance and checksum; manifest values are requirements', () => {
   assert.equal(isManifest('src/Cargo.lock'), true);
   const parsed = parseManifest('Cargo.lock', lock());
@@ -130,4 +143,41 @@ test('Cargo input count and byte budgets are reported rather than silently skipp
   const r=analyzeSupplyChain(Array.from({length:1001},(_,i)=>({rel:`p${i}/Cargo.toml`,raw:'[dependencies]\nh2="0.4"'})));
   assert.equal(r.cargo.inputs.length,1001);
   assert.equal(r.cargo.inputs.at(-1).status,'incomplete');
+});
+
+test('adversarial workspace globs finish within the scanner budget', () => {
+  const cp=require('node:child_process'),path=require('node:path');
+  const script=`const {analyzeSupplyChain}=require(process.argv[1]);const r=analyzeSupplyChain([{rel:'Cargo.toml',raw:'[workspace]\\nmembers=["'+'**/'.repeat(18)+'missing"]'},{rel:'a'.repeat(90)+'/Cargo.toml',raw:'[package]\\nname="app"\\nversion="1.0.0"'}]);if(!r.cargo.inputs.some(i=>i.diagnostics.length))process.exit(2);`;
+  const child=cp.spawnSync(process.execPath,['-e',script,path.resolve(__dirname,'../src/supply')],{encoding:'utf8',windowsHide:true,timeout:5000});
+  assert.equal(child.error,undefined);assert.equal(child.status,0,child.stderr);
+});
+
+test('missing workspace inputs and invalid declarations are incomplete, including inherited shapes', () => {
+  for(const raw of ['[workspace]\nmembers=["missing"]','[package]\nname="app"\nversion="1.0.0"\nworkspace="../missing"','[dependencies]\nh2={}','[dependencies]\nh2={version="0.3",git="https://host.invalid/repo",path="../other"}','[workspace.dependencies]\nh2={version="0.3",git=true}\n[dependencies]\nh2={workspace=true}']) {
+    const r=analyzeSupplyChain([{rel:'Cargo.toml',raw}]);assert.equal(r.cargo.inputs[0].status,'incomplete',raw);
+  }
+});
+
+test('TOML dotted-key tables cannot be explicitly redefined', () => {
+  for(const raw of ['dependencies.h2.version="0.3"\n[dependencies.h2]\noptional=true','dependencies.h2.version="0.3"\n[dependencies]\nother="1"'])assert.ok(parseManifest('Cargo.toml',raw).diagnostics.length,raw);
+  assert.equal(parseManifest('Cargo.toml','dependencies.h2.version="0.3"\ndependencies.h2.optional=true').diagnostics.length,0);
+});
+
+test('offline Cargo prerelease boundaries agree with the pinned OSV conversion', () => {
+  assert.equal(analyzeSupplyChain([{rel:'Cargo.lock',raw:lock(registry,'0.4.0-alpha.1')}]).findings.length,1);
+  assert.equal(analyzeSupplyChain([{rel:'Cargo.lock',raw:lock(registry,'0.3.27-rc.1')}]).findings.length,0);
+});
+
+test('Cargo OSV queries deduplicate requests and retain every lockfile location',async t=>{
+ let queries=0;
+ t.mock.method(globalThis,'fetch',async (url,opts)=>{
+  if(url.endsWith('querybatch')){queries+=JSON.parse(opts.body).queries.length;return {ok:true,json:async()=>({results:[{vulns:[{id:'RUSTSEC-TEST'}]}]})};}
+  return {ok:true,json:async()=>({id:'RUSTSEC-TEST',affected:[{package:{name:'h2',ecosystem:'crates.io'}}]})};
+ });
+ const result=await queryOsv(analyzeSupplyChain(['one/Cargo.lock','two/Cargo.lock'].map(rel=>({rel,raw:lock()}))).inventory);
+ assert.equal(queries,1);assert.deepEqual(result.map(f=>f.file).sort(),['one/Cargo.lock','two/Cargo.lock']);
+});
+
+test('false dependency tables and recursive workspace declarations report incomplete metadata', () => {
+ for(const raw of ['dependencies=false','[target.foo]\ndependencies=false','workspace=false','[workspace.dependencies]\nh2={workspace=true}\n[dependencies]\nh2={workspace=true}'])assert.equal(analyzeSupplyChain([{rel:'Cargo.toml',raw}]).cargo.inputs[0].status,'incomplete',raw);
 });

@@ -13,7 +13,7 @@
       "severity": "medium",
       "cwe": [400],
       "summary": "Affected h2 HTTP/2 servers can spend excessive CPU processing a CONTINUATION-frame flood.",
-      "ranges": [{"introduced": "0", "fixed": "0.3.26"}, {"introduced": "0.4.0", "fixed": "0.4.4"}],
+      "ranges": [{"introduced": "0.0.0-0", "fixed": "0.3.26"}, {"introduced": "0.4.0-0", "fixed": "0.4.4"}],
       "refs": ["https://rustsec.org/advisories/RUSTSEC-2024-0332.html"],
       "provenance": {
         "file": "crates/h2/RUSTSEC-2024-0332.md",
@@ -21,6 +21,12 @@
         "sha256": "a0254de85c6d9c58e0cd9d4160065baa016d49e321a6fea3eec2ee07ee416a30",
         "published": "2024-04-03",
         "patched": ["^0.3.26", ">= 0.4.4"],
+        "osv": {
+          "url": "https://api.osv.dev/v1/vulns/RUSTSEC-2024-0332",
+          "file": "RUSTSEC-2024-0332.osv.json",
+          "sha256": "629c46108dc0b0f87c5c63078fa13c06a2d24d0e88c712e9a9f1cbf8f067db15",
+          "modified": "2024-04-11T16:41:43.668809Z"
+        },
         "derivedFields": ["severity", "cwe", "summary", "ranges"]
       }
     }

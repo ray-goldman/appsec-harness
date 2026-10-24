@@ -7,6 +7,7 @@ const { CODE_RULES, CONFIG_RULES, PROJECT_RULES, BY_ID } = require('./rules');
 const { scanSecrets, redactSecretLines } = require('./rules/secrets');
 const { analyzeSupplyChain, queryOsv } = require('./supply');
 const { isManifest } = require('./supply/manifests');
+const { inventoryForReport } = require('./supply/inventory-report');
 const { extractRoutes, routeFindings } = require('./surface');
 const { CATEGORIES } = require('./owasp');
 const { sha256, sevRank, confRank, isProbablyBinary, isTestPath, truncate } = require('./util');
@@ -442,7 +443,7 @@ async function scan(root, opts = {}) {
         middleware: { ordered: dotnetMiddleware.filter(x => x.status === 'ordered').length, misordered: dotnetMiddleware.filter(x => x.status === 'misordered').length, unresolved: dotnetMiddleware.filter(x => x.status === 'unresolved').length } } : null },
     summary,
     coverage,
-    dependencyInventory: supply.inventory,
+    dependencyInventory: inventoryForReport(supply.inventory,new Set([...fileData].filter(([,d])=>d.hasSecrets).map(([file])=>file))),
     warnings,
     surface: routes,
     findings,

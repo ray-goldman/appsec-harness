@@ -118,6 +118,8 @@ function analyzeSupplyChain(files) {
 async function queryOsv(inventory, { timeoutMs = 20000, maxDetails = 300 } = {}) {
   const exact = inventory.filter((d) => d.version && OSV_ECO[d.eco] && (d.eco !== 'crates.io' || (d.publicRegistry && d.resolution === 'locked')));
   const uniq = new Map();
+  const cargoCopies = new Map();
+  for(const d of exact)if(d.eco==='crates.io'){const k=`${d.eco}|${d.name}|${d.version}`;if(!cargoCopies.has(k))cargoCopies.set(k,[]);cargoCopies.get(k).push(d);}
   for (const d of exact) uniq.set(`${d.eco}|${d.name}|${d.version}`, d);
   const deps = [...uniq.values()];
   const results = [];
@@ -141,19 +143,20 @@ async function queryOsv(inventory, { timeoutMs = 20000, maxDetails = 300 } = {})
       if (r.ok) details.set(id, await r.json());
     } catch { /* best effort */ }
   }));
-  return results.map(({ dep, id }) => {
+  return results.flatMap(({ dep, id }) => {
     const d = details.get(id) || {};
     if(dep.eco==='crates.io' && (d.id!==id||d.withdrawn||!Array.isArray(d.affected)||!d.affected.some(a=>a.package?.name===dep.name&&a.package?.ecosystem==='crates.io')))throw new Error('OSV incomplete: Cargo advisory identity/details could not be verified');
     const sev = (d.database_specific && d.database_specific.severity || '').toLowerCase();
     const severity = { critical: 'critical', high: 'high', moderate: 'medium', medium: 'medium', low: 'low' }[sev] || (id.startsWith('MAL-') ? 'critical' : 'medium');
     const aliases = (d.aliases || []).filter((a) => a.startsWith('CVE-'));
-    return {
+    const finding = {
       ruleId: id.startsWith('MAL-') ? 'SUPPLY-MAL-001' : 'SUPPLY-OSV-001', file: dep.file, line: dep.line, source: 'osv', severity, confidence: 'high',
       cves: [id, ...aliases], title: `${dep.name}@${dep.version} — ${id}${aliases.length ? ' (' + aliases.join(', ') + ')' : ''}`,
       message: d.summary || (d.details || '').split('\n')[0].slice(0, 300) || `Listed in OSV as ${id}.`,
       fix: 'See advisory for fixed versions.', refs: [`https://osv.dev/vulnerability/${id}`],
       detail: `${dep.eco}:${dep.name}@${dep.version}`, package: { eco: dep.eco, name: dep.name, version: dep.version },
     };
+    return dep.eco==='crates.io'?cargoCopies.get(`${dep.eco}|${dep.name}|${dep.version}`).map(copy=>({...finding,file:copy.file,line:copy.line})):finding;
   });
 }
 

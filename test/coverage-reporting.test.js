@@ -93,3 +93,25 @@ test('read failures are incomplete even if another source file was analyzed',asy
  const r=await scan(root);
  assert.equal(r.coverage.source.status,'incomplete');assert.equal(r.coverage.scope.limits.readFailures,1);
 });
+
+test('new report inventory never exposes URL credentials from legacy dependency formats',async t=>{
+ const marker='SCANNER_ONLY_SYNTHETIC_CREDENTIAL';
+ const root=fixture(t,{'main.js':'console.log("ok")','package-lock.json':JSON.stringify({lockfileVersion:1,dependencies:{internal:{version:`git+https://user:${marker}@private.invalid/repo.git#abcdef`}}})});
+ const r=await scan(root);assert.equal(r.dependencyInventory.length,1);
+ assert.ok(!JSON.stringify(r.dependencyInventory).includes(marker));
+ assert.match(r.dependencyInventory[0].version,/REDACTED/);
+});
+
+test('new inventory withholds malformed nested metadata instead of recursively exposing it',async t=>{
+ const marker='SCANNER_ONLY_NESTED_SECRET';
+ const r=await scan(fixture(t,{'package-lock.json':JSON.stringify({lockfileVersion:2,packages:{'node_modules/internal':{version:{password:marker}}}})}));
+ assert.ok(!JSON.stringify(r.dependencyInventory).includes(marker));
+ assert.equal(typeof r.dependencyInventory[0].version,'string');
+});
+
+test('inventory preserves file-level detected-secret redaction after dependency fields are split',async t=>{
+ const marker='ReviewSynth8Password2NotReal7';
+ const r=await scan(fixture(t,{'package.json':JSON.stringify({dependencies:{service_password:marker}})}));
+ assert.ok(r.findings.some(f=>f.source==='secrets'));
+ assert.ok(!JSON.stringify(r.dependencyInventory).includes(marker));
+});

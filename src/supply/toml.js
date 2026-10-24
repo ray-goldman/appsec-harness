@@ -5,7 +5,7 @@ const forbidden = new Set(['__proto__', 'prototype', 'constructor']);
 
 function readToml(raw) {
   let i = 0, line = 1, steps = 0;
-  const locations = new WeakMap(), explicit = new WeakSet(), sealed = new WeakSet(), tableArrays = new WeakSet();
+  const locations = new WeakMap(), explicit = new WeakSet(), dotted = new WeakSet(), sealed = new WeakSet(), tableArrays = new WeakSet();
   const object = () => { const o = Object.create(null); locations.set(o, new Map()); return o; };
   const root = object(); let current = root;
   const fail = (code) => { const error = new Error(code); error.line = line; throw error; };
@@ -60,7 +60,7 @@ function readToml(raw) {
     return next;
   }
   function assign(obj, parts, val, at) {
-    for (const key of parts.slice(0,-1)) obj = descend(obj,key,false);
+    for (const key of parts.slice(0,-1)) {obj = descend(obj,key,false);dotted.add(obj);}
     const key = parts.at(-1); if (own(obj,key)) fail('Duplicate key');
     obj[key] = val; locations.get(obj).set(key,at);
   }
@@ -114,7 +114,7 @@ function readToml(raw) {
           const next = object(); current[key].push(next); current = next;
         } else {
           current = descend(current,key,false);
-          if (explicit.has(current)) fail('Duplicate table'); explicit.add(current);
+          if (explicit.has(current)||dotted.has(current)) fail('Duplicate table'); explicit.add(current);
         }
       } else {
         const at = line, parts = keys(); if (advance() !== '=') fail('Expected equals');
