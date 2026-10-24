@@ -239,3 +239,31 @@ public class Reports {
 }`;
   assert.ok((await findings(t, {'Reports.cs':source,'Value.cs':'namespace Example.Data; public class value { public const string Columns="id"; }'})).length);
 });
+
+test('default interface methods cannot prove an inherited mutable receiver is a const type', async t => {
+  const source=`using Microsoft.AspNetCore.Http;
+using Example.Data;
+namespace Example.Web;
+public interface ISource : IHttpContextAccessor {}
+public interface IReports : ISource {
+ public void Run(dynamic command, string input) {
+  HttpContext.TraceIdentifier = input;
+  command.CommandText = $"SELECT {HttpContext.TraceIdentifier} FROM records";
+ }
+}
+public class Reports : HttpContextAccessor, IReports {}
+public class Program { public static void Main() {} }
+`;
+  assert.ok((await findings(t, {'Reports.cs':source,'Data/HttpContext.cs':'namespace Example.Data; public class HttpContext { public const string TraceIdentifier="id"; }'})).length);
+});
+
+for (const kind of ['interface', 'struct', 'record', 'record class', 'record struct'])
+test(`a ${kind} sink owner is outside the ordinary-class binding proof`, async t => {
+  const source=consumer('$"SELECT {QueryText.Columns}"').replace('sealed class Reports', `${kind} Reports`);
+  assert.ok((await findings(t, {'Reports.cs':source})).length);
+});
+
+test('a positional record sink owner is outside the ordinary-class binding proof', async t => {
+  const source=consumer('$"SELECT {QueryText.Columns}"').replace('sealed class Reports', 'record Reports(int Id)');
+  assert.ok((await findings(t, {'Reports.cs':source})).length);
+});

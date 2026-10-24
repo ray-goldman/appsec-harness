@@ -126,7 +126,9 @@ function createCSharpConstMemberProof(sources, { complete = true, projects = [],
       const interpolated=ts[i+3], references=holes(interpolated);
       if(!references || ts[i+4]?.text!==';') continue;
       const owner=file.types.filter(t=>t.open<i&&t.close>i);
-      if(owner.length!==1 || owner[0].unsupported) continue;
+      // Default interface bodies can inherit mutable framework properties;
+      // non-class owners need a different binding model and retain warnings.
+      if(owner.length!==1 || owner[0].kind!=='class' || owner[0].unsupported) continue;
       // A source or unknown base class may hide a type name with an inherited member.
       const header=owner[0].header;
       // Only a flat list of simple interface identifiers is supported. Do not
