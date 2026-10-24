@@ -41,25 +41,25 @@ Cargo supports lock formats 2–4; basic/literal strings, scalar values, arrays,
 
 Files: `src/supply/toml.js`, `src/supply/cargo.js`, `src/supply/manifests.js`, `src/supply/index.js`, `test/cargo-inventory.test.js`.
 
-- [ ] Write failing parser/integration tests for canonical, Git/private/local entries, manifest ranges, aliases/workspaces, duplicate/unsupported input, resource limits and redaction.
-- [ ] Run targeted tests and save the failure log.
-- [ ] Implement `parseCargo(rel, raw)` returning deps, hygiene, diagnostics and document metadata; `analyzeCargo(files)` returns inventory and per-input coverage. Lock resolutions supersede manifest declarations; retain unresolved declarations explicitly.
-- [ ] Add public crates.io OSV eligibility and verified offline advisory subset with pinned provenance/date; test vulnerable/fixed versions and private-source controls.
-- [ ] Run targeted tests and commit the tested implementation.
+- [x] Write failing parser/integration tests for canonical, Git/private/local entries, manifest ranges, aliases/workspaces, duplicate/unsupported input, resource limits and redaction.
+- [x] Run targeted tests and save the failure log.
+- [x] Implement `parseCargo(rel, raw)` returning deps, hygiene, diagnostics and document metadata; `analyzeCargo(files)` returns inventory and per-input coverage. Lock resolutions supersede manifest declarations; retain unresolved declarations explicitly.
+- [x] Add public crates.io OSV eligibility and verified offline advisory subset with pinned provenance/date; test vulnerable/fixed versions and private-source controls.
+- [x] Run targeted tests and commit the tested implementation.
 
 ### 2. Coverage and report policy
 
 Files: `src/coverage.js`, `src/engine.js`, `src/walker.js`, `src/cli.js`, `src/mcp/server.js`, `src/report/*.js`, `test/coverage-reporting.test.js`, `package.json`.
 
-- [ ] Write failing scan/report/CLI/MCP tests for unsupported/large/unreadable Rust, supported sources, no source, Cargo partial results, old reports and independent gates.
-- [ ] Implement `buildCoverage(...)`, `coverageGate(result, required)` and stable summary text. Keep existing `gate()` semantics.
-- [ ] Wire inventory/coverage through scan, JSON, Markdown, HTML, SARIF, JUnit and MCP; escape untrusted metadata. Add CLI `--require-coverage` to scan/audit/report/gate.
-- [ ] Run targeted tests, full tests and selftest; commit.
+- [x] Write failing scan/report/CLI/MCP tests for unsupported/large/unreadable Rust, supported sources, no source, Cargo partial results, old reports and independent gates.
+- [x] Implement `buildCoverage(...)`, `coverageGate(result, required)` and stable summary text. Keep existing `gate()` semantics.
+- [x] Wire inventory/coverage through scan, JSON, Markdown, HTML, SARIF, JUnit and MCP; escape untrusted metadata. Add CLI `--require-coverage` to scan/audit/report/gate.
+- [x] Run targeted tests, full tests and selftest; commit.
 
 ### 3. Evidence, reviews and PR
 
-- [ ] Run all seven unchanged benchmark suites against frozen main and candidate archives; compare every decision and pinned scoring/input identity.
-- [ ] Replay all frozen C#/C/FinSuite apps, nine app sets, adversarial fixtures and both Hermes variants. Preserve true positives and no new adjudicated false positives.
-- [ ] Fresh review pass one: code, parser/source privacy and fail-closed boundaries. Fix issues and repeat affected verification.
-- [ ] Fresh review pass two: code plus measured evidence, unchanged keys/scorers, report consistency and documentation claims. If code changes after measurement, freeze a new candidate and repeat the suite.
+- [x] Run all seven unchanged benchmark suites against frozen main and candidate archives; compare every decision and pinned scoring/input identity.
+- [x] Replay all frozen C#/C/FinSuite apps, nine app sets, adversarial fixtures and both Hermes variants. Preserve true positives and no new adjudicated false positives.
+- [x] Fresh review pass one: code, parser/source privacy and fail-closed boundaries. Fix issues and repeat affected verification.
+- [x] Fresh review pass two: code plus measured evidence, unchanged keys/scorers, report consistency and documentation claims. If code changes after measurement, freeze a new candidate and repeat the suite.
 - [ ] Publish sanitized result/limits documentation, push the branch and open/attach a PR after both passes. No merge or release in this task.
