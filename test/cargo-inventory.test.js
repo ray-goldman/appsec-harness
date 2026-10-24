@@ -207,3 +207,11 @@ test('workspace-inherited path dependencies become automatic visible members', (
  ]);
  assert.equal(r.inventory.length,1);assert.ok(r.cargo.inputs.every(f=>f.status==='complete'));
 });
+
+test('Cargo OSV never sends a recognized secret used as an alleged public package identity',async t=>{
+ const candidate='gh'+'p_'+'A'.repeat(36);
+ const raw=lock().replace('name = "h2"',`name = "${candidate}"`);
+ let called=false;t.mock.method(globalThis,'fetch',async()=>{called=true;return {ok:true,json:async()=>({results:[{}]})};});
+ await assert.rejects(()=>queryOsv(analyzeSupplyChain([{rel:'Cargo.lock',raw}]).inventory),/credential|secret/i);
+ assert.equal(called,false);
+});

@@ -6,6 +6,7 @@ const { inRange, floorOfSpec } = require('../util');
 const { analyzeCargo } = require('./cargo');
 const CARGO_SNAPSHOT = require('./cargo-advisories.json');
 const { inCargoRange } = require('./cargo-semver');
+const { scanSecrets } = require('../rules/secrets');
 
 const OSV_ECO = { npm: 'npm', pypi: 'PyPI', maven: 'Maven', go: 'Go', rubygems: 'RubyGems', composer: 'Packagist', nuget: 'NuGet', 'crates.io': 'crates.io' };
 
@@ -117,6 +118,10 @@ function analyzeSupplyChain(files) {
 // Optional online enrichment. Sends only (ecosystem, name, version) tuples — never source code.
 async function queryOsv(inventory, { timeoutMs = 20000, maxDetails = 300 } = {}) {
   const exact = inventory.filter((d) => d.version && OSV_ECO[d.eco] && (d.eco !== 'crates.io' || (d.publicRegistry && d.resolution === 'locked')));
+  for(const d of exact)if(d.eco==='crates.io'){
+    const tuple=JSON.stringify({name:d.name,version:d.version});
+    if(scanSecrets('osv-package-identity.txt',tuple,[tuple]).length)throw new Error('OSV query withheld: Cargo package identity contains a detected secret or credential');
+  }
   const uniq = new Map();
   const cargoCopies = new Map();
   for(const d of exact)if(d.eco==='crates.io'){const k=`${d.eco}|${d.name}|${d.version}`;if(!cargoCopies.has(k))cargoCopies.set(k,[]);cargoCopies.get(k).push(d);}
