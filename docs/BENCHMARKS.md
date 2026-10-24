@@ -9,6 +9,7 @@ Other datasets have separate guides and scoring policies:
 - [Juliet Java and NIST SARD](JULIET-SARD.md): mixed good/bad method regions and explicit SARIF labels.
 - [Real CVE fixes](CVE-FIX-CORPUS.md): immutable upstream parent/fix source pairs.
 - [Frozen C# development apps](FROZEN-DOTNET-PRECISION.md): unchanged-key comparison for bounded command and Razor model suppressions; native C remains unsupported.
+- [C# console authentication logging precision](CSHARP-CONSOLE-AUTH-PRECISION.md): one development-app warning removed, all seven benchmark decisions preserved, with final frozen provenance and review limits.
 
 Do not pool these datasets into a single accuracy claim.
 

@@ -1,0 +1,7 @@
+{
+  "id": "a09-csharp-console-auth",
+  "owasp": "A09",
+  "cwe": [778, 223],
+  "description": "Visible console authentication outcomes cover both normal exits; startup output alone does not establish authentication event logging.",
+  "expect": ["PROJ-LOGGING-001"]
+}
