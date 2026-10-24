@@ -215,3 +215,11 @@ test('Cargo OSV never sends a recognized secret used as an alleged public packag
  await assert.rejects(()=>queryOsv(analyzeSupplyChain([{rel:'Cargo.lock',raw}]).inventory),/credential|secret/i);
  assert.equal(called,false);
 });
+
+test('source redaction is bounded for oversized metadata without URL separators', () => {
+ const cp=require('node:child_process'),path=require('node:path');
+ const script="const {safeSource}=require(process.argv[1]);if(!safeSource('git+'+'a'.repeat(100000)).includes('REDACTED'))process.exit(2);";
+ const child=cp.spawnSync(process.execPath,['-e',script,path.resolve(__dirname,'../src/supply/cargo')],{encoding:'utf8',windowsHide:true,timeout:5000});
+ assert.equal(child.error,undefined);assert.equal(child.status,0,child.stderr);
+ assert.ok(parseManifest('Cargo.lock',lock('git+'+'a'.repeat(3000))).diagnostics.length);
+});

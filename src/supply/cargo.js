@@ -8,8 +8,19 @@ const { versionOK } = require('./cargo-semver');
 const specOK = s => typeof s === 'string' && s.length <= 256 && /^[0-9A-Za-z.*^~<>=+!, -]+$/.test(s) && /[0-9*]/.test(s);
 function safeSource(source) {
   if (typeof source !== 'string') return null;
-  // Keep package provenance, but never echo URL credentials or query/fragment values.
-  return source.replace(/([a-z][a-z0-9+.-]*:\/\/)[^/?#\s]*@/gi,'$1[REDACTED]@').replace(/[?#].*$/, m => m.startsWith('#') && /^#[a-f0-9]{40}$/i.test(m) ? m : '#[REDACTED]');
+  if(source.length>2048)return '[REDACTED: metadata exceeds display budget]';
+  // Inspect one authority in linear bounded work; never search unanchored scheme regexes.
+  const separator=source.indexOf('://');
+  if(separator>=0) {
+    if(!/^[a-z][a-z0-9+.-]*$/i.test(source.slice(0,separator))||/[\\\s\u0000-\u001f\u007f]/.test(source))return '[REDACTED: noncanonical URL metadata]';
+    const start=separator+3;let end=start;
+    while(end<source.length&&!'/#?'.includes(source[end]))end++;
+    const at=source.lastIndexOf('@',end-1);
+    if(at>=start)source=source.slice(0,start)+'[REDACTED]@'+source.slice(at+1);
+  }
+  const query=source.indexOf('?'),fragment=source.indexOf('#'),cut=query<0?fragment:fragment<0?query:Math.min(query,fragment);
+  if(cut>=0&&!(source[cut]==='#'&&/^#[a-f0-9]{40}$/i.test(source.slice(cut))))source=source.slice(0,cut)+'#[REDACTED]';
+  return source;
 }
 const table = obj => obj && typeof obj === 'object' && !Array.isArray(obj);
 function validDeclaration(data) {
@@ -35,6 +46,7 @@ function parseCargo(file, raw) {
       const key = JSON.stringify([pkg.name,pkg.version,pkg.source]);
       if (seen.has(key)) { diagnostic('Duplicate lock package identity',at(pkg,'name')); continue; } seen.add(key);
       const publicRegistry = CANONICAL.has(pkg.source), origin = pkg.source == null ? 'local' : /^(?:registry|sparse)\+/.test(pkg.source) ? 'registry' : /^git\+/.test(pkg.source) ? 'git' : 'unknown';
+      if(pkg.source?.length>2048)diagnostic('Package source exceeds inventory display budget',at(pkg,'source'));
       if (origin === 'unknown') diagnostic('Unsupported lock package source',at(pkg,'source'));
       if (origin === 'registry' && (typeof pkg.checksum !== 'string' || !/^[a-f0-9]{64}$/i.test(pkg.checksum))) diagnostic('Registry package has no valid SHA-256 checksum',at(pkg,'name'));
       deps.push({ eco:'crates.io', name:pkg.name, version:pkg.version, file, line:at(pkg,'name'), source:safeSource(pkg.source), checksum:typeof pkg.checksum === 'string' && /^[a-f0-9]{64}$/i.test(pkg.checksum) ? pkg.checksum : null, origin, publicRegistry, resolution:'locked', direct:null });
