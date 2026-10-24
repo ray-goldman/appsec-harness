@@ -4,6 +4,10 @@
 const path = require('node:path').posix;
 const { parseCSharp } = require('./parsers/csharp/parser');
 const { tokenFile, name, text } = require('./csharp-proof-index');
+// Reserved tokens are not type identifiers without @. In particular, `this`
+// denotes an instance even if an unrelated source type is named @this.
+const RESERVED = new Set(('abstract as base bool break byte case catch char checked class const continue decimal default delegate do double else enum event explicit extern false finally fixed float for foreach goto if implicit in int interface internal is lock long namespace new null object operator out override params private protected public readonly ref return sbyte sealed short sizeof stackalloc static string struct switch this throw true try typeof uint ulong unchecked unsafe ushort using virtual void volatile while').split(' '));
+const CONTEXTUAL = new Set(('add allows alias and ascending args async await by closed descending dynamic equals extension field file from get global group init into join let managed nameof nint not notnull nuint on or orderby partial record remove required safe scoped select set unmanaged union value var when where with yield').split(' '));
 
 function projectScope(projects, files) {
   if (projects.length !== 1 || !projects[0].file.endsWith('.csproj')) return false;
@@ -31,6 +35,7 @@ function holes(token) {
   let end = 0;
   for (const match of body.matchAll(/\{\s*([A-Za-z_]\w*)\.([A-Za-z_]\w*)\s*\}/g)) {
     if (/[{}]/.test(body.slice(end, match.index))) return null;
+    if([match[1],match[2]].some(word=>RESERVED.has(word)||CONTEXTUAL.has(word))) return null;
     result.push({ type: match[1], member: match[2] }); end = match.index + match[0].length;
   }
   return result.length && !/[{}]/.test(body.slice(end)) ? result : null;
@@ -69,7 +74,8 @@ function createCSharpConstMemberProof(sources, { complete = true, projects = [],
       const close=ts[open]?.text==='{'?pairs.get(open):open; if(close===undefined) return decline;
       const ns=namespaces.find(n=>n.start<i&&n.end>i)?.ns || fileNamespace;
       const type={name:name(ts[i+1]),kind:ts[i].text,namespace:ns,file,start:i,open,close,header:ts.slice(i+2,open),members:new Set()};
-      type.unsupported=ts[i+2]?.text==='<' || ts.slice(Math.max(0,i-2),i).some(t=>t.text==='partial') || types.some(t=>t.file===file&&t.open<i&&t.close>i);
+      let prefix=i-1; while(prefix>=0 && ![';','{','}'].includes(ts[prefix].text)) prefix--;
+      type.unsupported=ts[i+2]?.text==='<' || ts.slice(prefix+1,i).some(t=>['partial','file'].includes(t.text)) || types.some(t=>t.file===file&&t.open<i&&t.close>i);
       declarations.add(ts[i+1]); types.push(type); file.types.push(type);
       if(type.unsupported || type.kind!=='class') continue;
       let segment=open+1;
@@ -97,7 +103,8 @@ function createCSharpConstMemberProof(sources, { complete = true, projects = [],
       if(next?.text==='.') return false;
       // Admit explicit type uses only. Unknown declaration/pattern contexts
       // cannot establish a binding, even when their next token is a keyword.
-      if(name(next) && !['and','or','when','in'].includes(next.text) &&
+      const typePosition=['public','private','protected','internal','static','readonly','volatile','const','async','virtual','override','sealed','new','ref','out','in','(', ',', ';','{','}','[',']'].includes(previous?.text);
+      if(typePosition && name(next) && !['and','or','when','in'].includes(next.text) &&
         [';', '=', ',', ')', '(', '{', '=>', '['].includes(f.ts[i+2]?.text)) return false;
       if(next?.text==='(' && (previous?.text==='new' ||
         ['public','private','protected','internal','static'].includes(previous?.text) &&
@@ -121,10 +128,16 @@ function createCSharpConstMemberProof(sources, { complete = true, projects = [],
       const owner=file.types.filter(t=>t.open<i&&t.close>i);
       if(owner.length!==1 || owner[0].unsupported) continue;
       // A source or unknown base class may hide a type name with an inherited member.
-      const header=owner[0].header, bases=header.slice(header.findIndex(t=>t.text===':')+1).filter(t=>name(t));
+      const header=owner[0].header;
+      // Only a flat list of simple interface identifiers is supported. Do not
+      // reinterpret namespace components or primary-constructor expressions.
+      if(header.length && (header[0].text!==':' || header.length%2!==0 ||
+        header.slice(1).some((t,j)=>j%2?t.text!==',':!name(t)||RESERVED.has(t.text)))) continue;
+      const bases=header.filter((t,j)=>j%2===1);
       if(header.some(t=>t.text===':') && bases.some(t=>{
         const declared=types.filter(type=>type.name===name(t));
-        return declared.length!==1 || declared[0].kind!=='interface';
+        return declared.length!==1 || declared[0].kind!=='interface' || declared[0].unsupported ||
+          !(declared[0].namespace===file.namespace || file.imports.includes(declared[0].namespace));
       })) continue;
       if(!references.every(ref=>{
         const candidates=byName.get(ref.type)||[]; if(candidates.length!==1 || shadowed(ref.type)) return false;

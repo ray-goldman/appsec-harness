@@ -7,7 +7,7 @@ const constants = 'namespace Example.Data; public sealed class QueryText { publi
 const consumer = expression => `using Example.Data;
 namespace Example.Web;
 public sealed class Reports {
- public void Run(string input) {
+ public void Run(dynamic command, string input) {
   command.CommandText = ${expression};
  }
 }`;
@@ -53,8 +53,8 @@ for (const [label, changes] of Object.entries({
   'excluded constant source': { 'Example.csproj': project.replace('</Project>', '<ItemGroup><Compile Remove="Data/QueryText.cs" /></ItemGroup></Project>') },
   'unknown base': { 'Reports.cs': consumer('$"SELECT {QueryText.Columns}"').replace('class Reports', 'class Reports : ExternalBase') },
   'source base named like framework': { 'Reports.cs': consumer('$"SELECT {QueryText.Columns}"').replace('class Reports', 'class Reports : ControllerBase'), 'Base.cs': 'namespace Example.Web; class ControllerBase : ExternalBase {}' },
-  'parameter shadow': { 'Reports.cs': consumer('$"SELECT {QueryText.Columns}"').replace('Run(string input)', 'Run(dynamic QueryText, string input)') },
-  'escaped parameter shadow': { 'Reports.cs': consumer('$"SELECT {QueryText.Columns}"').replace('Run(string input)', 'Run(dynamic @QueryText, string input)') },
+  'parameter shadow': { 'Reports.cs': consumer('$"SELECT {QueryText.Columns}"').replace('Run(dynamic command, string input)', 'Run(dynamic command, dynamic QueryText, string input)') },
+  'escaped parameter shadow': { 'Reports.cs': consumer('$"SELECT {QueryText.Columns}"').replace('Run(dynamic command, string input)', 'Run(dynamic command, dynamic @QueryText, string input)') },
   'local shadow': { 'Reports.cs': consumer('$"SELECT {QueryText.Columns}"').replace('command.CommandText', 'dynamic QueryText = ReadInput();\n command.CommandText') },
   'opaque binding in another interpolation': { 'Reports.cs': consumer('$"SELECT {QueryText.Columns}"').replace('command.CommandText', 'var x = $"{Read(out var QueryText)}";\n command.CommandText') },
 })) test(`does not suppress SQL for ${label}`, async t => {
@@ -135,4 +135,107 @@ public class Reports {
  }
 }`;
   assert.ok((await findings(t, {'Reports.cs':source})).length);
+});
+
+for(const [label, decoy] of [
+  ['unimported','namespace Example.Decoy; public interface Controller {}'],
+  ['generic','namespace Example.Web; public interface Controller<T> {}'],
+  ['nested','namespace Example.Web; public class Container { public interface Controller {} }'],
+]) test(`an ${label} source interface cannot establish a framework base binding`, async t => {
+  const source=`using Microsoft.AspNetCore.Mvc;
+using Example.Data;
+namespace Example.Web;
+public class Reports : Controller {
+ public void Run(dynamic command, string input) {
+  Request.Method = input;
+  command.CommandText = $"SELECT {Request.Method} FROM records";
+ }
+}`;
+  assert.ok((await findings(t, {'Reports.cs':source,'Decoy.cs':decoy,'Data/Request.cs':'namespace Example.Data; public class Request { public const string Method = "id"; }'})).length);
+});
+
+test('LINQ continuation variables cannot masquerade as type declarations', async t => {
+  const source=`using System;
+using System.Linq;
+using Example.Data;
+namespace Example.Web;
+public class Holder { public string Columns = "id"; }
+public class Reports {
+ public void Run(dynamic command, string input) {
+  var holder = new Holder(); holder.Columns = input;
+  var actions = from x in new[] { holder } select x into QueryText
+   select ((Func<string>)(() => {
+    command.CommandText = $"SELECT {QueryText.Columns}";
+    return "";
+   }));
+  actions.Single()();
+ }
+}`;
+  assert.ok((await findings(t, {'Reports.cs':source})).length);
+});
+
+test('file-local const types cannot supply cross-file expression bindings', async t => {
+  const source=`using System;
+namespace Example.Web;
+public class Reports {
+ public void Run(dynamic command, string input) {
+  Console.Title = input;
+  command.CommandText = $"SELECT {Console.Title}";
+ }
+}`;
+  assert.ok((await findings(t, {'Reports.cs':source,'FileLocal.cs':'namespace Example.Web; file class Console { public const string Title = "id"; }'})).length);
+});
+
+test('file-local interfaces cannot establish a base binding in another file', async t => {
+  const source=`using Microsoft.AspNetCore.Mvc;
+using Example.Data;
+namespace Example.Web;
+public class Reports : Controller {
+ public void Run(dynamic command, string input) {
+  Request.Method = input;
+  command.CommandText = $"SELECT {Request.Method}";
+ }
+}`;
+  assert.ok((await findings(t, {'Reports.cs':source,'FileLocal.cs':'namespace Example.Web; file interface Controller {}','Data/Request.cs':'namespace Example.Data; public class Request { public const string Method="id"; }'})).length);
+});
+
+test('the this receiver does not resolve an escaped keyword type', async t => {
+  const source=`using Example.Data;
+namespace Example.Web;
+public class Reports {
+ public string Columns = "id";
+ public void Run(dynamic command, string input) {
+  this.Columns = input;
+  command.CommandText = $"SELECT {this.Columns}";
+ }
+}`;
+  assert.ok((await findings(t, {'Reports.cs':source,'Keyword.cs':'namespace Example.Data; public class @this { public const string Columns="id"; }'})).length);
+});
+
+test('namespace components cannot be mistaken for independent interface bases', async t => {
+  const source=`using Microsoft.AspNetCore.Mvc;
+using Example.Data;
+namespace Example.Web;
+public class Reports : global::Microsoft.AspNetCore.Mvc.Controller {
+ public void Run(dynamic command, string input) {
+  Request.Method = input;
+  command.CommandText = $"SELECT {Request.Method}";
+ }
+}`;
+  const decoys='namespace Example.Web; public interface @global {} public interface Microsoft {} public interface AspNetCore {} public interface Mvc {} public interface Controller {}';
+  assert.ok((await findings(t, {'Reports.cs':source,'Decoys.cs':decoys,'Data/Request.cs':'namespace Example.Data; public class Request { public const string Method="id"; }'})).length);
+});
+
+test('implicit setter value cannot resolve an unrelated contextual-keyword type', async t => {
+  const source=`using Example.Data;
+namespace Example.Web;
+public class Holder { public string Columns = "id"; }
+public class Reports {
+ private dynamic command;
+ public Holder Input { set {
+  command.CommandText = $"SELECT {value.Columns}";
+ } }
+ public void Run(dynamic cmd, string input) { command=cmd; Input=new Holder { Columns=input }; }
+}`;
+  assert.ok((await findings(t, {'Reports.cs':source,'Value.cs':'namespace Example.Data; public class value { public const string Columns="id"; }'})).length);
 });
