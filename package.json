@@ -1,6 +1,6 @@
 {
   "name": "kayfabe",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "kayfabe: AppSec harness for OWASP Top 10:2025 SAST, secrets, IaC/CI and supply-chain checks, with validated agent triage and SARIF/JUnit/HTML reports.",
   "license": "UNLICENSED",
   "bin": { "kayfabe": "bin/kayfabe.js", "appsec": "bin/appsec.js" },
