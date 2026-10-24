@@ -22,11 +22,11 @@
 
 **Files:** add `src/csharp-const-members.js`, `test/csharp-const-members.test.js` and paired corpus case; modify the final SQL candidate filter in `src/engine.js`, npm test list and evidence docs. Local evaluator scripts/reports remain outside the repository; publish sanitized aggregates only.
 
-- [ ] Freeze inputs/provenance/policy, validate labels, measure baseline and adjudicate unmatched SQL warning.
-- [ ] Add failing public scanner regressions for ordinary/raw cross-file constant interpolation.
-- [ ] Implement the narrow proof and guards. Add mutable fields/properties, shadowing, extra tainted holes, suffixes, aliases, ambiguity, conditional/unknown project input and bounds tests.
-- [ ] Run focused/full tests and paired corpus; fix failures at their cause.
-- [ ] Complete fresh review pass 1, fix important findings and repeat verification.
-- [ ] Freeze implementation and rerun the new set and all seven existing suites; compare exact inputs/policies and per-unit transitions.
-- [ ] Complete fresh review pass 2, verify evidence and documented limits, fix findings and repeat affected gates.
+- [x] Freeze inputs/provenance/policy, validate labels, measure baseline and adjudicate unmatched SQL warning.
+- [x] Add failing public scanner regressions for ordinary/raw cross-file constant interpolation.
+- [x] Implement the narrow proof and guards. Add mutable fields/properties, shadowing, extra tainted holes, suffixes, aliases, ambiguity, conditional/unknown project input and bounds tests.
+- [x] Run focused/full tests and paired corpus; fix failures at their cause.
+- [x] Complete fresh review pass 1, fix important findings and repeat verification.
+- [x] Freeze implementation and rerun the new set and all seven existing suites; compare exact inputs/policies and per-unit transitions.
+- [x] Complete fresh review pass 2, verify evidence and documented limits, fix findings and repeat affected gates.
 - [ ] Push/open/attach a separate PR after verification; do not merge without a later request.
