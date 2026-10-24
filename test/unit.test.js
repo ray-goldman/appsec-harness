@@ -193,7 +193,7 @@ test('SARIF and JUnit outputs are structurally valid', async () => {
   assert.ok(s.runs[0].tool.driver.rules[0].properties['security-severity']);
   const x = toJUnit(r, { failOn: 'high' });
   assert.match(x, /^<\?xml/);
-  assert.equal((x.match(/<testsuite /g) || []).length, 10, 'one suite per OWASP category');
+  assert.equal((x.match(/<testsuite /g) || []).length, 11, 'one suite per OWASP category plus explicit analysis coverage');
   assert.match(x, /<failure type="PY-CMDI-001"/);
 });
 

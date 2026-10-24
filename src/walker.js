@@ -34,13 +34,14 @@ function walk(root, opts = {}) {
   const excluded = (rel) => excludes.some((re) => re.test(rel));
   const files = [];
   const skipped = { large: 0, symlinks: [], binaryExt: 0, dirs: 0 };
+  const limits = { depth: 0, unreadable: 0, large: 0 };
   let javaIncomplete = false;
   const rootReal = fs.realpathSync(root);
 
   function visit(dirAbs, rel, depth) {
-    if (depth > maxDepth || files.length >= maxFiles) { javaIncomplete = true; return; }
+    if (depth > maxDepth || files.length >= maxFiles) { limits.depth++; javaIncomplete = true; return; }
     let entries;
-    try { entries = fs.readdirSync(dirAbs, { withFileTypes: true }); } catch { javaIncomplete = true; return; }
+    try { entries = fs.readdirSync(dirAbs, { withFileTypes: true }); } catch { limits.unreadable++; javaIncomplete = true; return; }
     entries.sort((a, b) => a.name.localeCompare(b.name));
     for (const e of entries) {
       if (files.length >= maxFiles) return;
@@ -76,13 +77,13 @@ function walk(root, opts = {}) {
       if (!e.isFile()) continue;
       if (SKIP_FILE.test(e.name)) { skipped.binaryExt++; continue; }
       let st;
-      try { st = fs.lstatSync(abs); } catch { javaIncomplete = true; continue; }
-      if (st.size > maxSize) { skipped.large++; if (/\.java(?:\.appsec-quarantined)?$/i.test(r)) javaIncomplete = true; continue; }
+      try { st = fs.lstatSync(abs); } catch { limits.unreadable++; javaIncomplete = true; continue; }
+      if (st.size > maxSize) { skipped.large++; limits.large++; if (/\.java(?:\.appsec-quarantined)?$/i.test(r)) javaIncomplete = true; continue; }
       files.push({ rel: r, abs, size: st.size });
     }
   }
   visit(root, '', 0);
-  return { files, skipped, truncated: files.length >= maxFiles, javaIncomplete };
+  return { files, skipped, truncated: files.length >= maxFiles, javaIncomplete, limits };
 }
 
 module.exports = { walk, SKIP_DIRS, globToRegExp };

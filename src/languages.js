@@ -13,6 +13,7 @@ const EXT = {
   '.go': 'go',
   '.rb': 'ruby', '.erb': 'ruby', '.rake': 'ruby',
   '.cs': 'csharp', '.cshtml': 'csharp',
+  '.rs': 'rust', // Recognition only. Rust has no source-rule/taint implementation; see coverage.source.
   '.sh': 'shell', '.bash': 'shell', '.zsh': 'shell',
   '.html': 'html', '.htm': 'html', '.ejs': 'template', '.hbs': 'template', '.handlebars': 'template',
   '.njk': 'template', '.jinja': 'template', '.jinja2': 'template', '.j2': 'template', '.twig': 'template', '.pug': 'template',

@@ -82,7 +82,7 @@ sb.appendChild(el('table',null,[el('thead',null,[el('tr',null,[el('th',null,['Me
 })();
 `;
 
-function toHtml(result, { gate } = {}) {
+function toHtml(result, { gate, coverageGate = require('../coverage').coverageGate(result) } = {}) {
   const data = { summary: result.summary, findings: result.findings, surface: result.surface, categories: Object.fromEntries(Object.entries(CATEGORIES).map(([k, v]) => [k, { name: v.name }])) };
   const hash = crypto.createHash('sha256').update(SCRIPT).digest('base64');
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -96,7 +96,9 @@ function toHtml(result, { gate } = {}) {
 <body><header><button class="theme" type="button">◐ theme</button>
 <h1>kayfabe report — ${esc(t.name)}</h1>
 <div class="meta">${esc(t.url || t.root)}${t.commit ? ' @ ' + esc(t.commit.slice(0, 12)) : ''}${t.ref ? ' (ref ' + esc(t.ref) + ')' : ''} · ${esc(result.scannedAt)} · ${result.stats.files} files · ${result.stats.dependencies} deps · kayfabe ${esc(result.tool.version)}${result.triage ? ' · triaged by ' + esc(result.triage.reviewer) + (result.triage.model ? ' (' + esc(result.triage.model) + ')' : '') : ' · not yet triaged'}</div>
-${gate ? `<span class="gate ${gate.passed ? 'pass' : 'fail'}">${gate.passed ? 'GATE PASS' : 'GATE FAIL'} — ${esc(gate.reason)}</span>` : ''}
+${gate ? `<span class="gate ${gate.passed ? 'pass' : 'fail'}">${gate.passed ? 'SEVERITY GATE PASS' : 'SEVERITY GATE FAIL'} — ${esc(gate.reason)}</span>` : ''}
+<p><strong>Analysis coverage:</strong> ${esc(require('../coverage').coverageText(result))}</p>
+${coverageGate.required ? `<p><strong>Coverage gate: ${coverageGate.passed ? 'PASS' : 'FAIL'}</strong> — ${esc(coverageGate.reason)}</p>` : ''}
 </header><main>
 <div class="kpis">${['critical', 'high', 'medium', 'low', 'info'].map((k) => `<div class="kpi ${k}"><b>${s[k]}</b><span>${k}</span></div>`).join('')}<div class="kpi"><b>${result.summary.open}</b><span>open total</span></div></div>
 <h2>OWASP Top 10:2025</h2><div class="cats" id="cats"></div>

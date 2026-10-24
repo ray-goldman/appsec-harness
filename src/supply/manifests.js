@@ -2,6 +2,7 @@
 // Dependency manifest / lockfile parsing + supply-chain hygiene checks (OWASP A03:2025).
 // Parsers are intentionally forgiving: they extract (ecosystem, name, version, line) without executing anything.
 const path = require('path');
+const { parseCargo } = require('./cargo');
 
 const LOCKFILES = {
   npm: ['package-lock.json', 'npm-shrinkwrap.json', 'yarn.lock', 'pnpm-lock.yaml', 'bun.lock'],
@@ -10,6 +11,7 @@ const LOCKFILES = {
   rubygems: ['Gemfile.lock'],
   go: ['go.sum'],
   nuget: ['packages.lock.json', 'project.assets.json'],
+  cargo: ['Cargo.lock'],
 };
 
 const normPy = (n) => n.toLowerCase().replace(/[-_.]+/g, '-');
@@ -259,6 +261,8 @@ function parseProjectAssets(rel, raw) {
 }
 
 const PARSERS = [
+  { re: /(^|\/)Cargo\.toml$/, fn: parseCargo, manifestFor: 'cargo' },
+  { re: /(^|\/)Cargo\.lock$/, fn: parseCargo },
   { re: /(^|\/)package\.json$/, fn: parsePackageJson, manifestFor: 'npm' },
   { re: /(^|\/)(?:package-lock|npm-shrinkwrap)\.json$/, fn: parsePackageLock },
   { re: /(^|\/)yarn\.lock$/, fn: parseYarnLock },

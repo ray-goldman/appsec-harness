@@ -1,0 +1,8 @@
+{
+  "id": "a03-cargo-h2",
+  "owasp": "A03",
+  "cwe": [400],
+  "description": "Scanner-authored Cargo.lock regression pair for the verified RustSec h2 CONTINUATION-flood advisory; does not measure independent Rust source accuracy.",
+  "expect": ["SUPPLY-VULN-001"],
+  "cve": "RUSTSEC-2024-0332"
+}

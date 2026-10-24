@@ -5,10 +5,11 @@
 // false positives / accepted / suppressed → <skipped>.
 const { CATEGORIES } = require('../owasp');
 const { sevRank } = require('../util');
+const { coverageGate: assessCoverage, coverageText } = require('../coverage');
 
 const esc = (s) => String(s == null ? '' : s).replace(/[<>&'"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' }[c])).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '');
 
-function toJUnit(result, { failOn = 'high' } = {}) {
+function toJUnit(result, { failOn = 'high', coverageGate = assessCoverage(result) } = {}) {
   const threshold = sevRank(failOn);
   const suites = [];
   let totalTests = 0, totalFail = 0, totalSkip = 0;
@@ -29,6 +30,10 @@ function toJUnit(result, { failOn = 'high' } = {}) {
     totalTests += cases.length; totalFail += failures; totalSkip += skipped;
     suites.push(`  <testsuite name="${esc(`${code}:2025 ${cat.name}`)}" tests="${cases.length}" failures="${failures}" errors="0" skipped="${skipped}" timestamp="${esc(result.scannedAt)}">\n${cases.join('\n')}\n  </testsuite>`);
   }
+  const complete = assessCoverage(result,true).passed, failed = coverageGate.required && !coverageGate.passed;
+  const coverageBody = failed ? `<failure type="COVERAGE" message="${esc(coverageGate.reason)}">${esc(coverageText(result))}</failure>` : !complete ? `<skipped message="${esc(coverageText(result))}"/>` : `<system-out>${esc(coverageText(result))}</system-out>`;
+  suites.push(`  <testsuite name="Analysis coverage" tests="1" failures="${failed?1:0}" errors="0" skipped="${!failed&&!complete?1:0}"><testcase classname="analysis.coverage" name="Selected source and Cargo inventory coverage">${coverageBody}</testcase></testsuite>`);
+  totalTests++; if(failed)totalFail++;else if(!complete)totalSkip++;
   return `<?xml version="1.0" encoding="UTF-8"?>\n<testsuites name="kayfabe ${esc(result.target.name)}" tests="${totalTests}" failures="${totalFail}" errors="0" skipped="${totalSkip}">\n${suites.join('\n')}\n</testsuites>\n`;
 }
 
