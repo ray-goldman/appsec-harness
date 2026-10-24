@@ -2,12 +2,13 @@
 // SARIF 2.1.0 — consumable by GitHub code scanning, GitLab, Azure DevOps, VS Code SARIF viewer.
 const { BY_ID } = require('../rules');
 const { CATEGORIES, cweLabel } = require('../owasp');
+const { coverageText, coverageGate: assessCoverage } = require('../coverage');
 
 const LEVEL = { critical: 'error', high: 'error', medium: 'warning', low: 'note', info: 'note' };
 const SEC_SEV = { critical: '9.5', high: '8.0', medium: '5.5', low: '3.0', info: '1.0' };
 const PRECISION = { high: 'high', medium: 'medium', low: 'low' };
 
-function toSarif(result) {
+function toSarif(result, { coverageGate = assessCoverage(result) } = {}) {
   const used = [...new Set(result.findings.map((f) => f.ruleId))];
   const rules = used.map((id) => {
     const r = BY_ID.get(id) || { id, title: id, message: '', fix: '', cwe: [], owasp: 'A03', severity: 'medium' };
@@ -43,9 +44,9 @@ function toSarif(result) {
       tool: { driver: { name: 'kayfabe', version: result.tool.version, informationUri: 'https://github.com/ray-goldman/kayfabe', semanticVersion: result.tool.version, rules } },
       originalUriBaseIds: { SRCROOT: { uri: 'file://' + encodeURI(result.target.root.replace(/\\/g, '/')) + '/' } },
       versionControlProvenance: result.target.url ? [{ repositoryUri: result.target.url, revisionId: result.target.commit }] : undefined,
-      invocations: [{ executionSuccessful: true, endTimeUtc: result.scannedAt, toolExecutionNotifications: (result.warnings || []).map((w) => ({ level: 'warning', message: { text: w } })) }],
+      invocations: [{ executionSuccessful: true, endTimeUtc: result.scannedAt, toolExecutionNotifications: [...(result.warnings || []).map((w) => ({ level: 'warning', message: { text: w } })), {level: assessCoverage(result,true).passed?'note':'warning',message:{text:coverageText(result)}}] }],
       results,
-      properties: { summary: result.summary },
+      properties: { summary: result.summary, coverage: result.coverage || {status:'unknown'}, coverageGate },
     }],
   };
 }

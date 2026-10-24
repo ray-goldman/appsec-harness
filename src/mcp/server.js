@@ -14,6 +14,7 @@ const { BY_ID, ALL } = require('../rules');
 const { CATEGORIES, cweLabel } = require('../owasp');
 const ADVISORIES = require('../supply/advisories');
 const pkg = require('../../package.json');
+const { coverageGate } = require('../coverage');
 const { readConfinedText } = require('../confined-read');
 
 const SUPPORTED = ['2025-06-18', '2025-03-26', '2024-11-05'];
@@ -27,7 +28,7 @@ const S = (props, required = []) => ({ type: 'object', properties: props, requir
 const str = (d) => ({ type: 'string', description: d });
 const TOOLS = [
   { name: 'appsec_audit', description: 'Clone (hardened, shallow; https only) and scan a git repository, or scan a local directory. Writes JSON/SARIF/JUnit/Markdown/HTML + triage-request.json. Returns summary, gate and report directory.',
-    inputSchema: S({ target: str('https git URL or local directory path'), ref: str('tag, branch or commit SHA (git URLs only)'), out: str('report directory (default ./appsec-reports/<name>-<time>)'), fail_on: { type: 'string', enum: ['critical', 'high', 'medium', 'low'] }, include_tests: { type: 'boolean' }, osv: { type: 'boolean', description: 'query osv.dev with package name+version for full CVE coverage' }, baseline: str('previous findings.json to diff against') }, ['target']) },
+    inputSchema: S({ target: str('https git URL or local directory path'), ref: str('tag, branch or commit SHA (git URLs only)'), out: str('report directory (default ./appsec-reports/<name>-<time>)'), fail_on: { type: 'string', enum: ['critical', 'high', 'medium', 'low'] }, require_coverage: {type:'boolean',description:'Require available source checks in selected scope and complete Cargo inventory, independently of severity'}, include_tests: { type: 'boolean' }, osv: { type: 'boolean', description: 'Opt-in public package name+version advisory queries; coverage remains limited' }, baseline: str('previous findings.json to diff against') }, ['target']) },
   { name: 'appsec_findings', description: 'Page through open findings from a report directory with surrounding code, data-flow hints and what to verify. Filter by severity/owasp/rule.',
     inputSchema: S({ report_dir: str('report directory returned by appsec_audit'), min_severity: { type: 'string', enum: ['critical', 'high', 'medium', 'low', 'info'] }, owasp: str('A01..A10'), rule: str('rule id prefix, e.g. JS-SQLI'), offset: { type: 'integer', minimum: 0 }, limit: { type: 'integer', minimum: 1, maximum: 50 } }, ['report_dir']) },
   { name: 'appsec_read_code', description: 'Read lines from a file inside the scanned target (path-confined to the target root). Use to follow data flow beyond the provided context.',
@@ -38,7 +39,7 @@ const TOOLS = [
   { name: 'appsec_save_triage', description: 'Validate a triage object against the scan (fingerprints, evidence file:line, rationale) and save it as triage.json when valid. Returns errors to fix otherwise.',
     inputSchema: S({ report_dir: str('report directory'), triage: { type: 'object', description: 'object matching appsec_triage_schema' }, merge: { type: 'boolean', description: 'merge verdicts into an existing triage.json instead of replacing it' } }, ['report_dir', 'triage']) },
   { name: 'appsec_report', description: 'Merge triage.json (if present) and write final-* reports (JSON, SARIF, JUnit, Markdown, HTML). Returns gate result.',
-    inputSchema: S({ report_dir: str('report directory'), fail_on: { type: 'string', enum: ['critical', 'high', 'medium', 'low'] } }, ['report_dir']) },
+    inputSchema: S({ report_dir: str('report directory'), fail_on: { type: 'string', enum: ['critical', 'high', 'medium', 'low'] }, require_coverage:{type:'boolean'} }, ['report_dir']) },
   { name: 'appsec_explain', description: 'Explain a rule id, CVE id, or OWASP category (A01..A10).', inputSchema: S({ id: str('e.g. JS-SQLI-001, CVE-2021-44228, A05') }, ['id']) },
 ];
 
@@ -59,11 +60,12 @@ async function callTool(name, a) {
       } else if (!fs.existsSync(target) || !fs.statSync(target).isDirectory()) throw new Error('target must be a git URL or an existing directory');
       const result = await scan(target, { includeTests: !!a.include_tests, osv: !!a.osv, baseline: a.baseline, targetMeta: meta && { url: meta.url, ref: meta.ref, commit: meta.commit, quarantined: meta.quarantined }, repoSymlinks: meta && meta.symlinks, name: meta ? path.basename(meta.path).replace(/-[a-z0-9]+$/, '') : undefined });
       const g = gate(result, { failOn: a.fail_on || 'high' });
+      const cg = coverageGate(result, !!a.require_coverage);
       const out = a.out || path.join(REPORT_ROOT, `${result.target.name}-${new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)}`);
-      const files = writeReports(result, out, { gate: g, failOn: a.fail_on || 'high' });
+      const files = writeReports(result, out, { gate: g, coverageGate: cg, failOn: a.fail_on || 'high' });
       return {
         report_dir: out, files, target: result.target, stats: result.stats, summary: { open: result.summary.open, bySeverity: result.summary.bySeverity, byCategory: Object.fromEntries(Object.entries(result.summary.byCategory).filter(([, c]) => c.total).map(([k, c]) => [k, c.total])) },
-        gate: { passed: g.passed, reason: g.reason }, quarantined: meta ? meta.quarantined : [], warnings: result.warnings,
+        gate: { passed: g.passed, reason: g.reason }, coverage: result.coverage, coverageGate: cg, passed: g.passed && cg.passed, quarantined: meta ? meta.quarantined : [], warnings: result.warnings,
         next: 'Call appsec_findings with this report_dir (min_severity "high" first), verify each item, then appsec_save_triage and appsec_report.',
       };
     }
@@ -128,8 +130,9 @@ async function callTool(name, a) {
         result = mergeTriage(result, tri);
       }
       const g = gate(result, { failOn: a.fail_on || 'high' });
-      const files = writeReports(result, a.report_dir, { formats: ['json', 'sarif', 'junit', 'md', 'html'], gate: g, failOn: a.fail_on || 'high', prefix: result.triage ? 'final-' : '' });
-      return { files, gate: g, coverage, summary: result.summary.bySeverity };
+      const cg = coverageGate(result, !!a.require_coverage);
+      const files = writeReports(result, a.report_dir, { formats: ['json', 'sarif', 'junit', 'md', 'html'], gate: g, coverageGate: cg, failOn: a.fail_on || 'high', prefix: result.triage ? 'final-' : '' });
+      return { files, gate: g, coverage, analysisCoverage: result.coverage || null, coverageGate: cg, passed:g.passed&&cg.passed, summary: result.summary.bySeverity };
     }
     case 'appsec_explain': {
       const id = String(a.id || '').toUpperCase();

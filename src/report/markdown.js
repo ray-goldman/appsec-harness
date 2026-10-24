@@ -1,10 +1,11 @@
 'use strict';
 const { CATEGORIES, cweLabel } = require('../owasp');
+const { coverageText, coverageGate: assessCoverage } = require('../coverage');
 
 const ICON = { critical: '🟥', high: '🟧', medium: '🟨', low: '🟦', info: '⬜' };
 const mdEsc = (s) => String(s || '').replace(/\|/g, '\\|').replace(/\r?\n/g, ' ');
 
-function toMarkdown(result, { gate } = {}) {
+function toMarkdown(result, { gate, coverageGate = assessCoverage(result) } = {}) {
   const s = result.summary;
   const t = result.target;
   const out = [];
@@ -13,12 +14,14 @@ function toMarkdown(result, { gate } = {}) {
   out.push(`- **Target:** \`${t.url || t.root}\`${t.commit ? ` @ \`${t.commit.slice(0, 12)}\`` : ''}${t.ref ? ` (ref \`${t.ref}\`)` : ''}`);
   out.push(`- **Scanned:** ${result.scannedAt} · ${result.stats.files} files · ${result.stats.dependencies} dependencies · ${result.stats.routes} routes · ${result.durationMs} ms`);
   out.push(`- **Harness:** kayfabe ${result.tool.version}${result.triage ? ` · triaged by **${mdEsc(result.triage.reviewer)}**${result.triage.model ? ` (${mdEsc(result.triage.model)})` : ''}` : ' · not yet triaged'}`);
-  if (gate) out.push(`- **Gate:** ${gate.passed ? '✅ PASS' : '❌ FAIL'} — ${gate.reason}`);
+  if (gate) out.push(`- **Severity gate:** ${gate.passed ? '✅ PASS' : '❌ FAIL'} — ${gate.reason}`);
+  out.push(`- **Analysis coverage:** ${mdEsc(coverageText(result))}`);
+  if (coverageGate.required) out.push(`- **Coverage gate:** ${coverageGate.passed ? 'PASS' : 'FAIL'} — ${mdEsc(coverageGate.reason)}`);
   out.push('');
   out.push(`| Severity | Open |`); out.push('|---|---|');
   for (const k of ['critical', 'high', 'medium', 'low', 'info']) out.push(`| ${ICON[k]} ${k} | ${s.bySeverity[k]} |`);
   out.push('');
-  out.push('## OWASP Top 10:2025 coverage');
+  out.push('## Findings by OWASP Top 10:2025 category');
   out.push(''); out.push('| Category | Open | Crit | High | Med | Low |'); out.push('|---|---|---|---|---|---|');
   for (const [k, c] of Object.entries(s.byCategory)) out.push(`| [${k} ${c.name}](${CATEGORIES[k].url}) | ${c.total} | ${c.critical} | ${c.high} | ${c.medium} | ${c.low} |`);
   out.push('');

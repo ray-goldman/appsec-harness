@@ -2,6 +2,8 @@
 
 Assessment date: 2026-10-24. Use Kayfabe as an additional static review tool with human triage. The current evidence does not support using it as the only .NET security gate.
 
+The [coverage and Cargo inventory update](RUST-CARGO-COVERAGE-RESULTS.md) preserved all established benchmark decisions. Rust source analysis remains unsupported and is now reported explicitly. Cargo lock inventory, limited advisory coverage and an optional coverage gate are described separately from source accuracy.
+
 ## What the measurements say
 
 The final console-logging precision rerun preserved the established results below. The separate development-app warning reduction and exact provenance are recorded in [the precision report](CSHARP-CONSOLE-AUTH-PRECISION.md). Keep these datasets separate; they measure different things.

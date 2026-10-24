@@ -1,0 +1,949 @@
+{
+  "schema": "kayfabe-rust-cargo-coverage-results@1",
+  "measuredAt": "2026-10-24T15:43:14.268Z",
+  "baselineCommit": "f897bf83bec8fbdaa99f320fc1849529cfaeeb08",
+  "measuredImplementation": "3485ac6c56752a71bc96ee7b26ab358f45ebdbde",
+  "sources": [
+    {
+      "commit": "f897bf83bec8fbdaa99f320fc1849529cfaeeb08",
+      "tree": "a738a1693df67ba97f552a1782c21e0e2664beb7",
+      "files": 994,
+      "sourceSha256": "a5cd0fe4f5f0d425617e5c6534d78bddfa27762fbc2065cdfba84812c1525f87",
+      "archiveSha256": "d2a44aed4e352c57771cc384579e6b66e926228673b7f994928f54c9516c6662",
+      "inventorySha256": "49b56d18879fc7689123d0d45c606a3c39ebe390234e537e96dad1a1accc540b",
+      "gitComparison": "Exact blob bytes; CRLF to LF only for verified UTF-8 text when needed",
+      "normalizedFiles": 989
+    },
+    {
+      "commit": "3485ac6c56752a71bc96ee7b26ab358f45ebdbde",
+      "tree": "547ebde152bc6fe29e6dab1e6444802a3d0d0b15",
+      "files": 1012,
+      "sourceSha256": "a98e5e7ec9badd35c7759f6f0bd20f06696fbad64b65218c61fbd58b68571278",
+      "archiveSha256": "bb4f33d191a9a3759be76f332af74db799d86e63a915cf5f3a3abea5284cc602",
+      "inventorySha256": "cbb676334345d589180156bb6723f12478d05be4da7abeda351c5e175b5c9573",
+      "gitComparison": "Exact blob bytes; CRLF to LF only for verified UTF-8 text when needed",
+      "normalizedFiles": 1003
+    }
+  ],
+  "evaluatorPolicyFilesVerified": 26,
+  "tiers": {
+    "establishedBenchmarks": "Third-party synthetic/public upstream or previously exposed development labels; separate per dataset",
+    "frozenApps": "Previously exposed development/regression sets, unchanged keys; not blind or independently authored",
+    "hermes": "Previously inspected development data without a frozen vulnerability key; no accuracy score assigned",
+    "corpus": "Self-authored regression coverage only"
+  },
+  "establishedDatasets": {
+    "csharp": {
+      "inputSha256": "6fde14e0e66fbd5fa2f6a58dae4299e6d92f6951b74b9a8ce9b061be5f515c9b",
+      "policy": {
+        "id": "juliet-csharp-testcase-cwe-polarity-regions@1",
+        "unit": "one file × CWE × polarity, except declared multi-file suffix variants (22a/b, 51, 52, 53, 54, 61, 66, 67, 68, 71, 72, 73, 74, 75, 81), which count once per family, variant, CWE, and polarity (including 81 bad/good split)",
+        "match": "open finding with exact CWE and path, with its start line inside a labeled Bad/Good method or explicitly named bad/good class region in any file in the unit",
+        "limitations": [
+          "Ground-truth regions use Juliet C# method names beginning Bad/Good and explicitly named bad/good class files; 81 base/helper files are included in source hashing and scanning but are not polarity labels.",
+          "The public NIST archive does not include a standalone manifest; the archive hash and generated label hash are recorded, and file names plus labeled source regions determine the units.",
+          "This benchmark is synthetic third-party test code, not independent ASP.NET application evidence or a measure of production false-positive rates."
+        ],
+        "excludesUnsupportedCwes": false,
+        "cweAliases": false,
+        "duplicateDetections": "one prediction per labeled unit"
+      },
+      "before": {
+        "cases": 59282,
+        "tp": 1036,
+        "fp": 470,
+        "tn": 29131,
+        "fn": 28645,
+        "recall": 0.03490448435025774,
+        "falsePositiveRate": 0.015877841964798488,
+        "precision": 0.6879150066401063
+      },
+      "after": {
+        "cases": 59282,
+        "tp": 1036,
+        "fp": 470,
+        "tn": 29131,
+        "fn": 28645,
+        "recall": 0.03490448435025774,
+        "falsePositiveRate": 0.015877841964798488,
+        "precision": 0.6879150066401063
+      },
+      "transitions": {
+        "fpToTn": 0,
+        "tpToFn": 0,
+        "tnToFp": 0,
+        "fnToTp": 0
+      },
+      "beforeCanonicalReportSha256": "7c2ef4e6e1019faedbffe11b20a546c986cd9299b5f31cb4199183f83b49ef0a",
+      "afterCanonicalReportSha256": "7e13d3dbd0c41d13e795d8ea70fe6e6d0930fa86c20104c32403e8c7cf02bbe7"
+    },
+    "owasp-java": {
+      "inputSha256": "aa8e0b1bdc78551ba2154ba7b65ee62c054cd576e0cd6f6ef90ec87e060e707d",
+      "policy": {
+        "id": "owasp-java-file-cwe@1",
+        "unit": "labeled servlet",
+        "match": "exact source path and expected CWE in finding.cwe; status=open",
+        "duplicateDetections": "one positive prediction per case",
+        "cweAliases": false,
+        "excludesUnsupportedCwes": false
+      },
+      "before": {
+        "cases": 2740,
+        "tp": 571,
+        "fp": 289,
+        "tn": 1036,
+        "fn": 844,
+        "recall": 0.40353356890459363,
+        "falsePositiveRate": 0.2181132075471698,
+        "precision": 0.663953488372093
+      },
+      "after": {
+        "cases": 2740,
+        "tp": 571,
+        "fp": 289,
+        "tn": 1036,
+        "fn": 844,
+        "recall": 0.40353356890459363,
+        "falsePositiveRate": 0.2181132075471698,
+        "precision": 0.663953488372093
+      },
+      "transitions": {
+        "fpToTn": 0,
+        "tpToFn": 0,
+        "tnToFp": 0,
+        "fnToTp": 0
+      },
+      "beforeCanonicalReportSha256": "8e86f715c44e2a86e22d675d6e8c6c94291b4c77a830f877c6e791a827ab2439",
+      "afterCanonicalReportSha256": "598617bcc11e9a907bb5577f3626abc1e6100f0114c36f7d4ea6c9f1b74d49ac"
+    },
+    "juliet-java": {
+      "inputSha256": "a1f620b0525b3c18048cbdfabda2bf18f1fbec59bd34204eb5b3ea9da8d31905",
+      "policy": {
+        "id": "juliet-java-testcase-cwe-polarity-regions@1",
+        "unit": "one manifest testcase × CWE × bad/good polarity; methods and helper classes are aggregated",
+        "match": "open finding with exact CWE and path, with its start line inside a labeled method/class region (or exact manifest flaw line when no method encloses it)",
+        "limitations": [
+          "Manifest flaw labels anchor bad regions. Good regions require explicit Juliet good method/class naming; missing good regions never create a negative.",
+          "The official 1.3 manifest contains redundant closing testcase tags and cases without flaw entries. Redundant closings are counted and ignored; missing-flaw cases use the explicit CWE filename plus bad/good naming convention and remain in the denominator.",
+          "For the exact official 1.3 manifest hash only, an anchor conflicting with an explicitly good region is recorded and the suite good/bad convention takes precedence. This is corrected-label scoring, not pristine manifest scoring.",
+          "All good variants, wrappers, and helpers in a testcase form one negative unit. One matching detection anywhere predicts the aggregate positive; this is not per-method or per-flaw accuracy.",
+          "Neutral methods enclosing manifest flaws are bad regions. Other neutral helper methods, main/support code, and unlabeled source regions are unscored.",
+          "Separate good/bad helper classes use their complete original file regions. No target source is rewritten and scanner taint analysis still sees coexisting good/bad methods.",
+          "No call-graph reachability or cross-file taint is added by the evaluator; an intra-method or helper-class detection can satisfy its testcase unit."
+        ],
+        "excludesUnsupportedCwes": false,
+        "cweAliases": false,
+        "duplicateDetections": "one prediction per labeled unit"
+      },
+      "before": {
+        "cases": 57649,
+        "tp": 2410,
+        "fp": 1172,
+        "tn": 27596,
+        "fn": 26471,
+        "recall": 0.08344586406287871,
+        "falsePositiveRate": 0.04073971078976641,
+        "precision": 0.6728084868788387
+      },
+      "after": {
+        "cases": 57649,
+        "tp": 2410,
+        "fp": 1172,
+        "tn": 27596,
+        "fn": 26471,
+        "recall": 0.08344586406287871,
+        "falsePositiveRate": 0.04073971078976641,
+        "precision": 0.6728084868788387
+      },
+      "transitions": {
+        "fpToTn": 0,
+        "tpToFn": 0,
+        "tnToFp": 0,
+        "fnToTp": 0
+      },
+      "beforeCanonicalReportSha256": "b305751dada5bd3df4065c06792868038300ebd2e80ef8e1071451ff77d9f3f0",
+      "afterCanonicalReportSha256": "c28fe6ddbf0eaa035700a1f6ca4445288946d75e8a44069b3de5b3a63b76ddde"
+    },
+    "sard": {
+      "inputSha256": "a2a2ce017a0ae7425b3011b275bb70d9cbbeffe258f03bba2b74f975455e07ec",
+      "policy": {
+        "id": "sard-sarif-location-cwe@1",
+        "unit": "one explicit SARIF result location × CWE × polarity",
+        "match": "open finding with exact source path and CWE and start line at the labeled line, or within an explicitly supplied inclusive upstream line range",
+        "limitations": [
+          "A bad/good run state labels its explicit result locations; mixed runs require an explicit result kind fail/pass or properties.state bad/good. Missing or conflicting metadata is rejected.",
+          "No safe locations are inferred from absent results. Datasets with only bad labels have no negative denominator and FPR is n/a.",
+          "Exact labeled locations can miss a valid detection reported at a nearby source or sink; no line tolerance, CWE aliases, or file-level fallback is applied.",
+          "Artifacts are checked against supplied byte length and SHA-256; declared hashes and computed hashes are retained in JSON. Other hash algorithms are preserved but not verified.",
+          "URI base IDs, remote/absolute URIs, parent traversal, symbolic links, ambiguous artifacts, duplicate labels, and missing labeled files are rejected."
+        ],
+        "excludesUnsupportedCwes": false,
+        "cweAliases": false,
+        "duplicateDetections": "one prediction per labeled unit"
+      },
+      "before": {
+        "cases": 20,
+        "tp": 10,
+        "fp": 0,
+        "tn": 0,
+        "fn": 10,
+        "recall": 0.5,
+        "falsePositiveRate": null,
+        "precision": 1
+      },
+      "after": {
+        "cases": 20,
+        "tp": 10,
+        "fp": 0,
+        "tn": 0,
+        "fn": 10,
+        "recall": 0.5,
+        "falsePositiveRate": null,
+        "precision": 1
+      },
+      "transitions": {
+        "fpToTn": 0,
+        "tpToFn": 0,
+        "tnToFp": 0,
+        "fnToTp": 0
+      },
+      "beforeCanonicalReportSha256": "00a73f73ae764ef5e0bfa0e3a878704409a467d14a0f29c570d7dc8b22909336",
+      "afterCanonicalReportSha256": "72573513e68bb5d341805557d4b4b3afcb5c5fb945171e409f82e20d089a2f86"
+    },
+    "cve-fixes": {
+      "inputSha256": "854acf4a769874fa8cb8b6ace227cc47fd6b5996a8404d649326039e00449734",
+      "policy": {
+        "id": "cve-changed-file-cwe@1",
+        "unit": "one CVE revision snapshot",
+        "match": "open finding in a listed affected file with exact expected CWE; duplicates count once",
+        "parentLabel": "positive",
+        "fixLabel": "negative for the cited CWE in selected affected files only",
+        "cweAliases": false,
+        "excludesUnsupportedCwes": false,
+        "context": "full selected source files, limited repository context; not CVE localization or application-wide safety",
+        "provenance": "first parent verified during curation; immutable source bytes verified offline on every run"
+      },
+      "before": {
+        "cases": 16,
+        "tp": 1,
+        "fp": 1,
+        "tn": 7,
+        "fn": 7,
+        "recall": 0.125,
+        "falsePositiveRate": 0.125,
+        "precision": 0.5
+      },
+      "after": {
+        "cases": 16,
+        "tp": 1,
+        "fp": 1,
+        "tn": 7,
+        "fn": 7,
+        "recall": 0.125,
+        "falsePositiveRate": 0.125,
+        "precision": 0.5
+      },
+      "transitions": {
+        "fpToTn": 0,
+        "tpToFn": 0,
+        "tnToFp": 0,
+        "fnToTp": 0
+      },
+      "beforeCanonicalReportSha256": "3f89505227a5d2c3388da28894c5aac02714c58cba9f2acbebd1c58246c48086",
+      "afterCanonicalReportSha256": "d525deeaeccd396349ff3b7e9d6e83ae6eaf8cebf64ad2ce653f5262fd9dbd79",
+      "originalPairs": {
+        "before": {
+          "total": 8,
+          "successful": 0,
+          "rate": 0
+        },
+        "after": {
+          "total": 8,
+          "successful": 0,
+          "rate": 0
+        }
+      },
+      "localized": {
+        "policy": {
+          "id": "cve-fix-region@1",
+          "unit": "one CVE revision snapshot",
+          "match": "open vulnerability finding within reviewed inclusive source region; exact advisory CWE and permitted rule/evidence criteria",
+          "parentLabel": "positive for the cited fix-specific mechanism",
+          "fixLabel": "negative for the cited fix-specific mechanism",
+          "missingKind": "vulnerability",
+          "cweAliases": false,
+          "excludesUnsupportedCwes": false,
+          "context": "source localization is a static benchmark proxy; does not prove exploitability or application safety"
+        },
+        "before": {
+          "cases": 16,
+          "tp": 1,
+          "fp": 0,
+          "tn": 8,
+          "fn": 7,
+          "recall": 0.125,
+          "falsePositiveRate": 0,
+          "precision": 1
+        },
+        "after": {
+          "cases": 16,
+          "tp": 1,
+          "fp": 0,
+          "tn": 8,
+          "fn": 7,
+          "recall": 0.125,
+          "falsePositiveRate": 0,
+          "precision": 1
+        },
+        "pairs": {
+          "before": {
+            "total": 8,
+            "successful": 1,
+            "rate": 0.125
+          },
+          "after": {
+            "total": 8,
+            "successful": 1,
+            "rate": 0.125
+          }
+        }
+      }
+    },
+    "supplied": {
+      "inputSha256": "4828e75960d397b6f286519bebd01c684a1042e0a4c385258a2518f491991a2c",
+      "policy": {
+        "labels": "User-supplied, unadjudicated; not independent accuracy evidence",
+        "matching": "Exact file+CWE; finding at first line after marker or next two lines; nearest marker; one label per finding",
+        "manifestLabels": "Unscored: package/CVE identity requires a separate adapter",
+        "unmatched": "Unmatched findings are not assumed to be false positives"
+      },
+      "before": {
+        "cases": 227,
+        "tp": 87,
+        "fp": 11,
+        "tn": 79,
+        "fn": 50,
+        "recall": 0.635036496350365,
+        "falsePositiveRate": 0.12222222222222222,
+        "precision": 0.8877551020408163
+      },
+      "after": {
+        "cases": 227,
+        "tp": 87,
+        "fp": 11,
+        "tn": 79,
+        "fn": 50,
+        "recall": 0.635036496350365,
+        "falsePositiveRate": 0.12222222222222222,
+        "precision": 0.8877551020408163
+      },
+      "transitions": {
+        "fpToTn": 0,
+        "tpToFn": 0,
+        "tnToFp": 0,
+        "fnToTp": 0
+      },
+      "beforeCanonicalReportSha256": "1f43dd9e124417b9a9f0d450ad7175a7eceb1bc8cb3185ee7c49a202d8202838",
+      "afterCanonicalReportSha256": "47a21458f83e10b20b8a4ca64d21123367ef2b1319844b54c5aad59a60d8f934"
+    },
+    "dotnet-apps": {
+      "inputSha256": "e5b514512a82a4ce023d7eff8d07876a33ec6a896e0ed420c309183863aa4289",
+      "policy": {
+        "labels": "User-supplied, unadjudicated; not independent accuracy evidence",
+        "matching": "Exact file+CWE; finding at first line after marker or next two lines; nearest marker; one label per finding",
+        "manifestLabels": "Unscored: package/CVE identity requires a separate adapter",
+        "unmatched": "Unmatched findings are not assumed to be false positives"
+      },
+      "before": {
+        "cases": 230,
+        "tp": 32,
+        "fp": 1,
+        "tn": 90,
+        "fn": 107,
+        "recall": 0.2302158273381295,
+        "falsePositiveRate": 0.01098901098901099,
+        "precision": 0.9696969696969697
+      },
+      "after": {
+        "cases": 230,
+        "tp": 32,
+        "fp": 1,
+        "tn": 90,
+        "fn": 107,
+        "recall": 0.2302158273381295,
+        "falsePositiveRate": 0.01098901098901099,
+        "precision": 0.9696969696969697
+      },
+      "transitions": {
+        "fpToTn": 0,
+        "tpToFn": 0,
+        "tnToFp": 0,
+        "fnToTp": 0
+      },
+      "beforeCanonicalReportSha256": "dfff97108fa8b4e05c97782e9d5439c87c5edfd82cb315b354181bd57bd79720",
+      "afterCanonicalReportSha256": "37bdd2e9e005a341bbe228946b78ccdc8897993419df9f786c97767af4948df6"
+    }
+  },
+  "safeOnlySet": {
+    "filesVerified": 67,
+    "keySha256": "22bdfdf0926e28ef80b46507e1499cdafb307549b4e17ec277a7703bf8c5e4fa",
+    "policySha256": "8a8cd38a00d7dbd65abaaa5ca14b425cd479ec7f21378b5d518887acc9954fad",
+    "scorerSha256": "e2b0613acb75f76bfe81478f03d6b82b43ab7b38b3c00d09c4a43850179c4b31",
+    "profiles": [
+      {
+        "profile": "default",
+        "csharp": {
+          "safeCases": 20,
+          "fpCases": 0,
+          "tnCases": 20,
+          "unresolved": 0,
+          "falsePositiveRate": 0,
+          "fpRuleEvents": 0,
+          "suppliedPolicyEventRate": 0,
+          "recall": null
+        },
+        "nativeC": {
+          "unsupported": 12,
+          "tn": 0,
+          "falsePositiveRate": null
+        },
+        "unchanged": true
+      },
+      {
+        "profile": "project",
+        "csharp": {
+          "safeCases": 20,
+          "fpCases": 0,
+          "tnCases": 20,
+          "unresolved": 0,
+          "falsePositiveRate": 0,
+          "fpRuleEvents": 0,
+          "suppliedPolicyEventRate": 0,
+          "recall": null
+        },
+        "nativeC": {
+          "unsupported": 12,
+          "tn": 0,
+          "falsePositiveRate": null
+        },
+        "unchanged": true
+      }
+    ]
+  },
+  "earlierFrozen": [
+    {
+      "profile": "default",
+      "languages": {
+        "csharp": {
+          "TP": 2,
+          "FN": 8,
+          "FP": 0,
+          "TN": 20,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 30,
+          "recall": 0.2,
+          "falsePositiveRate": 0,
+          "precision": 1
+        },
+        "c": {
+          "TP": 0,
+          "FN": 0,
+          "FP": 0,
+          "TN": 0,
+          "unsupported": 18,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 18,
+          "recall": null,
+          "falsePositiveRate": null,
+          "precision": null
+        }
+      },
+      "unchanged": true
+    },
+    {
+      "profile": "project",
+      "languages": {
+        "csharp": {
+          "TP": 2,
+          "FN": 8,
+          "FP": 0,
+          "TN": 20,
+          "unsupported": 0,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 30,
+          "recall": 0.2,
+          "falsePositiveRate": 0,
+          "precision": 1
+        },
+        "c": {
+          "TP": 0,
+          "FN": 0,
+          "FP": 0,
+          "TN": 0,
+          "unsupported": 18,
+          "unscanned": 0,
+          "unresolved": 0,
+          "total": 18,
+          "recall": null,
+          "falsePositiveRate": null,
+          "precision": null
+        }
+      },
+      "unchanged": true
+    }
+  ],
+  "earlierRawReplays": [
+    {
+      "target": "frozen",
+      "profile": "default",
+      "candidates": 2,
+      "unchanged": true
+    },
+    {
+      "target": "frozen",
+      "profile": "project",
+      "candidates": 2,
+      "unchanged": true
+    },
+    {
+      "target": "finsuite",
+      "profile": "default",
+      "candidates": 0,
+      "unchanged": true
+    },
+    {
+      "target": "finsuite",
+      "profile": "project",
+      "candidates": 0,
+      "unchanged": true
+    }
+  ],
+  "developmentAppReplays": [
+    {
+      "name": "PixelForge",
+      "profile": "default",
+      "files": 31,
+      "inventorySha256": "2a90d9a4dcc2f699dc6a5f1d1734a796ed44d95fcb60289f8b6f6a5a4aced2f5",
+      "candidates": 4,
+      "counts": {
+        "false_positive": 4
+      },
+      "unchanged": true
+    },
+    {
+      "name": "PixelForge",
+      "profile": "project",
+      "files": 31,
+      "inventorySha256": "2a90d9a4dcc2f699dc6a5f1d1734a796ed44d95fcb60289f8b6f6a5a4aced2f5",
+      "candidates": 4,
+      "counts": {
+        "false_positive": 4
+      },
+      "unchanged": true
+    },
+    {
+      "name": "LinkVault",
+      "profile": "default",
+      "files": 48,
+      "inventorySha256": "a7e19152fdcc7e43fd9a5f7681b2ec21ecc3fdaae79beb0dc87aba619fcd6331",
+      "candidates": 3,
+      "counts": {
+        "false_positive": 3
+      },
+      "unchanged": true
+    },
+    {
+      "name": "LinkVault",
+      "profile": "project",
+      "files": 48,
+      "inventorySha256": "a7e19152fdcc7e43fd9a5f7681b2ec21ecc3fdaae79beb0dc87aba619fcd6331",
+      "candidates": 3,
+      "counts": {
+        "false_positive": 3
+      },
+      "unchanged": true
+    },
+    {
+      "name": "pulsegrid-robotics-manager",
+      "profile": "default",
+      "files": 19,
+      "inventorySha256": "1cbf3c0325979d991e17417048b82e1114229ddc813d04259bb689f8222869d2",
+      "candidates": 2,
+      "counts": {
+        "true_positive": 2
+      },
+      "unchanged": true
+    },
+    {
+      "name": "pulsegrid-robotics-manager",
+      "profile": "project",
+      "files": 19,
+      "inventorySha256": "1cbf3c0325979d991e17417048b82e1114229ddc813d04259bb689f8222869d2",
+      "candidates": 2,
+      "counts": {
+        "true_positive": 2
+      },
+      "unchanged": true
+    },
+    {
+      "name": "real-estate-radar",
+      "profile": "default",
+      "files": 7,
+      "inventorySha256": "c6fe851e0d713f3c94c09c3508f93e4d3c1acd9621c2df96c16b92b2b65b34ec",
+      "candidates": 5,
+      "counts": {
+        "false_positive": 1,
+        "true_positive": 3,
+        "needs_review": 1
+      },
+      "unchanged": true
+    },
+    {
+      "name": "real-estate-radar",
+      "profile": "project",
+      "files": 7,
+      "inventorySha256": "c6fe851e0d713f3c94c09c3508f93e4d3c1acd9621c2df96c16b92b2b65b34ec",
+      "candidates": 5,
+      "counts": {
+        "false_positive": 1,
+        "true_positive": 3,
+        "needs_review": 1
+      },
+      "unchanged": true
+    },
+    {
+      "name": "AgentMesh_Go_Python",
+      "profile": "default",
+      "files": 4,
+      "inventorySha256": "1e9fc8bb57616aa8b5d02453c2c7cd9826e912499d5f1962386c5ec9c1755589",
+      "candidates": 8,
+      "counts": {
+        "true_positive": 7,
+        "needs_review": 1
+      },
+      "unchanged": true
+    },
+    {
+      "name": "AgentMesh_Go_Python",
+      "profile": "project",
+      "files": 4,
+      "inventorySha256": "1e9fc8bb57616aa8b5d02453c2c7cd9826e912499d5f1962386c5ec9c1755589",
+      "candidates": 8,
+      "counts": {
+        "true_positive": 7,
+        "needs_review": 1
+      },
+      "unchanged": true
+    },
+    {
+      "name": "DotNet_Java_ClientServerApp",
+      "profile": "default",
+      "files": 4,
+      "inventorySha256": "11135b9a49d30dcd4b9f27f2b5c7a0d9b3ccf3b1a6c9ac6c5201698ae8852d99",
+      "candidates": 2,
+      "counts": {
+        "false_positive": 2
+      },
+      "unchanged": true
+    },
+    {
+      "name": "DotNet_Java_ClientServerApp",
+      "profile": "project",
+      "files": 4,
+      "inventorySha256": "11135b9a49d30dcd4b9f27f2b5c7a0d9b3ccf3b1a6c9ac6c5201698ae8852d99",
+      "candidates": 2,
+      "counts": {
+        "false_positive": 2
+      },
+      "unchanged": true
+    },
+    {
+      "name": "FakeBankAppSec",
+      "profile": "default",
+      "files": 13,
+      "inventorySha256": "bf5d2a96febee6d0be2a323566ee2eff81cc275629db2225463f5716aabd6eb0",
+      "candidates": 3,
+      "counts": {
+        "unclassified": 1,
+        "true_positive": 2
+      },
+      "unchanged": true
+    },
+    {
+      "name": "FakeBankAppSec",
+      "profile": "project",
+      "files": 13,
+      "inventorySha256": "bf5d2a96febee6d0be2a323566ee2eff81cc275629db2225463f5716aabd6eb0",
+      "candidates": 3,
+      "counts": {
+        "unclassified": 1,
+        "true_positive": 2
+      },
+      "unchanged": true
+    },
+    {
+      "name": "wrestling-booking-manager",
+      "profile": "default",
+      "files": 18,
+      "inventorySha256": "3d630399aaf8f6ecbc290a5b8a079b471c3fef86b877ce008414c48834a98292",
+      "candidates": 3,
+      "counts": {
+        "unclassified": 1,
+        "true_positive": 2
+      },
+      "unchanged": true
+    },
+    {
+      "name": "wrestling-booking-manager",
+      "profile": "project",
+      "files": 18,
+      "inventorySha256": "3d630399aaf8f6ecbc290a5b8a079b471c3fef86b877ce008414c48834a98292",
+      "candidates": 3,
+      "counts": {
+        "unclassified": 1,
+        "true_positive": 2
+      },
+      "unchanged": true
+    },
+    {
+      "name": "vulnerable-bbs-project",
+      "profile": "default",
+      "files": 13,
+      "inventorySha256": "433c9ff7ff7d8cbdaa2d9df59440e8c2861ec063144f94d9e62ca1f675197fca",
+      "candidates": 4,
+      "counts": {
+        "true_positive": 2,
+        "needs_review": 2
+      },
+      "unchanged": true
+    },
+    {
+      "name": "vulnerable-bbs-project",
+      "profile": "project",
+      "files": 13,
+      "inventorySha256": "433c9ff7ff7d8cbdaa2d9df59440e8c2861ec063144f94d9e62ca1f675197fca",
+      "candidates": 4,
+      "counts": {
+        "true_positive": 2,
+        "needs_review": 2
+      },
+      "unchanged": true
+    }
+  ],
+  "realCodeReplays": [
+    {
+      "name": "nickrulez",
+      "profile": "default",
+      "sourceCommitFromIntake": "6e1c7e1bf8e350bdd93512347f59ad7db79c8bcc",
+      "files": 2,
+      "inventorySha256": "885e5d05ddf86c69f67555c5ecd940e4855f1008834b4ae232bda91eb8a7cb74",
+      "beforeCandidates": 9,
+      "afterCandidates": 9,
+      "unchanged": true,
+      "accuracyScored": false
+    },
+    {
+      "name": "nickrulez",
+      "profile": "project",
+      "sourceCommitFromIntake": "6e1c7e1bf8e350bdd93512347f59ad7db79c8bcc",
+      "files": 2,
+      "inventorySha256": "885e5d05ddf86c69f67555c5ecd940e4855f1008834b4ae232bda91eb8a7cb74",
+      "beforeCandidates": 9,
+      "afterCandidates": 9,
+      "unchanged": true,
+      "accuracyScored": false
+    },
+    {
+      "name": "blesclues",
+      "profile": "default",
+      "sourceCommitFromIntake": "87b390e94cafafc830762a0cea6881dd34c05576",
+      "files": 138,
+      "inventorySha256": "9c36dee20be6c1d631e4c62feb123131c4c2cf5546abb0f0f4156f801b17bb3d",
+      "beforeCandidates": 36,
+      "afterCandidates": 36,
+      "unchanged": true,
+      "accuracyScored": false
+    },
+    {
+      "name": "blesclues",
+      "profile": "project",
+      "sourceCommitFromIntake": "87b390e94cafafc830762a0cea6881dd34c05576",
+      "files": 138,
+      "inventorySha256": "9c36dee20be6c1d631e4c62feb123131c4c2cf5546abb0f0f4156f801b17bb3d",
+      "beforeCandidates": 36,
+      "afterCandidates": 36,
+      "unchanged": true,
+      "accuracyScored": false
+    }
+  ],
+  "adversarial": {
+    "fixtures": 190,
+    "allUnchanged": true
+  },
+  "hermes": {
+    "archiveSha256": "7fc26cf18d10eaac432dc7b1028b1d176570b23b7a8d9288972e3e886a8fea26",
+    "extractedFilesVerified": 18,
+    "frozenInventorySha256": "d122abfdeeb20e2634681dd4b9266cdd2e2f6f7e69012e86a5b50ac39d91e806",
+    "before": [
+      {
+        "variant": "original",
+        "profile": "default",
+        "automatedFindings": 0,
+        "dependencies": 0,
+        "rustFilesRecognized": 0,
+        "sourceCoverage": "unknown",
+        "rustAnalyzed": null,
+        "publicRegistryPackages": 0,
+        "cargoStatus": "unsupported",
+        "origins": {},
+        "severityGatePassed": true,
+        "requiredCoverageGatePassed": false
+      },
+      {
+        "variant": "original",
+        "profile": "project",
+        "automatedFindings": 0,
+        "dependencies": 0,
+        "rustFilesRecognized": 0,
+        "sourceCoverage": "unknown",
+        "rustAnalyzed": null,
+        "publicRegistryPackages": 0,
+        "cargoStatus": "unsupported",
+        "origins": {},
+        "severityGatePassed": true,
+        "requiredCoverageGatePassed": false
+      },
+      {
+        "variant": "fixed",
+        "profile": "default",
+        "automatedFindings": 0,
+        "dependencies": 0,
+        "rustFilesRecognized": 0,
+        "sourceCoverage": "unknown",
+        "rustAnalyzed": null,
+        "publicRegistryPackages": 0,
+        "cargoStatus": "unsupported",
+        "origins": {},
+        "severityGatePassed": true,
+        "requiredCoverageGatePassed": false
+      },
+      {
+        "variant": "fixed",
+        "profile": "project",
+        "automatedFindings": 0,
+        "dependencies": 0,
+        "rustFilesRecognized": 0,
+        "sourceCoverage": "unknown",
+        "rustAnalyzed": null,
+        "publicRegistryPackages": 0,
+        "cargoStatus": "unsupported",
+        "origins": {},
+        "severityGatePassed": true,
+        "requiredCoverageGatePassed": false
+      }
+    ],
+    "after": [
+      {
+        "variant": "original",
+        "profile": "default",
+        "automatedFindings": 0,
+        "dependencies": 265,
+        "rustFilesRecognized": 1,
+        "sourceCoverage": "incomplete",
+        "rustAnalyzed": 0,
+        "publicRegistryPackages": 264,
+        "cargoStatus": "complete",
+        "origins": {
+          "registry": 264,
+          "root": 1
+        },
+        "severityGatePassed": true,
+        "requiredCoverageGatePassed": false
+      },
+      {
+        "variant": "original",
+        "profile": "project",
+        "automatedFindings": 0,
+        "dependencies": 265,
+        "rustFilesRecognized": 1,
+        "sourceCoverage": "incomplete",
+        "rustAnalyzed": 0,
+        "publicRegistryPackages": 264,
+        "cargoStatus": "complete",
+        "origins": {
+          "registry": 264,
+          "root": 1
+        },
+        "severityGatePassed": true,
+        "requiredCoverageGatePassed": false
+      },
+      {
+        "variant": "fixed",
+        "profile": "default",
+        "automatedFindings": 0,
+        "dependencies": 265,
+        "rustFilesRecognized": 1,
+        "sourceCoverage": "incomplete",
+        "rustAnalyzed": 0,
+        "publicRegistryPackages": 264,
+        "cargoStatus": "complete",
+        "origins": {
+          "registry": 264,
+          "root": 1
+        },
+        "severityGatePassed": true,
+        "requiredCoverageGatePassed": false
+      },
+      {
+        "variant": "fixed",
+        "profile": "project",
+        "automatedFindings": 0,
+        "dependencies": 265,
+        "rustFilesRecognized": 1,
+        "sourceCoverage": "incomplete",
+        "rustAnalyzed": 0,
+        "publicRegistryPackages": 264,
+        "cargoStatus": "complete",
+        "origins": {
+          "registry": 264,
+          "root": 1
+        },
+        "severityGatePassed": true,
+        "requiredCoverageGatePassed": false
+      }
+    ]
+  },
+  "tests": {
+    "total": 554,
+    "passedWindows": 551,
+    "failed": 0,
+    "skippedWindows": 3,
+    "corpusPairs": 193
+  },
+  "performance": {
+    "csharpDurationBeforeMs": 100353,
+    "csharpDurationAfterMs": 94212,
+    "ratio": 0.9388060147678694,
+    "gate": 1.5,
+    "interpretation": "Single concurrent runs on a shared machine; preparation/hashing excluded; no speedup claim"
+  },
+  "onlineSmoke": {
+    "fixture": "h2@0.3.25 (scanner-owned public regression)",
+    "status": "queried",
+    "onlineFindings": 3,
+    "suppliedAppIdentitiesQueried": false
+  },
+  "targetCodeExecuted": false,
+  "dependenciesInstalled": false,
+  "limitations": [
+    "Rust source analysis remains unsupported",
+    "Offline Cargo snapshot contains one verified advisory; no exhaustive advisory or reachability claim",
+    "No improvement to established FP/TP/FN decisions measured in this coverage/inventory change",
+    "No production accuracy estimate or competitor head-to-head",
+    "Native C unsupported; empty scans receive no TN credit"
+  ]
+}

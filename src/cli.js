@@ -10,8 +10,10 @@ const { CATEGORIES, cweLabel } = require('./owasp');
 const ADVISORIES = require('./supply/advisories');
 const { checkForUpdate, installRelease, promptForUpdate } = require('./update');
 const pkg = require('../package.json');
+const { coverageGate, coverageText } = require('./coverage');
 
 const BOOL = new Set(['md', 'apply', 'claude', 'codex', 'include-tests', 'trust-suppressions', 'osv', 'include-vendored', 'dotnet-stored-data', 'dotnet-project-analysis', 'quiet', 'json', 'allow-ssh', 'allow-http', 'use-git-credentials', 'no-quarantine', 'new-only', 'verbose', 'help', 'no-gate', 'check', 'yes']);
+BOOL.add('require-coverage');
 
 function parseArgs(argv) {
   const args = { _: [] };
@@ -97,7 +99,7 @@ async function cmdUpdate(a) {
 
 function stamp() { return new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19); }
 
-function printSummary(result, g, written) {
+function printSummary(result, g, written, cg = coverageGate(result)) {
   const s = result.summary;
   log(`\n${C.B}kayfabe ${pkg.version}${C.x} — ${result.target.name}${result.target.commit ? ' @ ' + result.target.commit.slice(0, 12) : ''}`);
   log(`${C.d}${result.stats.files} files · ${result.stats.dependencies} deps · ${result.stats.routes} routes · ${result.durationMs} ms${C.x}`);
@@ -108,6 +110,8 @@ function printSummary(result, g, written) {
   for (const f of top) log(`  ${SEVC[f.severity]}${f.severity.padEnd(8)}${C.x} ${f.ruleId.padEnd(18)} ${f.file}:${f.line} ${C.d}${f.title}${C.x}`);
   if (result.summary.open > top.length) log(`  ${C.d}… ${result.summary.open - top.length} more${C.x}`);
   for (const w of result.warnings || []) log(`${C.y}warning:${C.x} ${w}`);
+  log(coverageText(result));
+  if (cg.required) log(`COVERAGE GATE ${cg.passed ? 'PASS' : 'FAIL'} — ${cg.reason}`);
   if (g) log(`\n${g.passed ? C.g + 'GATE PASS' : C.r + 'GATE FAIL'}${C.x} — ${g.reason}`);
   if (written) { log(''); for (const [k, p] of Object.entries(written)) log(`  ${C.d}${k.padEnd(20)}${C.x} ${p}`); }
 }
@@ -125,12 +129,13 @@ async function cmdScan(a, target, targetMeta) {
   if (!target) throw new Error('usage: kayfabe scan <path>');
   const result = await scan(target, { ...scanOpts(a), targetMeta, repoSymlinks: targetMeta && targetMeta.symlinks });
   const g = gate(result, gateOpts(a));
+  const cg = coverageGate(result, !!a['require-coverage']);
   const outDir = a.out || path.join(process.cwd(), 'appsec-reports', `${result.target.name}-${stamp()}`);
   const formats = (a.format || 'all').split(',').map((s) => s.trim());
-  const written = writeReports(result, outDir, { formats, gate: g, failOn: gateOpts(a).failOn });
-  if (a.json) process.stdout.write(JSON.stringify({ reportDir: outDir, files: written, summary: result.summary, gate: g }, null, 2) + '\n');
-  if (!a.quiet) printSummary(result, g, written);
-  return { result, gate: g, outDir, written };
+  const written = writeReports(result, outDir, { formats, gate: g, coverageGate: cg, failOn: gateOpts(a).failOn });
+  if (a.json) process.stdout.write(JSON.stringify({ reportDir: outDir, files: written, summary: result.summary, gate: g, coverage: result.coverage, coverageGate: cg, passed: g.passed && cg.passed }, null, 2) + '\n');
+  if (!a.quiet) printSummary(result, g, written, cg);
+  return { result, gate: g, coverageGate: cg, outDir, written };
 }
 
 async function main(argv) {
@@ -145,8 +150,8 @@ async function main(argv) {
     case 'update': return cmdUpdate(a);
 
     case 'scan': {
-      const { gate: g } = await cmdScan(a, a._[1]);
-      return a['no-gate'] || g.passed ? 0 : 1;
+      const { gate: g, coverageGate: cg } = await cmdScan(a, a._[1]);
+      return a['no-gate'] || (g.passed && cg.passed) ? 0 : 1;
     }
 
     case 'clone': {
@@ -169,7 +174,7 @@ async function main(argv) {
       }
       const r = await cmdScan(a, target, meta && { url: meta.url, ref: meta.ref, commit: meta.commit, commitDate: meta.commitDate, quarantined: meta.quarantined });
       log(`\n${C.B}Next (agent triage):${C.x}\n  1. Read ${path.join(r.outDir, 'triage-request.json')}\n  2. Write ${path.join(r.outDir, 'triage.json')} (schema: kayfabe triage schema)\n  3. kayfabe triage validate ${r.outDir}\n  4. kayfabe report ${r.outDir}`);
-      return a['no-gate'] || r.gate.passed ? 0 : 1;
+      return a['no-gate'] || (r.gate.passed && r.coverageGate.passed) ? 0 : 1;
     }
 
     case 'triage': {
@@ -201,9 +206,10 @@ async function main(argv) {
         log(`${C.d}merged triage from ${tri.reviewer}: ${v.coverage.triaged}/${v.coverage.open} findings (${v.coverage.percent}%)${C.x}`);
       }
       const g = gate(result, gateOpts(a));
-      const written = writeReports(result, dir, { formats: ['json', 'sarif', 'junit', 'md', 'html'], gate: g, failOn: gateOpts(a).failOn, prefix: result.triage ? 'final-' : '' });
-      if (!a.quiet) printSummary(result, g, written);
-      return g.passed ? 0 : 1;
+      const cg = coverageGate(result, !!a['require-coverage']);
+      const written = writeReports(result, dir, { formats: ['json', 'sarif', 'junit', 'md', 'html'], gate: g, coverageGate: cg, failOn: gateOpts(a).failOn, prefix: result.triage ? 'final-' : '' });
+      if (!a.quiet) printSummary(result, g, written, cg);
+      return a['no-gate'] || (g.passed && cg.passed) ? 0 : 1;
     }
 
     case 'gate': {
@@ -211,8 +217,9 @@ async function main(argv) {
       const file = fs.statSync(p).isDirectory() ? (fs.existsSync(path.join(p, 'final-findings.json')) ? path.join(p, 'final-findings.json') : path.join(p, 'findings.json')) : p;
       const result = JSON.parse(fs.readFileSync(file, 'utf8'));
       const g = gate(result, gateOpts(a));
-      console.log(JSON.stringify(g, null, 2));
-      return g.passed ? 0 : 1;
+      const cg = coverageGate(result, !!a['require-coverage']);
+      console.log(JSON.stringify({ ...g, coverageGate: cg, overallPassed: g.passed && cg.passed }, null, 2));
+      return a['no-gate'] || (g.passed && cg.passed) ? 0 : 1;
     }
 
     case 'surface': {
@@ -354,6 +361,7 @@ scan/audit options:
   --include-vendored      also scan node_modules/vendor/dist
   --exclude GLOBS         comma-separated paths/globs to skip (e.g. "docs,**/fixtures")
   --no-gate               always exit 0
+  --require-coverage      also require selected source checks and complete Cargo inventory
 update options:
   --check                 report the latest release without installing it
   --yes                   install the latest release without a prompt (explicit update command only)

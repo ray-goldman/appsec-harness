@@ -1,0 +1,7 @@
+# Synthetic inventory fixture; checksum is a placeholder, not artifact verification.
+version = 4
+[[package]]
+name = "h2"
+version = "0.3.26"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"

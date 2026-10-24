@@ -7,10 +7,12 @@ const { CODE_RULES, CONFIG_RULES, PROJECT_RULES, BY_ID } = require('./rules');
 const { scanSecrets, redactSecretLines } = require('./rules/secrets');
 const { analyzeSupplyChain, queryOsv } = require('./supply');
 const { isManifest } = require('./supply/manifests');
+const { inventoryForReport } = require('./supply/inventory-report');
 const { extractRoutes, routeFindings } = require('./surface');
 const { CATEGORIES } = require('./owasp');
 const { sha256, sevRank, confRank, isProbablyBinary, isTestPath, truncate } = require('./util');
 const pkg = require('../package.json');
+const { buildCoverage, coverageText } = require('./coverage');
 const { constantSinkFilter } = require('./java-constants');
 const { createCSharpConstantSinkProof } = require('./csharp-constant-sinks');
 const { createRazorEncodingProof } = require('./razor-encoding');
@@ -224,7 +226,8 @@ async function scan(root, opts = {}) {
   const started = Date.now();
   root = path.resolve(root);
   if (!fs.statSync(root).isDirectory()) throw new Error(`not a directory: ${root}`);
-  const { files, skipped, truncated, javaIncomplete } = walk(root, opts);
+  const { files, skipped, truncated, javaIncomplete, limits } = walk(root, opts);
+  let readFailures = 0, osvStatus = opts.osv ? 'requested' : 'not-requested';
   const scriptProject = buildScriptProject(files, !truncated && !javaIncomplete && !skipped.large);
 
   const raw = [];
@@ -257,8 +260,8 @@ async function scan(root, opts = {}) {
 
   for (const f of files) {
     let buf;
-    try { buf = fs.readFileSync(f.abs); } catch { if (/\.cs(?:html)?(?:\.appsec-quarantined)?$/i.test(f.rel)) razorComplete = false; if(/\.(?:csproj|props|targets)$/i.test(f.rel))proofProjectsComplete=false; continue; }
-    if (isProbablyBinary(buf)) { if (/\.cs(?:html)?(?:\.appsec-quarantined)?$/i.test(f.rel)) razorComplete = false; if(/\.(?:csproj|props|targets)$/i.test(f.rel))proofProjectsComplete=false; continue; }
+    try { buf = fs.readFileSync(f.abs); } catch { readFailures++; if (/\.cs(?:html)?(?:\.appsec-quarantined)?$/i.test(f.rel)) razorComplete = false; if(/\.(?:csproj|props|targets)$/i.test(f.rel))proofProjectsComplete=false; continue; }
+    if (isProbablyBinary(buf)) { readFailures++; if (/\.cs(?:html)?(?:\.appsec-quarantined)?$/i.test(f.rel)) razorComplete = false; if(/\.(?:csproj|props|targets)$/i.test(f.rel))proofProjectsComplete=false; continue; }
     const text = buf.toString('utf8');
     const rawLines = text.split(/\r?\n/);
     const relLogical = f.rel.replace(/\.appsec-quarantined$/, '');
@@ -290,6 +293,7 @@ async function scan(root, opts = {}) {
 
     if (isManifest(f.rel)) manifestFiles.push({ rel: f.rel, raw: text });
     const vendored = !opts.includeVendored && isVendoredAsset(f.rel, text);
+    fileData.get(f.rel).vendored = vendored;
 
     const isLock = /(?:package-lock\.json|yarn\.lock|pnpm-lock\.yaml|composer\.lock|Gemfile\.lock|poetry\.lock|go\.sum|Cargo\.lock|uv\.lock|bun\.lock|packages\.lock\.json|project\.assets\.json)$/.test(f.rel);
     if (!isLock) {
@@ -301,7 +305,8 @@ async function scan(root, opts = {}) {
       }
     }
     raw.push(...applyConfigRules(f.rel, lang, text, rawLines, codeLines, scriptProject));
-    if (lang && !isLock && !vendored) {
+    if (lang && lang !== 'rust' && !isLock && !vendored) {
+      fileData.get(f.rel).sourceAnalyzed = true;
       const taint = analyzeTaint(codeLines, lang);
       raw.push(...applyCodeRules(f.rel, lang, text, codeLines, taint, javaProject, scriptProject, opts));
       const r = extractRoutes(f.rel, lang, codeLines, text);
@@ -317,7 +322,7 @@ async function scan(root, opts = {}) {
   const supply = analyzeSupplyChain(manifestFiles);
   raw.push(...supply.findings);
   if (opts.osv) {
-    try { raw.push(...(await queryOsv(supply.inventory))); } catch (e) { warnings.push(`OSV query failed: ${e.message}`); }
+    try { raw.push(...(await queryOsv(supply.inventory))); osvStatus = 'queried'; } catch (e) { osvStatus = 'failed'; warnings.push(`OSV query failed: ${e.message}`); }
   }
 
   // Surface + project rules
@@ -414,6 +419,8 @@ async function scan(root, opts = {}) {
   findings.forEach((f, i) => { f.id = `F${String(i + 1).padStart(4, '0')}`; });
 
   const summary = summarize(findings);
+  const coverage = buildCoverage({ files, fileData, skipped, truncated, limits, supply, opts, readFailures, osvStatus });
+  if (coverage.source.status === 'incomplete' || coverage.inventory.cargo.status === 'incomplete') warnings.push(coverageText({ coverage }));
   const dotnetRoutes = opts.dotnetProjectAnalysis ? buildDotnetRoutes(csharpSources) : null;
   const dotnetMiddleware = opts.dotnetProjectAnalysis ? csharpSources.map(x => middlewareOrder(x.source)) : null;
   return {
@@ -435,6 +442,8 @@ async function scan(root, opts = {}) {
         unresolved: dotnetRoutes.filter(x => x.effectivePolicy === null).length,
         middleware: { ordered: dotnetMiddleware.filter(x => x.status === 'ordered').length, misordered: dotnetMiddleware.filter(x => x.status === 'misordered').length, unresolved: dotnetMiddleware.filter(x => x.status === 'unresolved').length } } : null },
     summary,
+    coverage,
+    dependencyInventory: inventoryForReport(supply.inventory,new Set([...fileData].filter(([,d])=>d.hasSecrets).map(([file])=>file))),
     warnings,
     surface: routes,
     findings,

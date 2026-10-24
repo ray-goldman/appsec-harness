@@ -45,6 +45,8 @@ The installer runs in a private temporary directory with Git configuration isola
 
 ## Coverage
 
+Reports distinguish source checks, dependency inventory and advisory coverage. Rust source is recognized but remains unsupported; Cargo manifests and lockfiles have a bounded inventory parser. Use `--require-coverage` to enforce a separate coverage gate. A passing severity gate alone is not a clean security assessment. See [coverage and Cargo limits](docs/COVERAGE-AND-CARGO.md).
+
 The harness checks source code, dependency manifests, infrastructure configuration, and CI workflows. Supported languages include JavaScript and TypeScript, Python, PHP, Java and Kotlin, Go, Ruby, and C#. NuGet dependencies are read from `packages.lock.json`, `project.assets.json`, and direct `PackageReference` entries; OSV lookup for resolved NuGet versions is available with `--osv`. It also recognizes Docker, Compose, Kubernetes, nginx, Terraform, Spring properties, GitHub Actions, and HTML or template files. See [the rule reference](docs/RULES.md) for the complete list.
 
 | OWASP category | Examples of checks |
