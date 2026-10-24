@@ -334,7 +334,8 @@ async function scan(root, opts = {}) {
   const lineText = (f) => { const d = fileData.get(f.file); return d ? (d.rawLines[f.line - 1] || '') : ''; };
   const razorEncoded = createRazorEncodingProof(razorSources, { complete: razorComplete,projects:proofProjects,projectComplete:proofProjectsComplete });
   const closedMap = createCSharpMapProof(razorSources,{complete:razorComplete&&proofProjectsComplete,projects:proofProjects});
-  let findings = raw.filter(f => (f.ruleId !== 'CS-XSS-001' || !razorEncoded(f.file, f.line))&&(f.ruleId!=='CS-CMDI-001'||!closedMap(f.file,f.line))).map((f) => {
+  const constantMember = require('./csharp-const-members').createCSharpConstMemberProof(razorSources,{complete:razorComplete,projectComplete:proofProjectsComplete,projects:proofProjects});
+  let findings = raw.filter(f => (f.ruleId !== 'CS-XSS-001' || !razorEncoded(f.file, f.line))&&(f.ruleId!=='CS-CMDI-001'||!closedMap(f.file,f.line))&&(f.ruleId!=='CS-SQLI-001'||!constantMember(f.file,f.line))).map((f) => {
     const rule = BY_ID.get(f.ruleId) || {};
     const logicalFile = f.file.replace(/\.appsec-quarantined$/, '');
     const testCtx = isTestPath(logicalFile);
